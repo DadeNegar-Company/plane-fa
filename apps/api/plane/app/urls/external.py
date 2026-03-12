@@ -21,4 +21,9 @@ urlpatterns = [
         WorkspaceGPTIntegrationEndpoint.as_view(),
         name="importer",
     ),
+    path(
+        "workspaces/<str:slug>/rephrase-grammar/",
+        WorkspaceGPTIntegrationEndpoint.as_view(),
+        name="rephrase-grammar",
+    ),
 ]

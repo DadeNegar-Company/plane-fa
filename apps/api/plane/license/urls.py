@@ -12,6 +12,7 @@ from plane.license.api.views import (
     InstanceConfigurationEndpoint,
     DisableEmailFeatureEndpoint,
     InstanceEndpoint,
+    InstanceAIModelsEndpoint,
     SignUpScreenVisitedEndpoint,
     InstanceAdminUserMeEndpoint,
     InstanceAdminSignOutEndpoint,
@@ -71,4 +72,9 @@ urlpatterns = [
         name="instance-workspace-availability",
     ),
     path("workspaces/", InstanceWorkSpaceEndpoint.as_view(), name="instance-workspace"),
+    path(
+        "ai/models/",
+        InstanceAIModelsEndpoint.as_view(),
+        name="instance-ai-models",
+    ),
 ]

@@ -4,6 +4,8 @@
  * See the LICENSE file for details.
  */
 
+/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access */
+
 // plane imports
 import { API_BASE_URL } from "@plane/constants";
 import type {
@@ -137,6 +139,14 @@ export class InstanceService extends APIService {
   async disableEmail(): Promise<void> {
     return this.delete("/api/instances/configurations/disable-email-feature/")
       .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async fetchAIModels(data?: { api_key?: string; base_url?: string }): Promise<{ models: string[] }> {
+    return this.post("/api/instances/ai/models/", data ?? {})
+      .then((response) => response.data)
       .catch((error) => {
         throw error?.response?.data;
       });

@@ -16,17 +16,20 @@ from django.core.mail import BadHeaderError, EmailMultiAlternatives, get_connect
 from django.db.models import Q, Case, When, Value
 
 # Third party imports
+from openai import AuthenticationError, OpenAI
 from rest_framework import status
 from rest_framework.response import Response
 
 # Module imports
 from .base import BaseAPIView
+from plane.app.views.external.base import get_llm_config
 from plane.license.api.permissions import InstanceAdminPermission
 from plane.license.models import InstanceConfiguration
 from plane.license.api.serializers import InstanceConfigurationSerializer
 from plane.license.utils.encryption import encrypt_data
 from plane.utils.cache import cache_response, invalidate_cache
 from plane.license.utils.instance_value import get_email_configuration
+from plane.utils.exception_logger import log_exception
 
 
 class InstanceConfigurationEndpoint(BaseAPIView):
@@ -167,4 +170,47 @@ class EmailCredentialCheckEndpoint(BaseAPIView):
             return Response(
                 {"error": "Could not send email. Please check your configuration"},
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class InstanceAIModelsEndpoint(BaseAPIView):
+    permission_classes = [InstanceAdminPermission]
+
+    def post(self, request):
+        """Fetch available models from the configured LLM provider."""
+        # Allow override from request body (for testing before saving)
+        override_api_key = request.data.get("api_key")
+        override_base_url = request.data.get("base_url")
+
+        # Fall back to saved config
+        saved_key, _, saved_url = get_llm_config()
+
+        effective_api_key = override_api_key or saved_key
+        effective_base_url = override_base_url or saved_url
+
+        if not effective_api_key:
+            return Response(
+                {"error": "LLM API key is not configured"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        client_kwargs = {"api_key": effective_api_key, "timeout": 15.0}
+        if effective_base_url:
+            client_kwargs["base_url"] = effective_base_url
+
+        try:
+            client = OpenAI(**client_kwargs)
+            models = client.models.list()
+            model_ids = sorted([m.id for m in models.data])
+            return Response({"models": model_ids}, status=status.HTTP_200_OK)
+        except AuthenticationError:
+            return Response(
+                {"error": "Invalid API key"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        except Exception as e:
+            log_exception(e)
+            return Response(
+                {"error": f"Failed to fetch models: {str(e)}"},
+                status=status.HTTP_502_BAD_GATEWAY,
             )
