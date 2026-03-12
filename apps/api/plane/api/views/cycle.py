@@ -12,11 +12,13 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import (
     Count,
     F,
+    FloatField,
     Func,
     OuterRef,
     Q,
     Sum,
 )
+from django.db.models.functions import Cast
 
 # Third party imports
 from rest_framework import status
@@ -688,10 +690,10 @@ class CycleArchiveUnarchiveAPIEndpoint(BaseAPIView):
                     ),
                 )
             )
-            .annotate(total_estimates=Sum("issue_cycle__issue__estimate_point__key"))
+            .annotate(total_estimates=Sum(Cast("issue_cycle__issue__estimate_point__value", FloatField())))
             .annotate(
                 completed_estimates=Sum(
-                    "issue_cycle__issue__estimate_point__key",
+                    Cast("issue_cycle__issue__estimate_point__value", FloatField()),
                     filter=Q(
                         issue_cycle__issue__state__group="completed",
                         issue_cycle__issue__archived_at__isnull=True,
@@ -702,7 +704,7 @@ class CycleArchiveUnarchiveAPIEndpoint(BaseAPIView):
             )
             .annotate(
                 started_estimates=Sum(
-                    "issue_cycle__issue__estimate_point__key",
+                    Cast("issue_cycle__issue__estimate_point__value", FloatField()),
                     filter=Q(
                         issue_cycle__issue__state__group="started",
                         issue_cycle__issue__archived_at__isnull=True,

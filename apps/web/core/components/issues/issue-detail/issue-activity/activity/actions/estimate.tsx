@@ -6,7 +6,10 @@
 
 import { observer } from "mobx-react";
 import { EstimatePropertyIcon } from "@plane/propel/icons";
+import { EEstimateSystem } from "@plane/types";
+import { convertMinutesToHoursMinutesString } from "@plane/utils";
 // hooks
+import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // components
 import { IssueActivityBlockComponent, IssueLink } from "./";
@@ -19,10 +22,22 @@ export const IssueEstimateActivity = observer(function IssueEstimateActivity(pro
   const {
     activity: { getActivityById },
   } = useIssueDetail();
+  const { currentActiveEstimateIdByProjectId, getEstimateById } = useProjectEstimates();
 
   const activity = getActivityById(activityId);
 
   if (!activity) return <></>;
+
+  // Format estimate value based on estimate type (show "2h 30m" for TIME instead of raw "150")
+  const activeEstimateId = activity.project ? currentActiveEstimateIdByProjectId(activity.project) : undefined;
+  const activeEstimate = activeEstimateId ? getEstimateById(activeEstimateId) : undefined;
+  const isTimeEstimate = activeEstimate?.type === EEstimateSystem.TIME;
+
+  const formatValue = (value: string | undefined) => {
+    if (!value) return value;
+    if (isTimeEstimate && !isNaN(Number(value))) return convertMinutesToHoursMinutesString(Number(value)).trim();
+    return value;
+  };
 
   return (
     <IssueActivityBlockComponent
@@ -32,7 +47,7 @@ export const IssueEstimateActivity = observer(function IssueEstimateActivity(pro
     >
       <>
         {activity.new_value ? `set the estimate point to ` : `removed the estimate point`}
-        {activity.new_value ? activity.new_value : activity?.old_value}
+        {activity.new_value ? formatValue(activity.new_value) : formatValue(activity?.old_value)}
         {showIssue && (activity.new_value ? ` to ` : ` from `)}
         {showIssue && <IssueLink activityId={activityId} />}.
       </>

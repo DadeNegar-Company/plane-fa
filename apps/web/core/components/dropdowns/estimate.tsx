@@ -119,7 +119,7 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
             </div>
           ),
         };
-      else undefined;
+      else return undefined;
     })
     .filter((estimatePointDropdownOption) => estimatePointDropdownOption != undefined) as DropdownOptions;
   options?.unshift({
@@ -190,7 +190,13 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
             className={buttonClassName}
             isActive={isOpen}
             tooltipHeading={t("project_settings.estimates.label")}
-            tooltipContent={selectedEstimate ? selectedEstimate?.value : placeholder}
+            tooltipContent={
+              selectedEstimate
+                ? currentActiveEstimate?.type === EEstimateSystem.TIME
+                  ? convertMinutesToHoursMinutesString(Number(selectedEstimate.value))
+                  : selectedEstimate?.value
+                : placeholder
+            }
             showTooltip={showTooltip}
             variant={buttonVariant}
             renderToolTipByDefault={renderByDefault}
@@ -248,7 +254,7 @@ export const EstimateDropdown = observer(function EstimateDropdown(props: Props)
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("common.search.placeholder")}
-                displayValue={(assigned: any) => assigned?.name}
+                displayValue={(assigned: { name?: string } | null) => assigned?.name ?? ""}
                 onKeyDown={searchInputKeyDown}
               />
             </div>

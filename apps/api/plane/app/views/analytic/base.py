@@ -3,7 +3,8 @@
 # See the LICENSE file for details.
 
 # Django imports
-from django.db.models import Count, F, Sum, Q
+from django.db.models import Count, F, Sum, Q, FloatField
+from django.db.models.functions import Cast
 from django.db.models.functions import ExtractMonth
 from django.utils import timezone
 from django.db.models.functions import Concat
@@ -395,8 +396,8 @@ class DefaultAnalyticsEndpoint(BaseAPIView):
             .order_by("-count")
         )
 
-        open_estimate_sum = open_issues_queryset.aggregate(sum=Sum("point"))["sum"]
-        total_estimate_sum = base_issues.aggregate(sum=Sum("point"))["sum"]
+        open_estimate_sum = open_issues_queryset.aggregate(sum=Sum(Cast("estimate_point__value", FloatField())))["sum"]
+        total_estimate_sum = base_issues.aggregate(sum=Sum(Cast("estimate_point__value", FloatField())))["sum"]
 
         return Response(
             {

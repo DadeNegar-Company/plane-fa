@@ -35,8 +35,15 @@ import {
 } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
 import type { IIssueActivity } from "@plane/types";
-import { renderFormattedDate, generateWorkItemLink, capitalizeFirstLetter } from "@plane/utils";
+import { EEstimateSystem } from "@plane/types";
+import {
+  renderFormattedDate,
+  generateWorkItemLink,
+  capitalizeFirstLetter,
+  convertMinutesToHoursMinutesString,
+} from "@plane/utils";
 // helpers
+import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useLabel } from "@/hooks/store/use-label";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 // types
@@ -102,7 +109,7 @@ const LabelPill = observer(function LabelPill({ labelId, workspaceSlug }: { labe
   const { workspaceLabels, fetchWorkspaceLabels } = useLabel();
 
   useEffect(() => {
-    if (!workspaceLabels) fetchWorkspaceLabels(workspaceSlug);
+    if (!workspaceLabels) void fetchWorkspaceLabels(workspaceSlug);
   }, [fetchWorkspaceLabels, workspaceLabels, workspaceSlug]);
 
   return (
@@ -149,6 +156,16 @@ const getInboxUserActivityMessage = (activity: IIssueActivity, showIssue: boolea
       return "updated intake work item status.";
   }
 };
+
+// [FA-CUSTOM] Component to format estimate values with TIME awareness
+function EstimateValue({ value, projectId }: { value: string; projectId?: string }) {
+  const { currentActiveEstimateIdByProjectId, getEstimateById } = useProjectEstimates();
+  const activeEstimateId = projectId ? currentActiveEstimateIdByProjectId(projectId) : undefined;
+  const activeEstimate = activeEstimateId ? getEstimateById(activeEstimateId) : undefined;
+  if (activeEstimate?.type === EEstimateSystem.TIME && !isNaN(Number(value)))
+    return <>{convertMinutesToHoursMinutesString(Number(value)).trim()}</>;
+  return <>{value}</>;
+}
 
 const activityDetails: {
   [key: string]: {
@@ -262,7 +279,7 @@ const activityDetails: {
       else
         return (
           <>
-            set the estimate point to {activity.new_value}
+            set the estimate point to <EstimateValue value={activity.new_value} projectId={activity.project} />
             {showIssue && (
               <>
                 {" "}
