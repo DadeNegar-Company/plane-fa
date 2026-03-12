@@ -126,6 +126,9 @@ export class IssueStore implements IIssueStore {
     // fetch issue comments
     this.rootIssueDetailStore.comment.fetchComments(workspaceSlug, projectId, issueId);
 
+    // [FA-CUSTOM] fetch issue worklogs
+    this.rootIssueDetailStore.worklog.fetchWorklogs(workspaceSlug, projectId, issueId);
+
     // fetch sub issues
     this.rootIssueDetailStore.subIssues.fetchSubIssues(workspaceSlug, projectId, issueId);
 
@@ -317,6 +320,9 @@ export class IssueStore implements IIssueStore {
 
     // fetch issue comments
     rootWorkItemDetailStore.comment.fetchComments(workspaceSlug, projectId, issueId);
+
+    // [FA-CUSTOM] fetch issue worklogs
+    rootWorkItemDetailStore.worklog.fetchWorklogs(workspaceSlug, projectId, issueId);
 
     // fetch sub issues
     rootWorkItemDetailStore.subIssues.fetchSubIssues(workspaceSlug, projectId, issueId);

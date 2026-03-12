@@ -111,6 +111,7 @@ export interface ICycle extends TProgressSnapshot {
   project_detail: IProjectDetails;
   progress: any[];
   version: number;
+  total_time_logged?: number; // [FA-CUSTOM] time tracking
 }
 
 export interface CycleIssueResponse {

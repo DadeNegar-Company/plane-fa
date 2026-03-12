@@ -125,6 +125,20 @@ export class IssueActivityStore implements IIssueActivityStore {
       });
     });
 
+    // [FA-CUSTOM] Merge worklogs into the activity feed
+    const worklogs = currentStore.worklog.getWorklogsByIssueId(issueId);
+    if (worklogs) {
+      worklogs.forEach((worklogId) => {
+        const worklog = currentStore.worklog.getWorklogById(worklogId);
+        if (!worklog) return;
+        activityComments.push({
+          id: worklog.id,
+          activity_type: "WORKLOG" as TIssueActivityComment["activity_type"],
+          created_at: worklog.created_at,
+        });
+      });
+    }
+
     return activityComments;
   }
 

@@ -208,6 +208,16 @@ class ModuleViewSet(BaseViewSet):
             .annotate(cancelled_estimate_point=Sum(Cast("estimate_point__value", FloatField())))
             .values("cancelled_estimate_point")[:1]
         )
+        # [FA-CUSTOM] time tracking — aggregate logged time across module issues
+        time_logged = (
+            Issue.issue_objects.filter(
+                issue_module__module_id=OuterRef("pk"),
+                issue_module__deleted_at__isnull=True,
+            )
+            .values("issue_module__module_id")
+            .annotate(total=Sum("issue_worklogs__duration_minutes", filter=Q(issue_worklogs__deleted_at__isnull=True)))
+            .values("total")[:1]
+        )
         return (
             super()
             .get_queryset()
@@ -287,6 +297,10 @@ class ModuleViewSet(BaseViewSet):
                     ),
                     Value([], output_field=ArrayField(UUIDField())),
                 )
+            )
+            # [FA-CUSTOM] time tracking
+            .annotate(
+                total_time_logged=Coalesce(Subquery(time_logged), Value(0, output_field=IntegerField()))
             )
             .order_by("-is_favorite", "-created_at")
         )

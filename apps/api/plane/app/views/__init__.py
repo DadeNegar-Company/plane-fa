@@ -140,6 +140,8 @@ from .issue.attachment import (
 
 from .issue.comment import IssueCommentViewSet, CommentReactionViewSet
 
+from .issue.worklog import IssueWorklogViewSet, ProjectTimesheetEndpoint  # [FA-CUSTOM] time tracking
+
 from .issue.label import LabelViewSet, BulkCreateIssueLabelsEndpoint
 
 from .issue.link import IssueLinkViewSet

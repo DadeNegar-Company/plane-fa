@@ -20,6 +20,7 @@ from django.db.models import (
     OuterRef,
     Prefetch,
     Q,
+    Sum,
     UUIDField,
     Value,
     When,
@@ -149,6 +150,15 @@ class CycleViewSet(BaseViewSet):
                     ),
                 )
             )
+            # [FA-CUSTOM] time tracking — aggregate logged time across cycle issues
+            .annotate(
+                total_time_logged=Sum(
+                    "issue_cycle__issue__issue_worklogs__duration_minutes",
+                    filter=Q(
+                        issue_cycle__issue__issue_worklogs__deleted_at__isnull=True,
+                    ),
+                )
+            )
             .annotate(
                 status=Case(
                     When(
@@ -225,6 +235,7 @@ class CycleViewSet(BaseViewSet):
                 "total_issues",
                 "completed_issues",
                 "cancelled_issues",
+                "total_time_logged",  # [FA-CUSTOM] time tracking
                 "assignee_ids",
                 "status",
                 "version",
@@ -258,6 +269,7 @@ class CycleViewSet(BaseViewSet):
             "total_issues",
             "cancelled_issues",
             "completed_issues",
+            "total_time_logged",  # [FA-CUSTOM] time tracking
             "assignee_ids",
             "status",
             "version",

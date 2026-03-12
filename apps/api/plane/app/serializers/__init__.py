@@ -81,6 +81,7 @@ from .issue import (
     IssueDescriptionVersionDetailSerializer,
     IssueListDetailSerializer,
 )
+from .worklog import IssueWorklogSerializer  # [FA-CUSTOM] time tracking
 
 from .module import (
     ModuleDetailSerializer,

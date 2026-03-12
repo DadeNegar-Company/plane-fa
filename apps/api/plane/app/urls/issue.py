@@ -31,6 +31,8 @@ from plane.app.views import (
     WorkItemDescriptionVersionEndpoint,
     IssueMetaEndpoint,
     IssueDetailIdentifierEndpoint,
+    IssueWorklogViewSet,  # [FA-CUSTOM] time tracking
+    ProjectTimesheetEndpoint,  # [FA-CUSTOM] time tracking
 )
 
 urlpatterns = [
@@ -171,6 +173,31 @@ urlpatterns = [
         name="project-issue-comment",
     ),
     ## End IssueComments
+    ## [FA-CUSTOM] IssueWorklogs (time tracking)
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/worklogs/",
+        IssueWorklogViewSet.as_view({"get": "list", "post": "create"}),
+        name="project-issue-worklog",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/worklogs/<uuid:pk>/",
+        IssueWorklogViewSet.as_view(
+            {
+                "get": "retrieve",
+                "patch": "partial_update",
+                "delete": "destroy",
+            }
+        ),
+        name="project-issue-worklog",
+    ),
+    ## End IssueWorklogs
+    ## [FA-CUSTOM] Project Timesheet
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/timesheet/",
+        ProjectTimesheetEndpoint.as_view(),
+        name="project-timesheet",
+    ),
+    ## End Project Timesheet
     # Issue Subscribers
     path(
         "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/issue-subscribers/",

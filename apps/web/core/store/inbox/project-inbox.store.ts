@@ -439,6 +439,8 @@ export class ProjectInboxStore implements IProjectInboxStore {
           this.store.issue.issueDetail.fetchActivities(workspaceSlug, projectId, issueId),
           // fetching comments
           this.store.issue.issueDetail.fetchComments(workspaceSlug, projectId, issueId),
+          // [FA-CUSTOM] fetching worklogs
+          this.store.issue.issueDetail.fetchWorklogs(workspaceSlug, projectId, issueId),
           // fetching attachments
           this.store.issue.issueDetail.fetchAttachments(workspaceSlug, projectId, issueId),
         ]);

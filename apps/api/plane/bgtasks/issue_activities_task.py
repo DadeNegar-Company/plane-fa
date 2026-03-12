@@ -752,6 +752,92 @@ def delete_comment_activity(
     )
 
 
+# [FA-CUSTOM] Worklog activity functions (time tracking)
+def create_worklog_activity(
+    requested_data,
+    current_instance,
+    issue_id,
+    project_id,
+    workspace_id,
+    actor_id,
+    issue_activities,
+    epoch,
+):
+    requested_data = json.loads(requested_data) if requested_data is not None else None
+    issue_activities.append(
+        IssueActivity(
+            issue_id=issue_id,
+            project_id=project_id,
+            workspace_id=workspace_id,
+            comment="logged time",
+            verb="created",
+            actor_id=actor_id,
+            field="worklog",
+            new_value=str(requested_data.get("duration_minutes", 0)),
+            new_identifier=requested_data.get("id"),
+            epoch=epoch,
+        )
+    )
+
+
+def update_worklog_activity(
+    requested_data,
+    current_instance,
+    issue_id,
+    project_id,
+    workspace_id,
+    actor_id,
+    issue_activities,
+    epoch,
+):
+    requested_data = json.loads(requested_data) if requested_data is not None else None
+    current_instance = json.loads(current_instance) if current_instance is not None else None
+    issue_activities.append(
+        IssueActivity(
+            issue_id=issue_id,
+            project_id=project_id,
+            workspace_id=workspace_id,
+            comment="updated a worklog",
+            verb="updated",
+            actor_id=actor_id,
+            field="worklog",
+            old_value=str(current_instance.get("duration_minutes", 0)),
+            old_identifier=current_instance.get("id"),
+            new_value=str(requested_data.get("duration_minutes", current_instance.get("duration_minutes", 0))),
+            new_identifier=current_instance.get("id"),
+            epoch=epoch,
+        )
+    )
+
+
+def delete_worklog_activity(
+    requested_data,
+    current_instance,
+    issue_id,
+    project_id,
+    workspace_id,
+    actor_id,
+    issue_activities,
+    epoch,
+):
+    current_instance = json.loads(current_instance) if current_instance is not None else None
+    issue_activities.append(
+        IssueActivity(
+            issue_id=issue_id,
+            project_id=project_id,
+            workspace_id=workspace_id,
+            comment="deleted a worklog",
+            verb="deleted",
+            actor_id=actor_id,
+            field="worklog",
+            old_value=str(current_instance.get("duration_minutes", 0)),
+            old_identifier=current_instance.get("id"),
+            epoch=epoch,
+        )
+    )
+# [FA-CUSTOM] End worklog activity functions
+
+
 def create_cycle_issue_activity(
     requested_data,
     current_instance,
@@ -1565,6 +1651,10 @@ def issue_activity(
             "issue_draft.activity.updated": update_draft_issue_activity,
             "issue_draft.activity.deleted": delete_draft_issue_activity,
             "intake.activity.created": create_intake_activity,
+            # [FA-CUSTOM] worklog activities (time tracking)
+            "worklog.activity.created": create_worklog_activity,
+            "worklog.activity.updated": update_worklog_activity,
+            "worklog.activity.deleted": delete_worklog_activity,
         }
 
         func = ACTIVITY_MAPPER.get(type)

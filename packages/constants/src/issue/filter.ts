@@ -314,6 +314,7 @@ export enum EActivityFilterType {
   STATE = "STATE",
   ASSIGNEE = "ASSIGNEE",
   DEFAULT = "DEFAULT",
+  WORKLOG = "WORKLOG", // [FA-CUSTOM] time tracking
 }
 
 export type TActivityFilters = EActivityFilterType;
@@ -333,6 +334,10 @@ export const ACTIVITY_FILTER_TYPE_OPTIONS: Record<TActivityFilterOptionsKey, { l
   [EActivityFilterType.ASSIGNEE]: {
     labelTranslationKey: "common.assignee",
   },
+  // [FA-CUSTOM] time tracking
+  [EActivityFilterType.WORKLOG]: {
+    labelTranslationKey: "common.worklogs",
+  },
 };
 
 export type TActivityFilterOption = {
@@ -347,6 +352,7 @@ export const defaultActivityFilters: TActivityFilters[] = [
   EActivityFilterType.COMMENT,
   EActivityFilterType.STATE,
   EActivityFilterType.ASSIGNEE,
+  EActivityFilterType.WORKLOG, // [FA-CUSTOM] time tracking
 ];
 
 export const filterActivityOnSelectedFilters = (

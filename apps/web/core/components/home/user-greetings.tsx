@@ -32,7 +32,9 @@ export function UserGreetingsView(props: IUserGreetingsView) {
   const dateLocale = getCalendarSystem() === "jalali" ? "en-US-u-ca-persian" : "en-US";
   const date = new Intl.DateTimeFormat(dateLocale, { month: "short", day: "numeric" }).format(currentTime);
   const weekDay = new Intl.DateTimeFormat(dateLocale, { weekday: "long" }).format(currentTime);
-  const timeString = new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }).format(currentTime);
+  const timeString = new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }).format(
+    currentTime
+  );
 
   const greeting = parseInt(hour, 10) < 12 ? "morning" : parseInt(hour, 10) < 18 ? "afternoon" : "evening";
 

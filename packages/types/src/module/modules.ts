@@ -92,6 +92,7 @@ export interface IModule {
   updated_at: string;
   created_by?: string;
   updated_by?: string;
+  total_time_logged?: number; // [FA-CUSTOM] time tracking
 }
 
 export interface ModuleIssueResponse {
