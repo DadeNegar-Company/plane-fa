@@ -429,6 +429,19 @@ export const convertMinutesToHoursMinutesString = (totalMinutes: number): string
 };
 
 /**
+ * @description formats elapsed seconds into h:mm:ss timer display
+ * @param { number } totalSeconds
+ * @returns { string } "0:00:00"
+ * @example formatElapsedTime(3661) // Output: "1:01:01"
+ */
+export const formatElapsedTime = (totalSeconds: number): string => {
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+};
+
+/**
  * @description calculates the read time for a document using the words count
  * @param {number} wordsCount
  * @returns {number} total number of seconds

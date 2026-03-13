@@ -165,7 +165,9 @@ export const DraftIssueBlock = observer(function DraftIssueBlock(props: Props) {
               </div>
 
               <Tooltip tooltipContent={issue.name} position="top-start" renderByDefault={false}>
-                <p className="w-full truncate cursor-pointer text-13 text-primary">{issue.name}</p>
+                <p dir="auto" className="w-full truncate cursor-pointer text-13 text-primary">
+                  {issue.name}
+                </p>
               </Tooltip>
             </div>
 

@@ -80,7 +80,9 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
             className="w-full truncate cursor-pointer text-13 text-primary"
           >
             <Tooltip tooltipContent={issue.name} position="top-start">
-              <p className="truncate">{issue.name}</p>
+              <p dir="auto" className="truncate">
+                {issue.name}
+              </p>
             </Tooltip>
           </Link>
         </div>

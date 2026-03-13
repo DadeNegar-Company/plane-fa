@@ -134,7 +134,9 @@ export const CalendarIssueBlock = observer(
                         displayProperties={issuesFilter?.issueFilters?.displayProperties}
                       />
                     )}
-                    <div className="truncate text-13 font-medium md:font-regular md:text-11">{issue.name}</div>
+                    <div dir="auto" className="truncate text-13 font-medium md:font-regular md:text-11">
+                      {issue.name}
+                    </div>
                   </div>
                   <div
                     className={cn("flex-shrink-0 size-5", {

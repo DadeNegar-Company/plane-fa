@@ -72,6 +72,7 @@ export const IssueGanttBlock = observer(function IssueGanttBlock(props: Props) {
           >
             <div className="absolute left-0 top-0 h-full w-full bg-surface-1/50 " />
             <div
+              dir="auto"
               className="sticky w-auto overflow-hidden truncate px-2.5 py-1 text-13 text-primary flex-1"
               style={{ left: `${SIDEBAR_WIDTH}px` }}
             >
@@ -160,7 +161,9 @@ export const IssueGanttSidebarBlock = observer(function IssueGanttSidebarBlock(p
           />
         )}
         <Tooltip tooltipContent={issueDetails?.name} isMobile={isMobile}>
-          <span className="flex-grow truncate text-13 font-medium">{issueDetails?.name}</span>
+          <span dir="auto" className="flex-grow truncate text-13 font-medium">
+            {issueDetails?.name}
+          </span>
         </Tooltip>
       </div>
     </ControlLink>

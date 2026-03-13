@@ -31,7 +31,8 @@ export type TProjectSettingsTabs =
   | "labels"
   | "estimates"
   | "automations"
-  | "import_issues"; // [FA-CUSTOM]
+  | "import_issues" // [FA-CUSTOM]
+  | "features_time_tracking"; // [FA-CUSTOM]
 export type TProjectSettingsItem = {
   key: TProjectSettingsTabs;
   i18n_label: string;

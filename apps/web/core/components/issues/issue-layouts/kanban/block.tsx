@@ -125,8 +125,8 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
       </div>
 
       <Tooltip tooltipContent={issue.name} isMobile={isMobile} renderByDefault={false}>
-        <div className="w-full line-clamp-1 text-body-sm-medium text-primary">
-          <bdi>{issue.name}</bdi> {/* [FA-CUSTOM] bdi isolates bidi text */}
+        <div dir="auto" className="w-full line-clamp-1 text-body-sm-medium text-primary">
+          {issue.name}
         </div>
       </Tooltip>
 

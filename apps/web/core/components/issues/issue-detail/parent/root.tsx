@@ -88,7 +88,9 @@ export const IssueParentDetail = observer(function IssueParentDetail(props: TIss
                 />
               )}
             </div>
-            <span className="truncate text-primary">{(parentIssue?.name ?? "").substring(0, 50)}</span>
+            <span dir="auto" className="truncate text-primary">
+              {(parentIssue?.name ?? "").substring(0, 50)}
+            </span>
           </div>
         </ControlLink>
 

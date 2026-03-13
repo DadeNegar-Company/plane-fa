@@ -210,7 +210,9 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                           <div className="flex items-center gap-1.5 flex-grow w-full min-w-24 truncate">
                             <IssueIdentifier issueId={issue.id} projectId={projectId} size="xs" variant="secondary" />
                             <Tooltip position="top-start" tooltipHeading="Title" tooltipContent={issue.name}>
-                              <span className="text-13 text-primary truncate">{issue.name}</span>
+                              <span dir="auto" className="text-13 text-primary truncate">
+                                {issue.name}
+                              </span>
                             </Tooltip>
                           </div>
                           <PriorityIcon priority={issue.priority} withContainer size={12} />

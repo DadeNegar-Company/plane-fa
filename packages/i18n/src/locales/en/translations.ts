@@ -1899,6 +1899,14 @@ export default {
         toggle_title: "Enable intake",
         toggle_description: "Let project members create in app intake requests.",
       },
+      // [FA-CUSTOM] time tracking
+      time_tracking: {
+        title: "Time Tracking",
+        short_title: "Time Tracking",
+        description: "Log time spent on work items and track actual vs estimated effort.",
+        toggle_title: "Enable time tracking",
+        toggle_description: "Project members will be able to log time and use the timer on work items.",
+      },
     },
   },
   project_cycles: {

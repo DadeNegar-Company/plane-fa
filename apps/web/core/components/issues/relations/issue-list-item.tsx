@@ -146,7 +146,9 @@ export const RelationIssueListItem = observer(function RelationIssueListItem(pro
               </div>
 
               <Tooltip tooltipContent={issue.name} isMobile={isMobile}>
-                <span className="flex-1 w-0 truncate text-13 text-primary">{issue.name}</span>
+                <span dir="auto" className="flex-1 w-0 truncate text-13 text-primary">
+                  {issue.name}
+                </span>
               </Tooltip>
             </div>
             <div

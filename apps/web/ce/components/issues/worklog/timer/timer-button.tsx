@@ -11,7 +11,7 @@ import { observer } from "mobx-react";
 import { Play, Square } from "lucide-react";
 // plane imports
 import { Button } from "@plane/propel/button";
-import { renderFormattedPayloadDate } from "@plane/utils";
+import { formatElapsedTime, renderFormattedPayloadDate } from "@plane/utils";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { useProject } from "@/hooks/store/use-project";
@@ -23,13 +23,6 @@ type TTimerButton = {
   issueId: string;
   disabled: boolean;
 };
-
-function formatElapsed(totalSeconds: number): string {
-  const h = Math.floor(totalSeconds / 3600);
-  const m = Math.floor((totalSeconds % 3600) / 60);
-  const s = totalSeconds % 60;
-  return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-}
 
 export const TimerButton = observer(function TimerButton(props: TTimerButton) {
   const { workspaceSlug, projectId, issueId, disabled } = props;
@@ -43,8 +36,7 @@ export const TimerButton = observer(function TimerButton(props: TTimerButton) {
   const [elapsed, setElapsed] = useState(0);
 
   const project = getProjectById(projectId);
-  if (!project?.is_time_tracking_enabled) return <></>;
-
+  const isTimeTrackingEnabled = !!project?.is_time_tracking_enabled;
   const isThisIssueActive = timer.activeTimer?.issueId === issueId;
   const isAnotherIssueActive = timer.isTimerRunning && !isThisIssueActive;
 
@@ -69,17 +61,25 @@ export const TimerButton = observer(function TimerButton(props: TTimerButton) {
     if (!stoppedTimer) return;
     const totalSeconds = Math.floor((Date.now() - stoppedTimer.startedAt) / 1000);
     const totalMinutes = Math.max(1, Math.round(totalSeconds / 60));
-    await createWorklog(stoppedTimer.workspaceSlug, stoppedTimer.projectId, stoppedTimer.issueId, {
-      duration_minutes: totalMinutes,
-      date_worked: renderFormattedPayloadDate(new Date()) ?? "",
-      description: "",
-    });
+    try {
+      await createWorklog(stoppedTimer.workspaceSlug, stoppedTimer.projectId, stoppedTimer.issueId, {
+        duration_minutes: totalMinutes,
+        date_worked: renderFormattedPayloadDate(new Date()) ?? "",
+        description: "",
+      });
+    } catch {
+      // Restore the timer so the user doesn't lose tracked time
+      timer.startTimer(stoppedTimer.workspaceSlug, stoppedTimer.projectId, stoppedTimer.issueId);
+    }
   }, [timer, createWorklog]);
+
+  // hide if time tracking is not enabled
+  if (!isTimeTrackingEnabled) return <></>;
 
   if (isThisIssueActive) {
     return (
       <Button variant="danger" size="sm" onClick={handleStop} prependIcon={<Square />}>
-        {formatElapsed(elapsed)}
+        {formatElapsedTime(elapsed)}
       </Button>
     );
   }
