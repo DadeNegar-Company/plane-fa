@@ -195,7 +195,7 @@ jobs:
             # Login to GHCR
             echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
 
-            cd /root/apps/plane-fa/deploy
+            cd ~/apps/plane-fa/deploy
 
             # Pull latest images
             docker compose pull
@@ -208,3 +208,14 @@ jobs:
 
             echo "=== Deploy finished at $(date) ==="
             docker compose ps
+
+            # Health check — wait up to 60s for API
+            echo "=== Running health check ==="
+            for i in $(seq 1 12); do
+              if docker compose exec -T api curl -sf http://localhost:8000/ > /dev/null 2>&1; then
+                echo "=== Health check passed ==="
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "::warning::API health check timed out after 60s"
