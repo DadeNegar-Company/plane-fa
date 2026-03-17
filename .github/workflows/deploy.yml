@@ -172,7 +172,7 @@ jobs:
   # ---------------------------------------------------------------------------
   deploy:
     name: Deploy to Server
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, deploy]
     needs:
       - build-web
       - build-admin
@@ -181,41 +181,35 @@ jobs:
       - build-api
       - build-proxy
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          script: |
-            set -e
-            echo "=== Deploy started at $(date) ==="
+      - name: Deploy
+        run: |
+          set -e
+          echo "=== Deploy started at $(date) ==="
 
-            # Login to GHCR
-            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
+          # Login to GHCR
+          echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
 
-            cd ~/apps/plane-fa/deploy
+          cd ~/apps/plane-fa/deploy
 
-            # Pull latest images
-            docker compose pull
+          # Pull latest images
+          docker compose pull
 
-            # Rolling restart (db/redis/mq stay untouched)
-            docker compose up -d --remove-orphans
+          # Rolling restart (db/redis/mq stay untouched)
+          docker compose up -d --remove-orphans
 
-            # Cleanup dangling images
-            docker image prune -f
+          # Cleanup dangling images
+          docker image prune -f
 
-            echo "=== Deploy finished at $(date) ==="
-            docker compose ps
+          echo "=== Deploy finished at $(date) ==="
+          docker compose ps
 
-            # Health check — wait up to 60s for API
-            echo "=== Running health check ==="
-            for i in $(seq 1 12); do
-              if docker compose exec -T api curl -sf http://localhost:8000/ > /dev/null 2>&1; then
-                echo "=== Health check passed ==="
-                exit 0
-              fi
-              sleep 5
-            done
-            echo "::warning::API health check timed out after 60s"
+          # Health check — wait up to 60s for API
+          echo "=== Running health check ==="
+          for i in $(seq 1 12); do
+            if docker compose exec -T api curl -sf http://localhost:8000/ > /dev/null 2>&1; then
+              echo "=== Health check passed ==="
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::warning::API health check timed out after 60s"
