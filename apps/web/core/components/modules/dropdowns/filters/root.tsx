@@ -12,7 +12,14 @@ import { CloseIcon, SearchIcon } from "@plane/propel/icons";
 import type { TModuleDisplayFilters, TModuleFilters } from "@plane/types";
 // components
 import { FilterOption } from "@/components/issues/issue-layouts/filters";
-import { FilterLead, FilterMembers, FilterStartDate, FilterStatus, FilterTargetDate } from "@/components/modules";
+import {
+  FilterLabels,
+  FilterLead,
+  FilterMembers,
+  FilterStartDate,
+  FilterStatus,
+  FilterTargetDate,
+} from "@/components/modules";
 // hooks
 import { usePlatformOS } from "@/hooks/use-platform-os";
 
@@ -50,6 +57,7 @@ export const ModuleFiltersSelection = observer(function ModuleFiltersSelection(p
             placeholder="Search"
             value={filtersSearchQuery}
             onChange={(e) => setFiltersSearchQuery(e.target.value)}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (
@@ -102,6 +110,15 @@ export const ModuleFiltersSelection = observer(function ModuleFiltersSelection(p
             handleUpdate={(val) => handleFiltersUpdate("members", val)}
             searchQuery={filtersSearchQuery}
             memberIds={memberIds}
+          />
+        </div>
+
+        {/* labels */}
+        <div className="py-2">
+          <FilterLabels
+            appliedFilters={filters.label ?? null}
+            handleUpdate={(val) => handleFiltersUpdate("label", val)}
+            searchQuery={filtersSearchQuery}
           />
         </div>
 

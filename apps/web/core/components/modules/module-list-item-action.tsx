@@ -9,14 +9,7 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { SquareUser } from "lucide-react";
 // Plane imports
-import {
-  MODULE_STATUS,
-  EUserPermissions,
-  EUserPermissionsLevel,
-  IS_FAVORITE_MENU_OPEN,
-  MODULE_TRACKER_EVENTS,
-  MODULE_TRACKER_ELEMENTS,
-} from "@plane/constants";
+import { MODULE_STATUS, EUserPermissions, EUserPermissionsLevel, IS_FAVORITE_MENU_OPEN } from "@plane/constants";
 import { useLocalStorage } from "@plane/hooks";
 import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setPromiseToast, setToast } from "@plane/propel/toast";
@@ -29,6 +22,7 @@ import { DateRangeDropdown } from "@/components/dropdowns/date-range";
 import { ModuleQuickActions } from "@/components/modules";
 import { ModuleStatusDropdown } from "@/components/modules/module-status-dropdown";
 // hooks
+import { useLabel } from "@/hooks/store/use-label";
 import { useMember } from "@/hooks/store/use-member";
 import { useModule } from "@/hooks/store/use-module";
 import { useUserPermissions } from "@/hooks/store/user";
@@ -48,6 +42,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
   const { allowPermissions } = useUserPermissions();
   const { addModuleToFavorites, removeModuleFromFavorites, updateModuleDetails } = useModule();
   const { getUserDetails } = useMember();
+  const { getLabelById } = useLabel();
 
   const { t } = useTranslation();
 
@@ -73,6 +68,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
       () => {
         // open favorites menu if closed
         if (!storedValue) toggleFavoriteMenu(true);
+        return undefined;
       }
     );
 
@@ -123,8 +119,9 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
           title: "Success!",
           message: "Module updated successfully.",
         });
+        return undefined;
       })
-      .catch((err) => {
+      .catch((err: { detail?: string }) => {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: "Error!",
@@ -137,6 +134,32 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
 
   return (
     <>
+      {moduleDetails.label_ids && moduleDetails.label_ids.length > 0 && (
+        <Tooltip
+          tooltipContent={moduleDetails.label_ids
+            .map((id) => getLabelById(id)?.name)
+            .filter(Boolean)
+            .join(", ")}
+        >
+          <div className="flex items-center gap-1">
+            {moduleDetails.label_ids.slice(0, 3).map((labelId) => {
+              const label = getLabelById(labelId);
+              if (!label) return null;
+              return (
+                <span
+                  key={labelId}
+                  className="h-2.5 w-2.5 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: label.color }}
+                />
+              );
+            })}
+            {moduleDetails.label_ids.length > 3 && (
+              <span className="text-11 text-tertiary">+{moduleDetails.label_ids.length - 3}</span>
+            )}
+          </div>
+        </Tooltip>
+      )}
+
       <DateRangeDropdown
         buttonContainerClassName={`h-6 w-full flex ${isDisabled ? "cursor-not-allowed" : "cursor-pointer"} items-center gap-1.5 text-tertiary border-[0.5px] border-strong rounded-sm text-11`}
         buttonVariant="transparent-with-text"
@@ -146,7 +169,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
           to: getDate(moduleDetails.target_date),
         }}
         onSelect={(val) => {
-          handleModuleDetailsChange({
+          void handleModuleDetailsChange({
             start_date: val?.from ? renderFormattedPayloadDate(val.from) : null,
             target_date: val?.to ? renderFormattedPayloadDate(val.to) : null,
           });

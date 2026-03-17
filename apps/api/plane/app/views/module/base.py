@@ -53,6 +53,7 @@ from plane.bgtasks.issue_activities_task import issue_activity
 from plane.db.models import (
     Issue,
     Module,
+    ModuleLabel,
     UserFavorite,
     ModuleIssue,
     ModuleLink,
@@ -298,6 +299,19 @@ class ModuleViewSet(BaseViewSet):
                     Value([], output_field=ArrayField(UUIDField())),
                 )
             )
+            .annotate(
+                label_ids=Coalesce(
+                    ArrayAgg(
+                        "label_module__label_id",
+                        distinct=True,
+                        filter=Q(
+                            label_module__label_id__isnull=False,
+                            label_module__deleted_at__isnull=True,
+                        ),
+                    ),
+                    Value([], output_field=ArrayField(UUIDField())),
+                )
+            )
             # [FA-CUSTOM] time tracking
             .annotate(
                 total_time_logged=Coalesce(Subquery(time_logged), Value(0, output_field=IntegerField()))
@@ -330,6 +344,7 @@ class ModuleViewSet(BaseViewSet):
                     "status",
                     "lead_id",
                     "member_ids",
+                    "label_ids",
                     "view_props",
                     "sort_order",
                     "external_source",
@@ -384,6 +399,7 @@ class ModuleViewSet(BaseViewSet):
                 "status",
                 "lead_id",
                 "member_ids",
+                "label_ids",
                 "view_props",
                 "sort_order",
                 "external_source",
@@ -699,6 +715,7 @@ class ModuleViewSet(BaseViewSet):
                 "status",
                 "lead_id",
                 "member_ids",
+                "label_ids",
                 "view_props",
                 "sort_order",
                 "external_source",

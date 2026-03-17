@@ -74,6 +74,10 @@ export const shouldFilterModule = (
       const memberIds = module.member_ids;
       fallsInFilters = fallsInFilters && filters.members.some((memberId) => memberIds.includes(memberId));
     }
+    if (filterKey === "label" && filters.label && filters.label.length > 0) {
+      const labelIds = module.label_ids ?? [];
+      fallsInFilters = fallsInFilters && filters.label.some((labelId) => labelIds.includes(labelId));
+    }
     if (filterKey === "start_date" && filters.start_date && filters.start_date.length > 0) {
       const startDate = getDate(module.start_date);
       filters.start_date.forEach((dateFilter) => {

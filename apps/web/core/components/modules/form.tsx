@@ -18,12 +18,13 @@ import { getDate, renderFormattedPayloadDate, getTabIndex } from "@plane/utils";
 import { DateRangeDropdown } from "@/components/dropdowns/date-range";
 import { MemberDropdown } from "@/components/dropdowns/member/dropdown";
 import { ProjectDropdown } from "@/components/dropdowns/project/dropdown";
+import { LabelDropdown } from "@/components/issues/issue-layouts/properties/label-dropdown";
 import { ModuleStatusSelect } from "@/components/modules";
 // hooks
 import { useUser } from "@/hooks/store/user/user-user";
 
 type Props = {
-  handleFormSubmit: (values: Partial<IModule>, dirtyFields: any) => Promise<void>;
+  handleFormSubmit: (values: Partial<IModule>, dirtyFields: Partial<Record<keyof IModule, boolean>>) => Promise<void>;
   handleClose: () => void;
   status: boolean;
   projectId: string;
@@ -38,6 +39,7 @@ const defaultValues: Partial<IModule> = {
   status: "backlog",
   lead_id: null,
   member_ids: [],
+  label_ids: [],
 };
 
 export function ModuleForm(props: Props) {
@@ -58,6 +60,7 @@ export function ModuleForm(props: Props) {
       status: data?.status || "backlog",
       lead_id: data?.lead_id || null,
       member_ids: data?.member_ids || [],
+      label_ids: data?.label_ids || [],
     },
   });
 
@@ -81,6 +84,7 @@ export function ModuleForm(props: Props) {
   }, [data, reset]);
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(handleCreateUpdateModule)}>
       <div className="space-y-5 p-5">
         <div className="flex items-center gap-x-3">
@@ -134,6 +138,7 @@ export function ModuleForm(props: Props) {
                   placeholder={t("title")}
                   className="w-full text-14"
                   tabIndex={getIndex("name")}
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
                 />
               )}
@@ -227,6 +232,29 @@ export function ModuleForm(props: Props) {
                     tabIndex={getIndex("member_ids")}
                   />
                 </div>
+              )}
+            />
+            <Controller
+              control={control}
+              name="label_ids"
+              render={({ field: { value, onChange } }) => (
+                <LabelDropdown
+                  projectId={projectId}
+                  value={value ?? []}
+                  onChange={onChange}
+                  buttonClassName="border-[0.5px] border-strong rounded-sm px-2"
+                  className="h-7"
+                  hideDropdownArrow
+                  label={
+                    <div className="flex items-center gap-1.5 text-secondary">
+                      {value && value.length > 0 ? (
+                        <span className="text-11">{`${value.length} ${t("labels")}`}</span>
+                      ) : (
+                        <span className="text-11 text-placeholder">{t("labels")}</span>
+                      )}
+                    </div>
+                  }
+                />
               )}
             />
           </div>

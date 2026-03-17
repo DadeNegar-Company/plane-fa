@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
-import { Info, SquareUser } from "lucide-react";
+import { Info, SquareUser, Tag } from "lucide-react";
 import { Disclosure, Transition } from "@headlessui/react";
 import { MODULE_STATUS, EUserPermissions, EUserPermissionsLevel, EEstimateSystem } from "@plane/constants";
 // plane types
@@ -31,6 +31,7 @@ import { Loader, CustomSelect, TextArea } from "@plane/ui";
 import { getDate, renderFormattedPayloadDate } from "@plane/utils";
 import { DateRangeDropdown } from "@/components/dropdowns/date-range";
 import { MemberDropdown } from "@/components/dropdowns/member/dropdown";
+import { LabelDropdown } from "@/components/issues/issue-layouts/properties/label-dropdown";
 import { CreateUpdateModuleLinkModal, ModuleAnalyticsProgress, ModuleLinksList } from "@/components/modules";
 // hooks
 import { useProjectEstimates } from "@/hooks/store/estimates";
@@ -40,6 +41,7 @@ import { useUserPermissions } from "@/hooks/store/user";
 const defaultValues: Partial<IModule> = {
   lead_id: "",
   member_ids: [],
+  label_ids: [],
   start_date: null,
   target_date: null,
   status: "backlog",
@@ -71,7 +73,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
   const moduleDetails = getModuleById(moduleId);
   const areEstimateEnabled = projectId && areEstimateEnabledByProjectId(projectId.toString());
   const estimateType = areEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
-  const isEstimatePointValid = estimateType && estimateType?.type == EEstimateSystem.POINTS ? true : false;
+  const isEstimatePointValid = estimateType && String(estimateType?.type) === String(EEstimateSystem.POINTS);
 
   const { reset, control } = useForm({
     defaultValues,
@@ -112,8 +114,8 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
     }
   };
 
-  const handleDateChange = async (startDate: Date | undefined, targetDate: Date | undefined) => {
-    submitChanges({
+  const handleDateChange = (startDate: Date | undefined, targetDate: Date | undefined) => {
+    void submitChanges({
       start_date: startDate ? renderFormattedPayloadDate(startDate) : null,
       target_date: targetDate ? renderFormattedPayloadDate(targetDate) : null,
     });
@@ -215,8 +217,8 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                     </span>
                   }
                   value={value}
-                  onChange={(value: any) => {
-                    submitChanges({ status: value });
+                  onChange={(value: string) => {
+                    void submitChanges({ status: value });
                   }}
                   disabled={!isEditingAllowed || isArchived}
                 >
@@ -299,7 +301,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                   <MemberDropdown
                     value={value ?? null}
                     onChange={(val) => {
-                      submitChanges({ lead_id: val });
+                      void submitChanges({ lead_id: val });
                     }}
                     projectId={projectId?.toString() ?? ""}
                     multiple={false}
@@ -325,13 +327,47 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                   <MemberDropdown
                     value={value ?? []}
                     onChange={(val: string[]) => {
-                      submitChanges({ member_ids: val });
+                      void submitChanges({ member_ids: val });
                     }}
                     multiple
                     projectId={projectId?.toString() ?? ""}
                     buttonVariant={value && value?.length > 0 ? "transparent-without-text" : "background-with-text"}
                     buttonClassName={value && value.length > 0 ? "hover:bg-transparent px-0" : ""}
                     disabled={!isEditingAllowed || isArchived}
+                  />
+                </div>
+              )}
+            />
+          </div>
+          <div className="flex items-center justify-start gap-1">
+            <div className="flex w-2/5 items-center justify-start gap-2 text-tertiary">
+              <Tag className="h-4 w-4" />
+              <span className="text-14">{t("labels")}</span>
+            </div>
+            <Controller
+              control={control}
+              name="label_ids"
+              render={({ field: { value } }) => (
+                <div className="h-7 w-3/5">
+                  <LabelDropdown
+                    projectId={projectId?.toString() ?? null}
+                    value={value ?? []}
+                    onChange={(val) => {
+                      void submitChanges({ label_ids: val });
+                    }}
+                    buttonClassName="bg-layer-1 rounded-sm px-2"
+                    className="h-7"
+                    hideDropdownArrow
+                    disabled={!isEditingAllowed || isArchived}
+                    label={
+                      <div className="flex items-center gap-1.5 text-secondary">
+                        {value && value.length > 0 ? (
+                          <span className="text-13">{`${value.length} ${t("labels")}`}</span>
+                        ) : (
+                          <span className="text-13 text-placeholder">{t("labels")}</span>
+                        )}
+                      </div>
+                    }
                   />
                 </div>
               )}
@@ -409,7 +445,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                               <ModuleLinksList
                                 moduleId={moduleId}
                                 handleEditLink={handleEditLink}
-                                handleDeleteLink={handleDeleteLink}
+                                handleDeleteLink={(linkId: string) => void handleDeleteLink(linkId)}
                                 disabled={!isEditingAllowed || isArchived}
                               />
                             )}

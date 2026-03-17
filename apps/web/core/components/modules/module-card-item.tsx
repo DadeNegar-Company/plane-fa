@@ -31,6 +31,7 @@ import { ButtonAvatars } from "@/components/dropdowns/member/avatar";
 import { ModuleQuickActions } from "@/components/modules";
 import { ModuleStatusDropdown } from "@/components/modules/module-status-dropdown";
 // hooks
+import { useLabel } from "@/hooks/store/use-label";
 import { useMember } from "@/hooks/store/use-member";
 import { useModule } from "@/hooks/store/use-module";
 import { useUserPermissions } from "@/hooks/store/user";
@@ -54,6 +55,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
   const { allowPermissions } = useUserPermissions();
   const { getModuleById, addModuleToFavorites, removeModuleFromFavorites, updateModuleDetails } = useModule();
   const { getUserDetails } = useMember();
+  const { getLabelById } = useLabel();
   // local storage
   const { setValue: toggleFavoriteMenu, storedValue } = useLocalStorage<boolean>(IS_FAVORITE_MENU_OPEN, false);
   // derived values
@@ -74,6 +76,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
     const addToFavoritePromise = addModuleToFavorites(workspaceSlug.toString(), projectId.toString(), moduleId).then(
       () => {
         if (!storedValue) toggleFavoriteMenu(true);
+        return undefined;
       }
     );
 
@@ -129,8 +132,9 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
           title: "Success!",
           message: "Module updated successfully.",
         });
+        return undefined;
       })
-      .catch((err) => {
+      .catch((err: { detail?: string }) => {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: "Error!",
@@ -192,6 +196,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
               <Tooltip tooltipContent={moduleDetails.name} position="top" isMobile={isMobile}>
                 <span className="truncate text-14 font-medium">{moduleDetails.name}</span>
               </Tooltip>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
               <div className="flex items-center gap-2" onClick={handleEventPropagation}>
                 {moduleStatus && (
                   <ModuleStatusDropdown
@@ -222,7 +227,28 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
                 </Tooltip>
               )}
             </div>
+            {moduleDetails.label_ids && moduleDetails.label_ids.length > 0 && (
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {moduleDetails.label_ids.slice(0, 3).map((labelId) => {
+                  const label = getLabelById(labelId);
+                  if (!label) return null;
+                  return (
+                    <div
+                      key={labelId}
+                      className="flex items-center gap-1 rounded-sm bg-layer-1 px-1.5 py-0.5 text-11 text-tertiary"
+                    >
+                      <span className="h-2 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: label.color }} />
+                      <span className="truncate max-w-[80px]">{label.name}</span>
+                    </div>
+                  );
+                })}
+                {moduleDetails.label_ids.length > 3 && (
+                  <span className="text-11 text-tertiary">+{moduleDetails.label_ids.length - 3}</span>
+                )}
+              </div>
+            )}
             <LinearProgressIndicator size="lg" data={progressIndicatorData} />
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div className="flex items-center justify-between py-0.5" onClick={handleEventPropagation}>
               <DateRangeDropdown
                 buttonContainerClassName={`h-6 w-full flex ${isDisabled ? "cursor-not-allowed" : "cursor-pointer"} items-center gap-1.5 text-tertiary border-[0.5px] border-strong rounded-sm text-11`}
@@ -233,7 +259,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
                   to: getDate(moduleDetails.target_date),
                 }}
                 onSelect={(val) => {
-                  handleModuleDetailsChange({
+                  void handleModuleDetailsChange({
                     start_date: val?.from ? renderFormattedPayloadDate(val.from) : null,
                     target_date: val?.to ? renderFormattedPayloadDate(val.to) : null,
                   });

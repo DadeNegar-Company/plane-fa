@@ -16,10 +16,12 @@ from django.core.exceptions import ValidationError
 from plane.db.models import (
     User,
     Module,
+    ModuleLabel,
     ModuleMember,
     ModuleIssue,
     ModuleLink,
     ModuleUserProperties,
+    Label,
 )
 
 
@@ -29,6 +31,11 @@ class ModuleWriteSerializer(BaseSerializer):
     )
     member_ids = serializers.ListField(
         child=serializers.PrimaryKeyRelatedField(queryset=User.objects.all()),
+        write_only=True,
+        required=False,
+    )
+    label_ids = serializers.ListField(
+        child=serializers.PrimaryKeyRelatedField(queryset=Label.objects.all()),
         write_only=True,
         required=False,
     )
@@ -50,6 +57,11 @@ class ModuleWriteSerializer(BaseSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data["member_ids"] = [str(member.id) for member in instance.members.all()]
+        data["label_ids"] = [
+            str(lid) for lid in ModuleLabel.objects.filter(
+                module=instance, deleted_at__isnull=True
+            ).values_list("label_id", flat=True)
+        ]
         return data
 
     def validate(self, data):
@@ -63,6 +75,7 @@ class ModuleWriteSerializer(BaseSerializer):
 
     def create(self, validated_data):
         members = validated_data.pop("member_ids", None)
+        labels = validated_data.pop("label_ids", None)
         project = self.context["project"]
 
         module_name = validated_data.get("name")
@@ -89,10 +102,28 @@ class ModuleWriteSerializer(BaseSerializer):
                 ignore_conflicts=True,
             )
 
+        if labels is not None:
+            ModuleLabel.objects.bulk_create(
+                [
+                    ModuleLabel(
+                        module=module,
+                        label=label,
+                        project=project,
+                        workspace=project.workspace,
+                        created_by=module.created_by,
+                        updated_by=module.updated_by,
+                    )
+                    for label in labels
+                ],
+                batch_size=10,
+                ignore_conflicts=True,
+            )
+
         return module
 
     def update(self, instance, validated_data):
         members = validated_data.pop("member_ids", None)
+        labels = validated_data.pop("label_ids", None)
         module_name = validated_data.get("name")
         if module_name:
             # Lookup for the module name in the module table for that project
@@ -112,6 +143,24 @@ class ModuleWriteSerializer(BaseSerializer):
                         updated_by=instance.updated_by,
                     )
                     for member in members
+                ],
+                batch_size=10,
+                ignore_conflicts=True,
+            )
+
+        if labels is not None:
+            ModuleLabel.objects.filter(module=instance).delete()
+            ModuleLabel.objects.bulk_create(
+                [
+                    ModuleLabel(
+                        module=instance,
+                        label=label,
+                        project=instance.project,
+                        workspace=instance.project.workspace,
+                        created_by=instance.created_by,
+                        updated_by=instance.updated_by,
+                    )
+                    for label in labels
                 ],
                 batch_size=10,
                 ignore_conflicts=True,
@@ -205,6 +254,7 @@ class ModuleLinkSerializer(BaseSerializer):
 
 class ModuleSerializer(DynamicBaseSerializer):
     member_ids = serializers.ListField(child=serializers.UUIDField(), required=False, allow_null=True)
+    label_ids = serializers.ListField(child=serializers.UUIDField(), required=False, allow_null=True)
     is_favorite = serializers.BooleanField(read_only=True)
     total_issues = serializers.IntegerField(read_only=True)
     cancelled_issues = serializers.IntegerField(read_only=True)
@@ -232,6 +282,7 @@ class ModuleSerializer(DynamicBaseSerializer):
             "status",
             "lead_id",
             "member_ids",
+            "label_ids",
             "view_props",
             "sort_order",
             "external_source",

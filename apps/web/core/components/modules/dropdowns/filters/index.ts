@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+export * from "./labels";
 export * from "./lead";
 export * from "./members";
 export * from "./root";

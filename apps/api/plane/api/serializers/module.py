@@ -10,11 +10,13 @@ from .base import BaseSerializer
 from plane.db.models import (
     User,
     Module,
+    ModuleLabel,
     ModuleLink,
     ModuleMember,
     ModuleIssue,
     ProjectMember,
     Project,
+    Label,
 )
 
 
@@ -32,6 +34,11 @@ class ModuleCreateSerializer(BaseSerializer):
         write_only=True,
         required=False,
     )
+    label_ids = serializers.ListField(
+        child=serializers.PrimaryKeyRelatedField(queryset=Label.objects.all()),
+        write_only=True,
+        required=False,
+    )
 
     class Meta:
         model = Module
@@ -43,6 +50,7 @@ class ModuleCreateSerializer(BaseSerializer):
             "status",
             "lead",
             "members",
+            "label_ids",
             "external_source",
             "external_id",
         ]
@@ -82,6 +90,7 @@ class ModuleCreateSerializer(BaseSerializer):
 
     def create(self, validated_data):
         members = validated_data.pop("members", None)
+        labels = validated_data.pop("label_ids", None)
 
         project_id = self.context["project_id"]
         workspace_id = self.context["workspace_id"]
@@ -118,6 +127,23 @@ class ModuleCreateSerializer(BaseSerializer):
                 ignore_conflicts=True,
             )
 
+        if labels is not None:
+            ModuleLabel.objects.bulk_create(
+                [
+                    ModuleLabel(
+                        module=module,
+                        label=label,
+                        project_id=project_id,
+                        workspace_id=workspace_id,
+                        created_by=module.created_by,
+                        updated_by=module.updated_by,
+                    )
+                    for label in labels
+                ],
+                batch_size=10,
+                ignore_conflicts=True,
+            )
+
         return module
 
 
@@ -139,6 +165,7 @@ class ModuleUpdateSerializer(ModuleCreateSerializer):
 
     def update(self, instance, validated_data):
         members = validated_data.pop("members", None)
+        labels = validated_data.pop("label_ids", None)
         module_name = validated_data.get("name")
         if module_name:
             # Lookup for the module name in the module table for that project
@@ -158,6 +185,24 @@ class ModuleUpdateSerializer(ModuleCreateSerializer):
                         updated_by=instance.updated_by,
                     )
                     for member in members
+                ],
+                batch_size=10,
+                ignore_conflicts=True,
+            )
+
+        if labels is not None:
+            ModuleLabel.objects.filter(module=instance).delete()
+            ModuleLabel.objects.bulk_create(
+                [
+                    ModuleLabel(
+                        module=instance,
+                        label=label,
+                        project=instance.project,
+                        workspace=instance.project.workspace,
+                        created_by=instance.created_by,
+                        updated_by=instance.updated_by,
+                    )
+                    for label in labels
                 ],
                 batch_size=10,
                 ignore_conflicts=True,
@@ -203,6 +248,11 @@ class ModuleSerializer(BaseSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data["members"] = [str(member.id) for member in instance.members.all()]
+        data["label_ids"] = [
+            str(lid) for lid in ModuleLabel.objects.filter(
+                module=instance, deleted_at__isnull=True
+            ).values_list("label_id", flat=True)
+        ]
         return data
 
 

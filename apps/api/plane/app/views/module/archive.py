@@ -252,6 +252,19 @@ class ModuleArchiveUnarchiveEndpoint(BaseAPIView):
                     Value([], output_field=ArrayField(UUIDField())),
                 )
             )
+            .annotate(
+                label_ids=Coalesce(
+                    ArrayAgg(
+                        "label_module__label_id",
+                        distinct=True,
+                        filter=Q(
+                            label_module__label_id__isnull=False,
+                            label_module__deleted_at__isnull=True,
+                        ),
+                    ),
+                    Value([], output_field=ArrayField(UUIDField())),
+                )
+            )
             .order_by("-is_favorite", "-created_at")
         )
 
@@ -272,6 +285,7 @@ class ModuleArchiveUnarchiveEndpoint(BaseAPIView):
                 "status",
                 "lead_id",
                 "member_ids",
+                "label_ids",
                 "view_props",
                 "sort_order",
                 "external_source",

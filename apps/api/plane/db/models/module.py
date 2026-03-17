@@ -149,6 +149,28 @@ class ModuleMember(ProjectBaseModel):
         return f"{self.module.name} {self.member}"
 
 
+class ModuleLabel(ProjectBaseModel):
+    module = models.ForeignKey("db.Module", on_delete=models.CASCADE, related_name="label_module")
+    label = models.ForeignKey("db.Label", on_delete=models.CASCADE, related_name="label_module")
+
+    class Meta:
+        unique_together = ["module", "label", "deleted_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["module", "label"],
+                condition=models.Q(deleted_at__isnull=True),
+                name="module_label_unique_module_label_when_deleted_at_null",
+            )
+        ]
+        verbose_name = "Module Label"
+        verbose_name_plural = "Module Labels"
+        db_table = "module_labels"
+        ordering = ("-created_at",)
+
+    def __str__(self):
+        return f"{self.module.name} {self.label.name}"
+
+
 class ModuleIssue(ProjectBaseModel):
     module = models.ForeignKey("db.Module", on_delete=models.CASCADE, related_name="issue_module")
     issue = models.ForeignKey("db.Issue", on_delete=models.CASCADE, related_name="issue_module")

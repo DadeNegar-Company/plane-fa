@@ -10,7 +10,12 @@ import type { TModuleDisplayFilters, TModuleFilters } from "@plane/types";
 // components
 import { Header, EHeaderVariant, Tag } from "@plane/ui";
 import { replaceUnderscoreIfSnakeCase } from "@plane/utils";
-import { AppliedDateFilters, AppliedMembersFilters, AppliedStatusFilters } from "@/components/modules";
+import {
+  AppliedDateFilters,
+  AppliedLabelsFilters,
+  AppliedMembersFilters,
+  AppliedStatusFilters,
+} from "@/components/modules";
 // helpers
 // types
 
@@ -26,6 +31,7 @@ type Props = {
 
 const MEMBERS_FILTERS = ["lead", "members"];
 const DATE_FILTERS = ["start_date", "target_date"];
+const LABEL_FILTERS = ["label"];
 
 export function ModuleAppliedFiltersList(props: Props) {
   const {
@@ -73,6 +79,13 @@ export function ModuleAppliedFiltersList(props: Props) {
                 )}
                 {MEMBERS_FILTERS.includes(filterKey) && (
                   <AppliedMembersFilters
+                    editable={isEditingAllowed}
+                    handleRemove={(val) => handleRemoveFilter(filterKey, val)}
+                    values={value}
+                  />
+                )}
+                {LABEL_FILTERS.includes(filterKey) && (
+                  <AppliedLabelsFilters
                     editable={isEditingAllowed}
                     handleRemove={(val) => handleRemoveFilter(filterKey, val)}
                     values={value}

@@ -33,6 +33,7 @@ const defaultValues: Partial<IModule> = {
   status: "backlog",
   lead_id: null,
   member_ids: [],
+  label_ids: [],
 };
 
 export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal(props: Props) {
@@ -58,15 +59,16 @@ export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal
 
     const selectedProjectId = payload.project_id ?? projectId.toString();
     await createModule(workspaceSlug.toString(), selectedProjectId, payload)
-      .then((res) => {
+      .then(() => {
         handleClose();
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: "Success!",
           message: "Module created successfully.",
         });
+        return undefined;
       })
-      .catch((err) => {
+      .catch((err: { detail?: string; error?: string }) => {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: "Error!",
@@ -80,7 +82,7 @@ export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal
 
     const selectedProjectId = payload.project_id ?? projectId.toString();
     await updateModuleDetails(workspaceSlug.toString(), selectedProjectId, data.id, payload)
-      .then((res) => {
+      .then(() => {
         handleClose();
 
         setToast({
@@ -88,8 +90,9 @@ export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal
           title: "Success!",
           message: "Module updated successfully.",
         });
+        return undefined;
       })
-      .catch((err) => {
+      .catch((err: { detail?: string; error?: string }) => {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: "Error!",

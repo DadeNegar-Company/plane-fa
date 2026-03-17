@@ -26,6 +26,7 @@ export type TModuleDisplayFilters = {
 };
 
 export type TModuleFilters = {
+  label?: string[] | null;
   lead?: string[] | null;
   members?: string[] | null;
   start_date?: string[] | null;

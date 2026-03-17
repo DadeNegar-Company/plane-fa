@@ -71,12 +71,13 @@ export interface IModule {
   id: string;
   name: string;
   description: string;
-  description_text: any;
-  description_html: any;
+  description_text: string | null;
+  description_html: string | null;
   workspace_id: string;
   project_id: string;
   lead_id: string | null;
   member_ids: string[];
+  label_ids: string[];
   link_module?: ILinkDetails[];
   sub_issues?: number;
   is_favorite: boolean;
