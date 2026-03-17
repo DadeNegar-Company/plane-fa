@@ -355,19 +355,19 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                     onChange={(val) => {
                       void submitChanges({ label_ids: val });
                     }}
-                    buttonClassName="bg-layer-1 rounded px-2 py-0.5"
+                    buttonClassName="justify-between gap-1.5 bg-layer-3 hover:bg-layer-1-hover rounded-sm px-1.5"
                     className="h-7"
                     fullHeight
                     hideDropdownArrow
                     disabled={!isEditingAllowed || isArchived}
                     label={
-                      <div className="flex items-center gap-1.5 text-secondary">
+                      <span className="flex-grow truncate text-left leading-5 text-body-xs-medium">
                         {value && value.length > 0 ? (
-                          <span className="text-13">{`${value.length} ${t("labels")}`}</span>
+                          <span>{`${value.length} ${t("labels")}`}</span>
                         ) : (
-                          <span className="text-13 text-placeholder">{t("labels")}</span>
+                          <span className="text-placeholder">{t("labels")}</span>
                         )}
-                      </div>
+                      </span>
                     }
                   />
                 </div>

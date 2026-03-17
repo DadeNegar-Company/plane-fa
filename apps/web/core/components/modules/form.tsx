@@ -243,18 +243,18 @@ export function ModuleForm(props: Props) {
                     projectId={projectId}
                     value={value ?? []}
                     onChange={onChange}
-                    buttonClassName="border-[0.5px] border-subtle rounded px-2 py-0.5"
+                    buttonClassName="justify-start gap-1.5 border-[0.5px] border-strong rounded-sm px-1.5"
                     className="h-7"
                     fullHeight
                     hideDropdownArrow
                     label={
-                      <div className="flex items-center gap-1.5 text-secondary">
+                      <span className="flex-grow truncate text-left text-body-xs-medium">
                         {value && value.length > 0 ? (
-                          <span className="text-11">{`${value.length} ${t("labels")}`}</span>
+                          <span>{`${value.length} ${t("labels")}`}</span>
                         ) : (
-                          <span className="text-11 text-placeholder">{t("labels")}</span>
+                          <span className="text-placeholder">{t("labels")}</span>
                         )}
-                      </div>
+                      </span>
                     }
                   />
                 </div>

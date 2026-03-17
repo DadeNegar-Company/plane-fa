@@ -20,7 +20,7 @@ import type { IIssueLabel } from "@plane/types";
 import { EUserProjectRoles } from "@plane/types";
 // components
 import { ComboDropDown } from "@plane/ui";
-import { sortBySelectedFirst } from "@plane/utils";
+import { cn, sortBySelectedFirst } from "@plane/utils";
 // hooks
 import { useLabel } from "@/hooks/store/use-label";
 import { useUserPermissions } from "@/hooks/store/user";
@@ -33,7 +33,7 @@ export interface ILabelDropdownProps {
   onChange: (data: string[]) => void;
   onClose?: () => void;
   disabled?: boolean;
-  defaultOptions?: any;
+  defaultOptions?: IIssueLabel[];
   hideDropdownArrow?: boolean;
   className?: string;
   buttonClassName?: string;
@@ -53,7 +53,7 @@ export function LabelDropdown(props: ILabelDropdownProps) {
     onChange,
     onClose,
     disabled,
-    defaultOptions = [],
+    defaultOptions: defaultOptionsProp = [],
     hideDropdownArrow = false,
     className,
     buttonClassName = "",
@@ -94,8 +94,7 @@ export function LabelDropdown(props: ILabelDropdownProps) {
   const canCreateLabel =
     projectId && allowPermissions([EUserProjectRoles.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug, projectId);
 
-  let projectLabels: IIssueLabel[] = defaultOptions;
-  if (storeLabels && storeLabels.length > 0) projectLabels = storeLabels;
+  const projectLabels: IIssueLabel[] = storeLabels && storeLabels.length > 0 ? storeLabels : defaultOptionsProp;
 
   const options = useMemo(
     () =>
@@ -205,13 +204,16 @@ export function LabelDropdown(props: ILabelDropdownProps) {
       <button
         ref={setReferenceElement}
         type="button"
-        className={`clickable flex w-full h-full items-center justify-center gap-1 text-caption-sm-regular ${fullWidth && "hover:bg-layer-1"} ${
+        className={cn(
+          "clickable flex w-full h-full items-center justify-center gap-1 text-caption-sm-regular",
+          fullWidth && "hover:bg-layer-1",
           disabled
             ? "cursor-not-allowed text-secondary"
             : value.length <= maxRender
               ? "cursor-pointer"
-              : "cursor-pointer hover:bg-layer-1"
-        }  ${buttonClassName}`}
+              : "cursor-pointer hover:bg-layer-1",
+          buttonClassName
+        )}
         onClick={handleOnClick}
         disabled={disabled}
       >
@@ -238,6 +240,7 @@ export function LabelDropdown(props: ILabelDropdownProps) {
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div className={`${fullHeight ? "h-full" : "h-5"}`} onClick={preventPropagation}>
       <ComboDropDown
         as="div"
@@ -267,8 +270,8 @@ export function LabelDropdown(props: ILabelDropdownProps) {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={t("common.search.label")}
-                  displayValue={(assigned: any) => assigned?.name || ""}
-                  onKeyDown={searchInputKeyDown}
+                  displayValue={(assigned: string) => assigned || ""}
+                  onKeyDown={(e) => void searchInputKeyDown(e)}
                 />
               </div>
               <div className={`mt-2 max-h-48 space-y-1 overflow-y-scroll`}>
@@ -306,10 +309,11 @@ export function LabelDropdown(props: ILabelDropdownProps) {
                 ) : submitting ? (
                   <Loader className="animate-spin h-3.5 w-3.5" />
                 ) : canCreateLabel ? (
+                  // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
                   <p
                     onClick={() => {
                       if (!query.length) return;
-                      handleAddLabel(query);
+                      void handleAddLabel(query);
                     }}
                     className={`text-left text-secondary ${query.length ? "cursor-pointer" : "cursor-default"}`}
                   >
