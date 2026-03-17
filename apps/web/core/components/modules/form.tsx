@@ -238,23 +238,26 @@ export function ModuleForm(props: Props) {
               control={control}
               name="label_ids"
               render={({ field: { value, onChange } }) => (
-                <LabelDropdown
-                  projectId={projectId}
-                  value={value ?? []}
-                  onChange={onChange}
-                  buttonClassName="border-[0.5px] border-strong rounded-sm px-2"
-                  className="h-7"
-                  hideDropdownArrow
-                  label={
-                    <div className="flex items-center gap-1.5 text-secondary">
-                      {value && value.length > 0 ? (
-                        <span className="text-11">{`${value.length} ${t("labels")}`}</span>
-                      ) : (
-                        <span className="text-11 text-placeholder">{t("labels")}</span>
-                      )}
-                    </div>
-                  }
-                />
+                <div className="h-7">
+                  <LabelDropdown
+                    projectId={projectId}
+                    value={value ?? []}
+                    onChange={onChange}
+                    buttonClassName="border-[0.5px] border-subtle rounded px-2 py-0.5"
+                    className="h-7"
+                    fullHeight
+                    hideDropdownArrow
+                    label={
+                      <div className="flex items-center gap-1.5 text-secondary">
+                        {value && value.length > 0 ? (
+                          <span className="text-11">{`${value.length} ${t("labels")}`}</span>
+                        ) : (
+                          <span className="text-11 text-placeholder">{t("labels")}</span>
+                        )}
+                      </div>
+                    }
+                  />
+                </div>
               )}
             />
           </div>

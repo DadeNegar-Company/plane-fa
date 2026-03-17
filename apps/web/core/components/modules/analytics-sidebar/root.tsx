@@ -355,8 +355,9 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                     onChange={(val) => {
                       void submitChanges({ label_ids: val });
                     }}
-                    buttonClassName="bg-layer-1 rounded-sm px-2"
+                    buttonClassName="bg-layer-1 rounded px-2 py-0.5"
                     className="h-7"
+                    fullHeight
                     hideDropdownArrow
                     disabled={!isEditingAllowed || isArchived}
                     label={
