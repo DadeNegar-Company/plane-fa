@@ -82,6 +82,9 @@ class ImportJob(ProjectBaseModel):
     unique_statuses = models.JSONField(default=list)
     unique_assignees = models.JSONField(default=list)
 
+    # Unresolved invite-based assignee mappings (resolved when user accepts invite)
+    pending_assignees = models.JSONField(default=list, blank=True)
+
     class Meta:
         verbose_name = "Import Job"
         verbose_name_plural = "Import Jobs"

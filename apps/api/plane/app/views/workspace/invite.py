@@ -219,6 +219,13 @@ class WorkspaceJoinEndpoint(BaseAPIView):
                     # Delete the invitation
                     workspace_invite.delete()
 
+                    # [FA-CUSTOM] Resolve any pending import assignee mappings for this user
+                    from plane.bgtasks.import_pending_assignees_task import process_pending_import_assignees
+                    process_pending_import_assignees.delay(
+                        workspace_id=str(workspace_invite.workspace_id),
+                        user_email=workspace_invite.email,
+                    )
+
                 return Response(
                     {"message": "Workspace Invitation Accepted"},
                     status=status.HTTP_200_OK,
@@ -259,6 +266,8 @@ class UserWorkspaceInvitationsViewSet(BaseViewSet):
         ).order_by("-created_at")
 
         # If the user is already a member of workspace and was deactivated then activate the user
+        # [FA-CUSTOM] Collect workspace IDs for pending import assignee resolution
+        accepted_workspace_ids = []
         for invitation in workspace_invitations:
             invalidate_cache_directly(
                 path=f"/api/workspaces/{invitation.workspace.slug}/members/",
@@ -285,6 +294,8 @@ class UserWorkspaceInvitationsViewSet(BaseViewSet):
                 },
             )
 
+            accepted_workspace_ids.append(str(invitation.workspace_id))
+
         # Bulk create the user for all the workspaces
         WorkspaceMember.objects.bulk_create(
             [
@@ -301,5 +312,13 @@ class UserWorkspaceInvitationsViewSet(BaseViewSet):
 
         # Delete joined workspace invites
         workspace_invitations.delete()
+
+        # [FA-CUSTOM] Resolve any pending import assignee mappings
+        from plane.bgtasks.import_pending_assignees_task import process_pending_import_assignees
+        for ws_id in accepted_workspace_ids:
+            process_pending_import_assignees.delay(
+                workspace_id=ws_id,
+                user_email=request.user.email,
+            )
 
         return Response(status=status.HTTP_204_NO_CONTENT)

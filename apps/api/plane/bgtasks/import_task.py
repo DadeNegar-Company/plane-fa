@@ -40,22 +40,29 @@ PRIORITY_ALIASES = {
 def _resolve_assignee_user(
     mapped_user_id, project, workspace, actor_id,
     member_lookup, workspace_member_lookup,
+    pending_list=None, issue=None,
 ):
     """
     Resolve a mapped_user_id to a User instance, auto-adding
     workspace members or pending-invite users to the project as needed.
 
-    Returns the User or None.
+    Returns the User or None.  When an invite-based mapping cannot be
+    resolved yet (user hasn't accepted), the entry is appended to
+    *pending_list* so it can be retried when the user joins.
     """
     if mapped_user_id.startswith("invite:"):
         invite_email = mapped_user_id[len("invite:"):]
         invited_user = User.objects.filter(email=invite_email).first()
         if not invited_user:
+            if pending_list is not None and issue is not None:
+                pending_list.append({"email": invite_email, "issue_id": str(issue.id)})
             return None
         ws_membership = WorkspaceMember.objects.filter(
             workspace=workspace, member=invited_user, is_active=True,
         ).first()
         if not ws_membership:
+            if pending_list is not None and issue is not None:
+                pending_list.append({"email": invite_email, "issue_id": str(issue.id)})
             return None
         _ensure_project_member(project, workspace, invited_user, actor_id)
         member_lookup[str(invited_user.id)] = invited_user
@@ -157,6 +164,8 @@ def issue_import_task(import_job_id: str, actor_id: str):
         external_to_issue = {}
         # Track: (issue, parent_external_id) for pass 2
         pending_parents = []
+        # Track: invite-based assignees that couldn't be resolved yet
+        pending_assignees = []
 
         errors = []
         imported = 0
@@ -249,6 +258,7 @@ def issue_import_task(import_job_id: str, actor_id: str):
                         assignee_user = _resolve_assignee_user(
                             mapped_user_id, project, workspace, actor_id,
                             member_lookup, workspace_member_lookup,
+                            pending_list=pending_assignees, issue=issue,
                         )
                         if assignee_user:
                             IssueAssignee.objects.create(
@@ -377,6 +387,7 @@ def issue_import_task(import_job_id: str, actor_id: str):
         import_job.error_count = len(errors)
         import_job.error_log = errors[:500]  # Cap at 500 error entries
         import_job.parsed_data = []  # Clear to save space
+        import_job.pending_assignees = pending_assignees[:1000]
         import_job.save(
             update_fields=[
                 "status",
@@ -386,6 +397,7 @@ def issue_import_task(import_job_id: str, actor_id: str):
                 "error_count",
                 "error_log",
                 "parsed_data",
+                "pending_assignees",
             ]
         )
 
