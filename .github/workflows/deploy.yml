@@ -181,6 +181,8 @@ jobs:
       - build-api
       - build-proxy
     steps:
+      - uses: actions/checkout@v4
+
       - name: Deploy
         run: |
           set -e
@@ -189,11 +191,8 @@ jobs:
           # Login to GHCR
           echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
 
-          cd ~/apps/plane-fa
-
-          # Sync compose file changes from git
-          git fetch origin develop
-          git checkout origin/develop -- deploy/docker-compose.yml
+          # Sync compose file from the checked-out workspace (no git needed on server)
+          cp "$GITHUB_WORKSPACE/deploy/docker-compose.yml" ~/apps/plane-fa/deploy/docker-compose.yml
 
           cd ~/apps/plane-fa/deploy
 
