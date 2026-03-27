@@ -5,6 +5,176 @@
  */
 
 export default {
+  sidebar: {
+    projects: "پروژه‌ها",
+    pages: "صفحات",
+    new_work_item: "آیتم کاری جدید",
+    home: "خانه",
+    your_work: "کارهای شما",
+    inbox: "صندوق ورودی",
+    workspace: "فضای کاری",
+    views: "نماها",
+    analytics: "تحلیل‌ها",
+    work_items: "آیتم‌های کاری",
+    cycles: "چرخه‌ها",
+    modules: "ماژول‌ها",
+    intake: "Intake",
+    drafts: "پیش‌نویس‌ها",
+    favorites: "علاقه‌مندی‌ها",
+    pro: "Pro",
+    upgrade: "ارتقا",
+    stickies: "استیکی نوت",
+  },
+  auth: {
+    common: {
+      email: {
+        label: "ایمیل",
+        placeholder: "name@company.com",
+        errors: {
+          required: "ایمیل الزامی است",
+          invalid: "ایمیل نامعتبر است",
+        },
+      },
+      password: {
+        label: "رمز عبور",
+        set_password: "تنظیم رمز عبور",
+        placeholder: "رمز عبور را وارد کنید",
+        confirm_password: {
+          label: "تأیید رمز عبور",
+          placeholder: "تأیید رمز عبور",
+        },
+        current_password: {
+          label: "رمز عبور فعلی",
+        },
+        new_password: {
+          label: "رمز عبور جدید",
+          placeholder: "رمز عبور جدید را وارد کنید",
+        },
+        change_password: {
+          label: {
+            default: "تغییر رمز عبور",
+            submitting: "در حال تغییر رمز عبور",
+          },
+        },
+        errors: {
+          match: "رمزهای عبور مطابقت ندارند",
+          empty: "لطفاً رمز عبور خود را وارد کنید",
+          length: "رمز عبور باید بیش از ۸ کاراکتر باشد",
+          strength: {
+            weak: "رمز عبور ضعیف است",
+            strong: "رمز عبور قوی است",
+          },
+        },
+        submit: "تنظیم رمز عبور",
+        toast: {
+          change_password: {
+            success: {
+              title: "موفقیت!",
+              message: "رمز عبور با موفقیت تغییر کرد.",
+            },
+            error: {
+              title: "خطا!",
+              message: "مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
+            },
+          },
+        },
+      },
+      unique_code: {
+        label: "کد یکتا",
+        placeholder: "123456",
+        paste_code: "کد ارسال‌شده به ایمیل خود را وارد کنید",
+        requesting_new_code: "درخواست کد جدید",
+        sending_code: "در حال ارسال کد",
+      },
+      already_have_an_account: "قبلاً حساب دارید؟",
+      login: "ورود",
+      create_account: "ایجاد حساب",
+      new_to_plane: "تازه‌وارد Plane هستید؟",
+      back_to_sign_in: "بازگشت به ورود",
+      resend_in: "ارسال مجدد در {seconds} ثانیه",
+      sign_in_with_unique_code: "ورود با کد یکتا",
+      forgot_password: "رمز عبور را فراموش کرده‌اید؟",
+    },
+    sign_up: {
+      header: {
+        label: "برای شروع مدیریت کار با تیم خود یک حساب ایجاد کنید.",
+        step: {
+          email: {
+            header: "ثبت‌نام",
+            sub_header: "",
+          },
+          password: {
+            header: "ثبت‌نام",
+            sub_header: "با ترکیب ایمیل و رمز عبور ثبت‌نام کنید.",
+          },
+          unique_code: {
+            header: "ثبت‌نام",
+            sub_header: "با کد یکتای ارسال‌شده به آدرس ایمیل بالا ثبت‌نام کنید.",
+          },
+        },
+      },
+      errors: {
+        password: {
+          strength: "لطفاً یک رمز عبور قوی تنظیم کنید",
+        },
+      },
+    },
+    sign_in: {
+      header: {
+        label: "برای شروع مدیریت کار با تیم خود وارد شوید.",
+        step: {
+          email: {
+            header: "ورود یا ثبت‌نام",
+            sub_header: "",
+          },
+          password: {
+            header: "ورود یا ثبت‌نام",
+            sub_header: "با ترکیب ایمیل و رمز عبور وارد شوید.",
+          },
+          unique_code: {
+            header: "ورود یا ثبت‌نام",
+            sub_header: "با کد یکتای ارسال‌شده به آدرس ایمیل بالا وارد شوید.",
+          },
+        },
+      },
+    },
+    forgot_password: {
+      title: "بازنشانی رمز عبور",
+      description: "آدرس ایمیل تأییدشده حساب خود را وارد کنید تا لینک بازنشانی رمز عبور برایتان ارسال شود.",
+      email_sent: "لینک بازنشانی به آدرس ایمیل شما ارسال شد",
+      send_reset_link: "ارسال لینک بازنشانی",
+      errors: {
+        smtp_not_enabled: "SMTP فعال نیست، امکان ارسال لینک بازنشانی رمز عبور وجود ندارد",
+      },
+      toast: {
+        success: {
+          title: "ایمیل ارسال شد",
+          message:
+            "صندوق ورودی خود را برای لینک بازنشانی رمز عبور بررسی کنید. اگر ظرف چند دقیقه ظاهر نشد، پوشه اسپم را بررسی کنید.",
+        },
+        error: {
+          title: "خطا!",
+          message: "مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
+        },
+      },
+    },
+    reset_password: {
+      title: "تنظیم رمز عبور جدید",
+      description: "حساب خود را با یک رمز عبور قوی امن کنید",
+    },
+    set_password: {
+      title: "امن‌سازی حساب شما",
+      description: "تنظیم رمز عبور به شما کمک می‌کند با امنیت وارد شوید",
+    },
+    sign_out: {
+      toast: {
+        error: {
+          title: "خطا!",
+          message: "خروج ناموفق بود. لطفاً دوباره تلاش کنید.",
+        },
+      },
+    },
+  },
   submit: "ارسال",
   cancel: "انصراف",
   loading: "در حال بارگذاری",
@@ -80,15 +250,15 @@ export default {
   background_color: "رنگ پس‌زمینه",
   text_color: "رنگ متن",
   primary_color: "رنگ اصلی (تم)",
-  sidebar_background_color: "رنگ پس‌زمینه نوار کناری",
-  sidebar_text_color: "رنگ متن نوار کناری",
+  sidebar_background_color: "رنگ پس‌زمینه سایدبار",
+  sidebar_text_color: "رنگ متن سایدبار",
   set_theme: "تنظیم تم",
-  enter_a_valid_hex_code_of_6_characters: "یک کد هگز معتبر ۶ کاراکتری وارد کنید",
+  enter_a_valid_hex_code_of_6_characters: "یک کد HEX معتبر ۶ کاراکتری وارد کنید",
   background_color_is_required: "رنگ پس‌زمینه الزامی است",
   text_color_is_required: "رنگ متن الزامی است",
   primary_color_is_required: "رنگ اصلی الزامی است",
-  sidebar_background_color_is_required: "رنگ پس‌زمینه نوار کناری الزامی است",
-  sidebar_text_color_is_required: "رنگ متن نوار کناری الزامی است",
+  sidebar_background_color_is_required: "رنگ پس‌زمینه سایدبار الزامی است",
+  sidebar_text_color_is_required: "رنگ متن سایدبار الزامی است",
   updating_theme: "در حال به‌روزرسانی تم",
   theme_updated_successfully: "تم با موفقیت به‌روزرسانی شد",
   failed_to_update_the_theme: "به‌روزرسانی تم ناموفق بود",
@@ -97,18 +267,17 @@ export default {
     "از آیتم‌های کاری که مشترک آن‌ها هستید مطلع بمانید. برای دریافت اعلان فعال کنید.",
   email_notification_setting_updated_successfully: "تنظیمات اعلان ایمیلی با موفقیت به‌روزرسانی شد",
   failed_to_update_email_notification_setting: "به‌روزرسانی تنظیمات اعلان ایمیلی ناموفق بود",
-  notify_me_when: "به من اطلاع بده وقتی",
+  notify_me_when: "اطلاع‌رسانی در موارد زیر",
   property_changes: "تغییر ویژگی‌ها",
-  property_changes_description:
-    "وقتی ویژگی‌های آیتم‌های کاری مانند مسئولان، اولویت، تخمین یا هر چیز دیگری تغییر کند به من اطلاع بده.",
+  property_changes_description: "وقتی ویژگی‌های آیتم‌های کاری مثل مسئولان، اولویت، تخمین یا هر چیز دیگری تغییر کند.",
   state_change: "تغییر وضعیت",
-  state_change_description: "وقتی آیتم کاری به وضعیت دیگری منتقل شود به من اطلاع بده",
+  state_change_description: "وقتی آیتم کاری به وضعیت دیگری منتقل شود.",
   issue_completed: "تکمیل آیتم کاری",
-  issue_completed_description: "فقط وقتی آیتم کاری تکمیل شود به من اطلاع بده",
-  comments: "نظرات",
-  comments_description: "وقتی کسی روی آیتم کاری نظر بگذارد به من اطلاع بده",
-  mentions: "اشاره‌ها",
-  mentions_description: "فقط وقتی کسی در نظرات یا توضیحات به من اشاره کند به من اطلاع بده",
+  issue_completed_description: "فقط وقتی آیتم کاری تکمیل شود.",
+  comments: "کامنت‌ها",
+  comments_description: "وقتی کسی روی آیتم کاری کامنت بگذارد.",
+  mentions: "منشن‌ها",
+  mentions_description: "فقط وقتی کسی در کامنت‌ها یا توضیحات من را منشن کند.",
   old_password: "رمز عبور قبلی",
   general_settings: "تنظیمات عمومی",
   sign_out: "خروج",
@@ -216,7 +385,7 @@ export default {
   modules: "ماژول‌ها",
   pages: "صفحات",
   intake: "Intake",
-  time_tracking: "ردیابی زمان",
+  time_tracking: "تایم‌ترکینگ",
   work_management: "مدیریت کار",
   projects_and_issues: "پروژه‌ها و آیتم‌های کاری",
   projects_and_issues_description: "این موارد را برای این پروژه فعال یا غیرفعال کنید.",
@@ -282,7 +451,7 @@ export default {
   failed_to_move_issue_to_project: "انتقال آیتم کاری به پروژه ناموفق بود",
   create_more: "ایجاد بیشتر",
   add_to_project: "افزودن به پروژه",
-  discard: "لغو",
+  discard: "صرف‌نظر",
   duplicate_issue_found: "آیتم کاری تکراری یافت شد",
   duplicate_issues_found: "آیتم‌های کاری تکراری یافت شدند",
   no_matching_results: "نتیجه مطابقی یافت نشد",
@@ -349,9 +518,9 @@ export default {
   leaving: "در حال ترک",
   removing: "در حال حذف",
   leave: "ترک",
-  refresh: "بازنشانی",
-  refreshing: "در حال بازنشانی",
-  refresh_status: "بازنشانی وضعیت",
+  refresh: "رفرش",
+  refreshing: "در حال رفرش",
+  refresh_status: "رفرش وضعیت",
   prev: "قبلی",
   next: "بعدی",
   re_generating: "در حال تولید مجدد",
@@ -488,6 +657,10 @@ export default {
   common: {
     all: "همه",
     no_items_in_this_group: "موردی در این گروه وجود ندارد",
+    no_lead: "بدون مسئول",
+    no_members: "بدون عضو",
+    no_label: "بدون برچسب",
+    no_date: "بدون تاریخ",
     drop_here_to_move: "برای انتقال اینجا رها کنید",
     states: "وضعیت‌ها",
     state: "وضعیت",
@@ -573,7 +746,7 @@ export default {
     },
     done: "انجام شد",
     sub_work_items: "زیر آیتم‌های کاری",
-    comment: "نظر",
+    comment: "کامنت",
     workspace_level: "سطح فضای کاری",
     order_by: {
       label: "مرتب‌سازی بر اساس",
@@ -592,7 +765,7 @@ export default {
       created_on: "تاریخ ایجاد",
       updated_on: "تاریخ به‌روزرسانی",
     },
-    comments: "نظرات",
+    comments: "کامنت‌ها",
     updates: "به‌روزرسانی‌ها",
     worklogs: "ثبت زمان",
     time_logged: "زمان ثبت‌شده",
@@ -683,7 +856,7 @@ export default {
       copy_markdown: "کپی مارک‌داون",
     },
     name: "نام",
-    discard: "لغو",
+    discard: "صرف‌نظر",
     confirm: "تأیید",
     confirming: "در حال تأیید",
     read_the_docs: "مطالعه مستندات",
@@ -1252,7 +1425,7 @@ export default {
           comic: {
             title: "تحلیل‌ها با چرخه‌ها + ماژول‌ها بهتر کار می‌کنند",
             description:
-              "ابتدا آیتم‌های کاری خود را در چرخه‌ها زمان‌بندی کنید و اگر ممکن است، آیتم‌هایی که بیش از یک چرخه طول می‌کشند را در ماژول‌ها گروه‌بندی کنید. هر دو را در نوار کناری بررسی کنید.",
+              "ابتدا آیتم‌های کاری خود را در چرخه‌ها زمان‌بندی کنید و اگر ممکن است، آیتم‌هایی که بیش از یک چرخه طول می‌کشند را در ماژول‌ها گروه‌بندی کنید. هر دو را در سایدبار بررسی کنید.",
           },
         },
       },
@@ -1701,7 +1874,7 @@ export default {
       archive_project: {
         title: "آرشیو پروژه",
         description:
-          "آرشیو کردن پروژه آن را از نوار کناری حذف می‌کند اما همچنان از صفحه پروژه‌ها قابل دسترسی خواهد بود. هر زمان بخواهید می‌توانید پروژه را بازیابی یا حذف کنید.",
+          "آرشیو کردن پروژه آن را از سایدبار حذف می‌کند اما همچنان از صفحه پروژه‌ها قابل دسترسی خواهد بود. هر زمان بخواهید می‌توانید پروژه را بازیابی یا حذف کنید.",
         button: "آرشیو پروژه",
       },
       delete_project: {
@@ -1907,10 +2080,10 @@ export default {
       },
       // [FA-CUSTOM] time tracking
       time_tracking: {
-        title: "ردیابی زمان",
-        short_title: "ردیابی زمان",
+        title: "تایم‌ترکینگ",
+        short_title: "تایم‌ترکینگ",
         description: "زمان صرف‌شده روی آیتم‌های کاری را ثبت کنید و تلاش واقعی در مقابل تخمینی را پیگیری کنید.",
-        toggle_title: "فعال‌سازی ردیابی زمان",
+        toggle_title: "فعال‌سازی تایم‌ترکینگ",
         toggle_description: "اعضای پروژه قادر به ثبت زمان و استفاده از تایمر در آیتم‌های کاری خواهند بود.",
       },
     },
@@ -2208,7 +2381,7 @@ export default {
     empty_state: {
       general: {
         title: "هنوز نظری وجود ندارد",
-        description: "نظرات می‌توانند به عنوان فضای بحث و پیگیری آیتم‌های کاری استفاده شوند",
+        description: "کامنت‌ها می‌توانند به عنوان فضای بحث و پیگیری آیتم‌های کاری استفاده شوند",
       },
     },
   },
@@ -2252,7 +2425,7 @@ export default {
     },
     tabs: {
       all: "همه",
-      mentions: "اشاره‌ها",
+      mentions: "منشن‌ها",
     },
     filter: {
       assigned: "تخصیص‌یافته به من",
@@ -2331,7 +2504,7 @@ export default {
   workspace_draft_issues: {
     draft_an_issue: "پیش‌نویس آیتم کاری",
     empty_state: {
-      title: "آیتم‌های کاری نیمه‌تمام و به‌زودی نظرات اینجا نمایش داده می‌شوند.",
+      title: "آیتم‌های کاری نیمه‌تمام و به‌زودی کامنت‌ها اینجا نمایش داده می‌شوند.",
       description:
         "برای امتحان، شروع به افزودن یک آیتم کاری کنید و آن را نیمه‌کاره رها کنید یا اولین پیش‌نویس خود را ایجاد کنید. 😉",
       primary_button: {
@@ -2353,60 +2526,60 @@ export default {
     },
   },
   stickies: {
-    title: "یادداشت‌های چسبان شما",
+    title: "استیکی نوت‌های شما",
     placeholder: "برای نوشتن کلیک کنید",
-    all: "همه یادداشت‌های چسبان",
-    "no-data": "یک ایده ثبت کنید، لحظه‌ای الهام‌بخش را ذخیره کنید. برای شروع یک یادداشت چسبان اضافه کنید.",
-    add: "افزودن یادداشت چسبان",
+    all: "همه استیکی نوت‌ها",
+    "no-data": "یک ایده ثبت کنید، لحظه‌ای الهام‌بخش را ذخیره کنید. برای شروع یک استیکی نوت اضافه کنید.",
+    add: "افزودن استیکی نوت",
     search_placeholder: "جستجو بر اساس عنوان",
-    delete: "حذف یادداشت چسبان",
-    delete_confirmation: "آیا مطمئنید که می‌خواهید این یادداشت چسبان را حذف کنید؟",
+    delete: "حذف استیکی نوت",
+    delete_confirmation: "آیا مطمئنید که می‌خواهید این استیکی نوت را حذف کنید؟",
     empty_state: {
-      simple: "یک ایده ثبت کنید، لحظه‌ای الهام‌بخش را ذخیره کنید. برای شروع یک یادداشت چسبان اضافه کنید.",
+      simple: "یک ایده ثبت کنید، لحظه‌ای الهام‌بخش را ذخیره کنید. برای شروع یک استیکی نوت اضافه کنید.",
       general: {
-        title: "یادداشت‌های چسبان، یادداشت‌ها و کارهای سریعی هستند که در لحظه ثبت می‌کنید.",
+        title: "استیکی نوت‌ها، یادداشت‌ها و تسک‌های سریعی هستند که در لحظه ثبت می‌کنید.",
         description:
-          "ایده‌ها و افکار خود را به‌راحتی با ایجاد یادداشت‌های چسبان ثبت کنید که هر زمان و از هر جایی قابل دسترسی هستند.",
+          "ایده‌ها و افکار خود را به‌راحتی با ایجاد استیکی نوت ثبت کنید که هر زمان و از هر جایی قابل دسترسی هستند.",
         primary_button: {
-          text: "افزودن یادداشت چسبان",
+          text: "افزودن استیکی نوت",
         },
       },
       search: {
-        title: "هیچ‌کدام از یادداشت‌های چسبان شما مطابقت ندارد.",
+        title: "هیچ‌کدام از استیکی نوت‌های شما مطابقت ندارد.",
         description: "عبارت دیگری امتحان کنید یا به ما اطلاع دهید\nاگر مطمئنید جستجوی شما درست است.",
         primary_button: {
-          text: "افزودن یادداشت چسبان",
+          text: "افزودن استیکی نوت",
         },
       },
     },
     toasts: {
       errors: {
-        wrong_name: "نام یادداشت چسبان نمی‌تواند بیش از ۱۰۰ کاراکتر باشد.",
-        already_exists: "از قبل یادداشت چسبانی بدون توضیحات وجود دارد",
+        wrong_name: "نام استیکی نوت نمی‌تواند بیش از ۱۰۰ کاراکتر باشد.",
+        already_exists: "از قبل استیکی نوتی بدون توضیحات وجود دارد",
       },
       created: {
-        title: "یادداشت چسبان ایجاد شد",
-        message: "یادداشت چسبان با موفقیت ایجاد شد",
+        title: "استیکی نوت ایجاد شد",
+        message: "استیکی نوت با موفقیت ایجاد شد",
       },
       not_created: {
-        title: "یادداشت چسبان ایجاد نشد",
-        message: "ایجاد یادداشت چسبان ناموفق بود",
+        title: "استیکی نوت ایجاد نشد",
+        message: "ایجاد استیکی نوت ناموفق بود",
       },
       updated: {
-        title: "یادداشت چسبان به‌روزرسانی شد",
-        message: "یادداشت چسبان با موفقیت به‌روزرسانی شد",
+        title: "استیکی نوت به‌روزرسانی شد",
+        message: "استیکی نوت با موفقیت به‌روزرسانی شد",
       },
       not_updated: {
-        title: "یادداشت چسبان به‌روزرسانی نشد",
-        message: "به‌روزرسانی یادداشت چسبان ناموفق بود",
+        title: "استیکی نوت به‌روزرسانی نشد",
+        message: "به‌روزرسانی استیکی نوت ناموفق بود",
       },
       removed: {
-        title: "یادداشت چسبان حذف شد",
-        message: "یادداشت چسبان با موفقیت حذف شد",
+        title: "استیکی نوت حذف شد",
+        message: "استیکی نوت با موفقیت حذف شد",
       },
       not_removed: {
-        title: "یادداشت چسبان حذف نشد",
-        message: "حذف یادداشت چسبان ناموفق بود",
+        title: "استیکی نوت حذف نشد",
+        message: "حذف استیکی نوت ناموفق بود",
       },
     },
   },
@@ -2509,6 +2682,7 @@ export default {
       list: "چیدمان لیستی",
       board: "چیدمان گالری",
       timeline: "چیدمان خط زمانی",
+      kanban: "چیدمان کانبان",
     },
     order_by: {
       name: "نام",
@@ -2517,6 +2691,15 @@ export default {
       due_date: "مهلت",
       created_at: "تاریخ ایجاد",
       manual: "دستی",
+    },
+    group_by: {
+      none: "بدون گروه‌بندی",
+      status: "وضعیت",
+      lead: "مسئول",
+      members: "اعضا",
+      label: "برچسب",
+      start_date: "تاریخ شروع",
+      target_date: "مهلت",
     },
   },
   cycle: {
@@ -2691,7 +2874,7 @@ export default {
       workspace_invites: "دعوت‌نامه‌های فضای کاری",
     },
     miscellaneous_actions: {
-      toggle_app_sidebar: "تغییر وضعیت نوار کناری",
+      toggle_app_sidebar: "تغییر وضعیت سایدبار",
       copy_current_page_url: "کپی URL صفحه فعلی",
       copy_current_page_url_toast_success: "URL صفحه فعلی در کلیپ‌بورد کپی شد.",
       copy_current_page_url_toast_error: "خطایی در کپی URL صفحه فعلی رخ داد.",
@@ -2769,14 +2952,10 @@ export default {
   // Navigation customization
   customize_navigation: "سفارشی‌سازی ناوبری",
   personal: "شخصی",
-  accordion_navigation_control: "ناوبری آکاردئونی نوار کناری",
+  accordion_navigation_control: "ناوبری آکاردئونی سایدبار",
   horizontal_navigation_bar: "ناوبری تب‌دار",
-  show_limited_projects_on_sidebar: "نمایش تعداد محدود پروژه در نوار کناری",
+  show_limited_projects_on_sidebar: "نمایش تعداد محدود پروژه در سایدبار",
   enter_number_of_projects: "تعداد پروژه‌ها را وارد کنید",
-  pin: "سنجاق",
-  unpin: "برداشتن سنجاق",
-  sidebar: {
-    stickies: "یادداشت‌های چسبان",
-    your_work: "کارهای شما",
-  },
+  pin: "پین",
+  unpin: "آنپین",
 } as const;

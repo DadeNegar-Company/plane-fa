@@ -154,7 +154,7 @@ export class ModuleFilterStore implements IModuleFilterStore {
   get currentProjectArchivedFilters() {
     const projectId = this.rootStore.router.projectId;
     if (!projectId) return;
-    return this.filters[projectId].archived;
+    return this.filters[projectId]?.archived;
   }
 
   /**
@@ -173,7 +173,7 @@ export class ModuleFilterStore implements IModuleFilterStore {
    * @description get archived filters of a project by projectId
    * @param {string} projectId
    */
-  getArchivedFiltersByProjectId = computedFn((projectId: string) => this.filters[projectId].archived);
+  getArchivedFiltersByProjectId = computedFn((projectId: string) => this.filters[projectId]?.archived);
 
   /**
    * @description initialize display filters and filters of a project
@@ -182,10 +182,13 @@ export class ModuleFilterStore implements IModuleFilterStore {
   initProjectModuleFilters = (projectId: string) => {
     const displayFilters = this.getDisplayFiltersByProjectId(projectId);
     runInAction(() => {
+      const layout = displayFilters?.layout || "list";
+      const groupBy = displayFilters?.group_by ?? null;
       this.displayFilters[projectId] = {
         favorites: displayFilters?.favorites || false,
-        layout: displayFilters?.layout || "list",
+        layout: layout === "kanban" && !groupBy ? "list" : layout,
         order_by: displayFilters?.order_by || "name",
+        group_by: groupBy,
       };
       this.filters[projectId] = this.filters[projectId] ?? {
         default: {},
@@ -246,8 +249,9 @@ export class ModuleFilterStore implements IModuleFilterStore {
    */
   clearAllFilters = (projectId: string, state: keyof TModuleFiltersByState = "default") => {
     runInAction(() => {
+      if (!this.filters[projectId]) this.filters[projectId] = { default: {}, archived: {} };
       this.filters[projectId][state] = {};
-      this.displayFilters[projectId].favorites = false;
+      if (this.displayFilters[projectId]) this.displayFilters[projectId].favorites = false;
     });
     this.saveFiltersToLocalStorage();
     this.saveDisplayFiltersToLocalStorage();

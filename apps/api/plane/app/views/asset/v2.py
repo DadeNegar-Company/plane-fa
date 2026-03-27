@@ -231,6 +231,15 @@ class WorkspaceFileAssetEndpoint(BaseAPIView):
         # Comment Description
         if entity_type == FileAsset.EntityTypeContext.COMMENT_DESCRIPTION:
             return {"comment_id": entity_id}
+
+        # Draft Issue Description
+        if entity_type == FileAsset.EntityTypeContext.DRAFT_ISSUE_DESCRIPTION:
+            return {"draft_issue_id": entity_id}
+
+        # Module Description
+        if entity_type == FileAsset.EntityTypeContext.MODULE_DESCRIPTION:
+            return {"module_id": entity_id}
+
         return {}
 
     def asset_delete(self, asset_id):
@@ -507,6 +516,9 @@ class ProjectAssetEndpoint(BaseAPIView):
 
         if entity_type == FileAsset.EntityTypeContext.DRAFT_ISSUE_DESCRIPTION:
             return {"draft_issue_id": entity_id}
+
+        if entity_type == FileAsset.EntityTypeContext.MODULE_DESCRIPTION:
+            return {"module_id": entity_id}
         return {}
 
     @allow_permission([ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST])
@@ -685,6 +697,12 @@ class ProjectBulkAssetEndpoint(BaseAPIView):
             except IntegrityError:
                 pass
 
+        if asset.entity_type == FileAsset.EntityTypeContext.MODULE_DESCRIPTION:
+            try:
+                assets.update(module_id=entity_id, project_id=project_id)
+            except IntegrityError:
+                pass
+
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -730,6 +748,14 @@ class DuplicateAssetEndpoint(BaseAPIView):
         # Comment Description
         if entity_type == FileAsset.EntityTypeContext.COMMENT_DESCRIPTION:
             return {"comment_id": entity_id}
+
+        # Draft Issue Description
+        if entity_type == FileAsset.EntityTypeContext.DRAFT_ISSUE_DESCRIPTION:
+            return {"draft_issue_id": entity_id}
+
+        # Module Description
+        if entity_type == FileAsset.EntityTypeContext.MODULE_DESCRIPTION:
+            return {"module_id": entity_id}
 
         return {}
 

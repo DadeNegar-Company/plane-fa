@@ -5,7 +5,7 @@
  */
 
 // types
-import type { TModuleLayoutOptions, TModuleOrderByOptions, TModuleStatus } from "@plane/types";
+import type { TModuleGroupByOptions, TModuleLayoutOptions, TModuleOrderByOptions, TModuleStatus } from "@plane/types";
 
 export const MODULE_STATUS_COLORS: {
   [key in TModuleStatus]: string;
@@ -84,6 +84,40 @@ export const MODULE_VIEW_LAYOUTS: {
   {
     key: "gantt",
     i18n_title: "project_modules.layout.timeline",
+  },
+  {
+    key: "kanban",
+    i18n_title: "project_modules.layout.kanban",
+  },
+];
+
+export const MODULE_GROUP_BY_OPTIONS: {
+  key: TModuleGroupByOptions;
+  i18n_label: string;
+}[] = [
+  {
+    key: "status",
+    i18n_label: "project_modules.group_by.status",
+  },
+  {
+    key: "lead",
+    i18n_label: "project_modules.group_by.lead",
+  },
+  {
+    key: "members",
+    i18n_label: "project_modules.group_by.members",
+  },
+  {
+    key: "label",
+    i18n_label: "project_modules.group_by.label",
+  },
+  {
+    key: "start_date",
+    i18n_label: "project_modules.group_by.start_date",
+  },
+  {
+    key: "target_date",
+    i18n_label: "project_modules.group_by.target_date",
   },
 ];
 

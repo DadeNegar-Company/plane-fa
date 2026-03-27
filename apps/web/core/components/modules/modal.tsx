@@ -30,6 +30,7 @@ type Props = {
 const defaultValues: Partial<IModule> = {
   name: "",
   description: "",
+  description_html: "",
   status: "backlog",
   lead_id: null,
   member_ids: [],
@@ -101,7 +102,10 @@ export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal
       });
   };
 
-  const handleFormSubmit = async (formData: Partial<IModule>) => {
+  const handleFormSubmit = async (
+    formData: Partial<IModule>,
+    _dirtyFields: Partial<Record<keyof IModule, boolean>>
+  ) => {
     if (!workspaceSlug || !projectId) return;
 
     const payload: Partial<IModule> = {
@@ -143,6 +147,7 @@ export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal
         handleClose={handleClose}
         status={data ? true : false}
         projectId={activeProject ?? ""}
+        workspaceSlug={workspaceSlug}
         setActiveProject={setActiveProject}
         data={data}
         isMobile={isMobile}

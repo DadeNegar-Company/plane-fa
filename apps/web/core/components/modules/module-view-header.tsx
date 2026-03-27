@@ -16,13 +16,13 @@ import { useOutsideClickDetector } from "@plane/hooks";
 import { useTranslation } from "@plane/i18n";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
-import type { TModuleFilters } from "@plane/types";
+import type { TModuleDisplayFilters, TModuleFilters } from "@plane/types";
 // ui
 import { cn, calculateTotalFilters } from "@plane/utils";
 // plane utils
 // components
 import { FiltersDropdown } from "@/components/issues/issue-layouts/filters";
-import { ModuleFiltersSelection, ModuleOrderByDropdown } from "@/components/modules/dropdowns";
+import { ModuleFiltersSelection, ModuleGroupByDropdown, ModuleOrderByDropdown } from "@/components/modules/dropdowns";
 // constants
 // helpers
 // hooks
@@ -145,6 +145,17 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
           )}
         </div>
       </div>
+      <ModuleGroupByDropdown
+        value={displayFilters?.group_by}
+        onChange={(val) => {
+          if (!projectId) return;
+          updateDisplayFilters(projectId.toString(), {
+            group_by: val,
+            ...(val && displayFilters?.layout !== "kanban" ? { layout: "kanban" } : {}),
+            ...(!val && displayFilters?.layout === "kanban" ? { layout: "list" } : {}),
+          });
+        }}
+      />
       <ModuleOrderByDropdown
         value={displayFilters?.order_by}
         onChange={(val) => {
@@ -185,7 +196,12 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
               )}
               onClick={() => {
                 if (!projectId) return;
-                updateDisplayFilters(projectId.toString(), { layout: layout.key });
+                const updates: TModuleDisplayFilters = { layout: layout.key };
+                // Auto-set group_by to "status" when switching to kanban if not already set
+                if (layout.key === "kanban" && !displayFilters?.group_by) {
+                  updates.group_by = "status";
+                }
+                updateDisplayFilters(projectId.toString(), updates);
               }}
             >
               <ModuleLayoutIcon layoutType={layout.key} />

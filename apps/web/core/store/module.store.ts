@@ -10,7 +10,7 @@ import { computedFn } from "mobx-utils";
 // types
 import type { IModule, ILinkDetails, TModulePlotType } from "@plane/types";
 import type { DistributionUpdates } from "@plane/utils";
-import { updateDistribution, orderModules, shouldFilterModule } from "@plane/utils";
+import { updateDistribution, orderModules, shouldFilterModule, groupModules } from "@plane/utils";
 // helpers
 // services
 import { ModuleService } from "@/services/module.service";
@@ -32,6 +32,7 @@ export interface IModuleStore {
   // computed actions
   getModulesFetchStatusByProjectId: (projectId: string) => boolean;
   getFilteredModuleIds: (projectId: string) => string[] | null;
+  getGroupedModuleIds: (projectId: string) => Record<string, string[]> | null;
   getFilteredArchivedModuleIds: (projectId: string) => string[] | null;
   getModuleById: (moduleId: string) => IModule | null;
   getModuleNameById: (moduleId: string) => string;
@@ -183,6 +184,19 @@ export class ModulesStore implements IModuleStore {
     modules = orderModules(modules, displayFilters?.order_by);
     const moduleIds = modules.map((m) => m.id);
     return moduleIds;
+  });
+
+  /**
+   * @description returns grouped module ids based on display filters group_by setting
+   * @param {string} projectId
+   * @returns {Record<string, string[]> | null}
+   */
+  getGroupedModuleIds = computedFn((projectId: string): Record<string, string[]> | null => {
+    const displayFilters = this.rootStore.moduleFilter.getDisplayFiltersByProjectId(projectId);
+    const filteredIds = this.getFilteredModuleIds(projectId);
+    if (!filteredIds || !displayFilters?.group_by) return null;
+    const modules = filteredIds.map((id) => this.moduleMap[id]).filter(Boolean);
+    return groupModules(modules, displayFilters.group_by);
   });
 
   /**

@@ -4,30 +4,40 @@
  * See the LICENSE file for details.
  */
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 // plane imports
 import { ETabIndices } from "@plane/constants";
+import type { EditorRefApi } from "@plane/editor";
 import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import type { IModule } from "@plane/types";
+import { EFileAssetType } from "@plane/types";
 // ui
-import { Input, TextArea } from "@plane/ui";
-import { getDate, renderFormattedPayloadDate, getTabIndex } from "@plane/utils";
+import { Input } from "@plane/ui";
+import { getDate, getDescriptionPlaceholderI18n, renderFormattedPayloadDate, getTabIndex } from "@plane/utils";
 // components
 import { DateRangeDropdown } from "@/components/dropdowns/date-range";
 import { MemberDropdown } from "@/components/dropdowns/member/dropdown";
 import { ProjectDropdown } from "@/components/dropdowns/project/dropdown";
+import { RichTextEditor } from "@/components/editor/rich-text";
 import { LabelDropdown } from "@/components/issues/issue-layouts/properties/label-dropdown";
 import { ModuleStatusSelect } from "@/components/modules";
 // hooks
+import { useEditorAsset } from "@/hooks/store/use-editor-asset";
+import { useWorkspace } from "@/hooks/store/use-workspace";
 import { useUser } from "@/hooks/store/user/user-user";
+// services
+import { WorkspaceService } from "@/services/workspace.service";
+
+const workspaceService = new WorkspaceService();
 
 type Props = {
   handleFormSubmit: (values: Partial<IModule>, dirtyFields: Partial<Record<keyof IModule, boolean>>) => Promise<void>;
   handleClose: () => void;
   status: boolean;
   projectId: string;
+  workspaceSlug: string;
   setActiveProject: React.Dispatch<React.SetStateAction<string | null>>;
   data?: IModule;
   isMobile?: boolean;
@@ -36,6 +46,7 @@ type Props = {
 const defaultValues: Partial<IModule> = {
   name: "",
   description: "",
+  description_html: "",
   status: "backlog",
   lead_id: null,
   member_ids: [],
@@ -43,9 +54,24 @@ const defaultValues: Partial<IModule> = {
 };
 
 export function ModuleForm(props: Props) {
-  const { handleFormSubmit, handleClose, status, projectId, setActiveProject, data, isMobile = false } = props;
+  const {
+    handleFormSubmit,
+    handleClose,
+    status,
+    projectId,
+    workspaceSlug,
+    setActiveProject,
+    data,
+    isMobile = false,
+  } = props;
+  // refs
+  const editorRef = useRef<EditorRefApi | null>(null);
   // store hooks
   const { projectsWithCreatePermissions } = useUser();
+  const { getWorkspaceBySlug } = useWorkspace();
+  const { uploadEditorAsset, duplicateEditorAsset } = useEditorAsset();
+  // derived values
+  const workspaceId = getWorkspaceBySlug(workspaceSlug)?.id ?? "";
   // form info
   const {
     formState: { errors, isSubmitting, dirtyFields },
@@ -57,6 +83,7 @@ export function ModuleForm(props: Props) {
       project_id: projectId,
       name: data?.name || "",
       description: data?.description || "",
+      description_html: data?.description_html || "",
       status: data?.status || "backlog",
       lead_id: data?.lead_id || null,
       member_ids: data?.member_ids || [],
@@ -145,20 +172,55 @@ export function ModuleForm(props: Props) {
             />
             <span className="text-11 text-danger-primary">{errors?.name?.message}</span>
           </div>
-          <div>
+          <div className="border-[0.5px] border-subtle-1 bg-layer-2 rounded-lg">
             <Controller
-              name="description"
+              name="description_html"
               control={control}
               render={({ field: { value, onChange } }) => (
-                <TextArea
-                  id="description"
-                  name="description"
+                <RichTextEditor
+                  editable
+                  id="module-modal-editor"
+                  initialValue={value ?? ""}
                   value={value}
-                  onChange={onChange}
-                  placeholder={t("description")}
-                  className="w-full text-14 resize-none min-h-24"
-                  hasError={Boolean(errors?.description)}
+                  workspaceSlug={workspaceSlug}
+                  workspaceId={workspaceId}
+                  projectId={projectId}
+                  onChange={(_description: object, description_html: string) => {
+                    onChange(description_html);
+                  }}
+                  ref={editorRef}
                   tabIndex={getIndex("description")}
+                  placeholder={(isFocused, description) => t(getDescriptionPlaceholderI18n(isFocused, description))}
+                  searchMentionCallback={async (payload) =>
+                    await workspaceService.searchEntity(workspaceSlug, {
+                      ...payload,
+                      project_id: projectId,
+                    })
+                  }
+                  containerClassName="pt-3 min-h-[120px]"
+                  uploadFile={async (blockId, file) => {
+                    const { asset_id } = await uploadEditorAsset({
+                      blockId,
+                      data: {
+                        entity_identifier: data?.id ?? "",
+                        entity_type: EFileAssetType.MODULE_DESCRIPTION,
+                      },
+                      file,
+                      projectId,
+                      workspaceSlug,
+                    });
+                    return asset_id;
+                  }}
+                  duplicateFile={async (assetId: string) => {
+                    const { asset_id } = await duplicateEditorAsset({
+                      assetId,
+                      entityId: data?.id,
+                      entityType: EFileAssetType.MODULE_DESCRIPTION,
+                      projectId,
+                      workspaceSlug,
+                    });
+                    return asset_id;
+                  }}
                 />
               )}
             />

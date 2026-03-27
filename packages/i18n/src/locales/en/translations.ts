@@ -485,6 +485,10 @@ export default {
   common: {
     all: "All",
     no_items_in_this_group: "No items in this group",
+    no_lead: "No lead",
+    no_members: "No members",
+    no_label: "No label",
+    no_date: "No date",
     drop_here_to_move: "Drop here to move",
     states: "States",
     state: "State",
@@ -2506,6 +2510,7 @@ export default {
       list: "List layout",
       board: "Gallery layout",
       timeline: "Timeline layout",
+      kanban: "Kanban layout",
     },
     order_by: {
       name: "Name",
@@ -2514,6 +2519,15 @@ export default {
       due_date: "Due date",
       created_at: "Created date",
       manual: "Manual",
+    },
+    group_by: {
+      none: "No grouping",
+      status: "Status",
+      lead: "Lead",
+      members: "Members",
+      label: "Label",
+      start_date: "Start date",
+      target_date: "Due date",
     },
   },
   cycle: {

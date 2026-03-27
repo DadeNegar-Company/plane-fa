@@ -17,12 +17,15 @@ export type TModuleOrderByOptions =
   | "-created_at"
   | "sort_order";
 
-export type TModuleLayoutOptions = "list" | "board" | "gantt";
+export type TModuleLayoutOptions = "list" | "board" | "gantt" | "kanban";
+
+export type TModuleGroupByOptions = "status" | "lead" | "members" | "label" | "start_date" | "target_date" | null;
 
 export type TModuleDisplayFilters = {
   favorites?: boolean;
   layout?: TModuleLayoutOptions;
   order_by?: TModuleOrderByOptions;
+  group_by?: TModuleGroupByOptions;
 };
 
 export type TModuleFilters = {

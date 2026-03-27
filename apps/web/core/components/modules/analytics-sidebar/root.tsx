@@ -25,8 +25,9 @@ import {
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { ILinkDetails, IModule, ModuleLink } from "@plane/types";
 // plane ui
-import { Loader, CustomSelect, TextArea } from "@plane/ui";
+import { Loader, CustomSelect } from "@plane/ui";
 // components
+import { RichTextEditor } from "@/components/editor/rich-text";
 // helpers
 import { getDate, renderFormattedPayloadDate } from "@plane/utils";
 import { DateRangeDropdown } from "@/components/dropdowns/date-range";
@@ -36,6 +37,7 @@ import { CreateUpdateModuleLinkModal, ModuleAnalyticsProgress, ModuleLinksList }
 // hooks
 import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useModule } from "@/hooks/store/use-module";
+import { useWorkspace } from "@/hooks/store/use-workspace";
 import { useUserPermissions } from "@/hooks/store/user";
 // plane web constants
 const defaultValues: Partial<IModule> = {
@@ -67,10 +69,12 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
   const { allowPermissions } = useUserPermissions();
 
   const { getModuleById, updateModuleDetails, createModuleLink, updateModuleLink, deleteModuleLink } = useModule();
+  const { getWorkspaceBySlug } = useWorkspace();
   const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } = useProjectEstimates();
 
   // derived values
   const moduleDetails = getModuleById(moduleId);
+  const workspaceId = getWorkspaceBySlug(workspaceSlug?.toString())?.id ?? "";
   const areEstimateEnabled = projectId && areEstimateEnabledByProjectId(projectId.toString());
   const estimateType = areEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
   const isEstimatePointValid = estimateType && String(estimateType?.type) === String(EEstimateSystem.POINTS);
@@ -237,11 +241,15 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
           <h4 className="w-full break-words text-18 font-semibold text-primary">{moduleDetails.name}</h4>
         </div>
 
-        {moduleDetails.description && (
-          <TextArea
-            className="outline-none ring-none w-full max-h-max bg-transparent !p-0 !m-0 !border-0 resize-none text-13 leading-5 text-secondary"
-            value={moduleDetails.description}
-            disabled
+        {moduleDetails.description_html && (
+          <RichTextEditor
+            editable={false}
+            id={`module-sidebar-${moduleId}`}
+            initialValue={moduleDetails.description_html}
+            workspaceSlug={workspaceSlug?.toString() ?? ""}
+            workspaceId={workspaceId}
+            projectId={projectId?.toString()}
+            containerClassName="!p-0 !border-0 text-13 leading-5 text-secondary"
           />
         )}
 

@@ -5,7 +5,7 @@
  */
 
 import * as React from "react";
-import { TimelineLayoutIcon, GridLayoutIcon, ListLayoutIcon } from "@plane/propel/icons";
+import { TimelineLayoutIcon, GridLayoutIcon, ListLayoutIcon, BoardLayoutIcon } from "@plane/propel/icons";
 import type { TModuleLayoutOptions } from "@plane/types";
 import { cn } from "@plane/utils";
 
@@ -21,10 +21,11 @@ export function ModuleLayoutIcon(props: ILayoutIcon) {
   const { layoutType, className = "", containerClassName = "", size = 14, withContainer = false } = props;
 
   // get Layout icon
-  const icons = {
+  const icons: Record<string, typeof ListLayoutIcon> = {
     list: ListLayoutIcon,
     board: GridLayoutIcon,
     gantt: TimelineLayoutIcon,
+    kanban: BoardLayoutIcon,
   };
   const Icon = icons[layoutType ?? "list"];
 

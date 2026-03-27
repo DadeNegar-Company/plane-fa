@@ -4,9 +4,4 @@
  * See the LICENSE file for details.
  */
 
-export type TLanguage = "en" | "fa";
-
-export interface ILanguageOption {
-  label: string;
-  value: TLanguage;
-}
+export * from "./kanban-root";

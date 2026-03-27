@@ -6,7 +6,13 @@
 
 import { sortBy } from "lodash-es";
 // plane imports
-import type { IModule, TModuleDisplayFilters, TModuleFilters, TModuleOrderByOptions } from "@plane/types";
+import type {
+  IModule,
+  TModuleDisplayFilters,
+  TModuleFilters,
+  TModuleGroupByOptions,
+  TModuleOrderByOptions,
+} from "@plane/types";
 // local imports
 import { getDate } from "./datetime";
 import { satisfiesDateFilter } from "./filter";
@@ -94,4 +100,63 @@ export const shouldFilterModule = (
   if (displayFilters.favorites && !module.is_favorite) fallsInFilters = false;
 
   return fallsInFilters;
+};
+
+/**
+ * @description groups modules based on the group_by key
+ * @param {IModule[]} modules
+ * @param {TModuleGroupByOptions} groupByKey
+ * @returns {Record<string, string[]>} - map of group key to array of module IDs
+ */
+export const groupModules = (modules: IModule[], groupByKey: TModuleGroupByOptions): Record<string, string[]> => {
+  const grouped: Record<string, string[]> = {};
+
+  if (!groupByKey) return { all: modules.map((m) => m.id) };
+
+  const addToGroup = (key: string, moduleId: string) => {
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(moduleId);
+  };
+
+  const formatDateKey = (dateStr: string | null): string => {
+    if (!dateStr) return "none";
+    const date = getDate(dateStr);
+    if (!date) return "none";
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    return `${year}-${month}`;
+  };
+
+  for (const module of modules) {
+    switch (groupByKey) {
+      case "status":
+        addToGroup(module.status ?? "backlog", module.id);
+        break;
+      case "lead":
+        addToGroup(module.lead_id ?? "none", module.id);
+        break;
+      case "members":
+        if (module.member_ids && module.member_ids.length > 0) {
+          module.member_ids.forEach((memberId) => addToGroup(memberId, module.id));
+        } else {
+          addToGroup("none", module.id);
+        }
+        break;
+      case "label":
+        if (module.label_ids && module.label_ids.length > 0) {
+          module.label_ids.forEach((labelId) => addToGroup(labelId, module.id));
+        } else {
+          addToGroup("none", module.id);
+        }
+        break;
+      case "start_date":
+        addToGroup(formatDateKey(module.start_date), module.id);
+        break;
+      case "target_date":
+        addToGroup(formatDateKey(module.target_date), module.id);
+        break;
+    }
+  }
+
+  return grouped;
 };

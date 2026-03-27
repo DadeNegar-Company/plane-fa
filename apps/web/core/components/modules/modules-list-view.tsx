@@ -14,7 +14,13 @@ import { EUserProjectRoles } from "@plane/types";
 import { ContentWrapper, Row, ERowVariant } from "@plane/ui";
 // components
 import { ListLayout } from "@/components/core/list";
-import { ModuleCardItem, ModuleListItem, ModulePeekOverview, ModulesListGanttChartView } from "@/components/modules";
+import {
+  ModuleCardItem,
+  ModuleKanbanRoot,
+  ModuleListItem,
+  ModulePeekOverview,
+  ModulesListGanttChartView,
+} from "@/components/modules";
 import { CycleModuleBoardLayoutLoader } from "@/components/ui/loader/cycle-module-board-loader";
 import { CycleModuleListLayoutLoader } from "@/components/ui/loader/cycle-module-list-loader";
 import { GanttLayoutLoader } from "@/components/ui/loader/layouts/gantt-layout-loader";
@@ -33,12 +39,13 @@ export const ModulesListView = observer(function ModulesListView() {
   const { t } = useTranslation();
   // store hooks
   const { toggleCreateModuleModal } = useCommandPalette();
-  const { getProjectModuleIds, getFilteredModuleIds, loader } = useModule();
+  const { getProjectModuleIds, getFilteredModuleIds, getGroupedModuleIds, loader } = useModule();
   const { currentProjectDisplayFilters: displayFilters } = useModuleFilter();
   const { allowPermissions } = useUserPermissions();
   // derived values
   const projectModuleIds = projectId ? getProjectModuleIds(projectId.toString()) : undefined;
   const filteredModuleIds = projectId ? getFilteredModuleIds(projectId.toString()) : undefined;
+  const groupedModuleIds = projectId ? getGroupedModuleIds(projectId.toString()) : null;
   const canPerformEmptyStateActions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
     EUserPermissionsLevel.PROJECT
@@ -49,6 +56,7 @@ export const ModulesListView = observer(function ModulesListView() {
       <>
         {displayFilters?.layout === "list" && <CycleModuleListLayoutLoader />}
         {displayFilters?.layout === "board" && <CycleModuleBoardLayoutLoader />}
+        {displayFilters?.layout === "kanban" && <CycleModuleBoardLayoutLoader />}
         {displayFilters?.layout === "gantt" && <GanttLayoutLoader />}
       </>
     );
@@ -102,6 +110,11 @@ export const ModulesListView = observer(function ModulesListView() {
               <ModuleCardItem key={moduleId} moduleId={moduleId} />
             ))}
           </Row>
+        )}
+        {displayFilters?.layout === "kanban" && groupedModuleIds && (
+          <div className="size-full overflow-hidden">
+            <ModuleKanbanRoot groupedModuleIds={groupedModuleIds} groupBy={displayFilters?.group_by ?? "status"} />
+          </div>
         )}
         {displayFilters?.layout === "gantt" && (
           <div className="size-full overflow-hidden">
