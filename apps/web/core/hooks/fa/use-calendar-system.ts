@@ -4,7 +4,7 @@ import { useUserProfile } from "@/hooks/store/user";
 
 export const useCalendarSystem = () => {
   const { data: profile } = useUserProfile();
-  const calendarSystem = profile?.calendar_system ?? ECalendarSystem.GREGORIAN;
+  const calendarSystem = profile?.calendar_system ?? ECalendarSystem.JALALI;
   const isJalali = calendarSystem === ECalendarSystem.JALALI;
   return { calendarSystem, isJalali };
 };

@@ -28,7 +28,7 @@ import { getWeekNumberOfDate, renderFormattedPayloadDate, getCalendarSystem } fr
 export const generateCalendarData = (
   currentStructure: ICalendarPayload | null,
   startDate: Date,
-  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY
+  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SATURDAY
 ): ICalendarPayload => {
   const calendarData: ICalendarPayload = currentStructure ?? {};
 
@@ -169,7 +169,7 @@ const generateJalaliCalendarData = (
 export const getOrderedDays = <T>(
   items: T[],
   getDayIndex: (item: T) => number,
-  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY
+  startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SATURDAY
 ): T[] =>
   [...items].sort((a, b) => {
     const dayA = (7 + getDayIndex(a) - startOfWeek) % 7;

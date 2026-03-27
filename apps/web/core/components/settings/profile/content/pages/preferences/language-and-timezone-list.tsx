@@ -99,7 +99,7 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
           description={t("timezone_setting")}
           control={
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            <TimezoneSelect value={user?.user_timezone || "Asia/Kolkata"} onChange={handleTimezoneChange} />
+            <TimezoneSelect value={user?.user_timezone || "Asia/Tehran"} onChange={handleTimezoneChange} />
           }
         />
         <SettingsControlItem

@@ -12,7 +12,7 @@ import { getCalendarSystem } from "@plane/utils";
 import { getYear as jalaliGetYear, getMonth as jalaliGetMonth, getDate as jalaliGetDate } from "date-fns-jalali";
 
 // constants
-export const generateWeeks = (startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SUNDAY): WeekMonthDataType[] => [
+export const generateWeeks = (startOfWeek: EStartOfTheWeek = EStartOfTheWeek.SATURDAY): WeekMonthDataType[] => [
   ...weeks.slice(startOfWeek),
   ...weeks.slice(0, startOfWeek),
 ];
