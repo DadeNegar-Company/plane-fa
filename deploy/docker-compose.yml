@@ -85,6 +85,12 @@ services:
       replicas: ${SPACE_REPLICAS:-1}
       restart_policy:
         condition: any
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider -S http://127.0.0.1:3000/ 2>&1 | grep -q HTTP/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
     depends_on:
       - api
       - worker
@@ -184,6 +190,10 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
     environment:
       <<: *db-env
     volumes:
@@ -201,6 +211,10 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
     volumes:
       - redisdata:/data
     healthcheck:
@@ -215,6 +229,10 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
     environment:
       <<: *mq-env
     volumes:
@@ -233,6 +251,10 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
     environment:
       <<: *minio-env
     volumes:
