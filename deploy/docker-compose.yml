@@ -129,6 +129,11 @@ services:
       - logs_api:/code/plane/logs
     environment:
       <<: [*app-env, *db-env, *redis-env, *minio-env, *aws-s3-env, *proxy-env]
+      OTLP_ENDPOINT: http://otel-collector:4317
+      SERVICE_NAME: plane-fa-api
+    networks:
+      - default
+      - signoz-net
     depends_on:
       - plane-db
       - plane-redis
@@ -145,6 +150,11 @@ services:
       - logs_worker:/code/plane/logs
     environment:
       <<: [*app-env, *db-env, *redis-env, *minio-env, *aws-s3-env, *proxy-env]
+      OTLP_ENDPOINT: http://otel-collector:4317
+      SERVICE_NAME: plane-fa-worker
+    networks:
+      - default
+      - signoz-net
     depends_on:
       - api
       - plane-db
@@ -162,6 +172,11 @@ services:
       - logs_beat-worker:/code/plane/logs
     environment:
       <<: [*app-env, *db-env, *redis-env, *minio-env, *aws-s3-env, *proxy-env]
+      OTLP_ENDPOINT: http://otel-collector:4317
+      SERVICE_NAME: plane-fa-beat
+    networks:
+      - default
+      - signoz-net
     depends_on:
       - api
       - plane-db
@@ -324,3 +339,9 @@ volumes:
   proxy_config:
   proxy_data:
   plane_backups:
+
+networks:
+  default: {}
+  signoz-net:
+    external: true
+    name: signoz-net
