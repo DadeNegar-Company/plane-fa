@@ -207,10 +207,10 @@ jobs:
           echo "=== Deploy finished at $(date) ==="
           docker compose ps
 
-          # Health check — wait up to 60s for API
+          # Health check — wait up to 60s for API (using python since curl is not in the image)
           echo "=== Running health check ==="
           for i in $(seq 1 12); do
-            if docker compose exec -T api curl -sf http://localhost:8000/ > /dev/null 2>&1; then
+            if docker compose exec -T api python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/')" > /dev/null 2>&1; then
               echo "=== Health check passed ==="
               exit 0
             fi
