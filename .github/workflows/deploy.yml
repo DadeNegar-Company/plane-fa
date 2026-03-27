@@ -189,6 +189,12 @@ jobs:
           # Login to GHCR
           echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
 
+          cd ~/apps/plane-fa
+
+          # Sync compose file changes from git
+          git fetch origin develop
+          git checkout origin/develop -- deploy/docker-compose.yml
+
           cd ~/apps/plane-fa/deploy
 
           # Pull latest images
