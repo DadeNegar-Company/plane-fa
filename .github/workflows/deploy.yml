@@ -216,4 +216,5 @@ jobs:
             fi
             sleep 5
           done
-          echo "::warning::API health check timed out after 60s"
+          echo "::error::API health check timed out after 60s"
+          exit 1

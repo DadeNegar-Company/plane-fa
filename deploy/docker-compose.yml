@@ -188,6 +188,12 @@ services:
       <<: *db-env
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-plane}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   plane-redis:
     image: valkey/valkey:7.2.11-alpine
@@ -197,6 +203,11 @@ services:
         condition: any
     volumes:
       - redisdata:/data
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   plane-mq:
     image: rabbitmq:3.13.6-management-alpine
@@ -208,9 +219,15 @@ services:
       <<: *mq-env
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
 
   plane-minio:
-    image: minio/minio:latest
+    image: minio/minio:RELEASE.2025-07-23T15-54-02Z
     command: server /export --console-address ":9090"
     deploy:
       replicas: 1
@@ -220,6 +237,11 @@ services:
       <<: *minio-env
     volumes:
       - uploads:/export
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
 
   proxy:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-proxy:latest
@@ -248,6 +270,26 @@ services:
       - admin
       - live
 
+  plane-backup:
+    image: postgres:15.7-alpine
+    restart: "no"
+    entrypoint:
+      - /bin/sh
+      - -euc
+      - |
+        DATE=$$(date +%Y%m%d_%H%M%S)
+        PGPASSWORD=$${POSTGRES_PASSWORD} pg_dump -h plane-db -U $${POSTGRES_USER} $${POSTGRES_DB} \
+          | gzip > /backups/plane_$${DATE}.sql.gz
+        find /backups -name "plane_*.sql.gz" -mtime +5 -delete
+        echo "Backup done: plane_$${DATE}.sql.gz"
+    environment:
+      <<: *db-env
+    volumes:
+      - plane_backups:/backups
+    depends_on:
+      - plane-db
+    profiles: ["backup"]
+
 volumes:
   pgdata:
   redisdata:
@@ -259,3 +301,4 @@ volumes:
   rabbitmq_data:
   proxy_config:
   proxy_data:
+  plane_backups:
