@@ -150,6 +150,7 @@ export const ModulesListView = observer(function ModulesListView() {
   return (
     <ContentWrapper variant={ERowVariant.HUGGING}>
       <div className="size-full flex justify-between">
+        {/* eslint-disable @typescript-eslint/no-unsafe-assignment */}
         {displayFilters?.layout === "list" &&
           (displayFilters?.group_by && groupedModuleIds ? (
             <BaseListLayout
@@ -157,7 +158,7 @@ export const ModulesListView = observer(function ModulesListView() {
               groups={groups}
               groupedItemIds={groupedModuleIds}
               renderItem={(item) => <ModuleListItem moduleId={item.id} />}
-              showEmptyGroups={displayFilters.group_by === "status"}
+              showEmptyGroups={displayFilters.show_empty_groups ?? true}
             />
           ) : (
             <ListLayout>
@@ -166,6 +167,7 @@ export const ModulesListView = observer(function ModulesListView() {
               ))}
             </ListLayout>
           ))}
+        {/* eslint-enable @typescript-eslint/no-unsafe-assignment */}
         {displayFilters?.layout === "board" && (
           <Row
             className={`size-full py-page-y grid grid-cols-1 gap-6 overflow-y-auto ${
@@ -187,6 +189,7 @@ export const ModulesListView = observer(function ModulesListView() {
               groupBy={displayFilters?.group_by ?? "status"}
               groups={groups}
               items={items}
+              showEmptyGroups={displayFilters?.show_empty_groups ?? true}
             />
             {/* eslint-enable @typescript-eslint/no-unsafe-assignment */}
           </div>

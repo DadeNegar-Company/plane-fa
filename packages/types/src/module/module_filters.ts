@@ -26,6 +26,7 @@ export type TModuleDisplayFilters = {
   layout?: TModuleLayoutOptions;
   order_by?: TModuleOrderByOptions;
   group_by?: TModuleGroupByOptions;
+  show_empty_groups?: boolean;
 };
 
 export type TModuleFilters = {

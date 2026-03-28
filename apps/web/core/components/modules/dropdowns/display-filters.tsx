@@ -88,6 +88,11 @@ export const ModuleDisplayFiltersSelection = observer(function ModuleDisplayFilt
       {/* Extra Options — same pattern as FilterExtraOptions in issues */}
       <div className="py-2">
         <FilterOption
+          isChecked={displayFilters.show_empty_groups ?? true}
+          onClick={() => handleDisplayFiltersUpdate({ show_empty_groups: !(displayFilters.show_empty_groups ?? true) })}
+          title={t("issue.display.extra.show_empty_groups")}
+        />
+        <FilterOption
           isChecked={displayFilters.favorites ?? false}
           onClick={() => handleDisplayFiltersUpdate({ favorites: !displayFilters.favorites })}
           title={t("project_modules.display.show_favorites_only")}

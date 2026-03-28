@@ -94,14 +94,18 @@ export class ModuleFilterStore implements IModuleFilterStore {
 
       runInAction(() => {
         if (displayFiltersData) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const parsed = JSON.parse(displayFiltersData);
           if (typeof parsed === "object" && parsed !== null) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             this.displayFilters = parsed;
           }
         }
         if (filtersData) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const parsed = JSON.parse(filtersData);
           if (typeof parsed === "object" && parsed !== null) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             this.filters = parsed;
           }
         }
@@ -182,14 +186,19 @@ export class ModuleFilterStore implements IModuleFilterStore {
   initProjectModuleFilters = (projectId: string) => {
     const displayFilters = this.getDisplayFiltersByProjectId(projectId);
     runInAction(() => {
+       
       const layout = displayFilters?.layout || "list";
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const groupBy = displayFilters?.group_by ?? null;
+      /* eslint-disable @typescript-eslint/no-unsafe-assignment */
       this.displayFilters[projectId] = {
         favorites: displayFilters?.favorites || false,
         layout: layout === "kanban" && !groupBy ? "list" : layout,
         order_by: displayFilters?.order_by || "name",
         group_by: groupBy,
+        show_empty_groups: displayFilters?.show_empty_groups ?? true,
       };
+      /* eslint-enable @typescript-eslint/no-unsafe-assignment */
       this.filters[projectId] = this.filters[projectId] ?? {
         default: {},
         archived: {},
