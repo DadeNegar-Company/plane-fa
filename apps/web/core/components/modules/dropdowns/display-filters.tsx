@@ -4,13 +4,14 @@
  * See the LICENSE file for details.
  */
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
+import { useState } from "react";
 import { observer } from "mobx-react";
 import { MODULE_GROUP_BY_OPTIONS, MODULE_ORDER_BY_OPTIONS } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
-import { CheckIcon } from "@plane/propel/icons";
-import type { TModuleDisplayFilters, TModuleOrderByOptions } from "@plane/types";
-import { cn } from "@plane/utils";
+import type { TModuleDisplayFilters, TModuleGroupByOptions, TModuleOrderByOptions } from "@plane/types";
+// Reuse the exact same UI components that issue DisplayFiltersSelection uses
+import { FilterHeader, FilterOption } from "@/components/issues/issue-layouts/filters";
 
 type Props = {
   displayFilters: TModuleDisplayFilters;
@@ -21,94 +22,76 @@ export const ModuleDisplayFiltersSelection = observer(function ModuleDisplayFilt
   const { displayFilters, handleDisplayFiltersUpdate } = props;
   const { t } = useTranslation();
 
-  const groupBy = displayFilters.group_by ?? null;
-  const orderBy = displayFilters.order_by;
+  const [groupByPreview, setGroupByPreview] = useState(true);
+  const [orderByPreview, setOrderByPreview] = useState(true);
+
+  const selectedGroupBy = displayFilters.group_by ?? null;
+  const selectedOrderBy = displayFilters.order_by ?? "name";
 
   return (
     <div className="vertical-scrollbar scrollbar-sm relative h-full w-full divide-y divide-subtle-1 overflow-hidden overflow-y-auto px-2.5">
-      {/* Group By */}
+      {/* Group By — same pattern as FilterGroupBy in issues */}
       <div className="py-2">
-        <div className="flex items-center justify-between gap-2 text-13 font-medium text-secondary">
-          {t("project_modules.display.group_by")}
-        </div>
-        <div className="mt-1 flex flex-col gap-0.5">
-          <button
-            className={cn(
-              "flex items-center justify-between rounded-sm px-1 py-1.5 text-13 hover:bg-layer-1-hover transition-colors",
-              { "text-accent-primary": !groupBy }
-            )}
-            onClick={() => handleDisplayFiltersUpdate({ group_by: null })}
-          >
-            {t("project_modules.group_by.none")}
-            {!groupBy && <CheckIcon className="h-3 w-3 text-accent-primary" />}
-          </button>
-          {MODULE_GROUP_BY_OPTIONS.map((option: { key: string; i18n_label: string }) => (
-            <button
-              key={option.key}
-              className={cn(
-                "flex items-center justify-between rounded-sm px-1 py-1.5 text-13 hover:bg-layer-1-hover transition-colors",
-                { "text-accent-primary": groupBy === option.key }
-              )}
-              onClick={() => handleDisplayFiltersUpdate({ group_by: option.key as TModuleDisplayFilters["group_by"] })}
-            >
-              {t(option.i18n_label)}
-              {groupBy === option.key && <CheckIcon className="h-3 w-3 text-accent-primary" />}
-            </button>
-          ))}
-        </div>
+        <FilterHeader
+          title={t("common.group_by")}
+          isPreviewEnabled={groupByPreview}
+          handleIsPreviewEnabled={() => setGroupByPreview(!groupByPreview)}
+        />
+        {groupByPreview && (
+          <div>
+            <FilterOption
+              isChecked={selectedGroupBy === null}
+              onClick={() => handleDisplayFiltersUpdate({ group_by: null })}
+              title={t("project_modules.group_by.none")}
+              multiple={false}
+            />
+            {MODULE_GROUP_BY_OPTIONS.map((option) => (
+              <FilterOption
+                key={option.key as string}
+                isChecked={selectedGroupBy === option.key}
+                onClick={() => handleDisplayFiltersUpdate({ group_by: option.key as TModuleGroupByOptions })}
+                title={t(option.i18n_label)}
+                multiple={false}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Order By */}
+      {/* Order By — same pattern as FilterOrderBy in issues */}
       <div className="py-2">
-        <div className="flex items-center justify-between gap-2 text-13 font-medium text-secondary">
-          {t("project_modules.display.order_by")}
-        </div>
-        <div className="mt-1 flex flex-col gap-0.5">
-          {MODULE_ORDER_BY_OPTIONS.map((option: { key: string; i18n_label: string }) => {
-            const isSelected = orderBy?.replace("-", "") === option.key;
-            return (
-              <button
-                key={option.key}
-                className={cn(
-                  "flex items-center justify-between rounded-sm px-1 py-1.5 text-13 hover:bg-layer-1-hover transition-colors",
-                  { "text-accent-primary": isSelected }
-                )}
+        <FilterHeader
+          title={t("common.order_by.label")}
+          isPreviewEnabled={orderByPreview}
+          handleIsPreviewEnabled={() => setOrderByPreview(!orderByPreview)}
+        />
+        {orderByPreview && (
+          <div>
+            {MODULE_ORDER_BY_OPTIONS.map((option) => (
+              <FilterOption
+                key={option.key as string}
+                isChecked={selectedOrderBy?.replace("-", "") === option.key}
                 onClick={() => {
-                  const isDescending = orderBy?.[0] === "-";
+                  const isDescending = selectedOrderBy?.[0] === "-";
                   handleDisplayFiltersUpdate({
-                    order_by: isDescending ? (`-${option.key}` as TModuleOrderByOptions) : option.key,
+                    order_by: (isDescending ? `-${option.key}` : option.key) as TModuleOrderByOptions,
                   });
                 }}
-              >
-                {t(option.i18n_label)}
-                {isSelected && <CheckIcon className="h-3 w-3 text-accent-primary" />}
-              </button>
-            );
-          })}
-        </div>
+                title={t(option.i18n_label)}
+                multiple={false}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Extra Options */}
+      {/* Extra Options — same pattern as FilterExtraOptions in issues */}
       <div className="py-2">
-        <button
-          className="flex w-full items-center justify-between rounded-sm px-1 py-1.5 text-13 hover:bg-layer-1-hover transition-colors"
+        <FilterOption
+          isChecked={displayFilters.favorites ?? false}
           onClick={() => handleDisplayFiltersUpdate({ favorites: !displayFilters.favorites })}
-        >
-          {t("project_modules.display.show_favorites_only")}
-          <div
-            className={cn(
-              "flex h-4 w-6 flex-shrink-0 cursor-pointer items-center rounded-full px-0.5 transition-all",
-              displayFilters.favorites ? "bg-accent-primary" : "bg-neutral-200"
-            )}
-          >
-            <div
-              className={cn(
-                "h-3 w-3 rounded-full bg-white shadow-raised-100 transition-transform",
-                displayFilters.favorites ? "translate-x-2" : "translate-x-0"
-              )}
-            />
-          </div>
-        </button>
+          title={t("project_modules.display.show_favorites_only")}
+        />
       </div>
     </div>
   );
