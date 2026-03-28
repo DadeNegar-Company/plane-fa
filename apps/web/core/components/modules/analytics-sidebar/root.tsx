@@ -23,11 +23,12 @@ import {
   ChevronRightIcon,
 } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import type { ILinkDetails, IModule, ModuleLink } from "@plane/types";
+import type { ILinkDetails, IModule, ModuleLink, TNameDescriptionLoader } from "@plane/types";
+import { EFileAssetType } from "@plane/types";
 // plane ui
 import { Loader, CustomSelect } from "@plane/ui";
 // components
-import { RichTextEditor } from "@/components/editor/rich-text";
+import { DescriptionInput } from "@/components/editor/rich-text/description-input";
 // helpers
 import { getDate, renderFormattedPayloadDate } from "@plane/utils";
 import { DateRangeDropdown } from "@/components/dropdowns/date-range";
@@ -37,7 +38,6 @@ import { CreateUpdateModuleLinkModal, ModuleAnalyticsProgress, ModuleLinksList }
 // hooks
 import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useModule } from "@/hooks/store/use-module";
-import { useWorkspace } from "@/hooks/store/use-workspace";
 import { useUserPermissions } from "@/hooks/store/user";
 // plane web constants
 const defaultValues: Partial<IModule> = {
@@ -69,12 +69,10 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
   const { allowPermissions } = useUserPermissions();
 
   const { getModuleById, updateModuleDetails, createModuleLink, updateModuleLink, deleteModuleLink } = useModule();
-  const { getWorkspaceBySlug } = useWorkspace();
   const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } = useProjectEstimates();
 
   // derived values
   const moduleDetails = getModuleById(moduleId);
-  const workspaceId = getWorkspaceBySlug(workspaceSlug?.toString())?.id ?? "";
   const areEstimateEnabled = projectId && areEstimateEnabledByProjectId(projectId.toString());
   const estimateType = areEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
   const isEstimatePointValid = estimateType && String(estimateType?.type) === String(EEstimateSystem.POINTS);
@@ -241,17 +239,21 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
           <h4 className="w-full break-words text-18 font-semibold text-primary">{moduleDetails.name}</h4>
         </div>
 
-        {moduleDetails.description_html && (
-          <RichTextEditor
-            editable={false}
-            id={`module-sidebar-${moduleId}`}
-            initialValue={moduleDetails.description_html}
-            workspaceSlug={workspaceSlug?.toString() ?? ""}
-            workspaceId={workspaceId}
-            projectId={projectId?.toString()}
-            containerClassName="!p-0 !border-0 text-13 leading-5 text-secondary"
-          />
-        )}
+        {/* eslint-disable @typescript-eslint/no-unsafe-assignment */}
+        <DescriptionInput
+          entityId={moduleId}
+          initialValue={moduleDetails.description_html ?? ""}
+          fileAssetType={EFileAssetType.MODULE_DESCRIPTION}
+          onSubmit={async (value) => {
+            await submitChanges({ description_html: value });
+          }}
+          projectId={projectId?.toString()}
+          workspaceSlug={workspaceSlug?.toString() ?? ""}
+          setIsSubmitting={(_value: TNameDescriptionLoader) => {}}
+          disabled={!isEditingAllowed || isArchived}
+          containerClassName="!p-0 !border-0 text-13 leading-5 text-secondary min-h-[80px]"
+        />
+        {/* eslint-enable @typescript-eslint/no-unsafe-assignment */}
 
         <div className="flex flex-col gap-5 pb-6 pt-2.5">
           <div className="flex items-center justify-start gap-1">

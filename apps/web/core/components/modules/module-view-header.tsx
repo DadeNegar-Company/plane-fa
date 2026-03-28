@@ -4,7 +4,6 @@
  * See the LICENSE file for details.
  */
 
-import type { FC } from "react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
@@ -145,17 +144,20 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
           )}
         </div>
       </div>
+      {/* eslint-disable @typescript-eslint/no-unsafe-assignment */}
       <ModuleGroupByDropdown
         value={displayFilters?.group_by}
         onChange={(val) => {
           if (!projectId) return;
-          updateDisplayFilters(projectId.toString(), {
-            group_by: val,
-            ...(val && displayFilters?.layout !== "kanban" ? { layout: "kanban" } : {}),
-            ...(!val && displayFilters?.layout === "kanban" ? { layout: "list" } : {}),
-          });
+          const layout = displayFilters?.layout;
+          const supportsGrouping = layout === "list" || layout === "kanban";
+          const updates: TModuleDisplayFilters = { group_by: val };
+          if (val && !supportsGrouping) updates.layout = "kanban";
+          if (!val && layout === "kanban") updates.layout = "list";
+          updateDisplayFilters(projectId.toString(), updates);
         }}
       />
+      {/* eslint-enable @typescript-eslint/no-unsafe-assignment */}
       <ModuleOrderByDropdown
         value={displayFilters?.order_by}
         onChange={(val) => {

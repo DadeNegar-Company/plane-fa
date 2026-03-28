@@ -14,7 +14,7 @@ import emptyModule from "@/app/assets/empty-state/module.svg?url";
 import { EmptyState } from "@/components/common/empty-state";
 import { PageHead } from "@/components/core/page-title";
 import { ModuleLayoutRoot } from "@/components/issues/issue-layouts/roots/module-layout-root";
-import { ModuleAnalyticsSidebar } from "@/components/modules";
+import { ModuleAnalyticsSidebar, ModuleDescriptionBanner } from "@/components/modules";
 // hooks
 import { useModule } from "@/hooks/store/use-module";
 import { useProject } from "@/hooks/store/use-project";
@@ -22,9 +22,11 @@ import { useAppRouter } from "@/hooks/use-app-router";
 import useLocalStorage from "@/hooks/use-local-storage";
 import type { Route } from "./+types/page";
 
+// eslint-disable-next-line react-refresh/only-export-components
 function ModuleIssuesPage({ params }: Route.ComponentProps) {
   // router
   const router = useAppRouter();
+   
   const { workspaceSlug, projectId, moduleId } = params;
   // store hooks
   const { fetchModuleDetails, getModuleById } = useModule();
@@ -34,6 +36,7 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
   const { setValue, storedValue } = useLocalStorage("module_sidebar_collapsed", "false");
   const isSidebarCollapsed = storedValue ? (storedValue === "true" ? true : false) : false;
   // fetching module details
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { error } = useSWR(`CURRENT_MODULE_DETAILS_${moduleId}`, () =>
     fetchModuleDetails(workspaceSlug, projectId, moduleId)
   );
@@ -62,8 +65,13 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
         />
       ) : (
         <div className="flex h-full w-full">
-          <div className="h-full w-full overflow-hidden">
-            <ModuleLayoutRoot />
+          <div className="h-full w-full overflow-hidden flex flex-col">
+            {isSidebarCollapsed && (
+              <ModuleDescriptionBanner moduleId={moduleId} workspaceSlug={workspaceSlug} projectId={projectId} />
+            )}
+            <div className="flex-1 overflow-hidden">
+              <ModuleLayoutRoot />
+            </div>
           </div>
           {!isSidebarCollapsed && (
             <div
@@ -80,4 +88,5 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default observer(ModuleIssuesPage);

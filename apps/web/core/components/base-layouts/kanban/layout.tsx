@@ -37,9 +37,11 @@ export const BaseKanbanLayout = observer(function BaseKanbanLayout<T extends IBa
           mode: "external",
           externalCollapsedGroups,
           externalOnToggleGroup,
+          enableAutoScroll: enableDragDrop,
         }
       : {
           mode: "internal",
+          enableAutoScroll: enableDragDrop,
         }
   );
 
