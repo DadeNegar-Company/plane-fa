@@ -188,6 +188,12 @@ jobs:
           set -e
           echo "=== Deploy started at $(date) ==="
 
+          # Install daily Docker cleanup cron if not present (idempotent)
+          if ! crontab -l 2>/dev/null | grep -q 'docker-cleanup'; then
+            (crontab -l 2>/dev/null; echo "# docker-cleanup: daily prune of unused Docker resources at 3am UTC"; echo "0 3 * * * docker container prune -f --filter until=24h > /dev/null 2>&1; docker image prune -af --filter until=72h > /dev/null 2>&1; docker builder prune -f --keep-storage=2GB > /dev/null 2>&1") | crontab -
+            echo "Daily Docker cleanup cron installed"
+          fi
+
           # Login to GHCR
           echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
 
@@ -206,8 +212,10 @@ jobs:
           # Rolling restart (db/redis/mq stay untouched)
           docker compose up -d --remove-orphans
 
-          # Cleanup dangling images
+          # Cleanup: dangling images, stopped containers, build cache
           docker image prune -f
+          docker container prune -f
+          docker builder prune -f --keep-storage=2GB
 
           echo "=== Deploy finished at $(date) ==="
           docker compose ps

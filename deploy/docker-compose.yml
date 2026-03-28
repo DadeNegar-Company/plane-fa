@@ -2,6 +2,13 @@
 # Uses custom-built images from GitHub Container Registry (GHCR)
 # Env vars are loaded from variables.env (created during initial setup)
 
+# Default log rotation for ALL services — prevents disk from filling up
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
 x-db-env: &db-env
   PGHOST: ${PGHOST:-plane-db}
   PGDATABASE: ${PGDATABASE:-plane}
@@ -71,6 +78,7 @@ x-ghcr-image: &ghcr-prefix "ghcr.io/dadenegarco/plane-fa"
 services:
   web:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-frontend:latest
+    logging: *default-logging
     deploy:
       replicas: ${WEB_REPLICAS:-1}
       restart_policy:
@@ -81,6 +89,7 @@ services:
 
   space:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-space:latest
+    logging: *default-logging
     deploy:
       replicas: ${SPACE_REPLICAS:-1}
       restart_policy:
@@ -98,6 +107,7 @@ services:
 
   admin:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-admin:latest
+    logging: *default-logging
     deploy:
       replicas: ${ADMIN_REPLICAS:-1}
       restart_policy:
@@ -108,6 +118,7 @@ services:
 
   live:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-live:latest
+    logging: *default-logging
     environment:
       <<: [*live-env, *redis-env]
     deploy:
@@ -121,6 +132,7 @@ services:
   api:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-backend:latest
     command: ./bin/docker-entrypoint-api.sh
+    logging: *default-logging
     deploy:
       replicas: ${API_REPLICAS:-1}
       restart_policy:
@@ -142,6 +154,7 @@ services:
   worker:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-backend:latest
     command: ./bin/docker-entrypoint-worker.sh
+    logging: *default-logging
     deploy:
       replicas: ${WORKER_REPLICAS:-1}
       restart_policy:
@@ -164,6 +177,7 @@ services:
   beat-worker:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-backend:latest
     command: ./bin/docker-entrypoint-beat.sh
+    logging: *default-logging
     deploy:
       replicas: ${BEAT_WORKER_REPLICAS:-1}
       restart_policy:
@@ -186,6 +200,7 @@ services:
   migrator:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-backend:latest
     command: ./bin/docker-entrypoint-migrator.sh
+    logging: *default-logging
     deploy:
       replicas: 1
       restart_policy:
@@ -201,6 +216,7 @@ services:
   plane-db:
     image: postgres:15.7-alpine
     command: postgres -c 'max_connections=1000'
+    logging: *default-logging
     deploy:
       replicas: 1
       restart_policy:
@@ -222,6 +238,7 @@ services:
 
   plane-redis:
     image: valkey/valkey:7.2.11-alpine
+    logging: *default-logging
     deploy:
       replicas: 1
       restart_policy:
@@ -240,6 +257,7 @@ services:
 
   plane-mq:
     image: rabbitmq:3.13.6-management-alpine
+    logging: *default-logging
     deploy:
       replicas: 1
       restart_policy:
@@ -262,6 +280,7 @@ services:
   plane-minio:
     image: minio/minio:RELEASE.2025-07-23T15-54-02Z
     command: server /export --console-address ":9090"
+    logging: *default-logging
     deploy:
       replicas: 1
       restart_policy:
@@ -282,6 +301,7 @@ services:
 
   proxy:
     image: ${IMAGE_PREFIX:-ghcr.io/dadenegarco/plane-fa}/plane-proxy:latest
+    logging: *default-logging
     deploy:
       replicas: 1
       restart_policy:
@@ -309,6 +329,7 @@ services:
 
   plane-backup:
     image: postgres:15.7-alpine
+    logging: *default-logging
     restart: "no"
     entrypoint:
       - /bin/sh

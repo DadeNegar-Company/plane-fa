@@ -48,6 +48,24 @@ install_docker() {
   sudo systemctl enable docker
   sudo systemctl start docker
   log "Docker service enabled and running"
+
+  # Docker daemon defaults: log rotation for ALL containers
+  if [ ! -f /etc/docker/daemon.json ]; then
+    sudo tee /etc/docker/daemon.json > /dev/null << 'DAEMON_JSON'
+{
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "5",
+    "tag": "{{.Name}}"
+  }
+}
+DAEMON_JSON
+    sudo systemctl restart docker
+    log "Docker daemon.json created — default log rotation enabled"
+  else
+    log "daemon.json already exists, skipping"
+  fi
 }
 
 # ── Step 2: Configure Firewall ──────────────────────────────────────────────
