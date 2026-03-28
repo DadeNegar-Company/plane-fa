@@ -7,7 +7,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
-import { ListFilter } from "lucide-react";
+import { ListFilter, SlidersHorizontal } from "lucide-react";
 // plane helpers
 import { MODULE_VIEW_LAYOUTS } from "@plane/constants";
 import { useOutsideClickDetector } from "@plane/hooks";
@@ -21,7 +21,7 @@ import { cn, calculateTotalFilters } from "@plane/utils";
 // plane utils
 // components
 import { FiltersDropdown } from "@/components/issues/issue-layouts/filters";
-import { ModuleFiltersSelection, ModuleGroupByDropdown, ModuleOrderByDropdown } from "@/components/modules/dropdowns";
+import { ModuleDisplayFiltersSelection, ModuleFiltersSelection } from "@/components/modules/dropdowns";
 // constants
 // helpers
 // hooks
@@ -105,7 +105,7 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
           <IconButton
             variant="ghost"
             size="lg"
-            className="-mr-1 p-"
+            className="-mr-1"
             onClick={() => {
               setIsSearchOpen(true);
               inputRef.current?.focus();
@@ -144,29 +144,19 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
           )}
         </div>
       </div>
-      {/* eslint-disable @typescript-eslint/no-unsafe-assignment */}
-      <ModuleGroupByDropdown
-        value={displayFilters?.group_by}
-        onChange={(val) => {
-          if (!projectId) return;
-          const layout = displayFilters?.layout;
-          const supportsGrouping = layout === "list" || layout === "kanban";
-          const updates: TModuleDisplayFilters = { group_by: val };
-          if (val && !supportsGrouping) updates.layout = "kanban";
-          if (!val && layout === "kanban") updates.layout = "list";
-          updateDisplayFilters(projectId.toString(), updates);
-        }}
-      />
-      {/* eslint-enable @typescript-eslint/no-unsafe-assignment */}
-      <ModuleOrderByDropdown
-        value={displayFilters?.order_by}
-        onChange={(val) => {
-          if (!projectId || val === displayFilters?.order_by) return;
-          updateDisplayFilters(projectId.toString(), {
-            order_by: val,
-          });
-        }}
-      />
+      <FiltersDropdown
+        icon={<SlidersHorizontal className="h-3 w-3" />}
+        title={t("common.display")}
+        placement="bottom-end"
+      >
+        <ModuleDisplayFiltersSelection
+          displayFilters={displayFilters ?? {}}
+          handleDisplayFiltersUpdate={(val) => {
+            if (!projectId) return;
+            updateDisplayFilters(projectId.toString(), val);
+          }}
+        />
+      </FiltersDropdown>
       <FiltersDropdown
         icon={<ListFilter className="h-3 w-3" />}
         title="Filters"

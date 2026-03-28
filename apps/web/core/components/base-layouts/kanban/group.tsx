@@ -34,22 +34,29 @@ export const BaseKanbanGroup = observer(function BaseKanbanGroup<T extends IBase
   const { groupRef, isDraggingOver } = useGroupDropTarget({
     groupId: group.id,
     enableDragDrop,
-    onDrop,
+    onDrop: onDrop
+      ? (itemId, targetId, sourceGroupId, targetGroupId) => {
+          void onDrop(itemId, targetId, sourceGroupId, targetGroupId);
+        }
+      : undefined,
   });
 
   return (
     <div
       ref={groupRef}
       className={cn(
-        "relative flex flex-shrink-0 flex-col w-[350px] border-[1px] border-transparent p-2 pt-0 max-h-full overflow-y-auto bg-layer-1 rounded-md",
+        "group relative flex flex-shrink-0 flex-col",
+        isCollapsed ? "w-[44px]" : "w-[350px]",
+        "h-full transition-all min-h-[120px]",
         {
-          "bg-layer-1": isDraggingOver,
+          "bg-layer-1 rounded-sm": isDraggingOver,
+          "vertical-scrollbar scrollbar-md": !isCollapsed,
         },
         groupClassName
       )}
     >
       {/* Group Header */}
-      <div className="sticky top-0 z-[2] w-full flex-shrink-0 px-1 py-2 cursor-pointer">
+      <div className="sticky top-0 z-[2] w-full flex-shrink-0 bg-surface-2 py-1">
         {renderGroupHeader ? (
           renderGroupHeader({ group, itemCount: itemIds.length, isCollapsed, onToggleGroup })
         ) : (
@@ -64,7 +71,7 @@ export const BaseKanbanGroup = observer(function BaseKanbanGroup<T extends IBase
 
       {/* Group Items */}
       {!isCollapsed && (
-        <div className="flex flex-col gap-2 py-2">
+        <div className="flex flex-col gap-2 px-1.5 pb-2">
           {itemIds.map((itemId, index) => {
             const item = items[itemId];
             if (!item) return null;

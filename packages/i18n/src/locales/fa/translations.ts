@@ -2701,6 +2701,11 @@ export default {
       start_date: "تاریخ شروع",
       target_date: "مهلت",
     },
+    display: {
+      group_by: "گروه‌بندی بر اساس",
+      order_by: "مرتب‌سازی بر اساس",
+      show_favorites_only: "فقط علاقه‌مندی‌ها",
+    },
   },
   cycle: {
     label: "{count, plural, one {چرخه} other {چرخه}}",

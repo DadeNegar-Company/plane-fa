@@ -2529,6 +2529,11 @@ export default {
       start_date: "Start date",
       target_date: "Due date",
     },
+    display: {
+      group_by: "Group by",
+      order_by: "Order by",
+      show_favorites_only: "Show favorites only",
+    },
   },
   cycle: {
     label: "{count, plural, one {Cycle} other {Cycles}}",
