@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
-import { Info, SquareUser, Tag } from "lucide-react";
+import { Info } from "lucide-react";
 import { Disclosure, Transition } from "@headlessui/react";
 import { MODULE_STATUS, EUserPermissions, EUserPermissionsLevel, EEstimateSystem } from "@plane/constants";
 // plane types
@@ -19,6 +19,9 @@ import {
   ModuleStatusIcon,
   WorkItemsIcon,
   StartDatePropertyIcon,
+  LabelPropertyIcon,
+  UserCirclePropertyIcon,
+  EstimatePropertyIcon,
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@plane/propel/icons";
@@ -27,6 +30,8 @@ import type { ILinkDetails, IModule, ModuleLink, TNameDescriptionLoader } from "
 import { EFileAssetType } from "@plane/types";
 // plane ui
 import { Loader, CustomSelect } from "@plane/ui";
+// shared sidebar component
+import { SidebarPropertyListItem } from "@/components/common/layout/sidebar/property-list-item";
 // components
 import { DescriptionInput } from "@/components/editor/rich-text/description-input";
 // helpers
@@ -39,7 +44,7 @@ import { CreateUpdateModuleLinkModal, ModuleAnalyticsProgress, ModuleLinksList }
 import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useModule } from "@/hooks/store/use-module";
 import { useUserPermissions } from "@/hooks/store/user";
-// plane web constants
+
 const defaultValues: Partial<IModule> = {
   lead_id: "",
   member_ids: [],
@@ -55,7 +60,6 @@ type Props = {
   isArchived?: boolean;
 };
 
-// TODO: refactor this component
 export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(props: Props) {
   const { moduleId, handleClose, isArchived } = props;
   // states
@@ -173,7 +177,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
   );
 
   return (
-    <div className="relative">
+    <div className="relative flex h-full w-full flex-col divide-y-2 divide-subtle-1 overflow-hidden">
       <CreateUpdateModuleLinkModal
         isOpen={moduleLinkModal}
         handleClose={() => {
@@ -186,19 +190,20 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
         createLink={handleCreateLink}
         updateLink={handleUpdateLink}
       />
-      <>
-        <div className={`sticky z-10 top-0 flex items-center justify-between bg-surface-1 pb-5 pt-5`}>
-          <div>
-            <button
-              className="flex h-5 w-5 items-center justify-center rounded-full bg-layer-3"
-              onClick={() => handleClose()}
-            >
-              <ChevronRightIcon className="h-3 w-3 stroke-2 text-on-color" />
-            </button>
-          </div>
+
+      <div className="h-full w-full overflow-y-auto px-6">
+        {/* Header: close button */}
+        <div className="sticky z-10 top-0 flex items-center bg-surface-1 pb-2 pt-5">
+          <button
+            className="flex h-5 w-5 items-center justify-center rounded-full bg-layer-3"
+            onClick={() => handleClose()}
+          >
+            <ChevronRightIcon className="h-3 w-3 stroke-2 text-on-color" />
+          </button>
         </div>
 
-        <div className="flex flex-col gap-3">
+        {/* Status + Name */}
+        <div className="flex flex-col gap-3 pb-3">
           <div className="flex items-center gap-5 pt-2">
             <Controller
               control={control}
@@ -239,6 +244,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
           <h4 className="w-full break-words text-18 font-semibold text-primary">{moduleDetails.name}</h4>
         </div>
 
+        {/* Description */}
         {/* eslint-disable @typescript-eslint/no-unsafe-assignment */}
         <DescriptionInput
           entityId={moduleId}
@@ -255,161 +261,132 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
         />
         {/* eslint-enable @typescript-eslint/no-unsafe-assignment */}
 
-        <div className="flex flex-col gap-5 pb-6 pt-2.5">
-          <div className="flex items-center justify-start gap-1">
-            <div className="flex w-2/5 items-center justify-start gap-2 text-tertiary">
-              <StartDatePropertyIcon className="h-4 w-4" />
-              <span className="text-14">{t("date_range")}</span>
-            </div>
-            <div className="h-7">
-              <Controller
-                control={control}
-                name="start_date"
-                render={({ field: { value: startDateValue, onChange: onChangeStartDate } }) => (
-                  <Controller
-                    control={control}
-                    name="target_date"
-                    render={({ field: { value: endDateValue, onChange: onChangeEndDate } }) => {
-                      const startDate = getDate(startDateValue);
-                      const endDate = getDate(endDateValue);
-                      return (
-                        <DateRangeDropdown
-                          buttonContainerClassName="w-full"
-                          buttonVariant="background-with-text"
-                          value={{
-                            from: startDate,
-                            to: endDate,
-                          }}
-                          onSelect={(val) => {
-                            onChangeStartDate(val?.from ? renderFormattedPayloadDate(val.from) : null);
-                            onChangeEndDate(val?.to ? renderFormattedPayloadDate(val.to) : null);
-                            handleDateChange(val?.from, val?.to);
-                          }}
-                          placeholder={{
-                            from: t("start_date"),
-                            to: t("end_date"),
-                          }}
-                          disabled={!isEditingAllowed || isArchived}
-                        />
-                      );
-                    }}
-                  />
-                )}
-              />
-            </div>
-          </div>
-          <div className="flex items-center justify-start gap-1">
-            <div className="flex w-2/5 items-center justify-start gap-2 text-tertiary">
-              <SquareUser className="h-4 w-4" />
-              <span className="text-14">{t("lead")}</span>
-            </div>
+        {/* Properties — same layout as issue detail sidebar */}
+        <h5 className="mt-5 text-body-xs-medium">{t("common.properties")}</h5>
+        <div className={`mb-2 mt-4 space-y-2.5 truncate ${!isEditingAllowed ? "opacity-60" : ""}`}>
+          <SidebarPropertyListItem icon={StartDatePropertyIcon} label={t("date_range")}>
+            <Controller
+              control={control}
+              name="start_date"
+              render={({ field: { value: startDateValue, onChange: onChangeStartDate } }) => (
+                <Controller
+                  control={control}
+                  name="target_date"
+                  render={({ field: { value: endDateValue, onChange: onChangeEndDate } }) => {
+                    const startDate = getDate(startDateValue);
+                    const endDate = getDate(endDateValue);
+                    return (
+                      <DateRangeDropdown
+                        buttonContainerClassName="w-full text-left h-7.5"
+                        buttonVariant="transparent-with-text"
+                        buttonClassName="text-body-xs-regular"
+                        className="group w-full grow"
+                        value={{ from: startDate, to: endDate }}
+                        onSelect={(val) => {
+                          onChangeStartDate(val?.from ? renderFormattedPayloadDate(val.from) : null);
+                          onChangeEndDate(val?.to ? renderFormattedPayloadDate(val.to) : null);
+                          handleDateChange(val?.from, val?.to);
+                        }}
+                        placeholder={{ from: t("start_date"), to: t("end_date") }}
+                        disabled={!isEditingAllowed || isArchived}
+                      />
+                    );
+                  }}
+                />
+              )}
+            />
+          </SidebarPropertyListItem>
+
+          <SidebarPropertyListItem icon={UserCirclePropertyIcon} label={t("lead")}>
             <Controller
               control={control}
               name="lead_id"
               render={({ field: { value } }) => (
-                <div className="h-7 w-3/5">
-                  <MemberDropdown
-                    value={value ?? null}
-                    onChange={(val) => {
-                      void submitChanges({ lead_id: val });
-                    }}
-                    projectId={projectId?.toString() ?? ""}
-                    multiple={false}
-                    buttonVariant="background-with-text"
-                    placeholder={t("lead")}
-                    disabled={!isEditingAllowed || isArchived}
-                    icon={SquareUser}
-                  />
-                </div>
+                <MemberDropdown
+                  value={value ?? null}
+                  onChange={(val) => {
+                    void submitChanges({ lead_id: val });
+                  }}
+                  projectId={projectId?.toString() ?? ""}
+                  multiple={false}
+                  buttonVariant="transparent-with-text"
+                  className="group w-full grow"
+                  buttonContainerClassName="w-full text-left h-7.5"
+                  buttonClassName={`text-body-xs-regular ${value ? "" : "text-placeholder"}`}
+                  placeholder={t("lead")}
+                  disabled={!isEditingAllowed || isArchived}
+                  dropdownArrow
+                  dropdownArrowClassName="h-3.5 w-3.5 hidden group-hover:inline"
+                />
               )}
             />
-          </div>
-          <div className="flex items-center justify-start gap-1">
-            <div className="flex w-2/5 items-center justify-start gap-2 text-tertiary">
-              <MembersPropertyIcon className="h-4 w-4" />
-              <span className="text-14">{t("members")}</span>
-            </div>
+          </SidebarPropertyListItem>
+
+          <SidebarPropertyListItem icon={MembersPropertyIcon} label={t("members")}>
             <Controller
               control={control}
               name="member_ids"
               render={({ field: { value } }) => (
-                <div className="h-7 w-3/5">
-                  <MemberDropdown
-                    value={value ?? []}
-                    onChange={(val: string[]) => {
-                      void submitChanges({ member_ids: val });
-                    }}
-                    multiple
-                    projectId={projectId?.toString() ?? ""}
-                    buttonVariant={value && value?.length > 0 ? "transparent-without-text" : "background-with-text"}
-                    buttonClassName={value && value.length > 0 ? "hover:bg-transparent px-0" : ""}
-                    disabled={!isEditingAllowed || isArchived}
-                  />
-                </div>
+                <MemberDropdown
+                  value={value ?? []}
+                  onChange={(val: string[]) => {
+                    void submitChanges({ member_ids: val });
+                  }}
+                  multiple
+                  projectId={projectId?.toString() ?? ""}
+                  buttonVariant={value && value.length > 1 ? "transparent-without-text" : "transparent-with-text"}
+                  className="group w-full grow"
+                  buttonContainerClassName="w-full text-left h-7.5"
+                  buttonClassName={`text-body-xs-regular justify-between ${value && value.length > 0 ? "" : "text-placeholder"}`}
+                  placeholder={t("members")}
+                  disabled={!isEditingAllowed || isArchived}
+                  dropdownArrow
+                  dropdownArrowClassName="h-3.5 w-3.5 hidden group-hover:inline"
+                />
               )}
             />
-          </div>
-          <div className="flex items-center justify-start gap-1">
-            <div className="flex w-2/5 items-center justify-start gap-2 text-tertiary">
-              <Tag className="h-4 w-4" />
-              <span className="text-14">{t("labels")}</span>
-            </div>
+          </SidebarPropertyListItem>
+
+          <SidebarPropertyListItem icon={LabelPropertyIcon} label={t("labels")}>
             <Controller
               control={control}
               name="label_ids"
               render={({ field: { value } }) => (
-                <div className="h-7 w-3/5">
-                  <LabelDropdown
-                    projectId={projectId?.toString() ?? null}
-                    value={value ?? []}
-                    onChange={(val) => {
-                      void submitChanges({ label_ids: val });
-                    }}
-                    buttonClassName="justify-between gap-1.5 bg-layer-3 hover:bg-layer-1-hover rounded-sm px-1.5"
-                    className="h-7"
-                    fullHeight
-                    hideDropdownArrow
-                    disabled={!isEditingAllowed || isArchived}
-                    label={
-                      <span className="flex-grow truncate text-left leading-5 text-body-xs-medium">
-                        {value && value.length > 0 ? (
-                          <span>{`${value.length} ${t("labels")}`}</span>
-                        ) : (
-                          <span className="text-placeholder">{t("labels")}</span>
-                        )}
-                      </span>
-                    }
-                  />
-                </div>
+                <LabelDropdown
+                  projectId={projectId?.toString() ?? null}
+                  value={value ?? []}
+                  onChange={(val) => {
+                    void submitChanges({ label_ids: val });
+                  }}
+                  buttonClassName="group w-full text-left h-7.5 flex items-center rounded-sm px-2 hover:bg-layer-transparent-hover"
+                  className="w-full grow"
+                  fullWidth
+                  hideDropdownArrow
+                  disabled={!isEditingAllowed || isArchived}
+                  label={
+                    <span className={`text-body-xs-regular ${value && value.length > 0 ? "" : "text-placeholder"}`}>
+                      {value && value.length > 0 ? `${value.length} ${t("labels")}` : t("labels")}
+                    </span>
+                  }
+                />
               )}
             />
-          </div>
-          <div className="flex items-center justify-start gap-1">
-            <div className="flex w-2/5 items-center justify-start gap-2 text-tertiary">
-              <WorkItemsIcon className="h-4 w-4" />
-              <span className="text-14">{t("issues")}</span>
-            </div>
-            <div className="flex h-7 w-3/5 items-center">
-              <span className="px-1.5 text-13 text-tertiary">{issueCount}</span>
-            </div>
-          </div>
+          </SidebarPropertyListItem>
 
-          {/**
-           * NOTE: Render this section when estimate points of he projects is enabled and the estimate system is points
-           */}
+          <SidebarPropertyListItem icon={WorkItemsIcon} label={t("issues")}>
+            <span className="flex h-7.5 items-center px-2 text-body-xs-regular text-secondary">{issueCount}</span>
+          </SidebarPropertyListItem>
+
           {isEstimatePointValid && (
-            <div className="flex items-center justify-start gap-1">
-              <div className="flex w-2/5 items-center justify-start gap-2 text-tertiary">
-                <WorkItemsIcon className="h-4 w-4" />
-                <span className="text-14">{t("points")}</span>
-              </div>
-              <div className="flex h-7 w-3/5 items-center">
-                <span className="px-1.5 text-13 text-tertiary">{issueEstimatePointCount}</span>
-              </div>
-            </div>
+            <SidebarPropertyListItem icon={EstimatePropertyIcon} label={t("points")}>
+              <span className="flex h-7.5 items-center px-2 text-body-xs-regular text-secondary">
+                {issueEstimatePointCount}
+              </span>
+            </SidebarPropertyListItem>
           )}
         </div>
 
+        {/* Progress chart */}
         {workspaceSlug && projectId && moduleDetails?.id && (
           <ModuleAnalyticsProgress
             workspaceSlug={workspaceSlug.toString()}
@@ -418,12 +395,14 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
           />
         )}
 
-        <div className="flex flex-col">
-          <div className="flex w-full flex-col items-center justify-start gap-2 border-t border-subtle px-1.5 py-5">
-            {/* Accessing link outside the disclosure as mobx is not  considering the children inside Disclosure as part of the component hence not observing their state change*/}
+        {/* Links */}
+        <div className="mt-2 flex flex-col border-t border-subtle">
+          <div className="flex w-full flex-col items-center justify-start gap-2 px-1.5 py-5">
+            {/* Accessing link outside the disclosure as mobx is not considering the children inside Disclosure
+                as part of the component hence not observing their state change */}
             <Disclosure defaultOpen={!!moduleDetails?.link_module?.length}>
               {({ open }) => (
-                <div className={`relative  flex  h-full w-full flex-col ${open ? "" : "flex-row"}`}>
+                <div className={`relative flex h-full w-full flex-col ${open ? "" : "flex-row"}`}>
                   <Disclosure.Button className="flex w-full items-center justify-between gap-2 p-1.5">
                     <div className="flex items-center justify-start gap-2 text-13">
                       <span className="font-medium text-secondary">{t("common.links")}</span>
@@ -486,7 +465,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
             </Disclosure>
           </div>
         </div>
-      </>
+      </div>
     </div>
   );
 });

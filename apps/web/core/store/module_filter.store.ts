@@ -186,7 +186,6 @@ export class ModuleFilterStore implements IModuleFilterStore {
   initProjectModuleFilters = (projectId: string) => {
     const displayFilters = this.getDisplayFiltersByProjectId(projectId);
     runInAction(() => {
-       
       const layout = displayFilters?.layout || "list";
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const groupBy = displayFilters?.group_by ?? null;
