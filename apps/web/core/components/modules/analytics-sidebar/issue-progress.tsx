@@ -4,7 +4,6 @@
  * See the LICENSE file for details.
  */
 
-import type { FC } from "react";
 import { Fragment, useMemo, useState } from "react";
 import { observer } from "mobx-react";
 import { useSearchParams } from "next/navigation";
@@ -63,6 +62,7 @@ export const ModuleAnalyticsProgress = observer(function ModuleAnalyticsProgress
   const isCurrentProjectEstimateEnabled = projectId && areEstimateEnabledByProjectId(projectId) ? true : false;
   const estimateDetails =
     isCurrentProjectEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   const isCurrentEstimateTypeIsPoints = estimateDetails && estimateDetails?.type === EEstimateSystem.POINTS;
   const completedIssues = moduleDetails?.completed_issues || 0;
   const totalIssues = moduleDetails?.total_issues || 0;
@@ -112,13 +112,15 @@ export const ModuleAnalyticsProgress = observer(function ModuleAnalyticsProgress
         await fetchModuleDetails(workspaceSlug, projectId, moduleId);
       }
       setLoader(false);
-    } catch (error) {
+    } catch (_error) {
       setLoader(false);
       setPlotType(moduleId, plotType);
     }
   };
 
+  // If no dates are set at all, hide the progress section entirely
   if (!moduleDetails) return <></>;
+  if (!moduleDetails.start_date && !moduleDetails.target_date) return <></>;
   return (
     <div className="border-t border-subtle space-y-4 py-4 px-3">
       <Disclosure defaultOpen={isModuleDateValid ? true : false}>

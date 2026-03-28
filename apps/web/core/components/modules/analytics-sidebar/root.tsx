@@ -245,21 +245,23 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
         </div>
 
         {/* Description */}
-        {/* eslint-disable @typescript-eslint/no-unsafe-assignment */}
-        <DescriptionInput
-          entityId={moduleId}
-          initialValue={moduleDetails.description_html ?? ""}
-          fileAssetType={EFileAssetType.MODULE_DESCRIPTION}
-          onSubmit={async (value) => {
-            await submitChanges({ description_html: value });
-          }}
-          projectId={projectId?.toString()}
-          workspaceSlug={workspaceSlug?.toString() ?? ""}
-          setIsSubmitting={(_value: TNameDescriptionLoader) => {}}
-          disabled={!isEditingAllowed || isArchived}
-          containerClassName="!p-0 !border-0 text-13 leading-5 text-secondary min-h-[80px]"
-        />
-        {/* eslint-enable @typescript-eslint/no-unsafe-assignment */}
+        { }
+        <div className="max-h-[150px] overflow-y-auto">
+          <DescriptionInput
+            entityId={moduleId}
+            initialValue={moduleDetails.description_html ?? ""}
+            fileAssetType={EFileAssetType.MODULE_DESCRIPTION}
+            onSubmit={async (value) => {
+              await submitChanges({ description_html: value });
+            }}
+            projectId={projectId?.toString()}
+            workspaceSlug={workspaceSlug?.toString() ?? ""}
+            setIsSubmitting={(_value: TNameDescriptionLoader) => {}}
+            disabled={!isEditingAllowed || isArchived}
+            containerClassName="!p-0 !border-0 text-13 leading-5 text-secondary min-h-[60px]"
+          />
+        </div>
+        { }
 
         {/* Properties — same layout as issue detail sidebar */}
         <h5 className="mt-5 text-body-xs-medium">{t("common.properties")}</h5>
