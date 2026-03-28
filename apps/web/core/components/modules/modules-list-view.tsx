@@ -12,7 +12,7 @@ import { EUserPermissionsLevel, MODULE_STATUS, MODULE_TRACKER_ELEMENTS } from "@
 import { useTranslation } from "@plane/i18n";
 import { ModuleStatusIcon } from "@plane/propel/icons";
 import { EmptyStateDetailed } from "@plane/propel/empty-state";
-import type { IModule , IBaseLayoutsBaseGroup } from "@plane/types";
+import type { IModule, IBaseLayoutsBaseGroup } from "@plane/types";
 import { EUserProjectRoles } from "@plane/types";
 import { ContentWrapper, Row, ERowVariant } from "@plane/ui";
 // components

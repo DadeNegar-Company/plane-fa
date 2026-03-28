@@ -7,7 +7,7 @@
 import { useCallback } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
-import type { IModule, TModuleGroupByOptions , IBaseLayoutsBaseGroup } from "@plane/types";
+import type { IModule, TModuleGroupByOptions, IBaseLayoutsBaseGroup } from "@plane/types";
 // components
 import { BaseKanbanLayout } from "@/components/base-layouts/kanban/layout";
 import { ModuleCardItem } from "@/components/modules/module-card-item";

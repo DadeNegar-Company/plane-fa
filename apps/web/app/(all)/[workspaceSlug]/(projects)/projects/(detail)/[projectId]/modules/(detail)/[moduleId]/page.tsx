@@ -26,7 +26,7 @@ import type { Route } from "./+types/page";
 function ModuleIssuesPage({ params }: Route.ComponentProps) {
   // router
   const router = useAppRouter();
-   
+
   const { workspaceSlug, projectId, moduleId } = params;
   // store hooks
   const { fetchModuleDetails, getModuleById } = useModule();
