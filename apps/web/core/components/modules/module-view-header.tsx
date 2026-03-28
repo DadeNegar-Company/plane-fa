@@ -135,7 +135,7 @@ export const ModuleViewHeader = observer(function ModuleViewHeader() {
               type="button"
               className="grid place-items-center"
               onClick={() => {
-                // updateSearchQuery("");
+                updateSearchQuery("");
                 setIsSearchOpen(false);
               }}
             >
