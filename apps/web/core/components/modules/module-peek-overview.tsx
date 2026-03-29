@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { usePathname, useSearchParams } from "next/navigation";
 // hooks
 import { generateQueryParams } from "@plane/utils";
+import { ChevronRightIcon } from "@plane/propel/icons";
 import { useModule } from "@/hooks/store/use-module";
 import { useAppRouter } from "@/hooks/use-app-router";
 // components
@@ -42,8 +43,8 @@ export const ModulePeekOverview = observer(function ModulePeekOverview({
 
   useEffect(() => {
     if (!peekModule) return;
-    if (isArchived) fetchArchivedModuleDetails(workspaceSlug, projectId, peekModule.toString());
-    else fetchModuleDetails(workspaceSlug, projectId, peekModule.toString());
+    if (isArchived) void fetchArchivedModuleDetails(workspaceSlug, projectId, peekModule.toString());
+    else void fetchModuleDetails(workspaceSlug, projectId, peekModule.toString());
   }, [fetchArchivedModuleDetails, fetchModuleDetails, isArchived, peekModule, projectId, workspaceSlug]);
 
   return (
@@ -57,11 +58,12 @@ export const ModulePeekOverview = observer(function ModulePeekOverview({
               "0px 1px 4px 0px rgba(0, 0, 0, 0.06), 0px 2px 4px 0px rgba(16, 24, 40, 0.06), 0px 1px 8px -1px rgba(16, 24, 40, 0.06)",
           }}
         >
-          <ModuleAnalyticsSidebar
-            moduleId={peekModule?.toString() ?? ""}
-            handleClose={handleClose}
-            isArchived={isArchived}
-          />
+          <div className="sticky z-10 top-0 flex items-center bg-surface-1 pb-2 pt-5">
+            <button className="flex h-5 w-5 items-center justify-center rounded-full bg-layer-3" onClick={handleClose}>
+              <ChevronRightIcon className="h-3 w-3 stroke-2 text-on-color" />
+            </button>
+          </div>
+          <ModuleAnalyticsSidebar moduleId={peekModule?.toString() ?? ""} isArchived={isArchived} />
         </div>
       )}
     </>

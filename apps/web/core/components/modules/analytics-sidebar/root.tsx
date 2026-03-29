@@ -23,7 +23,6 @@ import {
   UserCirclePropertyIcon,
   EstimatePropertyIcon,
   ChevronDownIcon,
-  ChevronRightIcon,
 } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { ILinkDetails, IModule, ModuleLink, TNameDescriptionLoader } from "@plane/types";
@@ -56,12 +55,11 @@ const defaultValues: Partial<IModule> = {
 
 type Props = {
   moduleId: string;
-  handleClose: () => void;
   isArchived?: boolean;
 };
 
 export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(props: Props) {
-  const { moduleId, handleClose, isArchived } = props;
+  const { moduleId, isArchived } = props;
   // states
   const [moduleLinkModal, setModuleLinkModal] = useState(false);
   const [selectedLinkToUpdate, setSelectedLinkToUpdate] = useState<ILinkDetails | null>(null);
@@ -175,7 +173,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT
   );
-   
+
   const descriptionHtml: string = moduleDetails.description_html ?? "";
 
   return (
@@ -194,16 +192,6 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
       />
 
       <div className="h-full w-full overflow-y-auto px-6">
-        {/* Header: close button */}
-        <div className="sticky z-10 top-0 flex items-center bg-surface-1 pb-2 pt-5">
-          <button
-            className="flex h-5 w-5 items-center justify-center rounded-full bg-layer-3"
-            onClick={() => handleClose()}
-          >
-            <ChevronRightIcon className="h-3 w-3 stroke-2 text-on-color" />
-          </button>
-        </div>
-
         {/* Status + Name */}
         <div className="flex flex-col gap-3 pb-3">
           <div className="flex items-center gap-5 pt-2">

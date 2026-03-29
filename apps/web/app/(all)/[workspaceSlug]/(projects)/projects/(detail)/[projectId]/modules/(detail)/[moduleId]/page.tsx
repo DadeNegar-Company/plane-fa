@@ -7,6 +7,7 @@
 import { observer } from "mobx-react";
 import useSWR from "swr";
 // plane imports
+import { PanelRight } from "lucide-react";
 import { cn } from "@plane/utils";
 // assets
 import emptyModule from "@/app/assets/empty-state/module.svg?url";
@@ -31,10 +32,9 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
   // store hooks
   const { fetchModuleDetails, getModuleById } = useModule();
   const { getProjectById } = useProject();
-  // const { issuesFilter } = useIssues(EIssuesStoreType.MODULE);
   // local storage
   const { setValue, storedValue } = useLocalStorage("module_sidebar_collapsed", "false");
-  const isSidebarCollapsed = storedValue ? (storedValue === "true" ? true : false) : false;
+  const isSidebarCollapsed = storedValue ? storedValue === "true" : false;
   // fetching module details
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { error } = useSWR(`CURRENT_MODULE_DETAILS_${moduleId}`, () =>
@@ -49,7 +49,6 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
     setValue(`${!isSidebarCollapsed}`);
   };
 
-  // const activeLayout = issuesFilter?.issueFilters?.displayFilters?.layout;
   return (
     <>
       <PageHead title={pageTitle} />
@@ -64,8 +63,9 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
           }}
         />
       ) : (
-        <div className="flex h-full w-full">
-          <div className="h-full w-full overflow-hidden flex flex-col">
+        <div className="flex h-full w-full overflow-hidden">
+          {/* Main content */}
+          <div className="flex h-full w-full flex-col overflow-hidden">
             {isSidebarCollapsed && (
               <ModuleDescriptionBanner moduleId={moduleId} workspaceSlug={workspaceSlug} projectId={projectId} />
             )}
@@ -73,15 +73,28 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
               <ModuleLayoutRoot />
             </div>
           </div>
-          {!isSidebarCollapsed && (
-            <div
-              className={cn(
-                "flex h-full w-[24rem] flex-shrink-0 flex-col border-l border-subtle bg-surface-1 duration-300 absolute right-0 z-13 shadow-raised-200"
-              )}
-            >
-              <ModuleAnalyticsSidebar moduleId={moduleId} handleClose={toggleSidebar} />
+
+          {/* Sidebar — same positioning pattern as issue detail sidebar */}
+          <div
+            className={cn(
+              "fixed right-0 z-[5] flex h-full w-full min-w-[300px] flex-col border-l border-subtle bg-surface-1 transition-all duration-300 sm:w-1/2 md:relative md:w-1/4 lg:min-w-80 xl:min-w-[24rem]"
+            )}
+            style={isSidebarCollapsed ? { right: `-${typeof window !== "undefined" ? window.innerWidth : 0}px` } : {}}
+          >
+            {/* Sidebar toggle button — page-level, always accessible */}
+            <div className="flex shrink-0 items-center px-4 pb-2 pt-5">
+              <button
+                className="flex h-5 w-5 items-center justify-center rounded-sm text-tertiary hover:bg-layer-transparent-hover hover:text-primary"
+                onClick={toggleSidebar}
+                title={isSidebarCollapsed ? "Open sidebar" : "Close sidebar"}
+              >
+                <PanelRight className="h-4 w-4" />
+              </button>
             </div>
-          )}
+            <div className="min-h-0 flex-1 overflow-hidden">
+              <ModuleAnalyticsSidebar moduleId={moduleId} />
+            </div>
+          </div>
         </div>
       )}
     </>
