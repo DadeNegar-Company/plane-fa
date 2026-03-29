@@ -175,6 +175,8 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT
   );
+   
+  const descriptionHtml: string = moduleDetails.description_html ?? "";
 
   return (
     <div className="relative flex h-full w-full flex-col divide-y-2 divide-subtle-1 overflow-hidden">
@@ -244,10 +246,9 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
           <h4 className="w-full break-words text-18 font-semibold text-primary">{moduleDetails.name}</h4>
         </div>
 
-        { }
         <DescriptionInput
           entityId={moduleId}
-          initialValue={moduleDetails.description_html ?? ""}
+          initialValue={descriptionHtml}
           fileAssetType={EFileAssetType.MODULE_DESCRIPTION}
           onSubmit={async (value) => {
             await submitChanges({ description_html: value });
@@ -258,7 +259,6 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
           disabled={!isEditingAllowed || isArchived}
           containerClassName="!p-0 !border-0 text-13 leading-5 text-secondary min-h-[60px]"
         />
-        { }
 
         {/* Properties — same layout as issue detail sidebar */}
         <h5 className="mt-5 text-body-xs-medium">{t("common.properties")}</h5>
