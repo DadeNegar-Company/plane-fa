@@ -244,23 +244,20 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
           <h4 className="w-full break-words text-18 font-semibold text-primary">{moduleDetails.name}</h4>
         </div>
 
-        {/* Description */}
         { }
-        <div className="max-h-[150px] overflow-y-auto">
-          <DescriptionInput
-            entityId={moduleId}
-            initialValue={moduleDetails.description_html ?? ""}
-            fileAssetType={EFileAssetType.MODULE_DESCRIPTION}
-            onSubmit={async (value) => {
-              await submitChanges({ description_html: value });
-            }}
-            projectId={projectId?.toString()}
-            workspaceSlug={workspaceSlug?.toString() ?? ""}
-            setIsSubmitting={(_value: TNameDescriptionLoader) => {}}
-            disabled={!isEditingAllowed || isArchived}
-            containerClassName="!p-0 !border-0 text-13 leading-5 text-secondary min-h-[60px]"
-          />
-        </div>
+        <DescriptionInput
+          entityId={moduleId}
+          initialValue={moduleDetails.description_html ?? ""}
+          fileAssetType={EFileAssetType.MODULE_DESCRIPTION}
+          onSubmit={async (value) => {
+            await submitChanges({ description_html: value });
+          }}
+          projectId={projectId?.toString()}
+          workspaceSlug={workspaceSlug?.toString() ?? ""}
+          setIsSubmitting={(_value: TNameDescriptionLoader) => {}}
+          disabled={!isEditingAllowed || isArchived}
+          containerClassName="!p-0 !border-0 text-13 leading-5 text-secondary min-h-[60px]"
+        />
         { }
 
         {/* Properties — same layout as issue detail sidebar */}
