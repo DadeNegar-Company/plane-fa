@@ -85,6 +85,7 @@ ATTRIBUTES = {
         "id",
         "title",
         "role",
+        "dir",  # [FA-CUSTOM] required to preserve RTL/LTR paragraph direction
         "aria-label",
         "aria-hidden",
         "style",

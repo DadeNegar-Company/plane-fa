@@ -201,6 +201,19 @@ ul[data-type="taskList"] li[data-checked="true"] {
     transition: opacity 0.2s ease;
   }
 }
+/* [FA-CUSTOM] Dark mode: improve checkbox visibility on colored/dark backgrounds (e.g. sticky notes).
+   border-strong (neutral-600 in dark) is too close in lightness to all sticky note background
+   colors, resulting in invisible checkbox borders. Semi-transparent white provides sufficient
+   contrast across every sticky palette. */
+[data-theme*="dark"] ul[data-type="taskList"] li > label input[type="checkbox"] {
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme*="dark"] ul[data-type="taskList"] li > label input[type="checkbox"]:checked {
+  background-color: var(--background-color-accent-primary) !important;
+  border-color: var(--border-color-accent-strong) !important;
+}
 /* end to-do list */
 
 /* Overwrite tippy-box original max-width */
