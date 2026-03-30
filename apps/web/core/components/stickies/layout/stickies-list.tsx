@@ -71,7 +71,7 @@ export const StickiesList = observer(function StickiesList(props: TProps) {
   );
   const stickiesResolvedPath = resolvedTheme === "light" ? lightStickiesAsset : darkStickiesAsset;
   const stickiesSearchResolvedPath = resolvedTheme === "light" ? lightStickiesSearchAsset : darkStickiesSearchAsset;
-  const masonryRef = useRef<any>(null);
+  const masonryRef = useRef<{ performLayout: () => void } | null>(null);
 
   const handleLayout = () => {
     if (masonryRef.current) {
@@ -89,7 +89,7 @@ export const StickiesList = observer(function StickiesList(props: TProps) {
     };
   };
 
-  const handleDrop = (self: DropTargetRecord, source: ElementDragPayload, location: DragLocationHistory) => {
+  const handleDrop = (_self: DropTargetRecord, source: ElementDragPayload, location: DragLocationHistory) => {
     const dropTargets = location?.current?.dropTargets ?? [];
     if (!dropTargets || dropTargets.length <= 0) return;
 
@@ -102,7 +102,7 @@ export const StickiesList = observer(function StickiesList(props: TProps) {
 
     try {
       if (!instruction || !droppedId || !sourceId) return;
-      stickyOperations.updatePosition(workspaceSlug, sourceId as string, droppedId as string, instruction);
+      void stickyOperations.updatePosition(workspaceSlug, sourceId as string, droppedId as string, instruction);
     } catch (error) {
       console.error("Error reordering sticky:", error);
     }
@@ -132,8 +132,8 @@ export const StickiesList = observer(function StickiesList(props: TProps) {
                   prependIcon: <PlusIcon className="size-4" />,
                   text: t("stickies.empty_state.general.primary_button.text"),
                   onClick: () => {
-                    toggleShowNewSticky(true);
-                    stickyOperations.create();
+                    void toggleShowNewSticky(true);
+                    void stickyOperations.create();
                   },
                   disabled: !hasGuestLevelPermissions,
                 }}
@@ -182,6 +182,7 @@ export function StickiesLayout(props: TStickiesLayout) {
   useEffect(() => {
     if (!ref?.current) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setContainerWidth(ref?.current.offsetWidth);
 
     const resizeObserver = new ResizeObserver((entries) => {
@@ -199,9 +200,8 @@ export function StickiesLayout(props: TStickiesLayout) {
 
     if (width < 640) return 2; // sm
     if (width < 850) return 3; // md
-    if (width < 1024) return 4; // lg
-    if (width < 1280) return 5; // xl
-    return 6; // 2xl and above
+    if (width < 1280) return 4; // lg–xl
+    return 5; // 2xl and above
   };
   const columnCount = getColumnCount(containerWidth);
 

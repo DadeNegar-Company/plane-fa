@@ -9,7 +9,7 @@ import { Loader } from "@plane/ui";
 
 export function StickiesLoader() {
   return (
-    <div className="overflow-scroll pb-2 grid grid-cols-4 gap-4">
+    <div className="overflow-scroll pb-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
       {Array.from({ length: 4 }).map((_, index) => (
         <Loader key={index} className="space-y-5 border border-subtle p-3 rounded-sm">
           <div className="space-y-2">
