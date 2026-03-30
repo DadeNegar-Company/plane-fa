@@ -14,7 +14,7 @@ import { useLocalStorage } from "@plane/hooks";
 import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setPromiseToast, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
-import type { IModule } from "@plane/types";
+import type { IModule, TModuleDisplayProperties } from "@plane/types";
 import { FavoriteStar } from "@plane/ui";
 import { renderFormattedPayloadDate, getDate } from "@plane/utils";
 // components
@@ -32,10 +32,17 @@ type Props = {
   moduleId: string;
   moduleDetails: IModule;
   parentRef: React.RefObject<HTMLDivElement>;
+  displayProperties?: TModuleDisplayProperties;
 };
 
 export const ModuleListItemAction = observer(function ModuleListItemAction(props: Props) {
-  const { moduleId, moduleDetails, parentRef } = props;
+  const { moduleId, moduleDetails, parentRef, displayProperties = {} } = props;
+  const dp = {
+    lead: displayProperties.lead ?? true,
+    labels: displayProperties.labels ?? true,
+    start_date: displayProperties.start_date ?? true,
+    target_date: displayProperties.target_date ?? true,
+  };
   // router
   const { workspaceSlug, projectId } = useParams();
   //   store hooks
@@ -134,7 +141,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
 
   return (
     <>
-      {moduleDetails.label_ids && moduleDetails.label_ids.length > 0 && (
+      {dp.labels && moduleDetails.label_ids && moduleDetails.label_ids.length > 0 && (
         <Tooltip
           tooltipContent={moduleDetails.label_ids
             .map((id) => getLabelById(id)?.name)
@@ -160,28 +167,30 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
         </Tooltip>
       )}
 
-      <DateRangeDropdown
-        buttonContainerClassName={`h-6 w-full flex ${isDisabled ? "cursor-not-allowed" : "cursor-pointer"} items-center gap-1.5 text-tertiary border-[0.5px] border-strong rounded-sm text-11`}
-        buttonVariant="transparent-with-text"
-        className="h-7"
-        value={{
-          from: getDate(moduleDetails.start_date),
-          to: getDate(moduleDetails.target_date),
-        }}
-        onSelect={(val) => {
-          void handleModuleDetailsChange({
-            start_date: val?.from ? renderFormattedPayloadDate(val.from) : null,
-            target_date: val?.to ? renderFormattedPayloadDate(val.to) : null,
-          });
-        }}
-        mergeDates
-        placeholder={{
-          from: t("start_date"),
-          to: t("end_date"),
-        }}
-        disabled={isDisabled}
-        hideIcon={{ from: renderIcon ?? true, to: renderIcon }}
-      />
+      {(dp.start_date || dp.target_date) && (
+        <DateRangeDropdown
+          buttonContainerClassName={`h-6 w-full flex ${isDisabled ? "cursor-not-allowed" : "cursor-pointer"} items-center gap-1.5 text-tertiary border-[0.5px] border-strong rounded-sm text-11`}
+          buttonVariant="transparent-with-text"
+          className="h-7"
+          value={{
+            from: dp.start_date ? getDate(moduleDetails.start_date) : undefined,
+            to: dp.target_date ? getDate(moduleDetails.target_date) : undefined,
+          }}
+          onSelect={(val) => {
+            void handleModuleDetailsChange({
+              start_date: val?.from ? renderFormattedPayloadDate(val.from) : null,
+              target_date: val?.to ? renderFormattedPayloadDate(val.to) : null,
+            });
+          }}
+          mergeDates
+          placeholder={{
+            from: t("start_date"),
+            to: t("end_date"),
+          }}
+          disabled={isDisabled}
+          hideIcon={{ from: renderIcon ?? true, to: renderIcon }}
+        />
+      )}
 
       {moduleStatus && (
         <ModuleStatusDropdown
@@ -191,15 +200,16 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
         />
       )}
 
-      {moduleLeadDetails ? (
-        <span className="cursor-default">
-          <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
-        </span>
-      ) : (
-        <Tooltip tooltipContent="No lead">
-          <SquareUser className="h-4 w-4 text-tertiary" />
-        </Tooltip>
-      )}
+      {dp.lead &&
+        (moduleLeadDetails ? (
+          <span className="cursor-default">
+            <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
+          </span>
+        ) : (
+          <Tooltip tooltipContent="No lead">
+            <SquareUser className="h-4 w-4 text-tertiary" />
+          </Tooltip>
+        ))}
 
       {isEditingAllowed && !moduleDetails.archived_at && (
         <FavoriteStar

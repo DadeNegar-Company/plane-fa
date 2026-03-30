@@ -12,7 +12,7 @@ import { EUserPermissionsLevel, MODULE_STATUS, MODULE_TRACKER_ELEMENTS } from "@
 import { useTranslation } from "@plane/i18n";
 import { ModuleStatusIcon } from "@plane/propel/icons";
 import { EmptyStateDetailed } from "@plane/propel/empty-state";
-import type { IModule, IBaseLayoutsBaseGroup } from "@plane/types";
+import type { IModule, IBaseLayoutsBaseGroup, TModuleDisplayProperties } from "@plane/types";
 import { EUserProjectRoles } from "@plane/types";
 import { ContentWrapper, Row, ERowVariant } from "@plane/ui";
 // components
@@ -45,7 +45,8 @@ export const ModulesListView = observer(function ModulesListView() {
   const { t } = useTranslation();
   // store hooks
   const { toggleCreateModuleModal } = useCommandPalette();
-  const { getProjectModuleIds, getFilteredModuleIds, getGroupedModuleIds, moduleMap, loader } = useModule();
+  const { getProjectModuleIds, getFilteredModuleIds, getGroupedModuleIds, getSubGroupedModuleIds, moduleMap, loader } =
+    useModule();
   const { currentProjectDisplayFilters: displayFilters } = useModuleFilter();
   const { allowPermissions } = useUserPermissions();
   const { getUserDetails } = useMember();
@@ -54,10 +55,11 @@ export const ModulesListView = observer(function ModulesListView() {
   const projectModuleIds = projectId ? getProjectModuleIds(projectId.toString()) : undefined;
   const filteredModuleIds = projectId ? getFilteredModuleIds(projectId.toString()) : undefined;
   const groupedModuleIds = projectId ? getGroupedModuleIds(projectId.toString()) : null;
+  const subGroupedModuleIds = projectId ? getSubGroupedModuleIds(projectId.toString()) : null;
+  const displayProperties: TModuleDisplayProperties = displayFilters?.display_properties ?? {};
 
   // Build groups for BaseListLayout/BaseKanbanLayout
   const groups: IBaseLayoutsBaseGroup[] = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const groupBy = displayFilters?.group_by;
     if (!groupBy || !groupedModuleIds) return [];
     const groupKeys = Object.keys(groupedModuleIds);
@@ -93,6 +95,46 @@ export const ModulesListView = observer(function ModulesListView() {
         return groupKeys.map((key) => ({ id: key, name: key }));
     }
   }, [displayFilters?.group_by, groupedModuleIds, getUserDetails, getLabelById, t]);
+
+  // Build sub-groups array (for kanban sub-group mode)
+  const subGroups: IBaseLayoutsBaseGroup[] = useMemo(() => {
+    const subGroupBy = displayFilters?.sub_group_by;
+    if (!subGroupBy || !subGroupedModuleIds) return [];
+    const allSubGroupKeys = new Set<string>();
+    Object.values(subGroupedModuleIds).forEach((inner) => Object.keys(inner).forEach((k) => allSubGroupKeys.add(k)));
+    const subGroupKeys = Array.from(allSubGroupKeys);
+    switch (subGroupBy) {
+      case "status":
+        return MODULE_STATUS.map((status) => ({
+          id: status.value,
+          name: t(status.i18n_label),
+          icon: <ModuleStatusIcon status={status.value} height="14px" width="14px" />,
+        }));
+      case "lead":
+        return subGroupKeys.map((key) => ({
+          id: key,
+          name: key === "none" ? t("common.no_lead") : (getUserDetails(key)?.display_name ?? key),
+        }));
+      case "members":
+        return subGroupKeys.map((key) => ({
+          id: key,
+          name: key === "none" ? t("common.no_members") : (getUserDetails(key)?.display_name ?? key),
+        }));
+      case "label":
+        return subGroupKeys.map((key) => ({
+          id: key,
+          name: key === "none" ? t("common.no_label") : (getLabelById(key)?.name ?? key),
+        }));
+      case "start_date":
+      case "target_date":
+        return subGroupKeys.sort().map((key) => ({
+          id: key,
+          name: key === "none" ? t("common.no_date") : key,
+        }));
+      default:
+        return subGroupKeys.map((key) => ({ id: key, name: key }));
+    }
+  }, [displayFilters?.sub_group_by, subGroupedModuleIds, getUserDetails, getLabelById, t]);
 
   // Items map for BaseListLayout/BaseKanbanLayout
   const items = useMemo(() => {
@@ -150,24 +192,24 @@ export const ModulesListView = observer(function ModulesListView() {
   return (
     <ContentWrapper variant={ERowVariant.HUGGING}>
       <div className="size-full flex justify-between">
-        {/* eslint-disable @typescript-eslint/no-unsafe-assignment */}
+        {}
         {displayFilters?.layout === "list" &&
           (displayFilters?.group_by && groupedModuleIds ? (
             <BaseListLayout
               items={items}
               groups={groups}
               groupedItemIds={groupedModuleIds}
-              renderItem={(item) => <ModuleListItem moduleId={item.id} />}
+              renderItem={(item) => <ModuleListItem moduleId={item.id} displayProperties={displayProperties} />}
               showEmptyGroups={displayFilters.show_empty_groups ?? true}
             />
           ) : (
             <ListLayout>
               {filteredModuleIds.map((moduleId) => (
-                <ModuleListItem key={moduleId} moduleId={moduleId} />
+                <ModuleListItem key={moduleId} moduleId={moduleId} displayProperties={displayProperties} />
               ))}
             </ListLayout>
           ))}
-        {/* eslint-enable @typescript-eslint/no-unsafe-assignment */}
+        {}
         {displayFilters?.layout === "board" && (
           <Row
             className={`size-full py-page-y grid grid-cols-1 gap-6 overflow-y-auto ${
@@ -177,21 +219,24 @@ export const ModulesListView = observer(function ModulesListView() {
             } auto-rows-max transition-all vertical-scrollbar scrollbar-lg`}
           >
             {filteredModuleIds.map((moduleId) => (
-              <ModuleCardItem key={moduleId} moduleId={moduleId} />
+              <ModuleCardItem key={moduleId} moduleId={moduleId} displayProperties={displayProperties} />
             ))}
           </Row>
         )}
         {displayFilters?.layout === "kanban" && groupedModuleIds && (
           <div className="size-full overflow-hidden">
-            {/* eslint-disable @typescript-eslint/no-unsafe-assignment */}
+            {}
             <ModuleKanbanRoot
               groupedModuleIds={groupedModuleIds}
               groupBy={displayFilters?.group_by ?? "status"}
               groups={groups}
               items={items}
               showEmptyGroups={displayFilters?.show_empty_groups ?? true}
+              subGroupedModuleIds={subGroupedModuleIds ?? undefined}
+              subGroupBy={displayFilters?.sub_group_by ?? undefined}
+              subGroups={subGroups.length > 0 ? subGroups : undefined}
             />
-            {/* eslint-enable @typescript-eslint/no-unsafe-assignment */}
+            {}
           </div>
         )}
         {displayFilters?.layout === "gantt" && (

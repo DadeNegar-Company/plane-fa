@@ -10,7 +10,7 @@ import { computedFn } from "mobx-utils";
 // types
 import type { IModule, ILinkDetails, TModulePlotType } from "@plane/types";
 import type { DistributionUpdates } from "@plane/utils";
-import { updateDistribution, orderModules, shouldFilterModule, groupModules } from "@plane/utils";
+import { updateDistribution, orderModules, shouldFilterModule, groupModules, subGroupModules } from "@plane/utils";
 // helpers
 // services
 import { ModuleService } from "@/services/module.service";
@@ -33,6 +33,7 @@ export interface IModuleStore {
   getModulesFetchStatusByProjectId: (projectId: string) => boolean;
   getFilteredModuleIds: (projectId: string) => string[] | null;
   getGroupedModuleIds: (projectId: string) => Record<string, string[]> | null;
+  getSubGroupedModuleIds: (projectId: string) => Record<string, Record<string, string[]>> | null;
   getFilteredArchivedModuleIds: (projectId: string) => string[] | null;
   getModuleById: (moduleId: string) => IModule | null;
   getModuleNameById: (moduleId: string) => string;
@@ -197,6 +198,14 @@ export class ModulesStore implements IModuleStore {
     if (!filteredIds || !displayFilters?.group_by) return null;
     const modules = filteredIds.map((id) => this.moduleMap[id]).filter(Boolean);
     return groupModules(modules, displayFilters.group_by);
+  });
+
+  getSubGroupedModuleIds = computedFn((projectId: string): Record<string, Record<string, string[]>> | null => {
+    const displayFilters = this.rootStore.moduleFilter.getDisplayFiltersByProjectId(projectId);
+    const filteredIds = this.getFilteredModuleIds(projectId);
+    if (!filteredIds || !displayFilters?.group_by || !displayFilters?.sub_group_by) return null;
+    const modules = filteredIds.map((id) => this.moduleMap[id]).filter(Boolean);
+    return subGroupModules(modules, displayFilters.group_by, displayFilters.sub_group_by);
   });
 
   /**
@@ -473,6 +482,7 @@ export class ModulesStore implements IModuleStore {
         delete this.moduleMap[moduleId];
         if (this.rootStore.favorite.entityMap[moduleId]) this.rootStore.favorite.removeFavoriteFromStore(moduleId);
       });
+      return undefined;
     });
   };
 
@@ -490,15 +500,13 @@ export class ModulesStore implements IModuleStore {
     moduleId: string,
     data: Partial<ILinkDetails>
   ) => {
-    try {
-      const moduleLink = await this.moduleService.createModuleLink(workspaceSlug, projectId, moduleId, data);
-      runInAction(() => {
-        update(this.moduleMap, [moduleId, "link_module"], (moduleLinks = []) => concat(moduleLinks, moduleLink));
-      });
-      return moduleLink;
-    } catch (error) {
-      throw error;
-    }
+    const moduleLink = await this.moduleService.createModuleLink(workspaceSlug, projectId, moduleId, data);
+    runInAction(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      update(this.moduleMap, [moduleId, "link_module"], (moduleLinks = []) => concat(moduleLinks, moduleLink));
+    });
+
+    return moduleLink;
   };
 
   /**
@@ -544,17 +552,17 @@ export class ModulesStore implements IModuleStore {
    * @param linkId
    */
   deleteModuleLink = async (workspaceSlug: string, projectId: string, moduleId: string, linkId: string) => {
-    try {
-      const moduleLink = await this.moduleService.deleteModuleLink(workspaceSlug, projectId, moduleId, linkId);
-      runInAction(() => {
-        update(this.moduleMap, [moduleId, "link_module"], (moduleLinks = []) =>
-          moduleLinks.filter((link: ILinkDetails) => link.id !== linkId)
-        );
-      });
-      return moduleLink;
-    } catch (error) {
-      throw error;
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const moduleLink = await this.moduleService.deleteModuleLink(workspaceSlug, projectId, moduleId, linkId);
+    runInAction(() => {
+      /* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
+      update(this.moduleMap, [moduleId, "link_module"], (moduleLinks = []) =>
+        moduleLinks.filter((link: ILinkDetails) => link.id !== linkId)
+      );
+      /* eslint-enable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return moduleLink;
   };
 
   /**
@@ -592,7 +600,7 @@ export class ModulesStore implements IModuleStore {
    * @param moduleId
    * @returns
    */
-  removeModuleFromFavorites = async (workspaceSlug: string, projectId: string, moduleId: string) => {
+  removeModuleFromFavorites = async (workspaceSlug: string, _projectId: string, moduleId: string) => {
     try {
       const moduleDetails = this.getModuleById(moduleId);
       if (!moduleDetails?.is_favorite) return;
@@ -625,6 +633,7 @@ export class ModulesStore implements IModuleStore {
           set(this.moduleMap, [moduleId, "archived_at"], response.archived_at);
           if (this.rootStore.favorite.entityMap[moduleId]) this.rootStore.favorite.removeFavoriteFromStore(moduleId);
         });
+        return undefined;
       })
       .catch((error) => {
         console.error("Failed to archive module in module store", error);
@@ -647,6 +656,7 @@ export class ModulesStore implements IModuleStore {
         runInAction(() => {
           set(this.moduleMap, [moduleId, "archived_at"], null);
         });
+        return undefined;
       })
       .catch((error) => {
         console.error("Failed to restore module in module store", error);

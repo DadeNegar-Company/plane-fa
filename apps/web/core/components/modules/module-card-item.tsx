@@ -22,7 +22,7 @@ import { useLocalStorage } from "@plane/hooks";
 import { WorkItemsIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setPromiseToast, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
-import type { IModule } from "@plane/types";
+import type { IModule, TModuleDisplayProperties } from "@plane/types";
 import { Card, FavoriteStar, LinearProgressIndicator } from "@plane/ui";
 import { getDate, renderFormattedPayloadDate, generateQueryParams } from "@plane/utils";
 // components
@@ -40,10 +40,20 @@ import { usePlatformOS } from "@/hooks/use-platform-os";
 
 type Props = {
   moduleId: string;
+  displayProperties?: TModuleDisplayProperties;
 };
 
 export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
-  const { moduleId } = props;
+  const { moduleId, displayProperties = {} } = props;
+  const dp = {
+    lead: displayProperties.lead ?? true,
+    members: displayProperties.members ?? false,
+    labels: displayProperties.labels ?? true,
+    start_date: displayProperties.start_date ?? true,
+    target_date: displayProperties.target_date ?? true,
+    progress: displayProperties.progress ?? true,
+    issue_count: displayProperties.issue_count ?? true,
+  };
   // refs
   const parentRef = useRef(null);
   // router
@@ -212,22 +222,27 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
             </div>
           </div>
           <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-secondary">
-                <WorkItemsIcon className="h-4 w-4 text-tertiary" />
-                <span className="text-11 text-tertiary">{issueCount ?? "0 Work item"}</span>
+            {(dp.issue_count || dp.lead) && (
+              <div className="flex items-center justify-between">
+                {dp.issue_count && (
+                  <div className="flex items-center gap-1.5 text-secondary">
+                    <WorkItemsIcon className="h-4 w-4 text-tertiary" />
+                    <span className="text-11 text-tertiary">{issueCount ?? "0 Work item"}</span>
+                  </div>
+                )}
+                {dp.lead &&
+                  (moduleLeadDetails ? (
+                    <span className="cursor-default ml-auto">
+                      <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
+                    </span>
+                  ) : (
+                    <Tooltip tooltipContent="No lead">
+                      <SquareUser className="h-4 w-4 mx-1 text-tertiary ml-auto" />
+                    </Tooltip>
+                  ))}
               </div>
-              {moduleLeadDetails ? (
-                <span className="cursor-default">
-                  <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
-                </span>
-              ) : (
-                <Tooltip tooltipContent="No lead">
-                  <SquareUser className="h-4 w-4 mx-1 text-tertiary " />
-                </Tooltip>
-              )}
-            </div>
-            {moduleDetails.label_ids && moduleDetails.label_ids.length > 0 && (
+            )}
+            {dp.labels && moduleDetails.label_ids && moduleDetails.label_ids.length > 0 && (
               <div className="flex items-center gap-1.5 flex-wrap">
                 {moduleDetails.label_ids.slice(0, 3).map((labelId) => {
                   const label = getLabelById(labelId);
@@ -247,31 +262,33 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
                 )}
               </div>
             )}
-            <LinearProgressIndicator size="lg" data={progressIndicatorData} />
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div className="flex items-center justify-between py-0.5" onClick={handleEventPropagation}>
-              <DateRangeDropdown
-                buttonContainerClassName={`h-6 w-full flex ${isDisabled ? "cursor-not-allowed" : "cursor-pointer"} items-center gap-1.5 text-tertiary border-[0.5px] border-strong rounded-sm text-11`}
-                buttonVariant="transparent-with-text"
-                className="h-7"
-                value={{
-                  from: getDate(moduleDetails.start_date),
-                  to: getDate(moduleDetails.target_date),
-                }}
-                onSelect={(val) => {
-                  void handleModuleDetailsChange({
-                    start_date: val?.from ? renderFormattedPayloadDate(val.from) : null,
-                    target_date: val?.to ? renderFormattedPayloadDate(val.to) : null,
-                  });
-                }}
-                placeholder={{
-                  from: "Start date",
-                  to: "End date",
-                }}
-                disabled={isDisabled}
-                hideIcon={{ from: renderIcon ?? true, to: renderIcon }}
-              />
-            </div>
+            {dp.progress && <LinearProgressIndicator size="lg" data={progressIndicatorData} />}
+            {(dp.start_date || dp.target_date) && (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+              <div className="flex items-center justify-between py-0.5" onClick={handleEventPropagation}>
+                <DateRangeDropdown
+                  buttonContainerClassName={`h-6 w-full flex ${isDisabled ? "cursor-not-allowed" : "cursor-pointer"} items-center gap-1.5 text-tertiary border-[0.5px] border-strong rounded-sm text-11`}
+                  buttonVariant="transparent-with-text"
+                  className="h-7"
+                  value={{
+                    from: dp.start_date ? getDate(moduleDetails.start_date) : undefined,
+                    to: dp.target_date ? getDate(moduleDetails.target_date) : undefined,
+                  }}
+                  onSelect={(val) => {
+                    void handleModuleDetailsChange({
+                      start_date: val?.from ? renderFormattedPayloadDate(val.from) : null,
+                      target_date: val?.to ? renderFormattedPayloadDate(val.to) : null,
+                    });
+                  }}
+                  placeholder={{
+                    from: "Start date",
+                    to: "End date",
+                  }}
+                  disabled={isDisabled}
+                  hideIcon={{ from: renderIcon ?? true, to: renderIcon }}
+                />
+              </div>
+            )}
           </div>
         </Card>
       </Link>

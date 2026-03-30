@@ -9,6 +9,8 @@ import { action, computed, observable, makeObservable, runInAction, reaction } f
 import { computedFn } from "mobx-utils";
 // types
 import type { TModuleDisplayFilters, TModuleFilters, TModuleFiltersByState } from "@plane/types";
+// constants
+import { MODULE_DEFAULT_DISPLAY_PROPERTIES } from "@plane/constants";
 // helpers
 import { storage } from "@/lib/local-storage";
 // store
@@ -187,17 +189,22 @@ export class ModuleFilterStore implements IModuleFilterStore {
     const displayFilters = this.getDisplayFiltersByProjectId(projectId);
     runInAction(() => {
       const layout = displayFilters?.layout || "list";
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const groupBy = displayFilters?.group_by ?? null;
-      /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+      const resolvedLayout = layout === "kanban" && !groupBy ? "list" : layout;
+      // sub_group_by is only valid for kanban layout
+      const subGroupBy = resolvedLayout === "kanban" ? (displayFilters?.sub_group_by ?? null) : null;
       this.displayFilters[projectId] = {
         favorites: displayFilters?.favorites || false,
-        layout: layout === "kanban" && !groupBy ? "list" : layout,
+        layout: resolvedLayout,
         order_by: displayFilters?.order_by || "name",
         group_by: groupBy,
+        sub_group_by: subGroupBy,
         show_empty_groups: displayFilters?.show_empty_groups ?? true,
+        display_properties: displayFilters?.display_properties ?? { ...MODULE_DEFAULT_DISPLAY_PROPERTIES },
       };
-      /* eslint-enable @typescript-eslint/no-unsafe-assignment */
+
       this.filters[projectId] = this.filters[projectId] ?? {
         default: {},
         archived: {},
@@ -217,6 +224,10 @@ export class ModuleFilterStore implements IModuleFilterStore {
       Object.keys(displayFilters).forEach((key) => {
         set(this.displayFilters, [projectId, key], displayFilters[key as keyof TModuleDisplayFilters]);
       });
+      // clear sub_group_by when switching away from kanban layout
+      if (displayFilters.layout && displayFilters.layout !== "kanban") {
+        set(this.displayFilters, [projectId, "sub_group_by"], null);
+      }
     });
     this.saveDisplayFiltersToLocalStorage();
   };

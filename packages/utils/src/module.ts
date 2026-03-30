@@ -160,3 +160,28 @@ export const groupModules = (modules: IModule[], groupByKey: TModuleGroupByOptio
 
   return grouped;
 };
+
+/**
+ * @description produces a two-level grouping of modules (group → sub-group → ids)
+ * @param {IModule[]} modules
+ * @param {TModuleGroupByOptions} groupByKey
+ * @param {TModuleGroupByOptions} subGroupByKey
+ * @returns {Record<string, Record<string, string[]>>}
+ */
+export const subGroupModules = (
+  modules: IModule[],
+  groupByKey: TModuleGroupByOptions,
+  subGroupByKey: TModuleGroupByOptions
+): Record<string, Record<string, string[]>> => {
+  if (!groupByKey || !subGroupByKey) return {};
+
+  const primaryGroups = groupModules(modules, groupByKey);
+  const nested: Record<string, Record<string, string[]>> = {};
+
+  for (const [primaryKey, ids] of Object.entries(primaryGroups)) {
+    const groupModuleList = ids.map((id) => modules.find((m) => m.id === id)).filter(Boolean) as IModule[];
+    nested[primaryKey] = groupModules(groupModuleList, subGroupByKey);
+  }
+
+  return nested;
+};

@@ -21,12 +21,27 @@ export type TModuleLayoutOptions = "list" | "board" | "gantt" | "kanban";
 
 export type TModuleGroupByOptions = "status" | "lead" | "members" | "label" | "start_date" | "target_date" | null;
 
+export type TModuleDisplayPropertyKey =
+  | "lead"
+  | "members"
+  | "labels"
+  | "start_date"
+  | "target_date"
+  | "progress"
+  | "issue_count";
+
+export type TModuleDisplayProperties = {
+  [key in TModuleDisplayPropertyKey]?: boolean;
+};
+
 export type TModuleDisplayFilters = {
   favorites?: boolean;
   layout?: TModuleLayoutOptions;
   order_by?: TModuleOrderByOptions;
   group_by?: TModuleGroupByOptions;
+  sub_group_by?: TModuleGroupByOptions;
   show_empty_groups?: boolean;
+  display_properties?: TModuleDisplayProperties;
 };
 
 export type TModuleFilters = {

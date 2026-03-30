@@ -5,7 +5,14 @@
  */
 
 // types
-import type { TModuleGroupByOptions, TModuleLayoutOptions, TModuleOrderByOptions, TModuleStatus } from "@plane/types";
+import type {
+  TModuleDisplayProperties,
+  TModuleDisplayPropertyKey,
+  TModuleGroupByOptions,
+  TModuleLayoutOptions,
+  TModuleOrderByOptions,
+  TModuleStatus,
+} from "@plane/types";
 
 export const MODULE_STATUS_COLORS: {
   [key in TModuleStatus]: string;
@@ -150,3 +157,26 @@ export const MODULE_ORDER_BY_OPTIONS: {
     i18n_label: "project_modules.order_by.manual",
   },
 ];
+
+export const MODULE_DISPLAY_PROPERTIES: {
+  key: TModuleDisplayPropertyKey;
+  i18n_label: string;
+}[] = [
+  { key: "lead", i18n_label: "project_modules.display_property.lead" },
+  { key: "members", i18n_label: "project_modules.display_property.members" },
+  { key: "labels", i18n_label: "project_modules.display_property.labels" },
+  { key: "start_date", i18n_label: "project_modules.display_property.start_date" },
+  { key: "target_date", i18n_label: "project_modules.display_property.target_date" },
+  { key: "progress", i18n_label: "project_modules.display_property.progress" },
+  { key: "issue_count", i18n_label: "project_modules.display_property.issue_count" },
+];
+
+export const MODULE_DEFAULT_DISPLAY_PROPERTIES: TModuleDisplayProperties = {
+  lead: true,
+  members: false,
+  labels: true,
+  start_date: true,
+  target_date: true,
+  progress: true,
+  issue_count: true,
+};

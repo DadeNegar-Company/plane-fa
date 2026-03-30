@@ -14,6 +14,7 @@ import { CheckIcon } from "@plane/propel/icons";
 import { CircularProgressIndicator } from "@plane/ui";
 // components
 import { generateQueryParams } from "@plane/utils";
+import type { TModuleDisplayProperties } from "@plane/types";
 import { ListItem } from "@/components/core/list";
 import { ModuleListItemAction, ModuleQuickActions } from "@/components/modules";
 // helpers
@@ -24,10 +25,11 @@ import { usePlatformOS } from "@/hooks/use-platform-os";
 
 type Props = {
   moduleId: string;
+  displayProperties?: TModuleDisplayProperties;
 };
 
 export const ModuleListItem = observer(function ModuleListItem(props: Props) {
-  const { moduleId } = props;
+  const { moduleId, displayProperties } = props;
   // refs
   const parentRef = useRef(null);
   // router
@@ -98,7 +100,14 @@ export const ModuleListItem = observer(function ModuleListItem(props: Props) {
           <Info className="h-4 w-4 text-placeholder" />
         </button>
       }
-      actionableItems={<ModuleListItemAction moduleId={moduleId} moduleDetails={moduleDetails} parentRef={parentRef} />}
+      actionableItems={
+        <ModuleListItemAction
+          moduleId={moduleId}
+          moduleDetails={moduleDetails}
+          parentRef={parentRef}
+          displayProperties={displayProperties}
+        />
+      }
       quickActionElement={
         <div className="block md:hidden">
           <ModuleQuickActions
