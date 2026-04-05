@@ -535,6 +535,18 @@ span[data-name][data-type="emoji"] img {
 .ProseMirror h6[dir="ltr"] {
   text-align: left;
 }
+/* RTL support for lists */
+.ProseMirror ol[dir="rtl"],
+.ProseMirror ul[dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+}
+
+.ProseMirror ol[dir="ltr"],
+.ProseMirror ul[dir="ltr"] {
+  text-align: left;
+  direction: ltr;
+}
 /* end RTL text direction support */
 
 /* touch device styles */

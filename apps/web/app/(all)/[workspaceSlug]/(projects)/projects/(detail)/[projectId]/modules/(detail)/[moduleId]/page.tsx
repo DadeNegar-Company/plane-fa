@@ -65,7 +65,7 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
       ) : (
         <div className="flex h-full w-full overflow-hidden">
           {/* Main content */}
-          <div className="flex h-full w-full flex-col overflow-hidden">
+          <div className="flex h-full flex-1 flex-col overflow-hidden">
             {isSidebarCollapsed && (
               <ModuleDescriptionBanner moduleId={moduleId} workspaceSlug={workspaceSlug} projectId={projectId} />
             )}

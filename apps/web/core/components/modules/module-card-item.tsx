@@ -199,7 +199,11 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
 
   return (
     <div className="relative" data-prevent-progress>
-      <Link ref={parentRef} href={`/${workspaceSlug}/projects/${moduleDetails.project_id}/modules/${moduleDetails.id}`}>
+      <Link
+        ref={parentRef}
+        draggable={false}
+        href={`/${workspaceSlug}/projects/${moduleDetails.project_id}/modules/${moduleDetails.id}`}
+      >
         <Card className="!p-3 !border !border-subtle !shadow-raised-100 !bg-layer-2 hover:!border-strong">
           <div>
             <div className="flex items-center justify-between gap-2">

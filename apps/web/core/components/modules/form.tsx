@@ -181,7 +181,7 @@ export function ModuleForm(props: Props) {
                   editable
                   id="module-modal-editor"
                   initialValue={value ?? ""}
-                  value={value}
+                  value={null}
                   workspaceSlug={workspaceSlug}
                   workspaceId={workspaceId}
                   projectId={projectId}

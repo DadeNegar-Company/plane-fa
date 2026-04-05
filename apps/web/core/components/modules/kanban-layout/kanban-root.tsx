@@ -186,7 +186,6 @@ export const ModuleKanbanRoot = observer(function ModuleKanbanRoot(props: Props)
             group={group}
             subGroups={subGroups}
             subGroupedIds={subGroupedModuleIds[group.id] ?? {}}
-            items={items}
             showEmptyGroups={showEmptyGroups}
           />
         ))}
