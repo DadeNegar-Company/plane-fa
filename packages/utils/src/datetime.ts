@@ -64,6 +64,27 @@ export const setCalendarSystem = (system: TCalendarSystem) => {
 /** [FA-CUSTOM] Get the currently active calendar system */
 export const getCalendarSystem = (): TCalendarSystem => _calendarSystem;
 
+/**
+ * [FA-CUSTOM] Convert a Gregorian-order format token to Jalali day-first order.
+ * In Jalali, the correct order is "dd MMM yyyy" (day month year), not "MMM dd, yyyy".
+ * This only transforms well-known default tokens; custom caller-specified tokens pass through.
+ */
+const jalaliFormatToken = (token: string): string => {
+  if (_calendarSystem !== "jalali") return token;
+  switch (token) {
+    case "MMM dd, yyyy":
+      return "dd MMM yyyy";
+    case "MMM dd":
+      return "dd MMM";
+    case "dd MMM, yyyy":
+    case "dd MMM yyyy":
+    case "dd MMM":
+      return token; // already correct
+    default:
+      return token;
+  }
+};
+
 // Format Date Helpers
 /**
  * @returns {string | null} formatted date in the desired format or platform default format (MMM dd, yyyy)
@@ -86,10 +107,10 @@ export const renderFormattedDate = (
   let formattedDate;
   try {
     // Format the date in the format provided or default format (MMM dd, yyyy)
-    formattedDate = activeFormat(parsedDate, formatToken); // [FA-CUSTOM] calendar-aware
+    formattedDate = activeFormat(parsedDate, jalaliFormatToken(formatToken)); // [FA-CUSTOM] calendar-aware
   } catch (_e) {
     // Format the date in format (MMM dd, yyyy) in case of any error
-    formattedDate = activeFormat(parsedDate, "MMM dd, yyyy"); // [FA-CUSTOM] calendar-aware
+    formattedDate = activeFormat(parsedDate, jalaliFormatToken("MMM dd, yyyy")); // [FA-CUSTOM] calendar-aware
   }
   return formattedDate;
 };
@@ -107,8 +128,8 @@ export const renderFormattedDateWithoutYear = (date: string | Date): string => {
   if (!parsedDate) return "";
   // Check if the parsed date is valid before formatting
   if (!isValid(parsedDate)) return ""; // Return empty string for invalid dates
-  // Format the date in short format (MMM dd)
-  const formattedDate = activeFormat(parsedDate, "MMM dd"); // [FA-CUSTOM] calendar-aware
+  // Format the date in short format (MMM dd) — or day-first for Jalali
+  const formattedDate = activeFormat(parsedDate, jalaliFormatToken("MMM dd")); // [FA-CUSTOM] calendar-aware
   return formattedDate;
 };
 
@@ -571,12 +592,12 @@ export const formatDateRange = (
 
   // If only start date is provided
   if (parsedStartDate && !parsedEndDate) {
-    return activeFormat(parsedStartDate, "MMM dd, yyyy"); // [FA-CUSTOM]
+    return activeFormat(parsedStartDate, jalaliFormatToken("MMM dd, yyyy")); // [FA-CUSTOM]
   }
 
   // If only end date is provided
   if (!parsedStartDate && parsedEndDate) {
-    return activeFormat(parsedEndDate, "MMM dd, yyyy"); // [FA-CUSTOM]
+    return activeFormat(parsedEndDate, jalaliFormatToken("MMM dd, yyyy")); // [FA-CUSTOM]
   }
 
   // If both dates are provided
@@ -586,24 +607,29 @@ export const formatDateRange = (
     const startMonth = activeGetMonth(parsedStartDate);
     const endYear = activeGetYear(parsedEndDate);
     const endMonth = activeGetMonth(parsedEndDate);
+    const isJalali = _calendarSystem === "jalali";
 
     // Same year, same month
     if (startYear === endYear && startMonth === endMonth) {
       const startDay = activeFormat(parsedStartDate, "dd"); // [FA-CUSTOM]
       const endDay = activeFormat(parsedEndDate, "dd"); // [FA-CUSTOM]
-      return `${activeFormat(parsedStartDate, "MMM")} ${startDay} - ${endDay}, ${startYear}`;
+      const month = activeFormat(parsedStartDate, "MMM");
+      // [FA-CUSTOM] Jalali: "24 - 28 Far, 1405" vs Gregorian: "Jan 24 - 28, 2025"
+      return isJalali
+        ? `${startDay} - ${endDay} ${month}, ${startYear}`
+        : `${month} ${startDay} - ${endDay}, ${startYear}`;
     }
 
     // Same year, different month
     if (startYear === endYear) {
-      const startFormatted = activeFormat(parsedStartDate, "MMM dd"); // [FA-CUSTOM]
-      const endFormatted = activeFormat(parsedEndDate, "MMM dd"); // [FA-CUSTOM]
+      const startFormatted = activeFormat(parsedStartDate, jalaliFormatToken("MMM dd")); // [FA-CUSTOM]
+      const endFormatted = activeFormat(parsedEndDate, jalaliFormatToken("MMM dd")); // [FA-CUSTOM]
       return `${startFormatted} - ${endFormatted}, ${startYear}`;
     }
 
     // Different year
-    const startFormatted = activeFormat(parsedStartDate, "MMM dd, yyyy"); // [FA-CUSTOM]
-    const endFormatted = activeFormat(parsedEndDate, "MMM dd, yyyy"); // [FA-CUSTOM]
+    const startFormatted = activeFormat(parsedStartDate, jalaliFormatToken("MMM dd, yyyy")); // [FA-CUSTOM]
+    const endFormatted = activeFormat(parsedEndDate, jalaliFormatToken("MMM dd, yyyy")); // [FA-CUSTOM]
     return `${startFormatted} - ${endFormatted}`;
   }
 

@@ -24,6 +24,21 @@ export const setSpaceCalendarSystem = (system: "gregorian" | "jalali") => {
   activeFormat = system === "jalali" ? jalaliFormatEN : gregorianFormat;
 };
 
+/**
+ * [FA-CUSTOM] Convert a Gregorian-order format token to Jalali day-first order.
+ */
+const jalaliFormatToken = (token: string): string => {
+  if (_spaceCalendarSystem !== "jalali") return token;
+  switch (token) {
+    case "MMM dd, yyyy":
+      return "dd MMM yyyy";
+    case "MMM dd":
+      return "dd MMM";
+    default:
+      return token;
+  }
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const timeAgo = (time: any) => {
   switch (typeof time) {
@@ -78,7 +93,7 @@ export const renderFormattedDate = (date: string | Date | undefined | null): str
   if (!parsedDate) return null;
   // Check if the parsed date is valid before formatting
   if (!isValid(parsedDate)) return null; // Return null for invalid dates
-  // Format the date in format (MMM dd, yyyy)
-  const formattedDate = activeFormat(parsedDate, "MMM dd, yyyy"); // [FA-CUSTOM] calendar-aware
+  // Format the date in format (MMM dd, yyyy) — or day-first for Jalali
+  const formattedDate = activeFormat(parsedDate, jalaliFormatToken("MMM dd, yyyy")); // [FA-CUSTOM] calendar-aware
   return formattedDate;
 };

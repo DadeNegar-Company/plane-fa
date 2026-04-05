@@ -15,7 +15,7 @@ import type { Matcher } from "@plane/propel/calendar";
 import { Calendar } from "@plane/propel/calendar";
 import { CloseIcon } from "@plane/propel/icons";
 import { ComboDropDown } from "@plane/ui";
-import { ECalendarSystem } from "@plane/types"; // [FA-CUSTOM]
+import { ECalendarSystem, EStartOfTheWeek } from "@plane/types"; // [FA-CUSTOM]
 import { cn, renderFormattedDate, getDate } from "@plane/utils";
 // helpers
 // hooks
@@ -80,7 +80,7 @@ export const DateDropdown = observer(function DateDropdown(props: Props) {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   // hooks
   const { data } = useUserProfile();
-  const startOfWeek = data?.start_of_the_week;
+  const startOfWeek = data?.start_of_the_week ?? EStartOfTheWeek.SATURDAY; // [FA-CUSTOM] default Saturday
   const isJalali = data?.calendar_system === ECalendarSystem.JALALI; // [FA-CUSTOM]
   // popper-js refs
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);

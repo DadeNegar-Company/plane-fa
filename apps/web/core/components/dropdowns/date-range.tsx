@@ -18,7 +18,7 @@ import type { DateRange, Matcher } from "@plane/propel/calendar";
 import { Calendar } from "@plane/propel/calendar";
 import { CloseIcon, DueDatePropertyIcon } from "@plane/propel/icons";
 import { ComboDropDown } from "@plane/ui";
-import { ECalendarSystem } from "@plane/types"; // [FA-CUSTOM]
+import { ECalendarSystem, EStartOfTheWeek } from "@plane/types"; // [FA-CUSTOM]
 import { cn, renderFormattedDate } from "@plane/utils";
 // helpers
 // hooks
@@ -113,7 +113,7 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
   const [dateRange, setDateRange] = useState<DateRange>(value);
   // hooks
   const { data } = useUserProfile();
-  const startOfWeek = data?.start_of_the_week;
+  const startOfWeek = data?.start_of_the_week ?? EStartOfTheWeek.SATURDAY; // [FA-CUSTOM] default Saturday
   const isJalali = data?.calendar_system === ECalendarSystem.JALALI; // [FA-CUSTOM]
   // refs
   const dropdownRef = useRef<HTMLDivElement | null>(null);
