@@ -63,13 +63,16 @@ export const WeekChartView = observer(function WeekChartView() {
                   >
                     <div className="space-x-1 text-11 font-medium text-placeholder">{weekDay.dayData.abbreviation}</div>
                     <div className="space-x-1 text-11 font-medium">
+                      {/* [FA-CUSTOM] Show month abbreviation when day crosses a month boundary */}
+                      {weekDay.monthAbbreviation && (
+                        <span className="text-placeholder text-[9px]">{weekDay.monthAbbreviation}</span>
+                      )}
                       <span
                         className={cn({
                           "rounded-sm bg-accent-primary px-1 text-on-color": weekDay.today,
                         })}
                       >
                         {weekDay.dayNumber}
-                        {/* [FA-CUSTOM] Calendar-aware day number */}
                       </span>
                     </div>
                   </div>

@@ -23,6 +23,7 @@ export interface IDayBlock {
   };
   title: string;
   today: boolean;
+  monthAbbreviation?: string; // [FA-CUSTOM] Shown when day crosses a month boundary within a week
 }
 
 export interface IWeekBlock {
@@ -207,10 +208,17 @@ const populateDaysForWeek = (startDate: Date, startOfWeek: EStartOfTheWeek = ESt
   const today = new Date();
   const weekDays = generateWeeks(startOfWeek);
   const isJalali = getCalendarSystem() === "jalali"; // [FA-CUSTOM]
+  const activeMonthList = isJalali ? jalaliMonths : months; // [FA-CUSTOM]
+
+  // [FA-CUSTOM] Track the month of the first day to detect cross-month boundaries
+  const firstDayMonth = isJalali ? jalaliGetMonth(currentDate) : currentDate.getMonth();
 
   for (let i = 0; i < 7; i++) {
     // [FA-CUSTOM] Use Jalali day number when in Jalali mode
     const dayNumber = isJalali ? jalaliGetDate(currentDate) : currentDate.getDate();
+    const currentMonth = isJalali ? jalaliGetMonth(currentDate) : currentDate.getMonth();
+    // [FA-CUSTOM] Show month abbreviation when day crosses into a different month
+    const monthAbbreviation = currentMonth !== firstDayMonth ? activeMonthList[currentMonth].abbreviation : undefined;
     days.push({
       date: new Date(currentDate),
       day: currentDate.getDay(),
@@ -218,6 +226,7 @@ const populateDaysForWeek = (startDate: Date, startOfWeek: EStartOfTheWeek = ESt
       dayData: weekDays[i],
       title: `${weekDays[i].abbreviation} ${dayNumber}`,
       today: today.setHours(0, 0, 0, 0) == currentDate.setHours(0, 0, 0, 0),
+      monthAbbreviation, // [FA-CUSTOM]
     });
     currentDate.setDate(currentDate.getDate() + 1);
   }
