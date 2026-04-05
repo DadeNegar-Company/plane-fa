@@ -2518,6 +2518,7 @@ export default {
       name: "Name",
       progress: "Progress",
       issues: "Number of work items",
+      start_date: "Start date",
       due_date: "Due date",
       created_at: "Created date",
       manual: "Manual",

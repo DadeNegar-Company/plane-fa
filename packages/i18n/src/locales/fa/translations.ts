@@ -2690,6 +2690,7 @@ export default {
       name: "نام",
       progress: "پیشرفت",
       issues: "تعداد آیتم‌های کاری",
+      start_date: "تاریخ شروع",
       due_date: "مهلت",
       created_at: "تاریخ ایجاد",
       manual: "دستی",

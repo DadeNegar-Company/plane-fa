@@ -48,6 +48,8 @@ export const orderModules = (modules: IModule[], orderByKey: TModuleOrderByOptio
     ]);
   if (["issues_length", "-issues_length"].includes(orderByKey))
     orderedModules = sortBy(modules, [(m) => (orderByKey === "issues_length" ? m.total_issues : !m.total_issues)]);
+  if (orderByKey === "start_date") orderedModules = sortBy(modules, [(m) => m.start_date]);
+  if (orderByKey === "-start_date") orderedModules = sortBy(modules, [(m) => !m.start_date]);
   if (orderByKey === "target_date") orderedModules = sortBy(modules, [(m) => m.target_date]);
   if (orderByKey === "-target_date") orderedModules = sortBy(modules, [(m) => !m.target_date]);
   if (orderByKey === "created_at") orderedModules = sortBy(modules, [(m) => m.created_at]);

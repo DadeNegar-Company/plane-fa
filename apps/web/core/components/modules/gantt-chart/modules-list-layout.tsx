@@ -12,7 +12,7 @@ import type { IBlockUpdateData, IBlockUpdateDependencyData, IModule } from "@pla
 // components
 import { GanttChartRoot, ModuleGanttSidebar } from "@/components/gantt-chart";
 import { TimeLineTypeContext } from "@/components/gantt-chart/contexts";
-import { ModuleGanttBlock } from "@/components/modules";
+import { ModuleGanttBlock, ModulePeekOverview } from "@/components/modules";
 // hooks
 import { useModule } from "@/hooks/store/use-module";
 import { useModuleFilter } from "@/hooks/store/use-module-filter";
@@ -32,9 +32,12 @@ export const ModulesListGanttChartView = observer(function ModulesListGanttChart
   const handleModuleUpdate = async (module: IModule, data: IBlockUpdateData) => {
     if (!workspaceSlug || !module) return;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload: any = { ...data };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (data.sort_order) payload.sort_order = data.sort_order.newSortOrder;
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await updateModuleDetails(workspaceSlug.toString(), module.project_id, module.id, payload);
   };
 
@@ -51,6 +54,7 @@ export const ModulesListGanttChartView = observer(function ModulesListGanttChart
     await updateModuleDetails(workspaceSlug.toString(), projectId.toString(), blockUpdate.id, payload);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   const isAllowed = currentProjectDetails?.member_role === 20 || currentProjectDetails?.member_role === 15;
 
   if (!filteredModuleIds) return null;
@@ -62,6 +66,7 @@ export const ModulesListGanttChartView = observer(function ModulesListGanttChart
         loaderTitle="Modules"
         blockIds={filteredModuleIds}
         sidebarToRender={(props) => <ModuleGanttSidebar {...props} />}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/no-unsafe-argument
         blockUpdateHandler={(block, payload) => handleModuleUpdate(block, payload)}
         blockToRender={(data: IModule) => <ModuleGanttBlock moduleId={data.id} />}
         enableBlockLeftResize={isAllowed}
@@ -72,6 +77,7 @@ export const ModulesListGanttChartView = observer(function ModulesListGanttChart
         updateBlockDates={updateBlockDates}
         showAllBlocks
       />
+      <ModulePeekOverview projectId={projectId?.toString() ?? ""} workspaceSlug={workspaceSlug?.toString() ?? ""} />
     </TimeLineTypeContext.Provider>
   );
 });

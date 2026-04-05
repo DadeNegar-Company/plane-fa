@@ -5,16 +5,15 @@
  */
 
 import { observer } from "mobx-react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 // ui
 import { MODULE_STATUS } from "@plane/constants";
 import { ModuleStatusIcon } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
+import { generateQueryParams } from "@plane/utils";
 // components
 import { SIDEBAR_WIDTH } from "@/components/gantt-chart/constants";
 import { getBlockViewDetails } from "@/components/issues/issue-layouts/utils";
-// constants
 // hooks
 import { useModule } from "@/hooks/store/use-module";
 import { useAppRouter } from "@/hooks/use-app-router";
@@ -28,6 +27,8 @@ export const ModuleGanttBlock = observer(function ModuleGanttBlock(props: Props)
   const { moduleId } = props;
   // router
   const router = useAppRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { workspaceSlug } = useParams();
   // store hooks
   const { getModuleById } = useModule();
@@ -41,6 +42,19 @@ export const ModuleGanttBlock = observer(function ModuleGanttBlock(props: Props)
     MODULE_STATUS.find((s) => s.value === moduleDetails?.status)?.color ?? ""
   );
 
+  const handleModulePeek = () => {
+    if (isMobile) {
+      router.push(`/${workspaceSlug?.toString()}/projects/${moduleDetails?.project_id}/modules/${moduleDetails?.id}`);
+      return;
+    }
+    const query = generateQueryParams(searchParams, ["peekModule"]);
+    if (searchParams.has("peekModule") && searchParams.get("peekModule") === moduleId) {
+      router.push(`${pathname}?${query}`);
+    } else {
+      router.push(`${pathname}?${query && `${query}&`}peekModule=${moduleId}`);
+    }
+  };
+
   return (
     <Tooltip
       isMobile={isMobile}
@@ -52,14 +66,11 @@ export const ModuleGanttBlock = observer(function ModuleGanttBlock(props: Props)
       }
       position="top-start"
     >
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className="relative flex h-full w-full cursor-pointer items-center rounded-sm"
         style={blockStyle}
-        onClick={() =>
-          router.push(
-            `/${workspaceSlug?.toString()}/projects/${moduleDetails?.project_id}/modules/${moduleDetails?.id}`
-          )
-        }
+        onClick={handleModulePeek}
       >
         <div className="absolute left-0 top-0 h-full w-full bg-surface-1/50" />
         <div
@@ -75,20 +86,37 @@ export const ModuleGanttBlock = observer(function ModuleGanttBlock(props: Props)
 
 export const ModuleGanttSidebarBlock = observer(function ModuleGanttSidebarBlock(props: Props) {
   const { moduleId } = props;
+  const router = useAppRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { workspaceSlug } = useParams();
   // store hooks
   const { getModuleById } = useModule();
   // derived values
   const moduleDetails = getModuleById(moduleId);
+  // hooks
+  const { isMobile } = usePlatformOS();
+
+  const handleModulePeek = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isMobile) {
+      router.push(`/${workspaceSlug?.toString()}/projects/${moduleDetails?.project_id}/modules/${moduleDetails?.id}`);
+      return;
+    }
+    const query = generateQueryParams(searchParams, ["peekModule"]);
+    if (searchParams.has("peekModule") && searchParams.get("peekModule") === moduleId) {
+      router.push(`${pathname}?${query}`);
+    } else {
+      router.push(`${pathname}?${query && `${query}&`}peekModule=${moduleId}`);
+    }
+  };
 
   return (
-    <Link
-      className="relative flex h-full w-full items-center gap-2"
-      href={`/${workspaceSlug?.toString()}/projects/${moduleDetails?.project_id}/modules/${moduleDetails?.id}`}
-      draggable={false}
-    >
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+    <div className="relative flex h-full w-full cursor-pointer items-center gap-2" onClick={handleModulePeek}>
       <ModuleStatusIcon status={moduleDetails?.status ?? "backlog"} height="16px" width="16px" />
       <h6 className="flex-grow truncate text-13 font-medium">{moduleDetails?.name}</h6>
-    </Link>
+    </div>
   );
 });
