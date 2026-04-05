@@ -74,12 +74,14 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
             </div>
           </div>
 
-          {/* Sidebar — same positioning pattern as issue detail sidebar */}
+          {/* Sidebar — collapses to zero width so main content fills full width */}
           <div
             className={cn(
-              "fixed right-0 z-[5] flex h-full w-full min-w-[300px] flex-col border-l border-subtle bg-surface-1 transition-all duration-300 sm:w-1/2 md:relative md:w-1/4 lg:min-w-80 xl:min-w-[24rem]"
+              "flex h-full flex-col border-l border-subtle bg-surface-1 transition-all duration-300",
+              isSidebarCollapsed
+                ? "w-0 min-w-0 overflow-hidden border-l-0"
+                : "fixed right-0 z-[5] w-full min-w-[300px] sm:w-1/2 md:relative md:w-1/4 lg:min-w-80 xl:min-w-[24rem]"
             )}
-            style={isSidebarCollapsed ? { right: `-${typeof window !== "undefined" ? window.innerWidth : 0}px` } : {}}
           >
             {/* Sidebar toggle button — page-level, always accessible */}
             <div className="flex shrink-0 items-center px-4 pb-2 pt-5">

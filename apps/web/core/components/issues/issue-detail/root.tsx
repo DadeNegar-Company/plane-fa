@@ -12,6 +12,7 @@ import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setPromiseToast, setToast } from "@plane/propel/toast";
 import type { TIssue } from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
+import { cn } from "@plane/utils";
 // assets
 import emptyIssue from "@/app/assets/empty-state/issue.svg?url";
 // components
@@ -250,8 +251,12 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
             />
           </div>
           <div
-            className="fixed right-0 z-[5] h-full w-full min-w-[300px] border-l border-subtle bg-surface-1 sm:w-1/2 md:relative md:w-1/4 lg:min-w-80 xl:min-w-96"
-            style={issueDetailSidebarCollapsed ? { right: `-${window?.innerWidth || 0}px` } : {}}
+            className={cn(
+              "flex h-full flex-col border-l border-subtle bg-surface-1 transition-all duration-300",
+              issueDetailSidebarCollapsed
+                ? "w-0 min-w-0 overflow-hidden border-l-0"
+                : "fixed right-0 z-[5] w-full min-w-[300px] sm:w-1/2 md:relative md:w-1/4 lg:min-w-80 xl:min-w-96"
+            )}
           >
             <IssueDetailsSidebar
               workspaceSlug={workspaceSlug}
