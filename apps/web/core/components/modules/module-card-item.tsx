@@ -198,13 +198,14 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
   }));
 
   return (
-    <div className="relative" data-prevent-progress>
+    <div className="relative h-full" data-prevent-progress>
       <Link
         ref={parentRef}
         draggable={false}
         href={`/${workspaceSlug}/projects/${moduleDetails.project_id}/modules/${moduleDetails.id}`}
+        className="h-full"
       >
-        <Card className="!p-3 !border !border-subtle !shadow-raised-100 !bg-layer-2 hover:!border-strong">
+        <Card className="!p-3 !border !border-subtle !shadow-raised-100 !bg-layer-2 hover:!border-strong h-full flex flex-col">
           <div>
             <div className="flex items-center justify-between gap-2">
               <Tooltip tooltipContent={moduleDetails.name} position="top" isMobile={isMobile}>
@@ -225,7 +226,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 flex-1">
             {(dp.issue_count || dp.lead) && (
               <div className="flex items-center justify-between">
                 {dp.issue_count && (
@@ -269,7 +270,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
             {dp.progress && <LinearProgressIndicator size="lg" data={progressIndicatorData} />}
             {(dp.start_date || dp.target_date) && (
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-              <div className="flex items-center justify-between py-0.5" onClick={handleEventPropagation}>
+              <div className="flex items-center justify-between py-0.5 mt-auto" onClick={handleEventPropagation}>
                 <DateRangeDropdown
                   buttonContainerClassName={`h-6 w-full flex ${isDisabled ? "cursor-not-allowed" : "cursor-pointer"} items-center gap-1.5 text-tertiary border-[0.5px] border-strong rounded-sm text-11`}
                   buttonVariant="transparent-with-text"
