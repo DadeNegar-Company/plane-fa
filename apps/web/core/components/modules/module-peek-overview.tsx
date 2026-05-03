@@ -60,7 +60,7 @@ export const ModulePeekOverview = observer(function ModulePeekOverview({
         >
           <div className="sticky z-10 top-0 flex items-center bg-surface-1 pb-2 pt-5">
             <button className="flex h-5 w-5 items-center justify-center rounded-full bg-layer-3" onClick={handleClose}>
-              <ChevronRightIcon className="h-3 w-3 stroke-2 text-on-color" />
+              <ChevronRightIcon className="h-3 w-3 stroke-2 text-on-color rtl-flip" />
             </button>
           </div>
           <ModuleAnalyticsSidebar moduleId={peekModule?.toString() ?? ""} isArchived={isArchived} />

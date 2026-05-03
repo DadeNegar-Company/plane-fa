@@ -3,6 +3,11 @@
 @import "./animations.css";
 @source "../**/*.{ts,tsx}";
 
+/* [FA-CUSTOM] Direction-aware Tailwind variants. Lets us write `rtl:-translate-x-3.5`
+ * etc. and have it apply only when the document (or any ancestor) is dir=rtl. */
+@custom-variant rtl (&:where([dir="rtl"], [dir="rtl"] *));
+@custom-variant ltr (&:where([dir="ltr"], [dir="ltr"] *));
+
 * {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;

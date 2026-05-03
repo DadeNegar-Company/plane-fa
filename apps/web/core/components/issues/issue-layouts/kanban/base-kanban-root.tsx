@@ -261,11 +261,11 @@ export const BaseKanBanRoot = observer(function BaseKanBanRoot(props: IBaseKanBa
       </div>
       <IssueLayoutHOC layout={EIssueLayoutTypes.KANBAN}>
         <div
-          // [FA-CUSTOM] Kanban groups flow left→right with horizontal DnD.
-          // Pin LTR so pragmatic-drag-and-drop coordinate math and scrollLeft
-          // stay correct even when the rest of the app is RTL. Card text still
-          // renders RTL via inherited `dir="auto"` on titles.
-          dir="ltr"
+          // [FA-CUSTOM] Inherit document direction so Kanban groups flow RTL
+          // when the user has opted into RTL. Pragmatic-drag-and-drop uses
+          // element-relative drop targets and the browser's normalized
+          // `scrollLeft` semantics, so DnD works correctly under either
+          // direction without coordinate-flipping logic.
           className={`horizontal-scrollbar scrollbar-lg relative flex h-full w-full bg-surface-2 ${sub_group_by ? "vertical-scrollbar overflow-y-auto" : "overflow-x-auto overflow-y-hidden"}`}
           ref={scrollableContainerRef}
         >

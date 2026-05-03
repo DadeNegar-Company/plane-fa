@@ -123,11 +123,13 @@ export const CalendarHeader = observer(function CalendarHeader(props: ICalendarH
   return (
     <Row className="mb-4 flex items-center justify-between gap-2">
       <div className="flex items-center gap-1.5">
+        {/* [FA-CUSTOM] rtl-flip swaps both chevrons under dir=rtl so prev/next stay
+            consistent with reading direction. */}
         <button type="button" className="grid place-items-center" onClick={handlePrevious}>
-          <ChevronLeftIcon height={16} width={16} strokeWidth={2} />
+          <ChevronLeftIcon height={16} width={16} strokeWidth={2} className="rtl-flip" />
         </button>
         <button type="button" className="grid place-items-center" onClick={handleNext}>
-          <ChevronRightIcon height={16} width={16} strokeWidth={2} />
+          <ChevronRightIcon height={16} width={16} strokeWidth={2} className="rtl-flip" />
         </button>
         <CalendarMonthsDropdown issuesFilterStore={issuesFilterStore} />
       </div>

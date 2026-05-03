@@ -72,7 +72,8 @@ function Breadcrumbs({ className, children, onBack, isLoading = false }: Breadcr
                 ...
               </span>
             )}
-            <ChevronRightIcon className="h-3.5 w-3.5 flex-shrink-0 text-placeholder" aria-hidden="true" />
+            {/* [FA-CUSTOM] rtl-flip mirrors the chevron horizontally under dir=rtl */}
+            <ChevronRightIcon className="h-3.5 w-3.5 flex-shrink-0 text-placeholder rtl-flip" aria-hidden="true" />
           </div>
           <div className="flex items-center gap-2.5 p-1">
             {isLoading ? (
@@ -154,7 +155,8 @@ function BreadcrumbSeparator(props: BreadcrumbSeparatorProps) {
           containerClassName
         )}
       >
-        <ChevronRightIcon className={cn("h-3.5 w-3.5 flex-shrink-0", iconClassName)} />
+        {/* [FA-CUSTOM] rtl-flip mirrors the chevron horizontally under dir=rtl */}
+        <ChevronRightIcon className={cn("h-3.5 w-3.5 flex-shrink-0 rtl-flip", iconClassName)} />
       </div>
     </div>
   );

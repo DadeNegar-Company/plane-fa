@@ -105,7 +105,7 @@ export const DescriptionVersionsModal = observer(function DescriptionVersionsMod
               })}
               disabled={isPrevDisabled}
             >
-              <ChevronLeftIcon className="size-4" />
+              <ChevronLeftIcon className="size-4 rtl-flip" />
             </button>
             <button
               type="button"
@@ -116,7 +116,7 @@ export const DescriptionVersionsModal = observer(function DescriptionVersionsMod
               })}
               disabled={isNextDisabled}
             >
-              <ChevronRightIcon className="size-4" />
+              <ChevronRightIcon className="size-4 rtl-flip" />
             </button>
           </div>
         </div>

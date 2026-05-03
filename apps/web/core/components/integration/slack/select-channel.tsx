@@ -97,7 +97,8 @@ export const SelectChannel = observer(function SelectChannel({ integration }: Pr
           <span
             aria-hidden="true"
             className={`inline-block h-2 w-2 transform self-center rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-              slackChannelAvailabilityToggle ? "translate-x-3" : "translate-x-0"
+              // [FA-CUSTOM] Flip translate-x in RTL so the handle moves to the correct side.
+              slackChannelAvailabilityToggle ? "translate-x-3 rtl:-translate-x-3" : "translate-x-0 rtl:-translate-x-0"
             }`}
           />
         </button>
