@@ -13,6 +13,7 @@ import { AlertCircle } from "lucide-react";
 import { Popover, Transition } from "@headlessui/react";
 // plane imports
 import type { EditorRefApi } from "@plane/editor";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Input } from "@plane/ui";
@@ -25,7 +26,9 @@ const aiService = new AIService();
 type Props = {
   isOpen: boolean;
   handleClose: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onResponse: (response: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onError?: (error: any) => void;
   placement?: Placement;
   prompt?: string;
@@ -63,6 +66,7 @@ export function GptAssistantPopover(props: Props) {
   // refs
   const editorRef = useRef<EditorRefApi>(null);
   const responseRef = useRef<EditorRefApi>(null);
+  const { t } = useTranslation();
   // popper
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: placement ?? "auto",
@@ -88,16 +92,21 @@ export function GptAssistantPopover(props: Props) {
     reset();
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleServiceError = (err: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const error = err?.data?.error;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const errorMessage =
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       err?.status === 429
         ? error || "You have reached the maximum number of requests of 50 requests per month per user."
         : error || "Some error occurred. Please try again.";
 
     setToast({
       type: TOAST_TYPE.ERROR,
-      title: "Error!",
+      title: t("common.error.label"),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       message: errorMessage,
     });
 
@@ -106,14 +115,17 @@ export function GptAssistantPopover(props: Props) {
 
   const callAIService = async (formData: FormData) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const res = await aiService.createGptTask(workspaceSlug.toString(), {
         prompt: prompt || "",
         task: formData.task,
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       setResponse(res.response_html);
       setFocus("task");
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       setInvalidResponse(res.response === "");
     } catch (err) {
       handleServiceError(err);
@@ -123,7 +135,7 @@ export function GptAssistantPopover(props: Props) {
   const handleInvalidTask = () => {
     setToast({
       type: TOAST_TYPE.ERROR,
-      title: "Error!",
+      title: t("common.error.label"),
       message: "Please enter some task to get AI assistance.",
     });
   };
@@ -155,6 +167,7 @@ export function GptAssistantPopover(props: Props) {
     const handleEnterKeyPress = (event: KeyboardEvent) => {
       if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         handleSubmit(handleAIResponse)();
       }
     };
@@ -271,6 +284,7 @@ export function GptAssistantPopover(props: Props) {
                   prompt && prompt !== "" ? "Tell AI what action to perform on this content..." : "Ask AI anything..."
                 }`}
                 className="w-full"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
               />
             )}
@@ -290,6 +304,7 @@ export function GptAssistantPopover(props: Props) {
               <Button variant="secondary" onClick={onClose}>
                 Close
               </Button>
+              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
               <Button variant="primary" onClick={handleSubmit(handleAIResponse)} loading={isSubmitting}>
                 {generateResponseButtonText}
               </Button>

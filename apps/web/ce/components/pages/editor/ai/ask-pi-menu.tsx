@@ -6,6 +6,7 @@
 
 import { useState } from "react";
 import { CircleArrowUp, CornerDownRight, RefreshCcw, Sparkles } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 // ui
 import { Tooltip } from "@plane/propel/tooltip";
 // components
@@ -25,6 +26,7 @@ type Props = {
 
 export function AskPiMenu(props: Props) {
   const { handleInsertText, handleRegenerate, isRegenerating, response, workspaceSlug } = props;
+  const { t } = useTranslation();
   // states
   const [query, setQuery] = useState("");
   // store hooks
@@ -80,6 +82,7 @@ export function AskPiMenu(props: Props) {
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
+                    // eslint-disable-next-line @typescript-eslint/no-floating-promises
                     handleRegenerate();
                   }}
                   disabled={isRegenerating}
@@ -107,7 +110,7 @@ export function AskPiMenu(props: Props) {
             className="w-full bg-transparent border-none outline-none placeholder:text-placeholder text-13"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Tell AI what to do..."
+            placeholder={t("common.tell_ai_what_to_do")}
           />
           <span className="flex-shrink-0 size-4 grid place-items-center">
             <CircleArrowUp className="size-4 text-secondary" />

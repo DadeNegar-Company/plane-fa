@@ -27,6 +27,7 @@ export function GeneratedTokenDetails(props: Props) {
   const { isMobile } = usePlatformOS();
   const { t } = useTranslation();
   const copyApiToken = (token: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises, promise/catch-or-return
     copyTextToClipboard(token).then(() =>
       setToast({
         type: TOAST_TYPE.SUCCESS,
@@ -48,7 +49,7 @@ export function GeneratedTokenDetails(props: Props) {
         className="mt-4 flex truncate w-full items-center justify-between rounded-md border-[0.5px] border-subtle px-3 py-2 text-13 font-medium outline-none"
       >
         <span className="truncate pr-2">{tokenDetails.token}</span>
-        <Tooltip tooltipContent="Copy secret key" isMobile={isMobile}>
+        <Tooltip tooltipContent={t("api_tokens_extra.copy_secret")} isMobile={isMobile}>
           <CopyIcon className="h-4 w-4 text-placeholder flex-shrink-0" />
         </Tooltip>
       </button>
@@ -56,7 +57,7 @@ export function GeneratedTokenDetails(props: Props) {
         <p className="text-11 text-placeholder">
           {tokenDetails.expired_at
             ? `Expires ${renderFormattedDate(tokenDetails.expired_at)} at ${renderFormattedTime(tokenDetails.expired_at)}`
-            : "Never expires"}
+            : t("api_tokens_extra.never_expires")}
         </p>
         <Button variant="secondary" onClick={handleClose}>
           {t("close")}

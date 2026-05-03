@@ -4,16 +4,19 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useCallback, useMemo } from "react";
 import { observer } from "mobx-react";
 import { useParams, useSearchParams } from "next/navigation";
 import useSWR from "swr";
 // plane imports
 import { GLOBAL_VIEW_TRACKER_ELEMENTS, ISSUE_DISPLAY_FILTERS_BY_PAGE } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { EmptyStateDetailed } from "@plane/propel/empty-state";
 import type { EIssueLayoutTypes } from "@plane/types";
 import { EIssuesStoreType, STATIC_VIEW_TYPES } from "@plane/types";
 // assets
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import emptyView from "@/app/assets/empty-state/view.svg?url";
 // components
 import { IssuePeekOverview } from "@/components/issues/peek-overview";
@@ -45,12 +48,15 @@ export const AllIssueLayoutRoot = observer(function AllIssueLayoutRoot(props: Pr
   // store hooks
   const {
     issuesFilter: { filters, fetchFilters, updateFilterExpression },
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     issues: { clear, groupedIssueIds, fetchIssues, fetchNextIssues },
   } = useIssues(EIssuesStoreType.GLOBAL);
   const { fetchAllGlobalViews, getViewDetailsById } = useGlobalView();
+  const { t } = useTranslation();
   // Derived values
   const viewDetails = globalViewId ? getViewDetailsById(globalViewId) : undefined;
   const workItemFilters = globalViewId ? filters?.[globalViewId] : undefined;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const activeLayout: EIssueLayoutTypes | undefined = workItemFilters?.displayFilters?.layout;
   // Determine initial work item filters based on view type and availability
   const initialWorkItemFilters = useMemo(() => {
@@ -80,6 +86,7 @@ export const AllIssueLayoutRoot = observer(function AllIssueLayoutRoot(props: Pr
 
   // Fetch next pages callback
   const fetchNextPages = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     if (workspaceSlug && globalViewId) fetchNextIssues(workspaceSlug, globalViewId);
   }, [fetchNextIssues, workspaceSlug, globalViewId]);
 
@@ -116,8 +123,8 @@ export const AllIssueLayoutRoot = observer(function AllIssueLayoutRoot(props: Pr
   if (!isLoading && !globalViewsLoading && !issuesLoading && !viewDetails && !isDefaultView) {
     return (
       <EmptyStateDetailed
-        title="View does not exist"
-        description="The view you are looking for does not exist or you don't have permission to view it."
+        title={t("common.view_does_not_exist_title")}
+        description={t("common.view_does_not_exist_description")}
         assetKey="view"
         actions={[
           {
@@ -143,6 +150,7 @@ export const AllIssueLayoutRoot = observer(function AllIssueLayoutRoot(props: Pr
         entityType={EIssuesStoreType.GLOBAL}
         filtersToShowByLayout={ISSUE_DISPLAY_FILTERS_BY_PAGE.my_issues.filters}
         initialWorkItemFilters={initialWorkItemFilters}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         updateFilters={updateFilterExpression.bind(updateFilterExpression, workspaceSlug, globalViewId)}
         workspaceSlug={workspaceSlug}
       >

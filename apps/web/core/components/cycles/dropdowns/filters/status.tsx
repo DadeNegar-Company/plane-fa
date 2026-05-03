@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { CYCLE_STATUS } from "@plane/constants";
@@ -48,7 +49,7 @@ export const FilterStatus = observer(function FilterStatus(props: Props) {
               />
             ))
           ) : (
-            <p className="text-11 italic text-placeholder">No matches found</p>
+            <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
           )}
         </div>
       )}

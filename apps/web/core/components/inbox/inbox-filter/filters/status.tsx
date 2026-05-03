@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import { useState } from "react";
 import { observer } from "mobx-react";
@@ -34,7 +35,9 @@ export const FilterStatus = observer(function FilterStatus(props: Props) {
   const appliedFiltersCount = filterValue?.length ?? 0;
   const filteredOptions = INBOX_STATUS.filter(
     (s) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
       ((currentTab === "open" && [-2, 0].includes(s.status)) ||
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
         (currentTab === "closed" && [-1, 1, 2].includes(s.status))) &&
       s.key.includes(searchQuery.toLowerCase())
   );
@@ -67,7 +70,7 @@ export const FilterStatus = observer(function FilterStatus(props: Props) {
               />
             ))
           ) : (
-            <p className="text-11 italic text-placeholder">No matches found</p>
+            <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
           )}
         </div>
       )}

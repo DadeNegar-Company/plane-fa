@@ -8,6 +8,7 @@ import { Command } from "cmdk";
 import { observer } from "mobx-react";
 import { EIconSize } from "@plane/constants";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { CheckIcon, StateGroupIcon } from "@plane/propel/icons";
 import { Spinner } from "@plane/ui";
 // store hooks
@@ -21,6 +22,7 @@ export type TChangeWorkItemStateListProps = {
 
 export const ChangeWorkItemStateList = observer(function ChangeWorkItemStateList(props: TChangeWorkItemStateListProps) {
   const { projectId, currentStateId, handleStateChange } = props;
+  const { t } = useTranslation();
   // store hooks
   const { getProjectStates } = useProjectState();
   // derived values
@@ -45,7 +47,7 @@ export const ChangeWorkItemStateList = observer(function ChangeWorkItemStateList
             </Command.Item>
           ))
         ) : (
-          <div className="text-center">No states found</div>
+          <div className="text-center">{t("common.no_states_found")}</div>
         )
       ) : (
         <Spinner />

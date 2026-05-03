@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 // plane imports
@@ -18,6 +19,7 @@ import { GlobalViewsList } from "@/components/workspace/views/views-list";
 // hooks
 import { useWorkspace } from "@/hooks/store/use-workspace";
 
+// eslint-disable-next-line react-refresh/only-export-components
 function WorkspaceViewsPage() {
   const [query, setQuery] = useState("");
   // store
@@ -36,7 +38,7 @@ function WorkspaceViewsPage() {
             className="w-full bg-transparent !p-0 text-11 leading-5 text-secondary placeholder:text-placeholder focus:outline-none"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search"
+            placeholder={t("common.search.label")}
             mode="true-transparent"
           />
         </div>
@@ -53,4 +55,5 @@ function WorkspaceViewsPage() {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default observer(WorkspaceViewsPage);

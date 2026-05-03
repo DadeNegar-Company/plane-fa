@@ -6,6 +6,7 @@
 
 import { observer } from "mobx-react";
 // types
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IProjectView } from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
@@ -39,6 +40,7 @@ export const CreateUpdateProjectViewModal = observer(function CreateUpdateProjec
     issuesFilter: { mutateFilters },
   } = useIssues(EIssuesStoreType.PROJECT_VIEW);
   const { resetExpression } = useWorkItemFilters();
+  const { t } = useTranslation();
 
   const handleClose = () => {
     onClose();
@@ -51,13 +53,13 @@ export const CreateUpdateProjectViewModal = observer(function CreateUpdateProjec
       router.push(`/${workspaceSlug}/projects/${projectId}/views/${res.id}`);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "View created successfully.",
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Failed to create view. Please try again.",
       });
     }
@@ -72,7 +74,7 @@ export const CreateUpdateProjectViewModal = observer(function CreateUpdateProjec
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Failed to update view. Please try again.",
       });
     }

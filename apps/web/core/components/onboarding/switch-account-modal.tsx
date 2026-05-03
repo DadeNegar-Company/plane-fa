@@ -10,6 +10,7 @@ import { useTheme } from "next-themes";
 import { ArrowRightLeft } from "lucide-react";
 import { Dialog, Transition } from "@headlessui/react";
 // ui
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 // hooks
@@ -29,6 +30,7 @@ export function SwitchAccountModal(props: Props) {
   const router = useAppRouter();
   // store hooks
   const { data: userData, signOut } = useUser();
+  const { t } = useTranslation();
 
   const { setTheme } = useTheme();
 
@@ -41,6 +43,7 @@ export function SwitchAccountModal(props: Props) {
     setSwitchingAccount(true);
 
     await signOut()
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setTheme("system");
         router.push("/");
@@ -49,7 +52,7 @@ export function SwitchAccountModal(props: Props) {
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Failed to sign out. Please try again.",
         })
       )
@@ -104,6 +107,7 @@ export function SwitchAccountModal(props: Props) {
                   </div>
                 </div>
                 <div className="mb-2 flex items-center justify-end gap-3 p-4 sm:px-6">
+                  {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                   <Button variant="secondary" size="lg" onClick={handleSwitchAccount} disabled={switchingAccount}>
                     {switchingAccount ? "Switching..." : "Switch account"}
                   </Button>

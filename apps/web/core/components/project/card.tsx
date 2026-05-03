@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useRef, useState } from "react";
 import { observer } from "mobx-react";
 import Link from "next/link";
@@ -12,6 +13,7 @@ import { ArchiveRestoreIcon, Settings, UserPlus } from "lucide-react";
 // plane imports
 import { EUserPermissions, EUserPermissionsLevel, IS_FAVORITE_MENU_OPEN } from "@plane/constants";
 import { useLocalStorage } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { Logo } from "@plane/propel/emoji-icon-picker";
 import { LinkIcon, LockIcon, NewTabIcon, TrashIcon, CheckIcon } from "@plane/propel/icons";
@@ -53,6 +55,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
   const { getUserDetails } = useMember();
   const { addProjectToFavorites, removeProjectFromFavorites } = useProject();
   const { allowPermissions } = useUserPermissions();
+  const { t } = useTranslation();
   // hooks
   const { isMobile } = usePlatformOS();
   // derived values
@@ -63,7 +66,9 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
   );
   // auth
   const isMemberOfProject = !!project.member_role;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   const hasAdminRole = project.member_role === EUserPermissions.ADMIN;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   const hasMemberRole = project.member_role === EUserPermissions.MEMBER;
   // archive
   const isArchived = !!project.archived_at;
@@ -80,7 +85,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
     setPromiseToast(addToFavoritePromise, {
       loading: "Adding project to favorites...",
       success: {
-        title: "Success!",
+        title: t("common.success"),
         message: () => "Project added to favorites.",
         actionItems: () => {
           if (!isFavoriteMenuOpen) toggleFavoriteMenu(true);
@@ -88,7 +93,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
         },
       },
       error: {
-        title: "Error!",
+        title: t("common.error.label"),
         message: () => "Couldn't add the project to favorites. Please try again.",
       },
     });
@@ -101,11 +106,11 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
     setPromiseToast(removeFromFavoritePromise, {
       loading: "Removing project from favorites...",
       success: {
-        title: "Success!",
+        title: t("common.success"),
         message: () => "Project removed from favorites.",
       },
       error: {
-        title: "Error!",
+        title: t("common.error.label"),
         message: () => "Couldn't remove the project from favorites. Please try again.",
       },
     });
@@ -146,6 +151,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
     },
     {
       key: "copy-link",
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       action: handleCopyText,
       title: "Copy link",
       icon: LinkIcon,
@@ -241,6 +247,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
+                    // eslint-disable-next-line @typescript-eslint/no-floating-promises
                     handleCopyText();
                   }}
                 >
@@ -307,6 +314,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
             {isArchived ? (
               hasAdminRole && (
                 <div className="flex items-center justify-center gap-2">
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                   <div
                     className="flex items-center justify-center text-11 text-placeholder font-medium hover:text-secondary"
                     onClick={(e) => {
@@ -320,6 +328,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
                       Restore
                     </div>
                   </div>
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                   <div
                     className="flex items-center justify-center text-11 text-placeholder font-medium hover:text-secondary"
                     onClick={(e) => {

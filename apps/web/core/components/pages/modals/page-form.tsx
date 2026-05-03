@@ -48,6 +48,7 @@ export function PageForm(props: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   const i18n_access_label = PAGE_ACCESS_SPECIFIERS.find((access) => access.key === formData.access)?.i18n_label;
 
   const { getIndex } = getTabIndex(ETabIndices.PROJECT_PAGE, isMobile);
@@ -66,9 +67,10 @@ export function PageForm(props: Props) {
   const isTitleLengthMoreThan255Character = formData.name ? formData.name.length > 255 : false;
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handlePageFormSubmit}>
       <div className="space-y-5 p-5">
-        <h3 className="text-18 font-medium text-secondary">Create page</h3>
+        <h3 className="text-18 font-medium text-secondary">{t("common.create_page")}</h3>
         <div className="flex items-start gap-2 h-9 w-full">
           <EmojiPicker
             isOpen={isOpen}
@@ -86,18 +88,24 @@ export function PageForm(props: Props) {
                 </>
               </span>
             }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={(val: any) => {
               let logoValue = {};
 
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
               if (val?.type === "emoji")
                 logoValue = {
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                   value: val.value,
                   url: undefined,
                 };
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
               else if (val?.type === "icon") logoValue = val.value;
 
               handleFormData("logo_props", {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                 in_use: val?.type,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 [val?.type]: logoValue,
               });
               setIsOpen(false);
@@ -119,10 +127,11 @@ export function PageForm(props: Props) {
               type="text"
               value={formData.name}
               onChange={(e) => handleFormData("name", e.target.value)}
-              placeholder="Title"
+              placeholder={t("common.title")}
               className="w-full resize-none text-14"
               tabIndex={getIndex("name")}
               required
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
             />
             {isTitleLengthMoreThan255Character && (

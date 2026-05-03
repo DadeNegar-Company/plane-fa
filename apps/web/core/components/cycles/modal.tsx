@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 import { mutate } from "swr";
 // types
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { CycleDateCheckData, ICycle, TCycleTabOptions } from "@plane/types";
 // ui
@@ -42,6 +43,7 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
   const { workspaceProjectIds } = useProject();
   const { createCycle, updateCycleDetails } = useCycle();
   const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
 
   const { setValue: setCycleTab } = useLocalStorage<TCycleTabOptions>("cycle_tab", "active");
 
@@ -50,28 +52,32 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
 
     const selectedProjectId = payload.project_id ?? projectId.toString();
     await createCycle(workspaceSlug, selectedProjectId, payload)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .then((res) => {
         // mutate when the current cycle creation is active
+        // eslint-disable-next-line promise/always-return
         if (payload.start_date && payload.end_date) {
           const currentDate = new Date();
           const cycleStartDate = new Date(payload.start_date);
           const cycleEndDate = new Date(payload.end_date);
           if (currentDate >= cycleStartDate && currentDate <= cycleEndDate) {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             mutate(`PROJECT_ACTIVE_CYCLE_${selectedProjectId}`);
           }
         }
 
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
-          message: "Cycle created successfully.",
+          title: t("common.success"),
+          message: t("project_cycles.action.create.success.description"),
         });
       })
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: err?.detail ?? "Error in creating cycle. Please try again.",
+          title: t("common.error.label"),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+          message: err?.detail ?? t("project_cycles.action.create.failed.description"),
         });
       });
   };
@@ -81,18 +87,20 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
 
     const selectedProjectId = payload.project_id ?? projectId.toString();
     await updateCycleDetails(workspaceSlug, selectedProjectId, cycleId, payload)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, promise/always-return
       .then((res) => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
-          message: "Cycle updated successfully.",
+          title: t("common.success"),
+          message: t("project_cycles.action.update.success.description"),
         });
       })
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: err?.detail ?? "Error in updating cycle. Please try again.",
+          title: t("common.error.label"),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+          message: err?.detail ?? t("project_cycles.action.update.failed.description"),
         });
       });
   };
@@ -100,7 +108,9 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
   const dateChecker = async (projectId: string, payload: CycleDateCheckData) => {
     let status = false;
 
+    // eslint-disable-next-line promise/always-return
     await cycleService.cycleDateCheck(workspaceSlug, projectId, payload).then((res) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       status = res.status;
     });
 
@@ -144,6 +154,7 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
     if (isDateValid) {
       if (data?.id) await handleUpdateCycle(data.id, payload);
       else {
+        // eslint-disable-next-line promise/always-return
         await handleCreateCycle(payload).then(() => {
           setCycleTab("all");
         });
@@ -152,8 +163,8 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
     } else
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
-        message: "You already have a cycle on the given dates, if you want to create a draft cycle, remove the dates.",
+        title: t("common.error.label"),
+        message: t("project_cycles.action.create.error.already_exists"),
       });
   };
 
@@ -161,6 +172,7 @@ export function CycleCreateUpdateModal(props: CycleModalProps) {
     // if modal is closed, reset active project to null
     // and return to avoid activeProject being set to some other project
     if (!isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveProject(null);
       return;
     }

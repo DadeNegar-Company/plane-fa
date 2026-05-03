@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Disclosure } from "@headlessui/react";
 // plane imports
 import { ROLE, EUserPermissions, EUserPermissionsLevel, MEMBER_TRACKER_ELEMENTS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { TrashIcon, SuspendedUserIcon } from "@plane/propel/icons";
 import { Pill, EPillVariant, EPillSize } from "@plane/propel/pill";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -126,6 +127,7 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
     workspace: { updateMember },
   } = useMember();
   const { data: currentUser } = useUser();
+  const { t } = useTranslation();
 
   // derived values
   const isCurrentUser = currentUser?.id === rowData.member.id;
@@ -165,7 +167,7 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
 
                   setToast({
                     type: TOAST_TYPE.ERROR,
-                    title: "Error!",
+                    title: t("common.error.label"),
                     message: errorString ?? "An error occurred while updating member role. Please try again.",
                   });
                 }

@@ -10,6 +10,7 @@ import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-d
 import { attachInstruction, extractInstruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/tree-item";
 import { observer } from "mobx-react";
 import { useOutsideClickDetector } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { DropIndicator } from "@plane/ui";
 import { HIGHLIGHT_WITH_LINE, highlightIssueOnDrop } from "@/components/issues/issue-layouts/utils";
@@ -29,6 +30,7 @@ export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
   const [instruction, setInstruction] = useState<"DRAG_OVER" | "DRAG_BELOW" | undefined>(undefined);
   // refs
   const blockRef = useRef<HTMLDivElement | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const element = blockRef.current;
@@ -94,6 +96,7 @@ export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
         },
       })
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockRef?.current, isLastChild, onDrop]);
 
   useOutsideClickDetector(blockRef, () => blockRef?.current?.classList?.remove(HIGHLIGHT_WITH_LINE));
@@ -106,7 +109,7 @@ export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
       onDragStart={() => {
         if (!isDragEnabled) {
           setToast({
-            title: "Warning!",
+            title: t("common.warning"),
             type: TOAST_TYPE.WARNING,
             message: "Drag and drop is only enabled when sorted by manual",
           });

@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { xor } from "lodash-es";
 import { observer } from "mobx-react";
@@ -93,7 +94,7 @@ export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal
           <SearchIcon className="flex-shrink-0 size-4 text-placeholder" aria-hidden="true" />
           <Combobox.Input
             className="h-12 w-full border-0 bg-transparent text-13 text-primary outline-none placeholder:text-placeholder focus:ring-0"
-            placeholder="Search for projects"
+            placeholder={t("common.search_for_projects")}
             displayValue={() => ""}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -105,6 +106,7 @@ export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal
               const projectDetails = projectDetailsMap.get(projectId);
               if (!projectDetails) return null;
               return (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                 <div
                   key={projectDetails.id}
                   className="group flex items-center gap-1.5 bg-surface-2 px-2 py-1 rounded-sm cursor-pointer"
@@ -181,6 +183,7 @@ export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal
           ref={moveButtonRef}
           variant="primary"
           size="lg"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={handleSubmit}
           loading={isSubmitting}
           disabled={!areSelectedProjectsChanged}

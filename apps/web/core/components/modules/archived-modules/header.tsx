@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import { useCallback, useRef, useState } from "react";
 import { observer } from "mobx-react";
@@ -11,6 +12,7 @@ import { useParams } from "next/navigation";
 // icons
 import { ListFilter } from "lucide-react";
 import { useOutsideClickDetector } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
 // plane helpers
 // types
@@ -30,6 +32,8 @@ export const ArchivedModulesHeader = observer(function ArchivedModulesHeader() {
   const { projectId } = useParams();
   // refs
   const inputRef = useRef<HTMLInputElement>(null);
+  // plane hooks
+  const { t } = useTranslation();
   // hooks
   const {
     currentProjectArchivedFilters,
@@ -112,7 +116,7 @@ export const ArchivedModulesHeader = observer(function ArchivedModulesHeader() {
           <input
             ref={inputRef}
             className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
-            placeholder="Search"
+            placeholder={t("common.search.label")}
             value={archivedModulesSearchQuery}
             onChange={(e) => updateArchivedModulesSearchQuery(e.target.value)}
             onKeyDown={handleInputKeyDown}

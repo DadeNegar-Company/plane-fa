@@ -9,6 +9,7 @@ import { isEqual, cloneDeep } from "lodash-es";
 import { observer } from "mobx-react";
 // plane imports
 import { DEFAULT_GLOBAL_VIEWS_LIST, EUserPermissionsLevel } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { setToast, TOAST_TYPE } from "@plane/propel/toast";
 import type { IWorkspaceView, TWorkItemFilterExpression } from "@plane/types";
 import { EUserProjectRoles, EViewAccess } from "@plane/types";
@@ -46,6 +47,7 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
     workspace: { getWorkspaceMemberIds },
   } = useMember();
   const { getWorkspaceLabelIds } = useLabel();
+  const { t } = useTranslation();
   // derived values
   const hasWorkspaceMemberLevelPermissions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
@@ -139,21 +141,23 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
         /* No need to sync filters here as updateFilters already handles it */
         false
       )
+        // eslint-disable-next-line promise/always-return
         .then(() => {
           setToast({
             type: TOAST_TYPE.SUCCESS,
-            title: "Success!",
+            title: t("common.success"),
             message: "Your view has been updated successfully.",
           });
         })
         .catch(() => {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
+            title: t("common.error.label"),
             message: "Your view could not be updated. Please try again.",
           });
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [viewDetails, updateGlobalView, workspaceSlug, getViewFilterPayload]
   );
 

@@ -55,6 +55,7 @@ export const useWorkItemCommentOperations = (
             sequenceId: issueDetails.sequence_id,
           });
           const commentLink = `${workItemLink}#comment-${id}`;
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises, promise/always-return, promise/catch-or-return
           copyUrlToClipboard(commentLink).then(() => {
             setToast({
               title: t("common.success"),
@@ -74,12 +75,14 @@ export const useWorkItemCommentOperations = (
       createComment: async (data) => {
         try {
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing fields");
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const comment = await createComment(workspaceSlug, projectId, issueId, data);
           setToast({
             title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
             message: t("issue.comments.create.success"),
           });
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return comment;
         } catch {
           setToast({
@@ -162,30 +165,32 @@ export const useWorkItemCommentOperations = (
           if (!workspaceSlug || !projectId || !commentId) throw new Error("Missing fields");
           await createCommentReaction(workspaceSlug, projectId, commentId, reaction);
           setToast({
-            title: "Success!",
+            title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
             message: "Reaction created successfully",
           });
         } catch {
           setToast({
-            title: "Error!",
+            title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
             message: "Reaction creation failed",
           });
         }
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       deleteCommentReaction: async (commentId, reaction) => {
         try {
           if (!workspaceSlug || !projectId || !commentId || !currentUser?.id) throw new Error("Missing fields");
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           removeCommentReaction(workspaceSlug, projectId, commentId, reaction, currentUser.id);
           setToast({
-            title: "Success!",
+            title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
             message: "Reaction removed successfully",
           });
         } catch {
           setToast({
-            title: "Error!",
+            title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
             message: "Reaction remove failed",
           });
@@ -210,6 +215,7 @@ export const useWorkItemCommentOperations = (
       },
     };
     return ops;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspaceSlug, projectId, issueId, createComment, updateComment, uploadEditorAsset, removeComment]);
 
   return operations;

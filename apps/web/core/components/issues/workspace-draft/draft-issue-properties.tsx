@@ -7,6 +7,7 @@
 import { useCallback, useMemo } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
+import { useTranslation } from "@plane/i18n";
 // icons
 import { DueDatePropertyIcon, StartDatePropertyIcon } from "@plane/propel/icons";
 // types
@@ -48,6 +49,7 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
   const { areEstimateEnabledByProjectId } = useProjectEstimates();
   const { getStateById } = useProjectState();
   const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
   const projectDetails = getProjectById(issue.project_id);
 
   // router
@@ -89,6 +91,7 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
   const handleModule = useCallback(
     (moduleIds: string[] | null) => {
       if (!issue || !issue.module_ids || !moduleIds) return;
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       issueOperations.updateIssueModules(moduleIds);
     },
     [issueOperations, issue]
@@ -97,7 +100,9 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
   const handleCycle = useCallback(
     (cycleId: string | null) => {
       if (!issue || issue.cycle_id === cycleId) return;
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       if (cycleId) issueOperations.addIssueToCycle?.(cycleId);
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       else issueOperations.removeIssueFromCycle?.();
     },
     [issue, issueOperations]
@@ -139,10 +144,12 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
     <div className={className}>
       {/* basic properties */}
       {/* state */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div className="h-5" onClick={handleEventPropagation}>
         <StateDropdown
           buttonContainerClassName="truncate max-w-40"
           value={issue.state_id}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onChange={handleState}
           projectId={issue.project_id}
           buttonVariant="border-with-text"
@@ -152,9 +159,11 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
       </div>
 
       {/* priority */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div className="h-5" onClick={handleEventPropagation}>
         <PriorityDropdown
           value={issue?.priority}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onChange={handlePriority}
           buttonVariant="border-without-text"
           buttonClassName="border"
@@ -169,18 +178,21 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
         projectId={issue?.project_id || null}
         value={issue?.label_ids || null}
         defaultOptions={defaultLabelOptions}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onChange={handleLabel}
         renderByDefault={isMobile}
         hideDropdownArrow
       />
 
       {/* start date */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div className="h-5" onClick={handleEventPropagation}>
         <DateDropdown
           value={issue.start_date ?? null}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onChange={handleStartDate}
           maxDate={maxDate}
-          placeholder="Start date"
+          placeholder={t("start_date")}
           icon={<StartDatePropertyIcon className="h-3 w-3 flex-shrink-0" />}
           buttonVariant={issue.start_date ? "border-with-text" : "border-without-text"}
           optionsClassName="z-10"
@@ -190,12 +202,14 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
       </div>
 
       {/* target/due date */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div className="h-5" onClick={handleEventPropagation}>
         <DateDropdown
           value={issue?.target_date ?? null}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onChange={handleTargetDate}
           minDate={minDate}
-          placeholder="Due date"
+          placeholder={t("due_date")}
           icon={<DueDatePropertyIcon className="h-3 w-3 flex-shrink-0" />}
           buttonVariant={issue.target_date ? "border-with-text" : "border-without-text"}
           buttonClassName={
@@ -209,16 +223,18 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
       </div>
 
       {/* assignee */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div className="h-5" onClick={handleEventPropagation}>
         <MemberDropdown
           projectId={issue?.project_id}
           value={issue?.assignee_ids}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onChange={handleAssignee}
           multiple
           buttonVariant={issue.assignee_ids?.length > 0 ? "transparent-without-text" : "border-without-text"}
           buttonClassName={issue.assignee_ids?.length > 0 ? "hover:bg-transparent px-0" : ""}
           showTooltip={issue?.assignee_ids?.length === 0}
-          placeholder="Assignees"
+          placeholder={t("common.assignees")}
           optionsClassName="z-10"
           tooltipContent=""
           renderByDefault={isMobile}
@@ -227,6 +243,7 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
 
       {/* modules */}
       {projectDetails?.module_view && (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div className="h-5" onClick={handleEventPropagation}>
           <ModuleDropdown
             buttonContainerClassName="truncate max-w-40"
@@ -244,6 +261,7 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
 
       {/* cycles */}
       {projectDetails?.cycle_view && (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div className="h-5" onClick={handleEventPropagation}>
           <CycleDropdown
             buttonContainerClassName="truncate max-w-40"
@@ -259,9 +277,11 @@ export const DraftIssueProperties = observer(function DraftIssueProperties(props
 
       {/* estimates */}
       {issue.project_id && areEstimateEnabledByProjectId(issue.project_id?.toString()) && (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div className="h-5" onClick={handleEventPropagation}>
           <EstimateDropdown
             value={issue.estimate_point ?? undefined}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onChange={handleEstimate}
             projectId={issue.project_id}
             buttonVariant="border-with-text"

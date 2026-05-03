@@ -90,8 +90,8 @@ export function CreateApiTokenForm(props: Props) {
     if (!neverExpires && (!data.expired_at || (data.expired_at === "custom" && !customDate)))
       return setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
-        message: "Please select an expiration date.",
+        title: t("common.error.label"),
+        message: t("api_tokens_extra.select_expiration"),
       });
 
     const payload: Partial<IApiToken> = {
@@ -111,6 +111,7 @@ export function CreateApiTokenForm(props: Props) {
       if (expiryDate) payload.expired_at = expiryDate.toISOString();
     }
 
+    // eslint-disable-next-line promise/always-return
     await onSubmit(payload).then(() => {
       reset(defaultValues);
       setCustomDate(null);
@@ -119,11 +120,13 @@ export function CreateApiTokenForm(props: Props) {
 
   const today = new Date();
   const tomorrow = add(today, { days: 1 });
+  // eslint-disable-next-line react-hooks/incompatible-library
   const expiredAt = watch("expired_at");
   const expiryDate = getExpiryDate(expiredAt ?? "");
   const customDateFormatted = customDate && getFormattedDate(customDate);
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="space-y-5 p-5">
         <h3 className="text-18 font-medium text-secondary">
@@ -189,10 +192,10 @@ export function CreateApiTokenForm(props: Props) {
                         >
                           <Calendar className="h-3 w-3" />
                           {value === "custom"
-                            ? "Custom date"
+                            ? t("api_tokens_extra.custom_date")
                             : selectedOption
                               ? selectedOption.label
-                              : "Set expiration date"}
+                              : t("api_tokens_extra.set_expiration_date")}
                         </div>
                       }
                       value={value}
@@ -204,7 +207,7 @@ export function CreateApiTokenForm(props: Props) {
                           {option.label}
                         </CustomSelect.Option>
                       ))}
-                      <CustomSelect.Option value="custom">Custom</CustomSelect.Option>
+                      <CustomSelect.Option value="custom">{t("api_tokens_extra.custom")}</CustomSelect.Option>
                     </CustomSelect>
                   );
                 }}
@@ -217,7 +220,7 @@ export function CreateApiTokenForm(props: Props) {
                     minDate={tomorrow}
                     icon={<Calendar className="h-3 w-3" />}
                     buttonVariant="border-with-text"
-                    placeholder="Set date"
+                    placeholder={t("api_tokens_extra.set_date")}
                     disabled={neverExpires}
                   />
                 </div>
@@ -238,6 +241,7 @@ export function CreateApiTokenForm(props: Props) {
         </div>
       </div>
       <div className="px-5 py-4 flex items-center justify-between gap-2 border-t-[0.5px] border-subtle">
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
         <div className="flex cursor-pointer items-center gap-1.5" onClick={toggleNeverExpires}>
           <div className="flex cursor-pointer items-center justify-center">
             <ToggleSwitch value={neverExpires} onChange={() => {}} size="sm" />

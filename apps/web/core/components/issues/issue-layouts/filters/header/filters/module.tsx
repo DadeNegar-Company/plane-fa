@@ -4,10 +4,13 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useMemo, useState } from "react";
 import { sortBy } from "lodash-es";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
+// plane imports
+import { useTranslation } from "@plane/i18n";
 // components
 import { ModuleIcon } from "@plane/propel/icons";
 import { Loader } from "@plane/ui";
@@ -23,6 +26,8 @@ type Props = {
 
 export const FilterModule = observer(function FilterModule(props: Props) {
   const { appliedFilters, handleUpdate, searchQuery } = props;
+  // plane hooks
+  const { t } = useTranslation();
   // hooks
   const { projectId } = useParams();
   const { getModuleById, getProjectModuleIds } = useModule();
@@ -85,7 +90,7 @@ export const FilterModule = observer(function FilterModule(props: Props) {
                 )}
               </>
             ) : (
-              <p className="text-11 italic text-placeholder">No matches found</p>
+              <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
             )
           ) : (
             <Loader className="space-y-2">

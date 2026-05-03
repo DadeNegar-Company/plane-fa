@@ -106,14 +106,14 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
       await deleteModuleLink(workspaceSlug.toString(), projectId.toString(), moduleId.toString(), linkId);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
-        message: "Module link deleted successfully.",
+        title: t("common.success"),
+        message: t("project_modules.toasts.link_deleted.message"),
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
-        message: "Some error occurred",
+        title: t("common.error.label"),
+        message: t("common.errors.default.message"),
       });
     }
   };
@@ -125,8 +125,8 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
     });
     setToast({
       type: TOAST_TYPE.SUCCESS,
-      title: "Success!",
-      message: "Module updated successfully.",
+      title: t("common.success"),
+      message: t("project_modules.toasts.update.success.message"),
     });
   };
 
@@ -161,12 +161,12 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
 
   const issueCount =
     moduleDetails.total_issues === 0
-      ? "0 work items"
+      ? t("project_modules.zero_issues")
       : `${moduleDetails.completed_issues}/${moduleDetails.total_issues}`;
 
   const issueEstimatePointCount =
     moduleDetails.total_estimate_points === 0
-      ? "0 work items"
+      ? t("project_modules.zero_issues")
       : `${moduleDetails.completed_estimate_points}/${moduleDetails.total_estimate_points}`;
 
   const isEditingAllowed = allowPermissions(

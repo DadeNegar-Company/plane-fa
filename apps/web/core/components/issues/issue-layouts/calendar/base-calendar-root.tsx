@@ -10,6 +10,7 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // plane imports
 import { EIssueGroupByToServerOptions, EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TGroupedIssues } from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
@@ -35,6 +36,7 @@ export type CalendarStoreType =
 
 interface IBaseCalendarRoot {
   QuickActions: FC<IQuickActionProps>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   addIssuesToView?: (issueIds: string[]) => Promise<any>;
   isCompletedCycle?: boolean;
   viewId?: string | undefined;
@@ -54,6 +56,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
 
   // router
   const { workspaceSlug } = useParams();
+  const { t } = useTranslation();
 
   // hooks
   const fallbackStoreType = useIssueStoreType() as CalendarStoreType;
@@ -90,6 +93,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
 
   useEffect(() => {
     if (startDate && endDate && layout) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       fetchIssues(
         "init-loader",
         {
@@ -121,8 +125,9 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
       updateIssue
     ).catch((err) => {
       setToast({
-        title: "Error!",
+        title: t("common.error.label"),
         type: TOAST_TYPE.ERROR,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         message: err?.detail ?? "Failed to perform this action",
       });
     });
@@ -130,6 +135,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
 
   const loadMoreIssues = useCallback(
     (dateString: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       fetchNextIssues(dateString);
     },
     [fetchNextIssues]
@@ -137,11 +143,13 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
 
   const getPaginationData = useCallback(
     (groupId: string | undefined) => issues?.getPaginationData(groupId, undefined),
+    // eslint-disable-next-line @typescript-eslint/unbound-method, react-hooks/exhaustive-deps
     [issues?.getPaginationData]
   );
 
   const getGroupIssueCount = useCallback(
     (groupId: string | undefined) => issues?.getGroupIssueCount(groupId, undefined, false),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [issues?.getGroupIssueCount]
   );
 
@@ -176,6 +184,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
               handleArchive={async () => archiveIssue && archiveIssue(issue.project_id, issue.id)}
               handleRestore={async () => restoreIssue && restoreIssue(issue.project_id, issue.id)}
               readOnly={!canEditProperties(issue.project_id ?? undefined) || isCompletedCycle}
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               placements={placement}
             />
           )}

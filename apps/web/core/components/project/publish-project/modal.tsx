@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 
 // types
 import { SPACE_BASE_PATH, SPACE_BASE_URL } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { GlobeIcon, NewTabIcon, CheckIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -62,6 +63,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
     unPublishProject,
     fetchSettingsLoader,
   } = useProjectPublish();
+  const { t } = useTranslation();
   // derived values
   const projectPublishSettings = getPublishSettingsByProjectID(projectId);
   const isProjectPublished = !!projectPublishSettings?.anchor;
@@ -85,6 +87,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
     if (!workspaceSlug || !isOpen) return;
 
     if (!projectPublishSettings) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       fetchPublishSettings(workspaceSlug.toString(), projectId);
     }
   }, [fetchPublishSettings, isOpen, projectId, projectPublishSettings, workspaceSlug]);
@@ -100,7 +103,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
     await updatePublishSettings(workspaceSlug.toString(), projectId, payload.id, payload).then((res) => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "Publish settings updated successfully!",
       });
 
@@ -118,7 +121,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Something went wrong while unpublishing the project.",
         })
       )
@@ -136,7 +139,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
     if (!selectedLayouts || selectedLayouts.length === 0) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Please select at least one view layout to publish the project.",
       });
       return;
@@ -178,13 +181,15 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
 
   return (
     <ModalCore isOpen={isOpen} handleClose={handleClose} width={EModalWidth.XXL}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="flex items-center justify-between gap-2 p-5">
-          <h5 className="text-18 font-medium text-secondary">Publish project</h5>
+          <h5 className="text-18 font-medium text-secondary">{t("common.publish_project")}</h5>
           {isProjectPublished && (
             <Button
               variant="error-fill"
               size="lg"
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={() => handleUnPublishProject(watch("id") ?? "")}
               loading={isUnPublishing}
             >
@@ -226,6 +231,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                     <button
                       type="button"
                       className="h-8 bg-layer-3 hover:bg-layer-3-hover rounded-sm text-11 font-medium py-2 px-3"
+                      // eslint-disable-next-line @typescript-eslint/no-misused-promises
                       onClick={handleCopyLink}
                     >
                       Copy link
@@ -320,12 +326,12 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
           {!fetchSettingsLoader && (
             <div className="relative flex items-center gap-2">
               <Button variant="secondary" size="lg" onClick={handleClose}>
-                Cancel
+                {t("common.cancel")}
               </Button>
               {isProjectPublished ? (
                 isDirty && (
                   <Button variant="primary" size="lg" type="submit" loading={isSubmitting}>
-                    {isSubmitting ? "Updating" : "Update settings"}
+                    {isSubmitting ? t("common.updating") : t("common.update_settings")}
                   </Button>
                 )
               ) : (

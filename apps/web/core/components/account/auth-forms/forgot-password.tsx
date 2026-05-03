@@ -61,6 +61,7 @@ export const ForgotPasswordForm = observer(function ForgotPasswordForm() {
       .sendResetPasswordLink({
         email: formData.email,
       })
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -73,6 +74,7 @@ export const ForgotPasswordForm = observer(function ForgotPasswordForm() {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("auth.forgot_password.toast.error.title"),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
           message: err?.error ?? t("auth.forgot_password.toast.error.message"),
         });
       });
@@ -80,7 +82,11 @@ export const ForgotPasswordForm = observer(function ForgotPasswordForm() {
 
   return (
     <FormContainer>
-      <AuthFormHeader title="Reset password" description="Regain access to your account." />
+      <AuthFormHeader
+        title={t("common.reset_password_title")}
+        description={t("common.regain_access_to_your_account")}
+      />
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={handleSubmit(handleForgotPassword)} className="space-y-4">
         <div className="space-y-1">
           <label className="text-13 font-medium text-tertiary" htmlFor="email">

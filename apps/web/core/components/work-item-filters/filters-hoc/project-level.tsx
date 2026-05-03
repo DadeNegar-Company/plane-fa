@@ -9,6 +9,7 @@ import { isEqual, cloneDeep } from "lodash-es";
 import { observer } from "mobx-react";
 // plane imports
 import { EUserPermissionsLevel } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { setToast, TOAST_TYPE } from "@plane/propel/toast";
 import type { IProjectView, TWorkItemFilterExpression } from "@plane/types";
 import { EUserProjectRoles, EViewAccess } from "@plane/types";
@@ -54,6 +55,7 @@ export const ProjectLevelWorkItemFiltersHOC = observer(function ProjectLevelWork
   } = useMember();
   const { getProjectModuleIds } = useModule();
   const { getProjectStateIds } = useProjectState();
+  const { t } = useTranslation();
   // derived values
   const hasProjectMemberLevelPermissions = allowPermissions(
     [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER],
@@ -150,21 +152,23 @@ export const ProjectLevelWorkItemFiltersHOC = observer(function ProjectLevelWork
       updateView(workspaceSlug, projectId, viewDetails.id, {
         ...getViewFilterPayload(filterExpression),
       })
+        // eslint-disable-next-line promise/always-return
         .then(() => {
           setToast({
             type: TOAST_TYPE.SUCCESS,
-            title: "Success!",
+            title: t("common.success"),
             message: "Your view has been updated successfully.",
           });
         })
         .catch(() => {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
+            title: t("common.error.label"),
             message: "Your view could not be updated. Please try again.",
           });
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [viewDetails, updateView, workspaceSlug, projectId, getViewFilterPayload]
   );
 

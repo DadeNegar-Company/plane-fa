@@ -9,6 +9,7 @@ import { Command } from "cmdk";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // hooks
+import { useTranslation } from "@plane/i18n";
 import { CloseIcon, SearchIcon } from "@plane/propel/icons";
 import { cn } from "@plane/utils";
 // power-k
@@ -22,6 +23,7 @@ import { useAppRouter } from "@/hooks/use-app-router";
 import { useExpandableSearch } from "@/hooks/use-expandable-search";
 
 export const TopNavPowerK = observer(() => {
+  const { t } = useTranslation();
   // router
   const router = useAppRouter();
   const params = useParams();
@@ -101,6 +103,7 @@ export const TopNavPowerK = observer(() => {
     return () => {
       setTopNavInputRef(null);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTopNavInputRef]);
 
   const handleClear = () => {
@@ -112,6 +115,7 @@ export const TopNavPowerK = observer(() => {
   const handleCommandSelect = useCallback(
     (command: TPowerKCommandConfig) => {
       if (command.type === "action") {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         command.action(context);
         // Always close on command selection
         context.closePalette();
@@ -128,6 +132,7 @@ export const TopNavPowerK = observer(() => {
   const handlePageDataSelection = useCallback(
     (data: unknown) => {
       if (context.activeCommand?.type === "change-page") {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         context.activeCommand.onSelect(data, context);
       }
       // Always close on page data selection
@@ -203,6 +208,7 @@ export const TopNavPowerK = observer(() => {
         return;
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchTerm, activePage, context, shouldShowContextBasedActions, setActivePage, closePanel]
   );
 
@@ -213,6 +219,7 @@ export const TopNavPowerK = observer(() => {
           "w-[554px]": isOpen,
         })}
       >
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus */}
         <div
           className={cn(
             "flex items-center w-full h-7 p-2 rounded-lg bg-layer-2 border border-subtle-1 transition-colors duration-200",
@@ -235,7 +242,7 @@ export const TopNavPowerK = observer(() => {
             onMouseDown={handleMouseDown}
             onFocus={handleFocus}
             onKeyDown={handleKeyDown}
-            placeholder="Search commands..."
+            placeholder={t("common.search_commands")}
             className="flex-1 bg-transparent text-13 text-primary placeholder-text-placeholder outline-none min-w-0"
           />
           {searchTerm && (

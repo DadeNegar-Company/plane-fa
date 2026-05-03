@@ -137,17 +137,18 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       ]);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success",
+        title: t("common.success"),
         message: "Profile setup completed!",
       });
       // For Invited Users, they will skip all other steps and finish onboarding.
       if (totalSteps <= 2) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         finishOnboarding();
       }
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error",
+        title: t("common.error.label"),
         message: "Profile setup failed. Please try again!",
       });
     }
@@ -164,6 +165,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
         updateCurrentUser(userDetailsPayload),
         formData.password && handleSetPassword(formData.password),
       ]).then(() => {
+        // eslint-disable-next-line no-empty, promise/always-return
         if (formData.password) {
         } else {
           setProfileSetupStep(EProfileSetupSteps.USER_PERSONALIZATION);
@@ -172,7 +174,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error",
+        title: t("common.error.label"),
         message: "User details update failed. Please try again!",
       });
     }
@@ -190,17 +192,18 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       ]);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success",
+        title: t("common.success"),
         message: "Profile setup completed!",
       });
       // For Invited Users, they will skip all other steps and finish onboarding.
       if (totalSteps <= 2) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         finishOnboarding();
       }
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error",
+        title: t("common.error.label"),
         message: "Profile setup failed. Please try again!",
       });
     }
@@ -246,6 +249,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
   return (
     <div className="flex h-full w-full">
       <div className="flex flex-col w-full items-center justify-center p-8 mt-6">
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit(onSubmit)} className="w-full mx-auto mt-2 space-y-4 sm:w-96">
           {profileSetupStep !== EProfileSetupSteps.USER_PERSONALIZATION && (
             <>
@@ -256,6 +260,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                   <UserImageUploadModal
                     isOpen={isImageUploadModalOpen}
                     onClose={() => setIsImageUploadModalOpen(false)}
+                    // eslint-disable-next-line @typescript-eslint/require-await
                     handleRemove={async () => handleDelete(getValues("avatar_url"))}
                     onSuccess={(url) => {
                       onChange(url);
@@ -280,6 +285,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                     </div>
                   ) : (
                     <div className="relative mr-3 h-16 w-16 overflow-hidden">
+                      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
                       <img
                         src={getFileURL(userAvatar ?? "")}
                         className="absolute left-0 top-0 h-full w-full rounded-full object-cover"
@@ -315,6 +321,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                         name="first_name"
                         type="text"
                         value={value}
+                        // eslint-disable-next-line jsx-a11y/no-autofocus
                         autoFocus
                         onChange={onChange}
                         ref={ref}
@@ -477,6 +484,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                   render={({ field: { value, onChange } }) => (
                     <div className="flex flex-wrap gap-2 py-2 overflow-auto break-all">
                       {USER_ROLE.map((userRole) => (
+                        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                         <div
                           key={userRole}
                           className={cn(
@@ -515,6 +523,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                       {USER_DOMAIN.map((userDomain) => {
                         const isSelected = value?.includes(userDomain) || false;
                         return (
+                          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                           <div
                             key={userDomain}
                             className={`flex-shrink-0 border-[0.5px] hover:cursor-pointer hover:bg-surface-2 ${

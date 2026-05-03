@@ -55,12 +55,14 @@ type FormValues = {
 type InviteMemberFormProps = {
   index: number;
   remove: UseFieldArrayRemove;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<FormValues, any>;
   setValue: UseFormSetValue<FormValues>;
   getValues: UseFormGetValues<FormValues>;
   watch: UseFormWatch<FormValues>;
   field: FieldArrayWithId<FormValues, "emails", "id">;
   fields: FieldArrayWithId<FormValues, "emails", "id">[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   errors: any;
   isInvitationDisabled: boolean;
   setIsInvitationDisabled: (value: boolean) => void;
@@ -88,6 +90,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
     index,
     fields,
     remove,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     errors,
     isInvitationDisabled,
     setIsInvitationDisabled,
@@ -163,6 +166,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
                   onChange(event);
                 }}
                 ref={ref}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 hasError={Boolean(errors.emails?.[index]?.email)}
                 placeholder={placeholderEmails[index % placeholderEmails.length]}
                 className="w-full border-strong text-11 placeholder:text-placeholder sm:text-13"
@@ -262,7 +266,9 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
 });
 
 export function InviteMembers(props: Props) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { finishOnboarding, totalSteps, workspace } = props;
+  const { t } = useTranslation();
 
   const [isInvitationDisabled, setIsInvitationDisabled] = useState(true);
 
@@ -297,10 +303,11 @@ export function InviteMembers(props: Props) {
           role: email.role,
         })),
       })
+      // eslint-disable-next-line promise/always-return
       .then(async () => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
+          title: t("common.success"),
           message: "Invitations sent successfully.",
         });
         await nextStep();
@@ -308,7 +315,8 @@ export function InviteMembers(props: Props) {
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
           message: err?.error,
         });
       });
@@ -343,8 +351,10 @@ export function InviteMembers(props: Props) {
               Work in plane happens best with your team. Invite them now to use Plane to its potential.
             </p>
           </div>
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
           <form
             className="w-full mx-auto mt-2 space-y-4"
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit(onSubmit)}
             onKeyDown={(e) => {
               if (e.code === "Enter") e.preventDefault();
@@ -392,6 +402,7 @@ export function InviteMembers(props: Props) {
               >
                 {isSubmitting ? <Spinner height="20px" width="20px" /> : "Continue"}
               </Button>
+              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
               <Button variant="ghost" size="xl" className="w-full" onClick={nextStep}>
                 I’ll do it later
               </Button>

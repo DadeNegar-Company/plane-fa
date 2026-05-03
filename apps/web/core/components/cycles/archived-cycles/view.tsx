@@ -4,8 +4,10 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 // assets
 import AllFiltersImage from "@/app/assets/empty-state/cycle/all-filters.svg?url";
 import NameFilterImage from "@/app/assets/empty-state/cycle/name-filter.svg?url";
@@ -27,6 +29,7 @@ export const ArchivedCyclesView = observer(function ArchivedCyclesView(props: IA
   // store hooks
   const { getFilteredArchivedCycleIds, loader } = useCycle();
   const { archivedCyclesSearchQuery } = useCycleFilter();
+  const { t } = useTranslation();
   // derived values
   const filteredArchivedCycleIds = getFilteredArchivedCycleIds(projectId);
 
@@ -39,13 +42,13 @@ export const ArchivedCyclesView = observer(function ArchivedCyclesView(props: IA
           <img
             src={archivedCyclesSearchQuery.trim() === "" ? AllFiltersImage : NameFilterImage}
             className="h-36 sm:h-48 w-36 sm:w-48 mx-auto"
-            alt="No matching cycles"
+            alt={t("project_cycles.no_matching_cycles")}
           />
-          <h5 className="text-18 font-medium mt-7 mb-1">No matching cycles</h5>
+          <h5 className="text-18 font-medium mt-7 mb-1">{t("project_cycles.no_matching_cycles")}</h5>
           <p className="text-placeholder text-14">
             {archivedCyclesSearchQuery.trim() === ""
-              ? "Remove the filters to see all cycles"
-              : "Remove the search criteria to see all cycles"}
+              ? t("project_cycles.remove_filters_to_see_all_cycles")
+              : t("project_cycles.remove_search_criteria_to_see_all_cycles")}
           </p>
         </div>
       </div>

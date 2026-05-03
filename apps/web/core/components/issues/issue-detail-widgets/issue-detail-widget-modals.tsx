@@ -4,9 +4,12 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { ISearchIssueResponse, TIssue, TIssueServiceType, TWorkItemWidgets } from "@plane/types";
 // components
@@ -54,6 +57,7 @@ export const IssueDetailWidgetModals = observer(function IssueDetailWidgetModals
   // helper hooks
   const subIssueOperations = useSubIssueOperations(issueServiceType);
   const handleLinkOperations = useLinkOperations(workspaceSlug, projectId, issueId, issueServiceType);
+  const { t } = useTranslation();
 
   // handlers
   const handleIssueCrudState = (
@@ -114,7 +118,7 @@ export const IssueDetailWidgetModals = observer(function IssueDetailWidgetModals
     if (data.length === 0) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Please select at least one work item.",
       });
       return;

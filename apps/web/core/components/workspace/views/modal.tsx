@@ -7,6 +7,7 @@
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IWorkspaceView } from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
@@ -34,6 +35,7 @@ export const CreateUpdateWorkspaceViewModal = observer(function CreateUpdateWork
   // store hooks
   const { createGlobalView, updateGlobalView } = useGlobalView();
   const { resetExpression } = useWorkItemFilters();
+  const { t } = useTranslation();
 
   const handleClose = () => {
     onClose();
@@ -52,7 +54,7 @@ export const CreateUpdateWorkspaceViewModal = observer(function CreateUpdateWork
       const res = await createGlobalView(workspaceSlug, payloadData);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "View created successfully.",
       });
       router.push(`/${workspaceSlug}/workspace-views/${res.id}`);
@@ -60,7 +62,7 @@ export const CreateUpdateWorkspaceViewModal = observer(function CreateUpdateWork
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "View could not be created. Please try again.",
       });
     }
@@ -81,7 +83,7 @@ export const CreateUpdateWorkspaceViewModal = observer(function CreateUpdateWork
         resetExpression(EIssuesStoreType.GLOBAL, data.id, res.rich_filters);
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
+          title: t("common.success"),
           message: "View updated successfully.",
         });
         handleClose();
@@ -89,7 +91,7 @@ export const CreateUpdateWorkspaceViewModal = observer(function CreateUpdateWork
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "View could not be updated. Please try again.",
       });
     }

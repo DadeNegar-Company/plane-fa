@@ -8,6 +8,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // types
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IIssueLabel } from "@plane/types";
 // ui
@@ -27,6 +28,7 @@ export const DeleteLabelModal = observer(function DeleteLabelModal(props: Props)
   const { workspaceSlug, projectId } = useParams();
   // store hooks
   const { deleteLabel } = useLabel();
+  const { t } = useTranslation();
   // states
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
@@ -41,15 +43,18 @@ export const DeleteLabelModal = observer(function DeleteLabelModal(props: Props)
     setIsDeleteLoading(true);
 
     await deleteLabel(workspaceSlug.toString(), projectId.toString(), data.id)
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         handleClose();
       })
       .catch((err) => {
         setIsDeleteLoading(false);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         const error = err?.error || "Label could not be deleted. Please try again.";
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           message: error,
         });
       });
@@ -58,10 +63,11 @@ export const DeleteLabelModal = observer(function DeleteLabelModal(props: Props)
   return (
     <AlertModalCore
       handleClose={handleClose}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       handleSubmit={handleDeletion}
       isSubmitting={isDeleteLoading}
       isOpen={isOpen}
-      title="Delete Label"
+      title={t("labels_extra.delete_title")}
       content={
         <>
           Are you sure you want to delete <span className="font-medium text-primary">{data?.name}</span>? This will

@@ -38,8 +38,10 @@ export function handleOptionalAction<T>(
 ): void {
   if (optionalFn) {
     if (param !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       (optionalFn as (param: T) => void | Promise<void>)(param);
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       (optionalFn as () => void | Promise<void>)();
     }
   } else {
@@ -83,6 +85,7 @@ export interface MenuItemFactoryProps {
 // Common action handlers hook
 export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
   const { issue, workspaceSlug, projectIdentifier, handleRestore } = props;
+  const { t } = useTranslation();
 
   const workItemLink = useMemo(
     () =>
@@ -113,6 +116,7 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
       return;
     }
     await handleRestore()
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -123,7 +127,7 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
       .catch(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Work item could not be restored. Please try again.",
         });
       });
@@ -202,6 +206,7 @@ export const useMenuItemFactory = (props: MenuItemFactoryProps) => {
     key: "copy-link",
     title: t("common.actions.copy_link"),
     icon: LinkIcon,
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     action: actionHandlers.handleCopyIssueLink,
   });
 
@@ -237,6 +242,7 @@ export const useMenuItemFactory = (props: MenuItemFactoryProps) => {
     key: "restore",
     title: "Restore",
     icon: ArchiveRestoreIcon,
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     action: actionHandlers.handleIssueRestore,
     shouldRender: isRestoringAllowed,
   });
@@ -293,6 +299,7 @@ export const useWorkItemDetailMenuItems = (props: MenuItemFactoryProps): TContex
       factory.createRestoreMenuItem(),
       factory.createDeleteMenuItem(),
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [factory]
   );
 };
@@ -334,6 +341,7 @@ export const useCycleIssueMenuItems = (props: MenuItemFactoryProps): TContextMen
       factory.createArchiveMenuItem(),
       factory.createDeleteMenuItem(),
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [factory, props.cycleId]
   );
 };
@@ -359,6 +367,7 @@ export const useModuleIssueMenuItems = (props: MenuItemFactoryProps): TContextMe
       factory.createArchiveMenuItem(),
       factory.createDeleteMenuItem(),
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [factory, props.moduleId]
   );
 };

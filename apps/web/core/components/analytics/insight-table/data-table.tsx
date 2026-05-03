@@ -38,14 +38,17 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({ columns, data, searchPlaceholder, actions }: DataTableProps<TData, TValue>) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const { t } = useTranslation();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -97,7 +100,7 @@ export function DataTable<TData, TValue>({ columns, data, searchPlaceholder, act
             <input
               ref={inputRef}
               className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
-              placeholder="Search"
+              placeholder={t("common.search.label")}
               value={table.getColumn(table.getHeaderGroups()?.[0]?.headers?.[0]?.id)?.getFilterValue() as string}
               onChange={(e) => {
                 const columnId = table.getHeaderGroups()?.[0]?.headers?.[0]?.id;
@@ -138,7 +141,8 @@ export function DataTable<TData, TValue>({ columns, data, searchPlaceholder, act
                   <TableHead key={header.id} colSpan={header.colSpan} className="whitespace-nowrap">
                     {header.isPlaceholder
                       ? null
-                      : (flexRender(header.column.columnDef.header, header.getContext()) as any)}
+                      : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        (flexRender(header.column.columnDef.header, header.getContext()) as any)}
                   </TableHead>
                 ))}
               </TableRow>
@@ -150,6 +154,7 @@ export function DataTable<TData, TValue>({ columns, data, searchPlaceholder, act
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       {flexRender(cell.column.columnDef.cell, cell.getContext()) as any}
                     </TableCell>
                   ))}

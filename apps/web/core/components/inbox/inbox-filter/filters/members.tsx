@@ -4,10 +4,13 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import { useMemo, useState } from "react";
 import { sortBy } from "lodash-es";
 import { observer } from "mobx-react";
+// plane imports
+import { useTranslation } from "@plane/i18n";
 // plane types
 import type { TInboxIssueFilterMemberKeys } from "@plane/types";
 // plane ui
@@ -30,6 +33,8 @@ type Props = {
 
 export const FilterMember = observer(function FilterMember(props: Props) {
   const { filterKey, label = "Members", memberIds, searchQuery } = props;
+  // plane hooks
+  const { t } = useTranslation();
   // hooks
   const { inboxFilters, handleInboxIssueFilters } = useProjectInbox();
   const { getUserDetails } = useMember();
@@ -108,7 +113,7 @@ export const FilterMember = observer(function FilterMember(props: Props) {
                 )}
               </>
             ) : (
-              <p className="text-11 italic text-placeholder">No matches found</p>
+              <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
             )
           ) : (
             <Loader className="space-y-2">

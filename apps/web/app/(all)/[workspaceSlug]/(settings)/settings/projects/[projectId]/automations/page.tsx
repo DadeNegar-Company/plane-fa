@@ -24,6 +24,7 @@ import { CustomAutomationsRoot } from "@/plane-web/components/automations/root";
 import type { Route } from "./+types/page";
 import { AutomationsProjectSettingsHeader } from "./header";
 
+// eslint-disable-next-line react-refresh/only-export-components
 function AutomationSettingsPage({ params }: Route.ComponentProps) {
   // router
   const { workspaceSlug, projectId } = params;
@@ -44,7 +45,7 @@ function AutomationSettingsPage({ params }: Route.ComponentProps) {
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Something went wrong. Please try again.",
       });
     }
@@ -75,4 +76,5 @@ function AutomationSettingsPage({ params }: Route.ComponentProps) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default observer(AutomationSettingsPage);

@@ -66,7 +66,7 @@ export const ThemeSwitcher = observer(function ThemeSwitcher(props: {
             message: () => "Reloading to apply changes...",
           },
           error: {
-            title: "Error!",
+            title: t("common.error.label"),
             message: () => "Failed to update theme. Please try again.",
           },
         });
@@ -77,6 +77,7 @@ export const ThemeSwitcher = observer(function ThemeSwitcher(props: {
         console.error("Error updating theme:", error);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setTheme, updateUserTheme, userProfile]
   );
 

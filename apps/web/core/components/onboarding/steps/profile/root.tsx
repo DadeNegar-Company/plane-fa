@@ -10,6 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 import { ImageIcon } from "lucide-react";
 // plane imports
 import { E_PASSWORD_STRENGTH } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IUser } from "@plane/types";
@@ -60,6 +61,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
   const { data: user, updateCurrentUser } = useUser();
   const { updateUserProfile } = useUserProfile();
   const { config: instanceConfig } = useInstance();
+  const { t } = useTranslation();
   // form info
   const {
     getValues,
@@ -99,14 +101,15 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error",
-        message: "User details update failed. Please try again!",
+        title: t("common.error.label"),
+        message: t("onboarding.profile.details_failed"),
       });
     }
   };
 
   const onSubmit = async (formData: TProfileSetupFormValues) => {
     if (!user) return;
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     updateUserProfile({
       has_marketing_email_consent: formData.has_marketing_email_consent,
     });
@@ -145,9 +148,10 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
     !isSubmitting && isValid ? (isPasswordAlreadySetup ? false : isValidPassword ? false : true) : true;
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
       {/* Header */}
-      <CommonOnboardingHeader title="Create your profile." description="This is how you will appear in Plane." />
+      <CommonOnboardingHeader title={t("onboarding.profile.title")} description={t("onboarding.profile.description")} />
 
       {/* Profile Picture Section */}
       <Controller
@@ -157,6 +161,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
           <UserImageUploadModal
             isOpen={isImageUploadModalOpen}
             onClose={() => setIsImageUploadModalOpen(false)}
+            // eslint-disable-next-line @typescript-eslint/require-await
             handleRemove={async () => handleDelete(getValues("avatar_url"))}
             onSuccess={(url) => {
               onChange(url);
@@ -173,6 +178,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
           onClick={() => setIsImageUploadModalOpen(true)}
         >
           {userAvatar ? (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
             <img
               src={getFileURL(userAvatar ?? "")}
               onClick={() => setIsImageUploadModalOpen(true)}
@@ -190,7 +196,9 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
           onClick={() => setIsImageUploadModalOpen(true)}
         >
           <ImageIcon className="size-4" />
-          <span className="text-13">{userAvatar ? "Change image" : "Upload image"}</span>
+          <span className="text-13">
+            {userAvatar ? t("onboarding.profile.change_image") : t("onboarding.profile.upload_image")}
+          </span>
         </button>
       </div>
 
@@ -201,17 +209,17 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
             className="block text-13 font-medium text-tertiary after:content-['*'] after:ml-0.5 after:text-danger-primary"
             htmlFor="first_name"
           >
-            Name
+            {t("onboarding.profile.name_label")}
           </label>
           <Controller
             control={control}
             name="first_name"
             rules={{
-              required: "Name is required",
+              required: t("onboarding.profile.name_required"),
               validate: validatePersonName,
               maxLength: {
                 value: 50,
-                message: "Name must be within 50 characters.",
+                message: t("onboarding.profile.name_max"),
               },
             }}
             render={({ field: { value, onChange, ref } }) => (
@@ -222,6 +230,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
                 type="text"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
                 className={cn(
                   "w-full px-3 py-2 text-secondary border border-strong rounded-md bg-surface-1 focus:outline-none focus:ring-2 focus:ring-accent-strong placeholder:text-placeholder focus:border-transparent transition-all duration-200",
@@ -230,7 +239,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
                     "border-danger-strong": errors.first_name,
                   }
                 )}
-                placeholder="Enter your full name"
+                placeholder={t("onboarding.profile.name_placeholder")}
                 autoComplete="on"
               />
             )}
@@ -248,7 +257,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
       </div>
       {/* Continue Button */}
       <Button variant="primary" type="submit" className="w-full" size="xl" disabled={isButtonDisabled}>
-        Continue
+        {t("onboarding.common.continue")}
       </Button>
 
       {/* Marketing Consent */}

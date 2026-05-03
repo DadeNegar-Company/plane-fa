@@ -4,11 +4,13 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import React, { useCallback, useState } from "react";
 import { observer } from "mobx-react";
 import type { FileRejection } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
+import { useTranslation } from "@plane/i18n";
 import { PlusIcon } from "@plane/propel/icons";
 // plane imports
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -37,6 +39,7 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
   const { setLastWidgetAction, fetchActivities } = useIssueDetail(issueServiceType);
   // file size
   const { maxFileSize } = useFileSize();
+  const { t } = useTranslation();
   // operations
   const { operations: attachmentOperations } = useAttachmentOperations(
     workspaceSlug,
@@ -46,6 +49,7 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
   );
   // handlers
   const handleFetchPropertyActivities = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchActivities(workspaceSlug, projectId, issueId);
   }, [fetchActivities, workspaceSlug, projectId, issueId]);
 
@@ -58,12 +62,13 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
         if (!currentFile || !workspaceSlug) return;
 
         setIsLoading(true);
+        // eslint-disable-next-line promise/catch-or-return
         attachmentOperations
           .create(currentFile)
           .catch(() => {
             setToast({
               type: TOAST_TYPE.ERROR,
-              title: "Error!",
+              title: t("common.error.label"),
               message: "File could not be attached. Try uploading again.",
             });
           })
@@ -77,7 +82,7 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
 
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message:
           totalAttachedFiles > 1
             ? "Only one file can be uploaded at a time."
@@ -85,6 +90,7 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
       });
       return;
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [attachmentOperations, maxFileSize, workspaceSlug, handleFetchPropertyActivities, setLastWidgetAction]
   );
 
@@ -96,6 +102,7 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
   });
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       onClick={(e) => {
         // TODO: Remove extra div and move event propagation to button

@@ -70,6 +70,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
     if (!isOpen || !workspaceSlug || !projectId) return;
 
     setIsSearching(true);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises, promise/catch-or-return
     projectService
       .projectIssuesSearch(workspaceSlug.toString(), projectId.toString(), {
         search: debouncedSearchTerm,
@@ -103,7 +104,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
     if (!data.delete_issue_ids || data.delete_issue_ids.length === 0) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Please select at least one work item.",
       });
       return;
@@ -112,10 +113,11 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
     if (!Array.isArray(data.delete_issue_ids)) data.delete_issue_ids = [data.delete_issue_ids];
 
     await removeBulkIssues(workspaceSlug, projectId, data.delete_issue_ids)
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
+          title: t("common.success"),
           message: "Work items deleted successfully!",
         });
         handleClose();
@@ -123,7 +125,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Something went wrong. Please try again.",
         })
       );
@@ -177,7 +179,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
             <input
               type="text"
               className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-primary outline-none focus:ring-0 sm:text-13"
-              placeholder="Search..."
+              placeholder={t("common.search.label")}
               onChange={(event) => setQuery(event.target.value)}
             />
           </div>
@@ -201,6 +203,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
             <Button variant="secondary" size="lg" onClick={handleClose}>
               Cancel
             </Button>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <Button variant="error-fill" size="lg" onClick={handleSubmit(handleDelete)} loading={isSubmitting}>
               {isSubmitting ? "Deleting..." : "Delete selected work items"}
             </Button>

@@ -8,6 +8,7 @@ import type { Dispatch, ReactElement, SetStateAction } from "react";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 // helpers
 import { usePlatformOS } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { cn } from "@plane/utils";
 
 interface ResizableSidebarProps {
@@ -58,6 +59,7 @@ export function ResizableSidebar({
   const initialMouseXRef = useRef<number>(0);
   // hooks
   const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
   // handlers
   const setShowPeek = useCallback(
     (value: boolean) => {
@@ -146,12 +148,14 @@ export function ResizableSidebar({
     if (!isAnySidebarDropdownOpen && isCollapsed && isHoveringTrigger) {
       handlePeekLeave();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAnySidebarDropdownOpen]);
 
   useEffect(() => {
     if (!isAnyExtendedSidebarExpanded && isCollapsed && isHoveringTrigger) {
       handlePeekLeave();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAnyExtendedSidebarExpanded]);
 
   // Reset peek when sidebar is expanded
@@ -192,7 +196,7 @@ export function ResizableSidebar({
           maxWidth: `${isCollapsed ? 0 : width}px`,
         }}
         role="complementary"
-        aria-label="Main sidebar"
+        aria-label={t("resizable_sidebar.main_sidebar")}
         data-prevent-outside-click={isMobile}
       >
         <aside
@@ -204,6 +208,7 @@ export function ResizableSidebar({
           {children}
 
           {/* Resize Handle */}
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
           <div
             className={cn(
               "transition-all duration-200 cursor-ew-resize absolute h-full w-1 z-[20]",
@@ -215,7 +220,7 @@ export function ResizableSidebar({
             onDoubleClick={() => toggleCollapsed()}
             onMouseDown={(e) => startResizing(e)}
             role="separator"
-            aria-label="Resize sidebar"
+            aria-label={t("resizable_sidebar.resize_sidebar")}
           />
         </aside>
       </div>
@@ -235,7 +240,7 @@ export function ResizableSidebar({
         onMouseEnter={handlePeekEnter}
         onMouseLeave={handlePeekLeave}
         role="complementary"
-        aria-label="Sidebar peek view"
+        aria-label={t("resizable_sidebar.sidebar_peek_view")}
       >
         <aside
           className={cn(
@@ -246,6 +251,7 @@ export function ResizableSidebar({
         >
           {children}
           {/* Resize Handle */}
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
           <div
             className={cn(
               "transition-all duration-200 cursor-ew-resize absolute h-full w-1 z-[20]",
@@ -257,7 +263,7 @@ export function ResizableSidebar({
             onDoubleClick={() => toggleCollapsed()}
             onMouseDown={(e) => startResizing(e)}
             role="separator"
-            aria-label="Resize sidebar"
+            aria-label={t("resizable_sidebar.resize_sidebar")}
           />
         </aside>
       </div>

@@ -4,10 +4,12 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 import { observer } from "mobx-react";
 import Link from "next/link";
 
+import { useTranslation } from "@plane/i18n";
 import { EditIcon, CloseIcon } from "@plane/propel/icons";
 // Plane
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -48,6 +50,7 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
   } = useIssueDetail();
   const { issueMap } = useIssues();
   const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
   const relationIssueIds = getRelationByIssueIdRelationType(issueId, relationKey);
   const ISSUE_RELATION_OPTIONS = useTimeLineRelationOptions();
 
@@ -55,7 +58,7 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
     if (data.length === 0) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Please select at least one work item.",
       });
       return;
@@ -119,7 +122,7 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
                     key={relationIssueId}
                     className={`group flex items-center gap-1 rounded-sm px-1.5 pb-1 pt-1 leading-3 hover:bg-surface-2 ${currRelationOption?.className}`}
                   >
-                    <Tooltip tooltipHeading="Title" tooltipContent={currentIssue.name} isMobile={isMobile}>
+                    <Tooltip tooltipHeading={t("common.title")} tooltipContent={currentIssue.name} isMobile={isMobile}>
                       <Link
                         href={generateWorkItemLink({
                           workspaceSlug,
@@ -137,11 +140,13 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
                       </Link>
                     </Tooltip>
                     {!disabled && (
-                      <Tooltip tooltipContent="Remove" position="bottom" isMobile={isMobile}>
+                      <Tooltip tooltipContent={t("common.remove")} position="bottom" isMobile={isMobile}>
+                        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                         <span
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
+                            // eslint-disable-next-line @typescript-eslint/no-floating-promises
                             removeRelation(workspaceSlug, projectId, issueId, relationKey, relationIssueId);
                           }}
                         >

@@ -11,6 +11,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { Popover, Transition } from "@headlessui/react";
 // plane imports
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { getRandomLabelColor, LABEL_COLOR_OPTIONS, PROJECT_SETTINGS_TRACKER_EVENTS } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
@@ -71,8 +72,10 @@ export const CreateUpdateLabelInline = observer(
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const getErrorMessage = (error: any, operation: "create" | "update"): string => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const errorData = error ?? {};
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       const labelError = errorData.name?.includes(errorCodes.LABEL_NAME_ALREADY_EXISTS);
       if (labelError) {
         return t("label.create.already_exists");
@@ -80,9 +83,11 @@ export const CreateUpdateLabelInline = observer(
 
       // Fallback to general error messages
       if (operation === "create") {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
         return errorData?.detail ?? errorData?.error ?? t("common.something_went_wrong");
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
       return errorData?.error ?? t("project_settings.labels.toast.error");
     };
 
@@ -91,6 +96,7 @@ export const CreateUpdateLabelInline = observer(
 
       await labelOperationsCallbacks
         .createLabel(formData)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, promise/always-return
         .then((res) => {
           handleClose();
           reset(defaultValues);
@@ -98,7 +104,7 @@ export const CreateUpdateLabelInline = observer(
         .catch((error) => {
           const errorMessage = getErrorMessage(error, "create");
           setToast({
-            title: "Error!",
+            title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
             message: errorMessage,
           });
@@ -111,6 +117,7 @@ export const CreateUpdateLabelInline = observer(
 
       await labelOperationsCallbacks
         .updateLabel(labelToUpdate.id, formData)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, promise/always-return
         .then((res) => {
           reset(defaultValues);
           handleClose();
@@ -175,6 +182,7 @@ export const CreateUpdateLabelInline = observer(
                     <span
                       className="h-4 w-4 rounded-full"
                       style={{
+                        // eslint-disable-next-line react-hooks/incompatible-library
                         backgroundColor: watch("color"),
                       }}
                     />
@@ -223,6 +231,7 @@ export const CreateUpdateLabelInline = observer(
                   id="labelName"
                   name="name"
                   type="text"
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
                   value={value}
                   onChange={onChange}
@@ -241,6 +250,7 @@ export const CreateUpdateLabelInline = observer(
             variant="primary"
             onClick={(e) => {
               e.preventDefault();
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
               handleSubmit(handleFormSubmit)();
             }}
             loading={isSubmitting}

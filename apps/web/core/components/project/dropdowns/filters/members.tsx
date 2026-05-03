@@ -7,6 +7,8 @@
 import { useMemo, useState } from "react";
 import { sortBy } from "lodash-es";
 import { observer } from "mobx-react";
+// plane imports
+import { useTranslation } from "@plane/i18n";
 // plane ui
 import { Avatar, Loader } from "@plane/ui";
 // components
@@ -29,6 +31,8 @@ export const FilterMembers = observer(function FilterMembers(props: Props) {
   // states
   const [itemsToRender, setItemsToRender] = useState(5);
   const [previewEnabled, setPreviewEnabled] = useState(true);
+  // plane hooks
+  const { t } = useTranslation();
   // store hooks
   const { getUserDetails } = useMember();
   const { data: currentUser } = useUser();
@@ -99,7 +103,7 @@ export const FilterMembers = observer(function FilterMembers(props: Props) {
                 )}
               </>
             ) : (
-              <p className="text-11 italic text-placeholder">No matches found</p>
+              <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
             )
           ) : (
             <Loader className="space-y-2">

@@ -7,6 +7,7 @@
 import { observer } from "mobx-react";
 // plane imports
 import { START_OF_THE_WEEK_OPTIONS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { EStartOfTheWeek } from "@plane/types";
 import { CustomSelect } from "@plane/ui";
@@ -23,11 +24,16 @@ export const StartOfWeekPreference = observer(function StartOfWeekPreference(pro
 }) {
   // hooks
   const { data: userProfile, updateUserProfile } = useUserProfile();
+  const { t } = useTranslation();
 
   const handleStartOfWeekChange = async (val: number) => {
     try {
       await updateUserProfile({ start_of_the_week: val });
-      setToast({ type: TOAST_TYPE.SUCCESS, title: "Success", message: "First day of the week updated successfully" });
+      setToast({
+        type: TOAST_TYPE.SUCCESS,
+        title: t("common.success"),
+        message: "First day of the week updated successfully",
+      });
     } catch (_error) {
       setToast({ type: TOAST_TYPE.ERROR, title: "Update failed", message: "Please try again later." });
     }

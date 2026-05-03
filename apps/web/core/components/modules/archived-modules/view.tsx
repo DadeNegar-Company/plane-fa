@@ -4,8 +4,10 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 // assets
 import AllFiltersImage from "@/app/assets/empty-state/module/all-filters.svg?url";
 import NameFilterImage from "@/app/assets/empty-state/module/name-filter.svg?url";
@@ -24,6 +26,7 @@ export interface IArchivedModulesView {
 
 export const ArchivedModulesView = observer(function ArchivedModulesView(props: IArchivedModulesView) {
   const { workspaceSlug, projectId } = props;
+  const { t } = useTranslation();
   // store hooks
   const { getFilteredArchivedModuleIds, loader } = useModule();
   const { archivedModulesSearchQuery } = useModuleFilter();
@@ -39,13 +42,13 @@ export const ArchivedModulesView = observer(function ArchivedModulesView(props: 
           <img
             src={archivedModulesSearchQuery.trim() === "" ? AllFiltersImage : NameFilterImage}
             className="h-36 sm:h-48 w-36 sm:w-48 mx-auto"
-            alt="No matching modules"
+            alt={t("project_modules.archived.no_matches")}
           />
-          <h5 className="text-18 font-medium mt-7 mb-1">No matching modules</h5>
+          <h5 className="text-18 font-medium mt-7 mb-1">{t("project_modules.archived.no_matches")}</h5>
           <p className="text-placeholder text-14">
             {archivedModulesSearchQuery.trim() === ""
-              ? "Remove the filters to see all modules"
-              : "Remove the search criteria to see all modules"}
+              ? t("project_modules.archived.remove_filters")
+              : t("project_modules.archived.remove_search")}
           </p>
         </div>
       </div>

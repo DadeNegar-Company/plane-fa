@@ -4,8 +4,10 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import { MoveRight } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { Tooltip } from "@plane/propel/tooltip";
 import { Loader } from "@plane/ui";
 // hooks
@@ -19,12 +21,13 @@ export function IssuePeekOverviewLoader(props: TIssuePeekOverviewLoader) {
   const { removeRoutePeekId } = props;
   // hooks
   const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
 
   return (
     <Loader className="w-full h-screen overflow-hidden p-5 space-y-6">
       <div className="flex justify-between items-center gap-2">
         <div className="flex items-center gap-2">
-          <Tooltip tooltipContent="Close the peek view" isMobile={isMobile}>
+          <Tooltip tooltipContent={t("common.close_peek_view")} isMobile={isMobile}>
             <button onClick={removeRoutePeekId}>
               <MoveRight className="h-4 w-4 text-tertiary hover:text-secondary" />
             </button>

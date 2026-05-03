@@ -8,6 +8,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import useSWR from "swr";
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IWebhook } from "@plane/types";
 // ui
@@ -24,6 +25,7 @@ import { useUserPermissions } from "@/hooks/store/user";
 import type { Route } from "./+types/page";
 import { WebhookDetailsWorkspaceSettingsHeader } from "./header";
 
+// eslint-disable-next-line react-refresh/only-export-components
 function WebhookDetailsPage({ params }: Route.ComponentProps) {
   // states
   const [deleteWebhookModal, setDeleteWebhookModal] = useState(false);
@@ -33,6 +35,7 @@ function WebhookDetailsPage({ params }: Route.ComponentProps) {
   const { currentWebhook, fetchWebhookById, updateWebhook } = useWebhook();
   const { currentWorkspace } = useWorkspace();
   const { allowPermissions } = useUserPermissions();
+  const { t } = useTranslation();
 
   // TODO: fix this error
   // useEffect(() => {
@@ -64,14 +67,15 @@ function WebhookDetailsPage({ params }: Route.ComponentProps) {
       await updateWebhook(workspaceSlug, formData.id, payload);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "Webhook updated successfully.",
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         message: error?.error ?? "Something went wrong. Please try again.",
       });
     }
@@ -108,4 +112,5 @@ function WebhookDetailsPage({ params }: Route.ComponentProps) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default observer(WebhookDetailsPage);

@@ -57,7 +57,9 @@ export function SelectDuplicateInboxIssueModal(props: Props) {
   useEffect(() => {
     if (!isOpen || !workspaceSlug || !projectId) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsSearching(true);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises, promise/catch-or-return
     projectService
       .projectIssuesSearch(workspaceSlug.toString(), projectId.toString(), {
         search: debouncedSearchTerm,
@@ -77,7 +79,7 @@ export function SelectDuplicateInboxIssueModal(props: Props) {
   const handleSubmit = (selectedItem: string) => {
     if (!selectedItem || selectedItem.length === 0)
       return setToast({
-        title: "Error",
+        title: t("common.error.label"),
         type: TOAST_TYPE.ERROR,
       });
     onSubmit(selectedItem);
@@ -87,7 +89,9 @@ export function SelectDuplicateInboxIssueModal(props: Props) {
   const issueList =
     filteredIssues.length > 0 ? (
       <li className="p-2">
-        {query === "" && <h2 className="mb-2 mt-4 px-3 text-11 font-semibold text-primary">Select work item</h2>}
+        {query === "" && (
+          <h2 className="mb-2 mt-4 px-3 text-11 font-semibold text-primary">{t("common.select_work_item")}</h2>
+        )}
         <ul className="text-13 text-primary">
           {filteredIssues.map((issue) => {
             const stateColor = issue.state__color || "";
@@ -141,7 +145,7 @@ export function SelectDuplicateInboxIssueModal(props: Props) {
           <input
             type="text"
             className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-primary outline-none focus:ring-0 sm:text-13"
-            placeholder="Search..."
+            placeholder={t("common.search.label")}
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>

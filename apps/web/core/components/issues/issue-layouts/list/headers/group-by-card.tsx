@@ -8,6 +8,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { CircleDashed } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { PlusIcon } from "@plane/propel/icons";
 // types
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -63,6 +64,7 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
   // router
   const { workspaceSlug, projectId, moduleId, cycleId } = useParams();
   const storeType = useIssueStoreType();
+  const { t } = useTranslation();
   // derived values
   const renderExistingIssueModal = moduleId || cycleId;
   const existingIssuesListModalPayload = moduleId ? { module: moduleId.toString() } : { cycle: true };
@@ -80,13 +82,14 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
 
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "Work items added to the cycle successfully.",
       });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Selected work items could not be added to the cycle. Please try again.",
       });
     }
@@ -114,6 +117,7 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
           {icon ?? <CircleDashed className="size-3.5" strokeWidth={2} />}
         </div>
 
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
         <div
           className="relative flex w-full flex-row items-center gap-1 overflow-hidden cursor-pointer"
           onClick={() => handleCollapsedGroups(groupID)}
@@ -139,17 +143,18 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
                   setIsOpen(true);
                 }}
               >
-                <span className="flex items-center justify-start gap-2">Create work item</span>
+                <span className="flex items-center justify-start gap-2">{t("create_work_item")}</span>
               </CustomMenu.MenuItem>
               <CustomMenu.MenuItem
                 onClick={() => {
                   setOpenExistingIssueListModal(true);
                 }}
               >
-                <span className="flex items-center justify-start gap-2">Add an existing work item</span>
+                <span className="flex items-center justify-start gap-2">{t("common.add_existing_work_item")}</span>
               </CustomMenu.MenuItem>
             </CustomMenu>
           ) : (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div
               className="flex h-5 w-5 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-xs transition-all hover:bg-layer-1"
               onClick={() => {

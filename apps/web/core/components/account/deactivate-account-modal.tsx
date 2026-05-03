@@ -42,18 +42,21 @@ export function DeactivateAccountModal(props: Props) {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
-          message: "Account deactivated successfully.",
+          title: t("common.success"),
+          message: t("common.account_deactivated_successfully"),
         });
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         signOut();
         router.push("/");
         handleClose();
         return;
       })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .catch((err: any) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
           message: err?.error,
         });
       })
@@ -84,6 +87,7 @@ export function DeactivateAccountModal(props: Props) {
         <Button variant="secondary" size="lg" onClick={handleClose}>
           {t("cancel")}
         </Button>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <Button variant="error-fill" size="lg" onClick={handleDeleteAccount}>
           {isDeactivating ? t("deactivating") : t("confirm")}
         </Button>

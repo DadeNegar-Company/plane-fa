@@ -10,6 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 import { usePopper } from "react-popper";
 import { Loader } from "lucide-react";
 import { Popover } from "@headlessui/react";
+import { useTranslation } from "@plane/i18n";
 import { PlusIcon, CloseIcon } from "@plane/propel/icons";
 import type { IIssueLabel } from "@plane/types";
 // hooks
@@ -34,6 +35,7 @@ const defaultValues: Partial<IIssueLabel> = {
 
 export function LabelCreate(props: ILabelCreate) {
   const { workspaceSlug, projectId, issueId, values, labelOperations, disabled = false } = props;
+  const { t } = useTranslation();
   // state
   const [isCreateToggle, setIsCreateToggle] = useState(false);
   const handleIsCreateToggle = () => setIsCreateToggle(!isCreateToggle);
@@ -72,7 +74,9 @@ export function LabelCreate(props: ILabelCreate) {
   const handleLabel = async (formData: Partial<IIssueLabel>) => {
     if (!workspaceSlug || !projectId || isSubmitting) return;
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const labelResponse = await labelOperations.createLabel(workspaceSlug, projectId, formData);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const currentLabels = [...(values || []), labelResponse.id];
     await labelOperations.updateIssue(workspaceSlug, projectId, issueId, { label_ids: currentLabels });
     handleIsCreateToggle();
@@ -81,6 +85,7 @@ export function LabelCreate(props: ILabelCreate) {
 
   return (
     <>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className="relative flex flex-shrink-0 cursor-pointer items-center gap-1 rounded-full border border-subtle p-0.5 px-2 text-11 text-tertiary transition-all hover:bg-surface-2 hover:text-secondary"
         onClick={handleIsCreateToggle}
@@ -92,6 +97,7 @@ export function LabelCreate(props: ILabelCreate) {
       </div>
 
       {isCreateToggle && (
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         <form className="relative flex items-center gap-x-2 p-1" onSubmit={handleSubmit(handleLabel)}>
           <div>
             <Controller
@@ -142,7 +148,7 @@ export function LabelCreate(props: ILabelCreate) {
                 onChange={onChange}
                 ref={ref}
                 hasError={Boolean(errors.name)}
-                placeholder="Title"
+                placeholder={t("common.title")}
                 className="w-full text-11 px-1.5 py-1"
                 disabled={isSubmitting}
               />

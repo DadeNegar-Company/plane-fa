@@ -4,10 +4,13 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 // constants
 import { DATE_AFTER_FILTER_OPTIONS } from "@plane/constants";
+// plane imports
+import { useTranslation } from "@plane/i18n";
 // components
 import { isInDateFormat } from "@plane/utils";
 import { DateFilterModal } from "@/components/core/filters/date-filter-modal";
@@ -26,6 +29,8 @@ export const FilterStartDate = observer(function FilterStartDate(props: Props) {
 
   const [previewEnabled, setPreviewEnabled] = useState(true);
   const [isDateFilterModalOpen, setIsDateFilterModalOpen] = useState(false);
+  // plane hooks
+  const { t } = useTranslation();
 
   const appliedFiltersCount = appliedFilters?.length ?? 0;
 
@@ -51,7 +56,7 @@ export const FilterStartDate = observer(function FilterStartDate(props: Props) {
           handleClose={() => setIsDateFilterModalOpen(false)}
           isOpen={isDateFilterModalOpen}
           onSelect={(val) => handleUpdate(val)}
-          title="Start date"
+          title={t("start_date")}
         />
       )}
       <FilterHeader
@@ -75,7 +80,7 @@ export const FilterStartDate = observer(function FilterStartDate(props: Props) {
               <FilterOption isChecked={isCustomDateSelected()} onClick={handleCustomDate} title="Custom" multiple />
             </>
           ) : (
-            <p className="text-11 italic text-placeholder">No matches found</p>
+            <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
           )}
         </div>
       )}

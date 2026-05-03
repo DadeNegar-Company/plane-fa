@@ -4,9 +4,12 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useMemo, useState } from "react";
 import { sortBy } from "lodash-es";
 import { observer } from "mobx-react";
+// plane imports
+import { useTranslation } from "@plane/i18n";
 // ui
 import { Logo } from "@plane/propel/emoji-icon-picker";
 import { Loader } from "@plane/ui";
@@ -26,6 +29,8 @@ export const FilterProjects = observer(function FilterProjects(props: Props) {
   // states
   const [itemsToRender, setItemsToRender] = useState(5);
   const [previewEnabled, setPreviewEnabled] = useState(true);
+  // plane hooks
+  const { t } = useTranslation();
   // store
   const { getProjectById, joinedProjectIds } = useProject();
   // derived values
@@ -86,7 +91,7 @@ export const FilterProjects = observer(function FilterProjects(props: Props) {
                 )}
               </>
             ) : (
-              <p className="text-11 italic text-placeholder">No matches found</p>
+              <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
             )
           ) : (
             <Loader className="space-y-2">

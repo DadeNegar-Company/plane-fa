@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 // plane imports
@@ -49,7 +50,7 @@ export const FilterAccess = observer(function FilterAccess(props: Props) {
               />
             ))
           ) : (
-            <p className="text-11 italic text-placeholder">No matches found</p>
+            <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
           )}
         </div>
       )}

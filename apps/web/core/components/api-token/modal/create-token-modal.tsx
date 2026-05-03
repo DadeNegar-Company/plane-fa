@@ -7,6 +7,7 @@
 import { useState } from "react";
 import { mutate } from "swr";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { APITokenService } from "@plane/services";
 import type { IApiToken } from "@plane/types";
@@ -31,6 +32,7 @@ export function CreateApiTokenModal(props: Props) {
   // states
   const [neverExpires, setNeverExpires] = useState<boolean>(false);
   const [generatedToken, setGeneratedToken] = useState<IApiToken | null | undefined>(null);
+  const { t } = useTranslation();
 
   const handleClose = () => {
     onClose();
@@ -56,10 +58,12 @@ export function CreateApiTokenModal(props: Props) {
     // make the request to generate the token
     await apiTokenService
       .create(data)
+      // eslint-disable-next-line promise/always-return
       .then((res) => {
         setGeneratedToken(res);
         downloadSecretKey(res);
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         mutate<IApiToken[]>(
           API_TOKENS_LIST,
           (prevData) => {
@@ -73,7 +77,8 @@ export function CreateApiTokenModal(props: Props) {
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
           message: err.message || err.detail,
         });
 

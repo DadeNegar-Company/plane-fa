@@ -58,14 +58,14 @@ export const CycleEmptyState = observer(function CycleEmptyState() {
       .then(() =>
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
+          title: t("common.success"),
           message: "Work items added to the cycle successfully.",
         })
       )
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Selected work items could not be added to the cycle. Please try again.",
         })
       );
@@ -97,6 +97,7 @@ export const CycleEmptyState = observer(function CycleEmptyState() {
             actions={[
               {
                 label: "Clear filters",
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onClick: cycleWorkItemFilter?.clearFilters,
                 disabled: !canPerformEmptyStateActions || !cycleWorkItemFilter,
                 variant: "secondary",

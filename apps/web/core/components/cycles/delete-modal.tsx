@@ -46,14 +46,16 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
     try {
       await deleteCycle(workspaceSlug, projectId, cycle.id)
         .then(() => {
+          // eslint-disable-next-line promise/always-return
           if (cycleId || peekCycle) router.push(`/${workspaceSlug}/projects/${projectId}/cycles`);
           setToast({
             type: TOAST_TYPE.SUCCESS,
-            title: "Success!",
-            message: "Cycle deleted successfully.",
+            title: t("common.success"),
+            message: t("project_cycles.action.delete.success.description"),
           });
         })
         .catch((errors) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           const isPermissionError = errors?.error === "You don't have the required permissions.";
           const currentError = isPermissionError
             ? PROJECT_ERROR_MESSAGES.permissionError
@@ -68,8 +70,8 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Warning!",
-        message: "Something went wrong please try again later.",
+        title: t("common.warning"),
+        message: t("something_went_wrong_please_try_again"),
       });
     }
 
@@ -79,15 +81,18 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
   return (
     <AlertModalCore
       handleClose={handleClose}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       handleSubmit={formSubmit}
       isSubmitting={loader}
       isOpen={isOpen}
-      title="Delete cycle"
+      title={t("project_cycles.action.delete.title")}
       content={
         <>
-          Are you sure you want to delete cycle{' "'}
+          {t("project_cycles.action.delete.content_prefix")}
+          {'"'}
           <span className="break-words font-medium text-primary">{cycle?.name}</span>
-          {'"'}? All of the data related to the cycle will be permanently removed. This action cannot be undone.
+          {'"'}
+          {t("project_cycles.action.delete.content_suffix")}
         </>
       }
     />

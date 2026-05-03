@@ -57,11 +57,12 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
 
   const moduleLink = `${workspaceSlug}/projects/${projectId}/modules/${moduleId}`;
   const handleCopyText = () =>
+    // eslint-disable-next-line promise/always-return
     copyUrlToClipboard(moduleLink).then(() => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Link Copied!",
-        message: "Module link copied to clipboard.",
+        title: t("project_modules.toasts.copy_link.title"),
+        message: t("project_modules.toasts.copy_link.message"),
       });
     });
   const handleOpenInNewTab = () => window.open(`/${moduleLink}`, "_blank");
@@ -71,15 +72,15 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
       await restoreModule(workspaceSlug, projectId, moduleId);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Restore success",
-        message: "Your module can be found in project modules.",
+        title: t("project_modules.toasts.restore.success.title"),
+        message: t("project_modules.toasts.restore.success.message"),
       });
       router.push(`/${workspaceSlug}/projects/${projectId}/archives/modules`);
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
-        message: "Module could not be restored. Please try again.",
+        title: t("common.error.label"),
+        message: t("project_modules.toasts.restore.error.message"),
       });
     }
   };
@@ -93,8 +94,10 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
     isEditingAllowed,
     handleEdit: () => setEditModal(true),
     handleArchive: () => setArchiveModuleModal(true),
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     handleRestore: handleRestoreModule,
     handleDelete: () => setDeleteModal(true),
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     handleCopyLink: handleCopyText,
     handleOpenInNewTab,
   });

@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 // icons
 import { ListFilter } from "lucide-react";
 import { useOutsideClickDetector } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
 // plane helpers
 // types
@@ -28,6 +29,8 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
   const { projectId } = useParams();
   // refs
   const inputRef = useRef<HTMLInputElement>(null);
+  // plane hooks
+  const { t } = useTranslation();
   // hooks
   const { currentProjectArchivedFilters, archivedCyclesSearchQuery, updateFilters, updateArchivedCyclesSearchQuery } =
     useCycleFilter();
@@ -101,7 +104,7 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
           <input
             ref={inputRef}
             className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none"
-            placeholder="Search"
+            placeholder={t("common.search.label")}
             value={archivedCyclesSearchQuery}
             onChange={(e) => updateArchivedCyclesSearchQuery(e.target.value)}
             onKeyDown={handleInputKeyDown}

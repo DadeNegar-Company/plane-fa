@@ -4,10 +4,12 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 // plane imports
 import { STATE_GROUPS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { StateGroupIcon } from "@plane/propel/icons";
 // components
 import { FilterHeader, FilterOption } from "@/components/issues/issue-layouts/filters";
@@ -23,6 +25,8 @@ export const FilterStateGroup = observer(function FilterStateGroup(props: Props)
 
   const [itemsToRender, setItemsToRender] = useState(5);
   const [previewEnabled, setPreviewEnabled] = useState(true);
+  // plane hooks
+  const { t } = useTranslation();
 
   const appliedFiltersCount = appliedFilters?.length ?? 0;
 
@@ -66,7 +70,7 @@ export const FilterStateGroup = observer(function FilterStateGroup(props: Props)
               )}
             </>
           ) : (
-            <p className="text-11 italic text-placeholder">No matches found</p>
+            <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
           )}
         </div>
       )}

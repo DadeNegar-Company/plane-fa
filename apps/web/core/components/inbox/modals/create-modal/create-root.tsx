@@ -44,6 +44,7 @@ type TInboxIssueCreateRoot = {
   handleDuplicateIssueModal: (value: boolean) => void;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const defaultIssueData: Partial<TIssue> = {
   id: undefined,
   name: "",
@@ -96,6 +97,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
   // debounced duplicate issues swr
   const { duplicateIssues } = useDebouncedDuplicateIssues(
     workspaceSlug,
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     projectDetails?.workspace.toString(),
     projectId,
     {
@@ -110,7 +112,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
     } else {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Editor is still processing changes. Please wait before proceeding.",
       });
       event.preventDefault(); // Prevent default action if editor is not ready to discard
@@ -142,7 +144,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
     if (!descriptionEditorRef.current?.isEditorReadyToDiscard()) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Editor is still processing changes. Please wait before proceeding.",
       });
       return;
@@ -167,6 +169,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
           });
           setUploadedAssetIds([]);
         }
+        // eslint-disable-next-line promise/always-return
         if (!createMore) {
           router.push(`/${workspaceSlug}/projects/${projectId}/intake/?currentTab=open&inboxIssueId=${res?.issue?.id}`);
           handleModalClose();
@@ -199,6 +202,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
   return (
     <div className="flex gap-2 bg-transparent w-full">
       <div className="rounded-lg w-full">
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form ref={formRef} onSubmit={handleFormSubmit} className="flex flex-col w-full">
           <div className="space-y-5 p-5 rounded-t-lg bg-surface-1">
             <div className="flex items-center justify-between gap-2">
@@ -233,6 +237,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
             </div>
           </div>
           <div className="px-5 py-4 flex items-center justify-between gap-2 border-t-[0.5px] border-subtle rounded-b-lg bg-surface-1">
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
             <div
               className="inline-flex items-center gap-1.5 cursor-pointer"
               onClick={() => setCreateMore((prevData) => !prevData)}
@@ -253,7 +258,7 @@ export const InboxIssueCreateRoot = observer(function InboxIssueCreateRoot(props
                   } else {
                     setToast({
                       type: TOAST_TYPE.ERROR,
-                      title: "Error!",
+                      title: t("common.error.label"),
                       message: "Editor is still processing changes. Please wait before proceeding.",
                     });
                   }

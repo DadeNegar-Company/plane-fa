@@ -60,13 +60,15 @@ export const PagesListMainContent = observer(function PagesListMainContent(props
 
     await createPage(payload)
       .then((res) => {
+        // eslint-disable-next-line promise/always-return
         const pageId = `/${workspaceSlug}/projects/${currentProjectDetails?.id}/pages/${res?.id}`;
         router.push(pageId);
       })
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
           message: err?.data?.error || "Page could not be created. Please try again.",
         });
       })
@@ -86,6 +88,7 @@ export const PagesListMainContent = observer(function PagesListMainContent(props
             {
               label: t("project_empty_state.pages.cta_primary"),
               onClick: () => {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 handleCreatePage();
               },
               variant: "primary",
@@ -105,6 +108,7 @@ export const PagesListMainContent = observer(function PagesListMainContent(props
             {
               label: t("project_empty_state.pages.cta_primary"),
               onClick: () => {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 handleCreatePage();
               },
               variant: "primary",
@@ -123,6 +127,7 @@ export const PagesListMainContent = observer(function PagesListMainContent(props
             {
               label: t("project_empty_state.pages.cta_primary"),
               onClick: () => {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 handleCreatePage();
               },
               variant: "primary",

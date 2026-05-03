@@ -6,6 +6,7 @@
 
 import { useState } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
 // plane imports
 import type { TProjectDisplayFilters, TProjectFilters } from "@plane/types";
@@ -31,6 +32,8 @@ export const ProjectFiltersSelection = observer(function ProjectFiltersSelection
   const { displayFilters, filters, handleFiltersUpdate, handleDisplayFiltersUpdate, memberIds } = props;
   // states
   const [filtersSearchQuery, setFiltersSearchQuery] = useState("");
+  // plane hooks
+  const { t } = useTranslation();
   // store
   const { isMobile } = usePlatformOS();
 
@@ -42,9 +45,10 @@ export const ProjectFiltersSelection = observer(function ProjectFiltersSelection
           <input
             type="text"
             className="w-full bg-surface-2 outline-none placeholder:text-placeholder"
-            placeholder="Search"
+            placeholder={t("common.search.label")}
             value={filtersSearchQuery}
             onChange={(e) => setFiltersSearchQuery(e.target.value)}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (
@@ -63,7 +67,7 @@ export const ProjectFiltersSelection = observer(function ProjectFiltersSelection
                 my_projects: !displayFilters.my_projects,
               })
             }
-            title="My projects"
+            title={t("common.my_projects")}
           />
         </div>
 

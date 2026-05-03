@@ -9,6 +9,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { observer } from "mobx-react";
 // plane imports
 import type { EditorRefApi } from "@plane/editor";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TIssue, TNameDescriptionLoader } from "@plane/types";
 import { EFileAssetType, EInboxIssueSource, EInboxIssueStatus } from "@plane/types";
@@ -60,12 +61,14 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
   const { loader } = useProjectInbox();
   const { getProjectById } = useProject();
   const { removeIssue, archiveIssue } = useIssueDetail();
+  const { t } = useTranslation();
   // reload confirmation
   const { setShowAlert } = useReloadConfirmations(isSubmitting === "submitting");
 
   useEffect(() => {
     if (isSubmitting === "submitted") {
       setShowAlert(false);
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
       setTimeout(async () => {
         setIsSubmitting("saved");
       }, 3000);
@@ -82,6 +85,7 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
   // debounced duplicate issues swr
   const { duplicateIssues } = useDebouncedDuplicateIssues(
     workspaceSlug,
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     projectDetails?.workspace.toString(),
     projectId,
     {
@@ -93,6 +97,7 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
 
   const issueOperations: TIssueOperations = useMemo(
     () => ({
+      // eslint-disable-next-line @typescript-eslint/require-await
       fetch: async (_workspaceSlug: string, _projectId: string, _issueId: string) => {
         return;
       },
@@ -101,14 +106,14 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
         try {
           await removeIssue(workspaceSlug, projectId, _issueId);
           setToast({
-            title: "Success!",
+            title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
             message: "Work item deleted successfully",
           });
         } catch (error) {
           console.log("Error in deleting work item:", error);
           setToast({
-            title: "Error!",
+            title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
             message: "Work item delete failed",
           });
@@ -117,6 +122,7 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
       update: async (_workspaceSlug: string, _projectId: string, _issueId: string, data: Partial<TIssue>) => {
         try {
           await inboxIssue.updateIssue(data);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           setToast({
             title: "Work item update failed",
@@ -133,6 +139,7 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
         }
       },
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [inboxIssue]
   );
 

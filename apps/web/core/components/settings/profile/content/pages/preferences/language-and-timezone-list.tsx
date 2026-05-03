@@ -33,13 +33,13 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
       try {
         await updateCurrentUser({ user_timezone: value });
         setToast({
-          title: "Success!",
+          title: t("common.success"),
           message: "Timezone updated successfully",
           type: TOAST_TYPE.SUCCESS,
         });
       } catch (_error) {
         setToast({
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Failed to update timezone",
           type: TOAST_TYPE.ERROR,
         });
@@ -50,13 +50,13 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
       try {
         await updateUserProfile({ language: value });
         setToast({
-          title: "Success!",
+          title: t("common.success"),
           message: "Language updated successfully",
           type: TOAST_TYPE.SUCCESS,
         });
       } catch (_error) {
         setToast({
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Failed to update language",
           type: TOAST_TYPE.ERROR,
         });
@@ -74,13 +74,13 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
       try {
         await updateUserProfile({ calendar_system: value as ECalendarSystem });
         setToast({
-          title: "Success!",
+          title: t("common.success"),
           message: "Calendar system updated successfully",
           type: TOAST_TYPE.SUCCESS,
         });
       } catch (_error) {
         setToast({
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Failed to update calendar system",
           type: TOAST_TYPE.ERROR,
         });
@@ -131,7 +131,7 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
         />
         {/* [FA-CUSTOM] Calendar system selector */}
         <SettingsControlItem
-          title="Calendar system"
+          title={t("common.calendar_system")}
           description="Choose between Gregorian and Jalali (Shamsi) calendar for all dates."
           control={
             <CustomSelect

@@ -48,15 +48,17 @@ export const DeleteModuleModal = observer(function DeleteModuleModal(props: Prop
 
     await deleteModule(workspaceSlug.toString(), projectId.toString(), data.id)
       .then(() => {
+        // eslint-disable-next-line promise/always-return
         if (moduleId || peekModule) router.push(`/${workspaceSlug}/projects/${data.project_id}/modules`);
         handleClose();
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
-          message: "Module deleted successfully.",
+          title: t("common.success"),
+          message: t("project_modules.toasts.delete.success.message"),
         });
       })
       .catch((errors) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const isPermissionError = errors?.error === "You don't have the required permissions.";
         const currentError = isPermissionError
           ? PROJECT_ERROR_MESSAGES.permissionError
@@ -73,15 +75,16 @@ export const DeleteModuleModal = observer(function DeleteModuleModal(props: Prop
   return (
     <AlertModalCore
       handleClose={handleClose}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       handleSubmit={handleDeletion}
       isSubmitting={isDeleteLoading}
       isOpen={isOpen}
-      title="Delete module"
+      title={t("project_modules.delete.title")}
       content={
         <>
-          Are you sure you want to delete module-{" "}
-          <span className="break-all font-medium text-primary">{data?.name}</span>? All of the data related to the
-          module will be permanently removed. This action cannot be undone.
+          {t("project_modules.delete.description_prefix")}{" "}
+          <span className="break-all font-medium text-primary">{data?.name}</span>
+          {t("project_modules.delete.description_suffix")}
         </>
       }
     />

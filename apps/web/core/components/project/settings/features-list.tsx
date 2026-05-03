@@ -106,11 +106,11 @@ export const ProjectFeaturesList = observer(function ProjectFeaturesList(props: 
     setPromiseToast(updateProjectPromise, {
       loading: "Updating project feature...",
       success: {
-        title: "Success!",
+        title: t("common.success"),
         message: () => "Project feature updated successfully.",
       },
       error: {
-        title: "Error!",
+        title: t("common.error.label"),
         message: () => "Something went wrong while updating project feature. Please try again.",
       },
     });
@@ -131,7 +131,7 @@ export const ProjectFeaturesList = observer(function ProjectFeaturesList(props: 
                   <span className="flex items-center gap-2">
                     {t(featureItem.key)}
                     {featureItem.isPro && (
-                      <Tooltip tooltipContent="Pro feature" position="top">
+                      <Tooltip tooltipContent={t("common.pro_feature")} position="top">
                         <UpgradeBadge className="rounded-sm" />
                       </Tooltip>
                     )}

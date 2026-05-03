@@ -66,6 +66,7 @@ export const InboxSidebar = observer(function InboxSidebar(props: IInboxSidebarP
   // derived values
   const fetchNextPages = useCallback(() => {
     if (!workspaceSlug || !projectId) return;
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchInboxPaginationIssues(workspaceSlug.toString(), projectId.toString());
   }, [workspaceSlug, projectId, fetchInboxPaginationIssues]);
 
@@ -87,6 +88,7 @@ export const InboxSidebar = observer(function InboxSidebar(props: IInboxSidebarP
       <div className="relative w-full h-full flex flex-col overflow-hidden">
         <Header variant={EHeaderVariant.SECONDARY}>
           {tabNavigationOptions.map((option) => (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div
               key={option?.key}
               className={cn(
@@ -101,6 +103,7 @@ export const InboxSidebar = observer(function InboxSidebar(props: IInboxSidebarP
               }}
             >
               <div>{t(option?.i18n_label)}</div>
+              {/* eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison */}
               {option?.key === "open" && currentTab === option?.key && (
                 <div className="rounded-full p-1.5 py-0.5 bg-accent-primary/20 text-accent-primary text-11 font-semibold">
                   {inboxIssuePaginationInfo?.total_results || 0}
@@ -161,11 +164,10 @@ export const InboxSidebar = observer(function InboxSidebar(props: IInboxSidebarP
                     rootClassName="px-page-x"
                   />
                 ) : (
-                  // TODO: Add translation
                   <EmptyStateDetailed
                     assetKey="inbox"
-                    title="No request closed yet"
-                    description="All the work items whether accepted or declined can be found here."
+                    title={t("common.no_request_closed_title")}
+                    description={t("common.no_request_closed_description")}
                     assetClassName="size-20"
                     className="px-10"
                   />

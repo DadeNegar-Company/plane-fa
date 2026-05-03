@@ -91,11 +91,12 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       await updateEntity(workspaceSlug.toString(), entityDetails.project_id, entityDetails.id, formData).catch(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: `${isEpic ? "Epic" : "Work item"} could not be updated. Please try again.`,
         });
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [entityDetails, isEpic, updateEntity, workspaceSlug]
   );
 
@@ -107,6 +108,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       if (updatedAssignees.includes(assigneeId)) updatedAssignees.splice(updatedAssignees.indexOf(assigneeId), 1);
       else updatedAssignees.push(assigneeId);
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       handleUpdateEntity({ assignee_ids: updatedAssignees });
     },
     [entityDetails, handleUpdateEntity]
@@ -145,6 +147,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
   const copyWorkItemIdToClipboard = useCallback(() => {
     const id = `${projectDetails?.identifier}-${entityDetails?.sequence_id}`;
     copyTextToClipboard(id)
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -162,6 +165,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
 
   const copyWorkItemTitleToClipboard = useCallback(() => {
     copyTextToClipboard(entityDetails?.name ?? "")
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -180,6 +184,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
   const copyWorkItemUrlToClipboard = useCallback(() => {
     const url = new URL(window.location.href);
     copyTextToClipboard(url.href)
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -207,6 +212,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       onSelect: (data) => {
         const stateId = data as string;
         if (entityDetails?.state_id === stateId) return;
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         handleUpdateEntity({
           state_id: stateId,
         });
@@ -227,6 +233,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       onSelect: (data) => {
         const priority = data as TIssuePriorities;
         if (entityDetails?.priority === priority) return;
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         handleUpdateEntity({
           priority,
         });
@@ -282,6 +289,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       onSelect: (data) => {
         const estimatePointId = data as string | null;
         if (entityDetails?.estimate_point === estimatePointId) return;
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         handleUpdateEntity({
           estimate_point: estimatePointId,
         });
@@ -309,8 +317,10 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
 
         try {
           if (cycleId) {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             addCycleToEntity(workspaceSlug.toString(), entityDetails.project_id, cycleId, entityDetails.id);
           } else {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             removeCycleFromEntity(
               workspaceSlug.toString(),
               entityDetails.project_id,
@@ -321,7 +331,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
         } catch {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
+            title: t("common.error.label"),
             message: `${entityDetails.is_epic ? "Epic" : "Work item"} could not be updated. Please try again.`,
           });
         }
@@ -346,14 +356,16 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
         const changeModulesInEntity = entityDetails.is_epic ? changeModulesInEpic : changeModulesInIssue;
         try {
           if (entityDetails.module_ids?.includes(moduleId)) {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             changeModulesInEntity(workspaceSlug.toString(), entityDetails.project_id, entityDetails.id, [], [moduleId]);
           } else {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             changeModulesInEntity(workspaceSlug.toString(), entityDetails.project_id, entityDetails.id, [moduleId], []);
           }
         } catch {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
+            title: t("common.error.label"),
             message: `${entityDetails.is_epic ? "Epic" : "Work item"} could not be updated. Please try again.`,
           });
         }
@@ -377,6 +389,7 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
         const updatedLabels = [...(entityDetails.label_ids ?? [])];
         if (updatedLabels.includes(labelId)) updatedLabels.splice(updatedLabels.indexOf(labelId), 1);
         else updatedLabels.push(labelId);
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         handleUpdateEntity({
           label_ids: updatedLabels,
         });

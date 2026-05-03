@@ -46,12 +46,13 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
         () => {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
+            title: t("common.error.label"),
             message: "Module could not be updated. Please try again.",
           });
         }
       );
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [moduleDetails, projectId, updateModuleDetails, workspaceSlug]
   );
 
@@ -63,6 +64,7 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
       if (updatedMembers.includes(memberId)) updatedMembers.splice(updatedMembers.indexOf(memberId), 1);
       else updatedMembers.push(memberId);
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       handleUpdateModule({ member_ids: updatedMembers });
     },
     [handleUpdateModule, moduleDetails]
@@ -71,7 +73,9 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
   const toggleFavorite = useCallback(() => {
     if (!workspaceSlug || !moduleDetails || !moduleDetails.project_id) return;
     try {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       if (isFavorite) removeModuleFromFavorites(workspaceSlug.toString(), moduleDetails.project_id, moduleDetails.id);
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       else addModuleToFavorites(workspaceSlug.toString(), moduleDetails.project_id, moduleDetails.id);
     } catch {
       setToast({
@@ -84,6 +88,7 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
   const copyModuleUrlToClipboard = useCallback(() => {
     const url = new URL(window.location.href);
     copyTextToClipboard(url.href)
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -127,6 +132,7 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
       page: "update-module-status",
       onSelect: (data) => {
         const status = data as TModuleStatus;
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         handleUpdateModule({ status });
       },
       shortcut: "s",

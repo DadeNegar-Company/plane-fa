@@ -40,8 +40,8 @@ export function PowerKModalContextIndicator(props: Props) {
           type="button"
           onClick={handleClearContext}
           className="shrink-0 grid place-items-center p-1 text-secondary hover:text-primary transition-colors"
-          title="Clear context (Backspace)"
-          aria-label="Clear context (Backspace)"
+          title={t("power_k_extra.clear_context")}
+          aria-label={t("power_k_extra.clear_context")}
           tabIndex={-1}
         >
           <X className="size-2.5" />

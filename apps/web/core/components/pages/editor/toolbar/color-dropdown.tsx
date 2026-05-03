@@ -10,6 +10,7 @@ import { Popover } from "@headlessui/react";
 // plane editor
 import { COLORS_LIST } from "@plane/editor";
 import type { TEditorCommands } from "@plane/editor";
+import { useTranslation } from "@plane/i18n";
 // helpers
 import { cn } from "@plane/utils";
 
@@ -26,6 +27,7 @@ type Props = {
 
 export const ColorDropdown = memo(function ColorDropdown(props: Props) {
   const { handleColorSelect, isColorActive } = props;
+  const { t } = useTranslation();
 
   const activeTextColor = COLORS_LIST.find((c) => isColorActive("text-color", c.key));
   const activeBackgroundColor = COLORS_LIST.find((c) => isColorActive("background-color", c.key));
@@ -68,7 +70,7 @@ export const ColorDropdown = memo(function ColorDropdown(props: Props) {
             className="fixed z-20 mt-1 rounded-md border-[0.5px] border-strong bg-surface-1 shadow-raised-200 p-2 space-y-2"
           >
             <div className="space-y-1.5">
-              <p className="text-11 text-tertiary font-semibold">Text colors</p>
+              <p className="text-11 text-tertiary font-semibold">{t("common.text_colors")}</p>
               <div className="flex items-center gap-2">
                 {COLORS_LIST.map((color) => (
                   <button
@@ -91,7 +93,7 @@ export const ColorDropdown = memo(function ColorDropdown(props: Props) {
               </div>
             </div>
             <div className="space-y-1.5">
-              <p className="text-11 text-tertiary font-semibold">Background colors</p>
+              <p className="text-11 text-tertiary font-semibold">{t("common.background_colors")}</p>
               <div className="flex items-center gap-2">
                 {COLORS_LIST.map((color) => (
                   <button

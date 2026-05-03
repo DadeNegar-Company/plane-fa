@@ -8,6 +8,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { AlertCircle } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { SearchIcon, CycleIcon, TransferIcon, CloseIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { EIssuesStoreType } from "@plane/types";
@@ -31,6 +32,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
   const {
     issues: { transferIssuesFromCycle },
   } = useIssues(EIssuesStoreType.CYCLE);
+  const { t } = useTranslation();
 
   const { workspaceSlug, projectId } = useParams();
 
@@ -38,19 +40,20 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
     if (!workspaceSlug || !projectId || !cycleId) return;
 
     await transferIssuesFromCycle(workspaceSlug.toString(), projectId.toString(), cycleId.toString(), payload)
+      // eslint-disable-next-line promise/always-return
       .then(async () => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
-          message: "Work items have been transferred successfully",
+          title: t("common.success"),
+          message: t("project_cycles.transfer.success_message"),
         });
         await getCycleDetails(payload.new_cycle_id);
       })
       .catch(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: "Unable to transfer work items. Please try again.",
+          title: t("common.error.label"),
+          message: t("project_cycles.transfer.error_message"),
         });
       });
   };
@@ -64,8 +67,9 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
     await Promise.all(cyclesFetch).catch((error) => {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error",
-        message: error.error || "Unable to fetch cycle details",
+        title: t("common.error.label"),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        message: error.error || t("project_cycles.transfer.fetch_error_message"),
       });
     });
   };
@@ -82,7 +86,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
         <div className="flex items-center justify-between px-5">
           <div className="flex items-center gap-1">
             <TransferIcon className="w-5 fill-primary" />
-            <h4 className="text-18 font-medium text-primary">Transfer work items</h4>
+            <h4 className="text-18 font-medium text-primary">{t("project_cycles.transfer.title")}</h4>
           </div>
           <button onClick={handleClose}>
             <CloseIcon className="h-4 w-4" />
@@ -92,7 +96,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
           <SearchIcon className="h-4 w-4 text-secondary" />
           <input
             className="outline-none text-13"
-            placeholder="Search for a cycle..."
+            placeholder={t("project_cycles.transfer.search_placeholder")}
             onChange={(e) => setQuery(e.target.value)}
             value={query}
           />
@@ -110,6 +114,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
                     key={optionId}
                     className="flex w-full items-center gap-4 rounded-sm px-4 py-3 text-13 text-secondary hover:bg-surface-2"
                     onClick={() => {
+                      // eslint-disable-next-line @typescript-eslint/no-floating-promises
                       transferIssue({
                         new_cycle_id: optionId,
                       });
@@ -131,13 +136,11 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
             ) : (
               <div className="flex w-full items-center justify-center gap-4 p-5 text-13">
                 <AlertCircle className="h-3.5 w-3.5 text-secondary" />
-                <span className="text-center text-secondary">
-                  You don’t have any current cycle. Please create one to transfer the work items.
-                </span>
+                <span className="text-center text-secondary">{t("project_cycles.transfer.no_cycle_to_transfer")}</span>
               </div>
             )
           ) : (
-            <p className="text-center text-secondary">Loading...</p>
+            <p className="text-center text-secondary">{t("project_cycles.transfer.loading")}</p>
           )}
         </div>
       </div>

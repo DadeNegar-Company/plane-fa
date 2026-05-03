@@ -8,6 +8,7 @@ import { observer } from "mobx-react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, PenTool, Rocket, Monitor, RefreshCw } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { CheckIcon, ViewsIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -40,6 +41,7 @@ const defaultValues = {
 export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange }: Props) {
   // store hooks
   const { data: profile, updateUserProfile } = useUserProfile();
+  const { t } = useTranslation();
   // form info
   const {
     handleSubmit,
@@ -65,13 +67,13 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
       ]);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success",
+        title: t("common.success"),
         message: "Profile setup completed!",
       });
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error",
+        title: t("common.error.label"),
         message: "Profile setup failed. Please try again!",
       });
     }
@@ -90,6 +92,7 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
   const isButtonDisabled = !isSubmitting && isValid ? false : true;
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
       {/* Header */}
       <CommonOnboardingHeader title="What's your role?" description="Let's set up Plane for how you work." />

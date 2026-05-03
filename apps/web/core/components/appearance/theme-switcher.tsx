@@ -46,11 +46,11 @@ export const ThemeSwitcher = observer(function ThemeSwitcher(props: {
         setPromiseToast(updatePromise, {
           loading: "Updating theme...",
           success: {
-            title: "Success!",
+            title: t("common.success"),
             message: () => "Theme updated successfully!",
           },
           error: {
-            title: "Error!",
+            title: t("common.error.label"),
             message: () => "Failed to update the theme",
           },
         });
@@ -58,6 +58,7 @@ export const ThemeSwitcher = observer(function ThemeSwitcher(props: {
         console.error("Error updating theme:", error);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [updateUserTheme]
   );
 

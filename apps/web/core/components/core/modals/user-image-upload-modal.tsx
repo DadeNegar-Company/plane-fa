@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { useDropzone } from "react-dropzone";
 // plane imports
 import { ACCEPTED_AVATAR_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE, MAX_FILE_SIZE } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { UserCirclePropertyIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -33,6 +34,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
   const [image, setImage] = useState<File | null>(null);
   const [isRemoving, setIsRemoving] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
+  const { t } = useTranslation();
 
   const onDrop = (acceptedFiles: File[]) => setImage(acceptedFiles[0]);
 
@@ -66,7 +68,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
     } catch (error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: error?.toString() ?? "Something went wrong. Please try again.",
       });
       throw new Error("Error in uploading file.");
@@ -115,6 +117,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
                   >
                     Edit
                   </button>
+                  {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                   <img
                     src={image ? URL.createObjectURL(image) : value ? getFileURL(value) : ""}
                     alt="image"
@@ -143,6 +146,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
         </div>
         <p className="my-4 text-13 text-secondary">File formats supported- .jpeg, .jpg, .png, .webp</p>
         <div className="flex items-center justify-between">
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button variant="error-fill" size="lg" onClick={handleImageRemove} disabled={!value}>
             {isRemoving ? "Removing" : "Remove"}
           </Button>
@@ -150,6 +154,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
             <Button variant="secondary" size="lg" onClick={handleClose}>
               Cancel
             </Button>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <Button variant="primary" size="lg" onClick={handleSubmit} disabled={!image} loading={isImageUploading}>
               {isImageUploading ? "Uploading" : "Upload & Save"}
             </Button>

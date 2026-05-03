@@ -4,10 +4,13 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useMemo, useState } from "react";
 import { sortBy } from "lodash-es";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
+// plane imports
+import { useTranslation } from "@plane/i18n";
 import { CycleGroupIcon } from "@plane/propel/icons";
 import type { TCycleGroups } from "@plane/types";
 // components
@@ -26,6 +29,8 @@ type Props = {
 export const FilterCycle = observer(function FilterCycle(props: Props) {
   const { appliedFilters, handleUpdate, searchQuery } = props;
 
+  // plane hooks
+  const { t } = useTranslation();
   // hooks
   const { projectId } = useParams();
   const { getCycleById, getProjectCycleIds } = useCycle();
@@ -95,7 +100,7 @@ export const FilterCycle = observer(function FilterCycle(props: Props) {
                 )}
               </>
             ) : (
-              <p className="text-11 italic text-placeholder">No matches found</p>
+              <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
             )
           ) : (
             <Loader className="space-y-2">

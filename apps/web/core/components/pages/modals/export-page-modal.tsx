@@ -12,6 +12,7 @@ import { useParams } from "react-router";
 // plane editor
 import type { EditorRefApi } from "@plane/editor";
 // plane ui
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { CustomSelect, EModalPosition, EModalWidth, ModalCore } from "@plane/ui";
@@ -107,6 +108,7 @@ export function ExportPageModal(props: Props) {
   const [isExporting, setIsExporting] = useState(false);
   // params
   const { workspaceSlug, projectId } = useParams();
+  const { t } = useTranslation();
   // form info
   const { control, reset, watch } = useForm<TFormValues>({
     defaultValues,
@@ -154,12 +156,15 @@ export function ExportPageModal(props: Props) {
       });
 
       const blob = await pdf(<PDFDocument content={parsedPageContent} pageFormat={selectedPageFormat} />).toBlob();
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       initiateDownload(blob, `${fileName}-${selectedPageFormat.toString().toLowerCase()}.pdf`);
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw new Error(`Error in exporting as a PDF: ${error}`);
     }
   };
   // handle export as markdown
+  // eslint-disable-next-line @typescript-eslint/require-await
   const handleExportAsMarkdown = async () => {
     try {
       const markdownContent = editorRef?.getMarkDown() ?? "";
@@ -171,6 +176,7 @@ export function ExportPageModal(props: Props) {
       const blob = new Blob([parsedMarkdownContent], { type: "text/markdown" });
       initiateDownload(blob, `${fileName}.md`);
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw new Error(`Error in exporting as markdown: ${error}`);
     }
   };
@@ -186,7 +192,7 @@ export function ExportPageModal(props: Props) {
       }
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "Page exported successfully.",
       });
       handleClose();
@@ -194,7 +200,7 @@ export function ExportPageModal(props: Props) {
       console.error("Error in exporting page:", error);
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Page could not be exported. Please try again later.",
       });
     } finally {
@@ -206,10 +212,10 @@ export function ExportPageModal(props: Props) {
     <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.SM}>
       <div>
         <div className="p-5 space-y-5">
-          <h3 className="text-18 font-medium text-secondary">Export page</h3>
+          <h3 className="text-18 font-medium text-secondary">{t("common.export_page")}</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <h6 className="flex-shrink-0 text-13 text-secondary">Export format</h6>
+              <h6 className="flex-shrink-0 text-13 text-secondary">{t("common.export_format")}</h6>
               <Controller
                 control={control}
                 name="export_format"
@@ -232,7 +238,7 @@ export function ExportPageModal(props: Props) {
               />
             </div>
             <div className="flex items-center justify-between gap-2">
-              <h6 className="flex-shrink-0 text-13 text-secondary">Include content</h6>
+              <h6 className="flex-shrink-0 text-13 text-secondary">{t("common.include_content")}</h6>
               <Controller
                 control={control}
                 name="content_variety"
@@ -256,7 +262,7 @@ export function ExportPageModal(props: Props) {
             </div>
             {isPDFSelected && (
               <div className="flex items-center justify-between gap-2">
-                <h6 className="flex-shrink-0 text-13 text-secondary">Page format</h6>
+                <h6 className="flex-shrink-0 text-13 text-secondary">{t("common.page_format")}</h6>
                 <Controller
                   control={control}
                   name="page_format"
@@ -270,6 +276,7 @@ export function ExportPageModal(props: Props) {
                       placement="bottom-end"
                     >
                       {PAGE_FORMATS.map((format) => (
+                        // eslint-disable-next-line @typescript-eslint/no-base-to-string
                         <CustomSelect.Option key={format.key.toString()} value={format.key}>
                           {format.label}
                         </CustomSelect.Option>
@@ -285,6 +292,7 @@ export function ExportPageModal(props: Props) {
           <Button variant="secondary" size="lg" onClick={handleClose}>
             Cancel
           </Button>
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button variant="primary" size="lg" loading={isExporting} onClick={handleExport}>
             {isExporting ? "Exporting" : "Export"}
           </Button>

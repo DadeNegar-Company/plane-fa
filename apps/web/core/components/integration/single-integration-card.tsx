@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import useSWR, { mutate } from "swr";
 import { CheckCircle } from "lucide-react";
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
@@ -33,6 +34,7 @@ type Props = {
   integration: IAppIntegration;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const integrationDetails: { [key: string]: any } = {
   github: {
     logo: GithubLogo,
@@ -57,6 +59,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
   // store hooks
   const { config } = useInstance();
   const { allowPermissions } = useUserPermissions();
+  const { t } = useTranslation();
 
   const isUserAdmin = allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.WORKSPACE);
   const { isMobile } = usePlatformOS();
@@ -79,7 +82,9 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
 
     await integrationService
       .deleteWorkspaceIntegration(workspaceSlug, workspaceIntegrationId ?? "")
+      // eslint-disable-next-line promise/always-return
       .then(() => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         mutate<IWorkspaceIntegration[]>(
           WORKSPACE_INTEGRATIONS(workspaceSlug),
           (prevData) => prevData?.filter((i) => i.id !== workspaceIntegrationId),
@@ -89,8 +94,8 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
 
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Deleted successfully!",
-          message: `${integration.title} integration deleted successfully.`,
+          title: t("integrations_extra.deleted_successfully"),
+          message: t("integrations_extra.delete_success_message", { title: integration.title }),
         });
       })
       .catch(() => {
@@ -98,12 +103,13 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
 
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
-          message: `${integration.title} integration could not be deleted. Please try again.`,
+          title: t("common.error.label"),
+          message: t("integrations_extra.delete_error_message", { title: integration.title }),
         });
       });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
   const isInstalled = workspaceIntegrations?.find((i: any) => i.integration_detail.id === integration.id);
 
   return (
@@ -111,6 +117,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
       <div className="flex items-start gap-4">
         <div className="h-10 w-10 flex-shrink-0">
           <img
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
             src={integrationDetails[integration.provider].logo}
             className="w-full h-full object-cover"
             alt={`${integration.title} Logo`}
@@ -126,8 +133,10 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
           <p className="text-body-xs-regular text-secondary">
             {workspaceIntegrations
               ? isInstalled
-                ? integrationDetails[integration.provider].installed
-                : integrationDetails[integration.provider].notInstalled
+                ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  integrationDetails[integration.provider].installed
+                : // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  integrationDetails[integration.provider].notInstalled
               : "Loading..."}
           </p>
         </div>
@@ -145,6 +154,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
               variant="error-fill"
               onClick={() => {
                 if (!isUserAdmin) return;
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 handleRemoveIntegration();
               }}
               disabled={!isUserAdmin}

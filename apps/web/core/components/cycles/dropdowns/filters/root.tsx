@@ -8,6 +8,7 @@ import { useState } from "react";
 import { observer } from "mobx-react";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import type { TCycleFilters, TCycleGroups } from "@plane/types";
 // hooks
 import { usePlatformOS } from "@/hooks/use-platform-os";
@@ -26,6 +27,8 @@ export const CycleFiltersSelection = observer(function CycleFiltersSelection(pro
   const { filters, handleFiltersUpdate, isArchived = false } = props;
   // states
   const [filtersSearchQuery, setFiltersSearchQuery] = useState("");
+  // plane hooks
+  const { t } = useTranslation();
   // hooks
   const { isMobile } = usePlatformOS();
 
@@ -37,9 +40,10 @@ export const CycleFiltersSelection = observer(function CycleFiltersSelection(pro
           <input
             type="text"
             className="w-full bg-surface-2 outline-none placeholder:text-placeholder"
-            placeholder="Search"
+            placeholder={t("common.search.label")}
             value={filtersSearchQuery}
             onChange={(e) => setFiltersSearchQuery(e.target.value)}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (

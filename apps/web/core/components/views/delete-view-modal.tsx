@@ -46,13 +46,13 @@ export const DeleteProjectViewModal = observer(function DeleteProjectViewModal(p
       router.push(`/${workspaceSlug}/projects/${projectId}/views`);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "View deleted successfully.",
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "View could not be deleted. Please try again.",
       });
     }
@@ -62,6 +62,7 @@ export const DeleteProjectViewModal = observer(function DeleteProjectViewModal(p
   return (
     <AlertModalCore
       handleClose={handleClose}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       handleSubmit={handleDeleteView}
       isSubmitting={isDeleteLoading}
       isOpen={isOpen}

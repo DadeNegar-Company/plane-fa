@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { AlertTriangleIcon } from "lucide-react";
 // Plane imports
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IProject } from "@plane/types";
@@ -40,6 +41,7 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
   const { workspaceSlug } = useParams();
   // store hooks
   const { leaveProject } = useUserPermissions();
+  const { t } = useTranslation();
 
   const {
     control,
@@ -53,42 +55,49 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
     onClose();
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     if (!workspaceSlug) return;
 
     if (data) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (data.projectName === project?.name) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (data.confirmLeave === "Leave Project") {
           router.push(`/${workspaceSlug}/projects`);
-          return leaveProject(workspaceSlug.toString(), project.id)
-            .then(() => {
-              handleClose();
-            })
-            .catch((err) => {
-              setToast({
-                type: TOAST_TYPE.ERROR,
-                title: "Error!",
-                message: "Something went wrong please try again later.",
-              });
-            });
+          return (
+            leaveProject(workspaceSlug.toString(), project.id)
+              // eslint-disable-next-line promise/always-return
+              .then(() => {
+                handleClose();
+              })
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              .catch((err) => {
+                setToast({
+                  type: TOAST_TYPE.ERROR,
+                  title: t("common.error.label"),
+                  message: "Something went wrong please try again later.",
+                });
+              })
+          );
         } else {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
+            title: t("common.error.label"),
             message: "Please confirm leaving the project by typing the 'Leave Project'.",
           });
         }
       } else {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Please enter the project name as shown in the description.",
         });
       }
     } else {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Please fill all fields.",
       });
     }
@@ -96,6 +105,7 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
 
   return (
     <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-6">
         <div className="flex w-full items-center justify-start gap-6">
           <span className="place-items-center rounded-full bg-danger-subtle p-4">
@@ -133,7 +143,7 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
                 onChange={onChange}
                 ref={ref}
                 hasError={Boolean(errors.projectName)}
-                placeholder="Enter project name"
+                placeholder={t("common.enter_project_name")}
                 className="mt-2 w-full"
               />
             )}

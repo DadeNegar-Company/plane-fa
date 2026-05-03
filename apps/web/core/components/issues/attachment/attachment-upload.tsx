@@ -7,6 +7,7 @@
 import { useCallback, useState } from "react";
 import { observer } from "mobx-react";
 import { useDropzone } from "react-dropzone";
+import { useTranslation } from "@plane/i18n";
 // plane web hooks
 import { useFileSize } from "@/plane-web/hooks/use-file-size";
 // types
@@ -22,6 +23,7 @@ type Props = {
 
 export const IssueAttachmentUpload = observer(function IssueAttachmentUpload(props: Props) {
   const { workspaceSlug, disabled = false, attachmentOperations } = props;
+  const { t } = useTranslation();
   // states
   const [isLoading, setIsLoading] = useState(false);
   // file size
@@ -33,6 +35,7 @@ export const IssueAttachmentUpload = observer(function IssueAttachmentUpload(pro
       if (!currentFile || !workspaceSlug) return;
 
       setIsLoading(true);
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises, promise/catch-or-return
       attachmentOperations.create(currentFile).finally(() => setIsLoading(false));
     },
     [attachmentOperations, workspaceSlug]
@@ -46,7 +49,9 @@ export const IssueAttachmentUpload = observer(function IssueAttachmentUpload(pro
   });
 
   const fileError =
-    fileRejections.length > 0 ? `Invalid file type or size (max ${maxFileSize / 1024 / 1024} MB)` : null;
+    fileRejections.length > 0
+      ? t("common.invalid_file_type_or_size", { size: String(maxFileSize / 1024 / 1024) })
+      : null;
 
   return (
     <div
@@ -58,13 +63,13 @@ export const IssueAttachmentUpload = observer(function IssueAttachmentUpload(pro
       <input {...getInputProps()} />
       <span className="flex items-center gap-2">
         {isDragActive ? (
-          <p>Drop here...</p>
+          <p>{t("common.drop_here")}</p>
         ) : fileError ? (
           <p className="text-center text-danger-primary">{fileError}</p>
         ) : isLoading ? (
-          <p className="text-center">Uploading...</p>
+          <p className="text-center">{t("common.uploading")}</p>
         ) : (
-          <p className="text-center">Click or drag a file here</p>
+          <p className="text-center">{t("common.click_or_drag_a_file_here")}</p>
         )}
       </span>
     </div>

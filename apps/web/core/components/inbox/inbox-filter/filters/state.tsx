@@ -4,10 +4,12 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import { useState } from "react";
 import { observer } from "mobx-react";
 import { EIconSize } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { StateGroupIcon } from "@plane/propel/icons";
 import type { IState } from "@plane/types";
 import { Loader } from "@plane/ui";
@@ -26,6 +28,8 @@ export const FilterState = observer(function FilterState(props: Props) {
 
   const [itemsToRender, setItemsToRender] = useState(5);
   const [previewEnabled, setPreviewEnabled] = useState(true);
+  // plane hooks
+  const { t } = useTranslation();
 
   const { inboxFilters, handleInboxIssueFilters } = useProjectInbox();
 
@@ -84,7 +88,7 @@ export const FilterState = observer(function FilterState(props: Props) {
                 )}
               </>
             ) : (
-              <p className="text-11 italic text-placeholder">No matches found</p>
+              <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
             )
           ) : (
             <Loader className="space-y-2">

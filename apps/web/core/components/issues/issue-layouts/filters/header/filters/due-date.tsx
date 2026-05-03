@@ -4,10 +4,13 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 // constants
 import { DATE_AFTER_FILTER_OPTIONS } from "@plane/constants";
+// plane imports
+import { useTranslation } from "@plane/i18n";
 // components
 import { DateFilterModal } from "@/components/core/filters/date-filter-modal";
 import { FilterHeader, FilterOption } from "@/components/issues/issue-layouts/filters";
@@ -23,6 +26,8 @@ export const FilterDueDate = observer(function FilterDueDate(props: Props) {
 
   const [previewEnabled, setPreviewEnabled] = useState(true);
   const [isDateFilterModalOpen, setIsDateFilterModalOpen] = useState(false);
+  // plane hooks
+  const { t } = useTranslation();
 
   const appliedFiltersCount = appliedFilters?.length ?? 0;
 
@@ -48,7 +53,7 @@ export const FilterDueDate = observer(function FilterDueDate(props: Props) {
           handleClose={() => setIsDateFilterModalOpen(false)}
           isOpen={isDateFilterModalOpen}
           onSelect={(val) => handleUpdate(val)}
-          title="Due date"
+          title={t("due_date")}
         />
       )}
       <FilterHeader
@@ -72,7 +77,7 @@ export const FilterDueDate = observer(function FilterDueDate(props: Props) {
               <FilterOption isChecked={isCustomDateSelected()} onClick={handleCustomDate} title="Custom" multiple />
             </>
           ) : (
-            <p className="text-11 italic text-placeholder">No matches found</p>
+            <p className="text-11 italic text-placeholder">{t("common.search.no_matches_found")}</p>
           )}
         </div>
       )}

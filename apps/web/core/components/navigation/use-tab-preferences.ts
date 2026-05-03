@@ -5,6 +5,7 @@
  */
 
 import { useMemo } from "react";
+import { useTranslation } from "@plane/i18n";
 import { setToast, TOAST_TYPE } from "@plane/propel/toast";
 import { useMember } from "@/hooks/store/use-member";
 import { useUser } from "@/hooks/store/user";
@@ -33,6 +34,7 @@ export const useTabPreferences = (workspaceSlug: string, projectId: string): TTa
   } = useMember();
   // const { projectUserInfo } = useUserPermissions();
   const { data } = useUser();
+  const { t } = useTranslation();
 
   // Get member ID from projectUserInfo
   // const projectMemberInfo = projectUserInfo[workspaceSlug]?.[projectId];
@@ -41,6 +43,7 @@ export const useTabPreferences = (workspaceSlug: string, projectId: string): TTa
   // Get preferences from store
   const storePreferences = getProjectUserProperties(projectId);
   const defaultTab = storePreferences?.preferences?.navigation?.default_tab || DEFAULT_TAB_KEY;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const hideInMoreMenu = storePreferences?.preferences?.navigation?.hide_in_more_menu || [];
 
   // Convert store preferences to component format
@@ -79,7 +82,7 @@ export const useTabPreferences = (workspaceSlug: string, projectId: string): TTa
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
+          title: t("common.success"),
           message: "Default tab updated successfully.",
         });
         return;
@@ -87,7 +90,7 @@ export const useTabPreferences = (workspaceSlug: string, projectId: string): TTa
       .catch(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Failed to update default tab. Please try again later.",
         });
       });
@@ -102,12 +105,13 @@ export const useTabPreferences = (workspaceSlug: string, projectId: string): TTa
       hiddenTabs: [...tabPreferences.hiddenTabs, tabKey],
     };
     try {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       updatePreferences(newPreferences);
     } catch (error) {
       console.error("Error hiding tab:", error);
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Failed to hide tab. Please try again later.",
       });
     }
@@ -122,12 +126,13 @@ export const useTabPreferences = (workspaceSlug: string, projectId: string): TTa
       hiddenTabs: tabPreferences.hiddenTabs.filter((key) => key !== tabKey),
     };
     try {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       updatePreferences(newPreferences);
     } catch (error) {
       console.error("Error showing tab:", error);
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Something went wrong. Please try again later.",
       });
     }

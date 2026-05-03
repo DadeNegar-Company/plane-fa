@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // lucide icons
 import { Minimize2, Maximize2, Circle } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { PlusIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TIssue, ISearchIssueResponse, TIssueKanbanFilters, TIssueGroupByOptions } from "@plane/types";
@@ -60,6 +61,7 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
   const [openExistingIssueListModal, setOpenExistingIssueListModal] = React.useState(false);
   // hooks
   const storeType = useIssueStoreType();
+  const { t } = useTranslation();
   // router
   const { workspaceSlug, projectId, moduleId, cycleId } = useParams();
 
@@ -76,13 +78,13 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
 
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "Work items added to the cycle successfully.",
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Selected work items could not be added to the cycle. Please try again.",
       });
     }
@@ -169,14 +171,14 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
                   setIsOpen(true);
                 }}
               >
-                <span className="flex items-center justify-start gap-2">Create work item</span>
+                <span className="flex items-center justify-start gap-2">{t("create_work_item")}</span>
               </CustomMenu.MenuItem>
               <CustomMenu.MenuItem
                 onClick={() => {
                   setOpenExistingIssueListModal(true);
                 }}
               >
-                <span className="flex items-center justify-start gap-2">Add an existing work item</span>
+                <span className="flex items-center justify-start gap-2">{t("common.add_existing_work_item")}</span>
               </CustomMenu.MenuItem>
             </CustomMenu>
           ) : (

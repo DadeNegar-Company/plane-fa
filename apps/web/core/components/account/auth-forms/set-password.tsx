@@ -66,6 +66,7 @@ export const SetPasswordForm = observer(function SetPasswordForm() {
 
   useEffect(() => {
     if (csrfToken === undefined)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises, promise/catch-or-return
       authService.requestCSRFToken().then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
   }, [csrfToken]);
 
@@ -111,7 +112,8 @@ export const SetPasswordForm = observer(function SetPasswordForm() {
 
   return (
     <FormContainer>
-      <AuthFormHeader title="Set password" description="Create a new password." />
+      <AuthFormHeader title={t("auth.set_password.title")} description={t("auth.set_password.description")} />
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form className="space-y-4" onSubmit={(e) => handleSubmit(e)}>
         <div className="space-y-1">
           <label className="text-13 text-tertiary font-medium" htmlFor="email">
@@ -148,6 +150,7 @@ export const SetPasswordForm = observer(function SetPasswordForm() {
               onFocus={() => setIsPasswordInputFocused(true)}
               onBlur={() => setIsPasswordInputFocused(false)}
               autoComplete="new-password"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
             />
             {showPassword.password ? (

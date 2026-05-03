@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import { useDropzone } from "react-dropzone";
 // plane imports
 import { ACCEPTED_AVATAR_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE, MAX_FILE_SIZE } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { UserCirclePropertyIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -42,6 +43,7 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
   const { workspaceSlug } = useParams();
   // store hooks
   const { currentWorkspace, updateWorkspaceLogo } = useWorkspace();
+  const { t } = useTranslation();
 
   const onDrop = (acceptedFiles: File[]) => setImage(acceptedFiles[0]);
 
@@ -75,11 +77,13 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
       );
       updateWorkspaceLogo(workspaceSlug.toString(), asset_url);
       onSuccess(asset_url);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log("error", error);
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error",
+        title: t("common.error.label"),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         message: error.error || "Something went wrong",
       });
     } finally {
@@ -128,6 +132,7 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
                   >
                     Edit
                   </button>
+                  {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                   <img
                     src={image ? URL.createObjectURL(image) : value ? getFileURL(value) : ""}
                     alt="image"
@@ -156,6 +161,7 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
         </div>
         <p className="my-4 text-13 text-secondary">File formats supported- .jpeg, .jpg, .png, .webp</p>
         <div className="flex items-center justify-between">
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button variant="error-fill" size="lg" onClick={handleImageRemove} disabled={!value} loading={isRemoving}>
             {isRemoving ? "Removing" : "Remove"}
           </Button>
@@ -163,6 +169,7 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
             <Button variant="secondary" size="lg" onClick={handleClose}>
               Cancel
             </Button>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <Button variant="primary" size="lg" onClick={handleSubmit} disabled={!image} loading={isImageUploading}>
               {isImageUploading ? "Uploading" : "Upload & Save"}
             </Button>

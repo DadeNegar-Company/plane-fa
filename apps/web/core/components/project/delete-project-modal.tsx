@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { AlertTriangle } from "lucide-react";
 // Plane imports
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IProject } from "@plane/types";
@@ -31,6 +32,7 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
   const { isOpen, project, onClose } = props;
   // store hooks
   const { deleteProject } = useProject();
+  const { t } = useTranslation();
   // router
   const router = useAppRouter();
   const { workspaceSlug, projectId } = useParams();
@@ -43,6 +45,7 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
     watch,
   } = useForm({ defaultValues });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const canDelete = watch("projectName") === project?.name && watch("confirmDelete") === "delete my project";
 
   const handleClose = () => {
@@ -63,13 +66,13 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
       handleClose();
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Success!",
+        title: t("common.success"),
         message: "Project deleted successfully.",
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Something went wrong. Please try again later.",
       });
     }
@@ -77,6 +80,7 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
 
   return (
     <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-6">
         <div className="flex w-full items-center justify-start gap-6">
           <span className="place-items-center rounded-full bg-danger-subtle p-4">
@@ -108,7 +112,7 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
                 onChange={onChange}
                 ref={ref}
                 hasError={Boolean(errors.projectName)}
-                placeholder="Project name"
+                placeholder={t("common.project_name")}
                 className="mt-2 w-full"
                 autoComplete="off"
               />

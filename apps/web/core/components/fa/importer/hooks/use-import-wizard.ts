@@ -1,5 +1,6 @@
 // [FA-CUSTOM] Import wizard state management hook
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { ImportService } from "@/services/import.service";
 import type { TImportJob, TUploadResponse } from "@/services/import.service";
@@ -24,6 +25,7 @@ function getErrorMessage(e: unknown, fallback: string): string {
 
 export function useImportWizard(workspaceSlug: string, projectId: string) {
   const importService = useMemo(() => new ImportService(), []);
+  const { t } = useTranslation();
 
   const [step, setStep] = useState<ImportWizardStep>("upload");
   const [isLoading, setIsLoading] = useState(false);
@@ -118,11 +120,12 @@ export function useImportWizard(workspaceSlug: string, projectId: string) {
       } catch (e: unknown) {
         const msg = getErrorMessage(e, "Failed to save mapping");
         setError(msg);
-        setToast({ type: TOAST_TYPE.ERROR, title: "Error", message: msg });
+        setToast({ type: TOAST_TYPE.ERROR, title: t("common.error.label"), message: msg });
       } finally {
         setIsLoading(false);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [uploadData, columnMapping, statusMapping, assigneeMapping, workspaceSlug, projectId, importService]
   );
 
@@ -144,10 +147,11 @@ export function useImportWizard(workspaceSlug: string, projectId: string) {
     } catch (e: unknown) {
       const msg = getErrorMessage(e, "Failed to start import");
       setError(msg);
-      setToast({ type: TOAST_TYPE.ERROR, title: "Error", message: msg });
+      setToast({ type: TOAST_TYPE.ERROR, title: t("common.error.label"), message: msg });
     } finally {
       setIsLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     uploadData,
     columnMapping,

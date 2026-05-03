@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { Loader } from "lucide-react";
 import { CloseIcon } from "@plane/propel/icons";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
 import type { IState, TStateOperationsCallbacks } from "@plane/types";
@@ -28,6 +29,7 @@ export const StateDelete = observer(function StateDelete(props: TStateDelete) {
   const { totalStates, state, deleteStateCallback } = props;
   // hooks
   const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
   // states
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -47,14 +49,14 @@ export const StateDelete = observer(function StateDelete(props: TStateDelete) {
       if (errorStatus.status === 400) {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message:
             "This state contains some work items within it, please move them to some other state to delete this state.",
         });
       } else {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "State could not be deleted. Please try again.",
         });
       }
@@ -66,6 +68,7 @@ export const StateDelete = observer(function StateDelete(props: TStateDelete) {
     <>
       <AlertModalCore
         handleClose={() => setIsDeleteModal(false)}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         handleSubmit={handleDeleteState}
         isSubmitting={isDelete}
         isOpen={isDeleteModal}

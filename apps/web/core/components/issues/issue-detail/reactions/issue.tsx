@@ -6,6 +6,7 @@
 
 import { useMemo, useState } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { stringToEmoji } from "@plane/propel/emoji-icon-picker";
 import { EmojiReactionGroup, EmojiReactionPicker } from "@plane/propel/emoji-reaction";
 import type { EmojiReactionType } from "@plane/propel/emoji-reaction";
@@ -39,6 +40,7 @@ export const IssueReaction = observer(function IssueReaction(props: TIssueReacti
     removeReaction,
   } = useIssueDetail();
   const { getUserDetails } = useMember();
+  const { t } = useTranslation();
 
   const reactionIds = getReactionsByIssueId(issueId);
   const userReactions = reactionsByUser(issueId, currentUser.id).map((r) => r.reaction);
@@ -50,13 +52,14 @@ export const IssueReaction = observer(function IssueReaction(props: TIssueReacti
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing fields");
           await createReaction(workspaceSlug, projectId, issueId, reaction);
           setToast({
-            title: "Success!",
+            title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
             message: "Reaction created successfully",
           });
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           setToast({
-            title: "Error!",
+            title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
             message: "Reaction creation failed",
           });
@@ -67,13 +70,13 @@ export const IssueReaction = observer(function IssueReaction(props: TIssueReacti
           if (!workspaceSlug || !projectId || !issueId || !currentUser?.id) throw new Error("Missing fields");
           await removeReaction(workspaceSlug, projectId, issueId, reaction, currentUser.id);
           setToast({
-            title: "Success!",
+            title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
             message: "Reaction removed successfully",
           });
         } catch (_error) {
           setToast({
-            title: "Error!",
+            title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
             message: "Reaction remove failed",
           });
@@ -84,6 +87,7 @@ export const IssueReaction = observer(function IssueReaction(props: TIssueReacti
         else await issueReactionOperations.create(reaction);
       },
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [workspaceSlug, projectId, issueId, currentUser, createReaction, removeReaction, userReactions]
   );
 
@@ -112,6 +116,7 @@ export const IssueReaction = observer(function IssueReaction(props: TIssueReacti
         reacted: userReactions.includes(reaction),
         users: getReactionUsers(reaction),
       }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reactionIds, userReactions]);
 
   const handleReactionClick = (emoji: string) => {
@@ -119,11 +124,13 @@ export const IssueReaction = observer(function IssueReaction(props: TIssueReacti
     // Convert emoji back to decimal string format for the API
     const emojiCodePoints = Array.from(emoji).map((char) => char.codePointAt(0));
     const reactionString = emojiCodePoints.join("-");
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     issueReactionOperations.react(reactionString);
   };
 
   const handleEmojiSelect = (emoji: string) => {
     // emoji is already in decimal string format from EmojiReactionPicker
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     issueReactionOperations.react(emoji);
   };
 

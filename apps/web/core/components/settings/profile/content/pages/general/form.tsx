@@ -15,6 +15,7 @@ import { TOAST_TYPE, setPromiseToast, setToast } from "@plane/propel/toast";
 import { EFileAssetType } from "@plane/types";
 import type { IUser, TUserProfile } from "@plane/types";
 import { Input } from "@plane/ui";
+// eslint-disable-next-line import/no-duplicates
 import { getFileURL } from "@plane/utils";
 // components
 import { DeactivateAccountModal } from "@/components/account/deactivate-account-modal";
@@ -29,11 +30,13 @@ import { handleCoverImageChange } from "@/helpers/cover-image.helper";
 import { useInstance } from "@/hooks/store/use-instance";
 import { useUser, useUserProfile } from "@/hooks/store/user";
 // utils
+// eslint-disable-next-line import/no-duplicates
 import { validatePersonName, validateDisplayName } from "@plane/utils";
 
 type TUserProfileForm = {
   avatar_url: string;
   cover_image: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cover_image_asset: any;
   cover_image_url: string;
   first_name: string;
@@ -98,7 +101,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
+          title: t("common.success"),
           message: "Profile picture deleted successfully.",
         });
         setValue("avatar_url", "");
@@ -107,7 +110,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
       .catch(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "There was some error in deleting your profile picture. Please try again.",
         });
       })
@@ -159,11 +162,11 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
     setPromiseToast(updateUserAndProfile, {
       loading: "Updating...",
       success: {
-        title: "Success!",
+        title: t("common.success"),
         message: () => `Profile updated successfully.`,
       },
       error: {
-        title: "Error!",
+        title: t("common.error.label"),
         message: () => `There was some error in updating your profile. Please try again.`,
       },
     });
@@ -188,6 +191,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
             handleRemove={async () => await handleProfilePictureDelete(currentUser?.avatar_url)}
             onSuccess={(url) => {
               onChange(url);
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
               handleSubmit(onSubmit)();
               setIsImageUploadModalOpen(false);
             }}
@@ -195,6 +199,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
           />
         )}
       />
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <div className="flex w-full flex-col gap-7">
           <div className="relative h-44 w-full">
@@ -213,11 +218,13 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                       </div>
                     ) : (
                       <div className="relative h-16 w-16 overflow-hidden">
+                        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                         <img
                           src={getFileURL(userAvatar)}
                           className="absolute left-0 top-0 h-full w-full rounded-lg object-cover"
                           onClick={() => setIsImageUploadModalOpen(true)}
                           alt={currentUser?.display_name}
+                          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
                           role="button"
                         />
                       </div>
@@ -273,7 +280,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                       onChange={onChange}
                       ref={ref}
                       hasError={Boolean(errors.first_name)}
-                      placeholder="Enter your first name"
+                      placeholder={t("common.enter_your_first_name")}
                       className={`w-full rounded-md ${errors.first_name ? "border-danger-strong" : ""}`}
                       maxLength={50}
                       autoComplete="on"
@@ -299,7 +306,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                       onChange={onChange}
                       ref={ref}
                       hasError={Boolean(errors.last_name)}
-                      placeholder="Enter your last name"
+                      placeholder={t("common.enter_your_last_name")}
                       className="w-full rounded-md"
                       maxLength={50}
                       autoComplete="on"
@@ -329,7 +336,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                       onChange={onChange}
                       ref={ref}
                       hasError={Boolean(errors?.display_name)}
-                      placeholder="Enter your display name"
+                      placeholder={t("common.enter_your_display_name")}
                       className={`w-full ${errors?.display_name ? "border-danger-strong" : ""}`}
                       maxLength={50}
                     />

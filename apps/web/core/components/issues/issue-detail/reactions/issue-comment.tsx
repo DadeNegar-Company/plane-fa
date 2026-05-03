@@ -6,6 +6,7 @@
 
 import { useMemo, useState } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { stringToEmoji } from "@plane/propel/emoji-icon-picker";
 import { EmojiReactionGroup, EmojiReactionPicker } from "@plane/propel/emoji-reaction";
 import type { EmojiReactionType } from "@plane/propel/emoji-reaction";
@@ -34,6 +35,7 @@ export const IssueCommentReaction = observer(function IssueCommentReaction(props
     removeCommentReaction,
   } = useIssueDetail();
   const { getUserDetails } = useMember();
+  const { t } = useTranslation();
 
   const reactionIds = getCommentReactionsByCommentId(commentId);
   const userReactions = commentReactionsByUser(commentId, currentUser.id).map((r) => r.reaction);
@@ -45,30 +47,32 @@ export const IssueCommentReaction = observer(function IssueCommentReaction(props
           if (!workspaceSlug || !projectId || !commentId) throw new Error("Missing fields");
           await createCommentReaction(workspaceSlug, projectId, commentId, reaction);
           setToast({
-            title: "Success!",
+            title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
             message: "Reaction created successfully",
           });
         } catch (_error) {
           setToast({
-            title: "Error!",
+            title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
             message: "Reaction creation failed",
           });
         }
       },
+      // eslint-disable-next-line @typescript-eslint/require-await
       remove: async (reaction: string) => {
         try {
           if (!workspaceSlug || !projectId || !commentId || !currentUser?.id) throw new Error("Missing fields");
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           removeCommentReaction(workspaceSlug, projectId, commentId, reaction, currentUser.id);
           setToast({
-            title: "Success!",
+            title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
             message: "Reaction removed successfully",
           });
         } catch (_error) {
           setToast({
-            title: "Error!",
+            title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
             message: "Reaction remove failed",
           });
@@ -79,6 +83,7 @@ export const IssueCommentReaction = observer(function IssueCommentReaction(props
         else await issueCommentReactionOperations.create(reaction);
       },
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [workspaceSlug, projectId, commentId, currentUser, createCommentReaction, removeCommentReaction, userReactions]
   );
 
@@ -106,6 +111,7 @@ export const IssueCommentReaction = observer(function IssueCommentReaction(props
         reacted: userReactions.includes(reaction),
         users: getReactionUsers(reaction),
       }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reactionIds, userReactions]);
 
   const handleReactionClick = (emoji: string) => {
@@ -113,11 +119,13 @@ export const IssueCommentReaction = observer(function IssueCommentReaction(props
     // Convert emoji back to decimal string format for the API
     const emojiCodePoints = Array.from(emoji).map((char) => char.codePointAt(0));
     const reactionString = emojiCodePoints.join("-");
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     issueCommentReactionOperations.react(reactionString);
   };
 
   const handleEmojiSelect = (emoji: string) => {
     // emoji is already in decimal string format from EmojiReactionPicker
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     issueCommentReactionOperations.react(emoji);
   };
 

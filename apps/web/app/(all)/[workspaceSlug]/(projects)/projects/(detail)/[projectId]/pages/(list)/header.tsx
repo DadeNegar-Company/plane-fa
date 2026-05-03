@@ -10,6 +10,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 // constants
 import { EPageAccess } from "@plane/constants";
 // plane types
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { PageIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -35,6 +36,7 @@ export const PagesListHeader = observer(function PagesListHeader() {
   // store hooks
   const { currentProjectDetails, loader } = useProject();
   const { canCurrentUserCreatePage, createPage } = usePageStore(EPageStoreType.PROJECT);
+  const { t } = useTranslation();
   // handle page create
   const handleCreatePage = async () => {
     setIsCreatingPage(true);
@@ -45,13 +47,15 @@ export const PagesListHeader = observer(function PagesListHeader() {
 
     await createPage(payload)
       .then((res) => {
+        // eslint-disable-next-line promise/always-return
         const pageId = `/${workspaceSlug}/projects/${currentProjectDetails?.id}/pages/${res?.id}`;
         router.push(pageId);
       })
       .catch((err) => {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
           message: err?.data?.error || "Page could not be created. Please try again.",
         });
       })
@@ -78,6 +82,7 @@ export const PagesListHeader = observer(function PagesListHeader() {
       </Header.LeftItem>
       {canCurrentUserCreatePage && (
         <Header.RightItem>
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button variant="primary" size="lg" onClick={handleCreatePage} loading={isCreatingPage}>
             {isCreatingPage ? "Adding" : "Add page"}
           </Button>

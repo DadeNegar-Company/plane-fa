@@ -71,6 +71,7 @@ export const ResetPasswordForm = observer(function ResetPasswordForm() {
 
   useEffect(() => {
     if (csrfToken === undefined)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises, promise/catch-or-return
       authService.requestCSRFToken().then((data) => data?.csrf_token && setCsrfToken(data.csrf_token));
   }, [csrfToken]);
 
@@ -99,7 +100,7 @@ export const ResetPasswordForm = observer(function ResetPasswordForm() {
 
   return (
     <FormContainer>
-      <AuthFormHeader title="Reset password" description="Create a new password." />
+      <AuthFormHeader title={t("common.reset_password_title")} description={t("common.create_a_new_password")} />
 
       {errorInfo && errorInfo?.type === EErrorAlertType.BANNER_ALERT && (
         <AuthBanner message={errorInfo.message} handleBannerData={(value) => setErrorInfo(value)} />
@@ -145,6 +146,7 @@ export const ResetPasswordForm = observer(function ResetPasswordForm() {
               onFocus={() => setIsPasswordInputFocused(true)}
               onBlur={() => setIsPasswordInputFocused(false)}
               autoComplete="new-password"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
             />
             {showPassword.password ? (

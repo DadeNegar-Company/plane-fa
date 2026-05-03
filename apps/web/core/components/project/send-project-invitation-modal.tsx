@@ -84,10 +84,11 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
 
     await bulkAddMembersToProject(workspaceSlug.toString(), projectId.toString(), payload)
       .then(() => {
+        // eslint-disable-next-line promise/always-return
         if (onSuccess) onSuccess();
         onClose();
         setToast({
-          title: "Success!",
+          title: t("common.success"),
           type: TOAST_TYPE.SUCCESS,
           message: "Members added successfully.",
         });
@@ -173,6 +174,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
 
   return (
     <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={handleSubmit(onSubmit)} className="p-5">
         <div className="space-y-5">
           <h3 className="text-16 font-medium leading-6 text-primary">
@@ -254,6 +256,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                         >
                           {Object.entries(checkCurrentOptionWorkspaceRole(watch(`members.${index}.member_id`))).map(
                             ([key, label]) => {
+                              // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
                               if (parseInt(key) > (currentProjectRole ?? EUserPermissions.GUEST)) return null;
 
                               return (

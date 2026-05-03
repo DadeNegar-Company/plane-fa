@@ -7,6 +7,7 @@
 import { useState } from "react";
 // plane imports
 import { ROLE } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import type { IWorkspaceMemberInvitation } from "@plane/types";
 import { Checkbox, Spinner } from "@plane/ui";
@@ -33,6 +34,8 @@ export function WorkspaceJoinInvitesStep(props: Props) {
   // states
   const [isJoiningWorkspaces, setIsJoiningWorkspaces] = useState(false);
   const [invitationsRespond, setInvitationsRespond] = useState<string[]>([]);
+  // hooks
+  const { t } = useTranslation();
   // store hooks
   const { fetchWorkspaces } = useWorkspace();
   const { fetchCurrentUserSettings } = useUserSettings();
@@ -59,6 +62,7 @@ export function WorkspaceJoinInvitesStep(props: Props) {
       await fetchWorkspaces();
       await fetchCurrentUserSettings();
       await handleNextStep();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);
       setIsJoiningWorkspaces(false);
@@ -67,7 +71,10 @@ export function WorkspaceJoinInvitesStep(props: Props) {
 
   return invitations && invitations.length > 0 ? (
     <div className="flex flex-col gap-10">
-      <CommonOnboardingHeader title="Join invites or create a workspace" description="All your work — unified." />
+      <CommonOnboardingHeader
+        title={t("onboarding.join_invites.title")}
+        description={t("onboarding.join_invites.description")}
+      />
       <div className="flex flex-col gap-3">
         {invitations &&
           invitations.length > 0 &&
@@ -75,6 +82,7 @@ export function WorkspaceJoinInvitesStep(props: Props) {
             const isSelected = invitationsRespond.includes(invitation.id);
             const invitedWorkspace = invitation.workspace;
             return (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
               <div
                 key={invitation.id}
                 className={`flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 border-subtle hover:bg-surface-2`}
@@ -103,10 +111,11 @@ export function WorkspaceJoinInvitesStep(props: Props) {
           variant="primary"
           size="xl"
           className="w-full"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={submitInvitations}
           disabled={isJoiningWorkspaces || !invitationsRespond.length}
         >
-          {isJoiningWorkspaces ? <Spinner height="20px" width="20px" /> : "Continue"}
+          {isJoiningWorkspaces ? <Spinner height="20px" width="20px" /> : t("onboarding.common.continue")}
         </Button>
         <Button
           variant="ghost"
@@ -115,11 +124,11 @@ export function WorkspaceJoinInvitesStep(props: Props) {
           onClick={handleCurrentViewChange}
           disabled={isJoiningWorkspaces}
         >
-          Create new workspace
+          {t("onboarding.join_invites.create_new_workspace")}
         </Button>
       </div>
     </div>
   ) : (
-    <div>No Invitations found</div>
+    <div>{t("onboarding.join_invites.no_invitations")}</div>
   );
 }

@@ -12,6 +12,7 @@ import { CopyIcon, EditIcon, TrashIcon } from "@plane/propel/icons";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
 import type { ILinkDetails } from "@plane/types";
+import { useTranslation } from "@plane/i18n";
 // plane ui
 import { getIconForLink, copyTextToClipboard, calculateTimeAgo } from "@plane/utils";
 // helpers
@@ -30,6 +31,7 @@ type Props = {
 export const ModulesLinksListItem = observer(function ModulesLinksListItem(props: Props) {
   const { handleDeleteLink, handleEditLink, isEditingAllowed, link } = props;
   // store hooks
+  const { t } = useTranslation();
   const { getUserDetails } = useMember();
   // derived values
   const createdByDetails = getUserDetails(link.created_by);
@@ -39,11 +41,12 @@ export const ModulesLinksListItem = observer(function ModulesLinksListItem(props
   const Icon = getIconForLink(link.url);
 
   const copyToClipboard = (text: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises, promise/catch-or-return
     copyTextToClipboard(text).then(() =>
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Copied to clipboard",
-        message: "The URL has been successfully copied to your clipboard",
+        title: t("common.copied"),
+        message: t("common.url_copied_to_clipboard"),
       })
     );
   };

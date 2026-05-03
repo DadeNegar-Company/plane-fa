@@ -41,7 +41,7 @@ export const DeleteGlobalViewModal = observer(function DeleteGlobalViewModal(pro
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Error!",
+        title: t("common.error.label"),
         message: "Failed to delete the view. Please try again.",
       });
     }
@@ -55,6 +55,7 @@ export const DeleteGlobalViewModal = observer(function DeleteGlobalViewModal(pro
   return (
     <AlertModalCore
       handleClose={handleClose}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       handleSubmit={handleDeletion}
       isSubmitting={isDeleteLoading}
       isOpen={isOpen}

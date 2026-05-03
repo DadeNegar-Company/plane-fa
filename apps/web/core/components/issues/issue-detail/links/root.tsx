@@ -6,6 +6,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 
+import { useTranslation } from "@plane/i18n";
 import { PlusIcon } from "@plane/propel/icons";
 // plane imports
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -35,6 +36,7 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
   const { workspaceSlug, projectId, issueId, disabled = false } = props;
   // hooks
   const { toggleIssueLinkModal: toggleIssueLinkModalStore, createLink, updateLink, removeLink } = useIssueDetail();
+  const { t } = useTranslation();
   // state
   const [isIssueLinkModal, setIsIssueLinkModal] = useState(false);
   const toggleIssueLinkModal = useCallback(
@@ -57,8 +59,10 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
             title: "Link created",
           });
           toggleIssueLinkModal(false);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
           setToast({
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
             message: error?.data?.error ?? "The link could not be created",
             type: TOAST_TYPE.ERROR,
             title: "Link not created",
@@ -122,7 +126,7 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
 
       <div className="py-1 text-11">
         <div className="flex items-center justify-between gap-2">
-          <h4>Links</h4>
+          <h4>{t("common.links")}</h4>
           {!disabled && (
             <button
               type="button"

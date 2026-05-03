@@ -4,9 +4,11 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import { useState } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { SearchIcon, CloseIcon } from "@plane/propel/icons";
 // hooks
 import { useLabel } from "@/hooks/store/use-label";
@@ -18,16 +20,20 @@ import { FilterDate } from "./date";
 import { FilterLabels } from "./labels";
 import { FilterMember } from "./members";
 import { FilterPriority } from "./priority";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FilterState } from "./state";
 import { FilterStatus } from "./status";
 
 export const InboxIssueFilterSelection = observer(function InboxIssueFilterSelection() {
+  // plane hooks
+  const { t } = useTranslation();
   // hooks
   const { isMobile } = usePlatformOS();
   const {
     project: { projectMemberIds },
   } = useMember();
   const { projectLabels } = useLabel();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { projectStates } = useProjectState();
   // states
   const [filtersSearchQuery, setFiltersSearchQuery] = useState("");
@@ -40,9 +46,10 @@ export const InboxIssueFilterSelection = observer(function InboxIssueFilterSelec
           <input
             type="text"
             className="w-full bg-surface-2 outline-none placeholder:text-placeholder"
-            placeholder="Search"
+            placeholder={t("common.search.label")}
             value={filtersSearchQuery}
             onChange={(e) => setFiltersSearchQuery(e.target.value)}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!isMobile}
           />
           {filtersSearchQuery !== "" && (

@@ -5,6 +5,7 @@
  */
 
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import {
   StatePropertyIcon,
   MembersPropertyIcon,
@@ -44,6 +45,7 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
     props;
 
   const router = useAppRouter();
+  const { t } = useTranslation();
   // store hooks
   const { currentProjectDetails } = useProject();
 
@@ -63,14 +65,14 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
   return (
     <div className="flex w-full flex-col divide-y-2 divide-subtle-1">
       <div className="w-full overflow-y-auto">
-        <h5 className="text-body-sm-medium mb-2">Properties</h5>
+        <h5 className="text-body-sm-medium mb-2">{t("common.properties")}</h5>
         <div className={`divide-y-2 divide-subtle-1 ${!isEditable ? "opacity-60" : ""}`}>
           <div className="flex flex-col gap-3">
             {/* Intake State */}
             <div className="flex h-8 items-center gap-2">
               <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-13 text-tertiary">
                 <StatePropertyIcon className="h-4 w-4 flex-shrink-0" />
-                <span>State</span>
+                <span>{t("common.state")}</span>
               </div>
               {issue?.state_id && (
                 <DropdownComponent
@@ -91,16 +93,17 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
             <div className="flex h-8 items-center gap-2">
               <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-13 text-tertiary">
                 <MembersPropertyIcon className="h-4 w-4 flex-shrink-0" />
-                <span>Assignees</span>
+                <span>{t("common.assignees")}</span>
               </div>
               <MemberDropdown
                 value={issue?.assignee_ids ?? []}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onChange={(val) =>
                   issue?.id && issueOperations.update(workspaceSlug, projectId, issue?.id, { assignee_ids: val })
                 }
                 disabled={!isEditable}
                 projectId={projectId?.toString() ?? ""}
-                placeholder="Add assignees"
+                placeholder={t("common.add_assignees")}
                 multiple
                 buttonVariant={
                   (issue?.assignee_ids || [])?.length > 0 ? "transparent-without-text" : "transparent-with-text"
@@ -119,10 +122,11 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
             <div className="flex h-8 items-center gap-2">
               <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-13 text-tertiary">
                 <PriorityPropertyIcon className="h-4 w-4 flex-shrink-0" />
-                <span>Priority</span>
+                <span>{t("common.priority")}</span>
               </div>
               <PriorityDropdown
                 value={issue?.priority}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onChange={(val) =>
                   issue?.id && issueOperations.update(workspaceSlug, projectId, issue?.id, { priority: val })
                 }
@@ -141,11 +145,12 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
             <div className="flex h-8 items-center gap-2">
               <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-13 text-tertiary">
                 <DueDatePropertyIcon className="h-4 w-4 flex-shrink-0" />
-                <span>Due date</span>
+                <span>{t("due_date")}</span>
               </div>
               <DateDropdown
-                placeholder="Add due date"
+                placeholder={t("common.add_due_date")}
                 value={issue.target_date || null}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onChange={(val) =>
                   issue?.id &&
                   issueOperations.update(workspaceSlug, projectId, issue?.id, {
@@ -166,7 +171,7 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
             <div className="flex min-h-8 items-center gap-2">
               <div className="flex w-2/5 flex-shrink-0 items-center gap-1 text-13 text-tertiary">
                 <LabelPropertyIcon className="h-4 w-4 flex-shrink-0" />
-                <span>Labels</span>
+                <span>{t("common.labels")}</span>
               </div>
               <div className="w-3/5 flex-grow min-h-8 h-full pt-1">
                 {issue?.id && (
@@ -176,6 +181,7 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
                     issueId={issue?.id}
                     disabled={!isEditable}
                     isInboxIssue
+                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
                     onLabelUpdate={(val: string[]) =>
                       issue?.id && issueOperations.update(workspaceSlug, projectId, issue?.id, { label_ids: val })
                     }
@@ -189,7 +195,7 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
               <div className="flex min-h-8 gap-2">
                 <div className="flex w-2/5 flex-shrink-0 gap-1 pt-2 text-13 text-tertiary">
                   <DuplicatePropertyIcon className="h-4 w-4 flex-shrink-0" />
-                  <span>Duplicate of</span>
+                  <span>{t("common.duplicate_of")}</span>
                 </div>
 
                 <ControlLink

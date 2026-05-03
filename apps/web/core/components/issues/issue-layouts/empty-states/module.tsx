@@ -52,14 +52,14 @@ export const ModuleEmptyState = observer(function ModuleEmptyState() {
       .then(() =>
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Success!",
+          title: t("common.success"),
           message: "Work items added to the module successfully.",
         })
       )
       .catch(() =>
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "Error!",
+          title: t("common.error.label"),
           message: "Selected work items could not be added to the module. Please try again.",
         })
       );
@@ -84,6 +84,7 @@ export const ModuleEmptyState = observer(function ModuleEmptyState() {
             actions={[
               {
                 label: "Clear filters",
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onClick: moduleWorkItemFilter?.clearFilters,
                 disabled: !canPerformEmptyStateActions || !moduleWorkItemFilter,
                 variant: "secondary",
