@@ -222,7 +222,7 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
                   }
                   disabled={issue.project_id === projectId}
                 >
-                  <div className="flex-shrink-0 grid place-items-center w-3.5 absolute left-1">
+                  <div className="flex-shrink-0 grid place-items-center w-3.5 absolute start-1">
                     <MultipleSelectEntityAction
                       className={cn(
                         "opacity-0 pointer-events-none group-hover/list-block:opacity-100 group-hover/list-block:pointer-events-auto transition-opacity",
@@ -271,7 +271,7 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
               </div>
 
               {issue?.tempId !== undefined && (
-                <div className="absolute left-0 top-0 z-[99999] h-full w-full animate-pulse bg-surface-1/20" />
+                <div className="absolute start-0 top-0 z-[99999] h-full w-full animate-pulse bg-surface-1/20" />
               )}
             </div>
 
@@ -292,7 +292,7 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
                 displayPropertyKey="sub_issue_count"
                 shouldRenderProperty={(properties) => !!properties.sub_issue_count}
               >
-                <IssueStats issueId={issue.id} className="ml-2 text-body-xs-medium text-tertiary" />
+                <IssueStats issueId={issue.id} className="ms-2 text-body-xs-medium text-tertiary" />
               </WithDisplayPropertiesHOC>
             )}
           </div>

@@ -83,7 +83,7 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
         {!isSearchOpen && (
           <button
             type="button"
-            className="-mr-5 p-2 hover:bg-layer-1 rounded-sm text-placeholder grid place-items-center"
+            className="-me-5 p-2 hover:bg-layer-1 rounded-sm text-placeholder grid place-items-center"
             onClick={() => {
               setIsSearchOpen(true);
               inputRef.current?.focus();
@@ -94,7 +94,7 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
         )}
         <div
           className={cn(
-            "ml-auto flex items-center justify-start gap-1 rounded-md border border-transparent bg-surface-1 text-placeholder w-0 transition-[width] ease-linear overflow-hidden opacity-0",
+            "ms-auto flex items-center justify-start gap-1 rounded-md border border-transparent bg-surface-1 text-placeholder w-0 transition-[width] ease-linear overflow-hidden opacity-0",
             {
               "w-64 px-2.5 py-1.5 border-subtle opacity-100": isSearchOpen,
             }
@@ -124,7 +124,7 @@ export const ArchivedCyclesHeader = observer(function ArchivedCyclesHeader() {
         </div>
         <FiltersDropdown
           icon={<ListFilter className="h-3 w-3" />}
-          title="Filters"
+          title={t("common.filters")}
           placement="bottom-end"
           isFiltersApplied={isFiltersApplied}
         >

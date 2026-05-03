@@ -121,7 +121,7 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
     <>
       <Combobox
         as="div"
-        className="size-full flex-shrink-0 text-left"
+        className="size-full flex-shrink-0 text-start"
         value={issueLabels}
         onChange={(value) => onSelect(value)}
         multiple
@@ -160,7 +160,7 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
                 />
               </div>
             </div>
-            <div className={`vertical-scrollbar scrollbar-sm mt-2 max-h-48 space-y-1 overflow-y-scroll px-2 pr-0`}>
+            <div className={`vertical-scrollbar scrollbar-sm mt-2 max-h-48 space-y-1 overflow-y-scroll px-2 pe-0`}>
               {isLoading ? (
                 <p className="text-center text-secondary">{t("common.loading")}</p>
               ) : filteredOptions.length > 0 ? (
@@ -197,7 +197,7 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
                     if (!query.length) return;
                     handleAddLabel(query);
                   }}
-                  className={`text-left text-secondary ${query.length ? "cursor-pointer" : "cursor-default"}`}
+                  className={`text-start text-secondary ${query.length ? "cursor-pointer" : "cursor-default"}`}
                 >
                   {query.length ? (
                     <>
@@ -209,7 +209,7 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
                   )}
                 </Combobox.Option>
               ) : (
-                <p className="text-left text-secondary ">{t("common.search.no_matching_results")}</p>
+                <p className="text-start text-secondary ">{t("common.search.no_matching_results")}</p>
               )}
             </div>
           </div>

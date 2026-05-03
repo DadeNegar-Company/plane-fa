@@ -195,7 +195,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
 
       {isOpen && (
         <Popover.Panel
-          className="absolute right-0 z-20 mt-2 rounded-md border border-subtle bg-surface-1 shadow-raised-200"
+          className="absolute end-0 z-20 mt-2 rounded-md border border-subtle bg-surface-1 shadow-raised-200"
           static
         >
           <div
@@ -257,7 +257,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                                 <img
                                   src={image.urls.small}
                                   alt={image.alt_description}
-                                  className="absolute left-0 top-0 h-full w-full cursor-pointer rounded-sm object-cover"
+                                  className="absolute start-0 top-0 h-full w-full cursor-pointer rounded-sm object-cover"
                                 />
                               </div>
                             ))}
@@ -291,7 +291,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                         <img
                           src={imageUrl}
                           alt={`Cover image ${index + 1}`}
-                          className="absolute left-0 top-0 h-full w-full cursor-pointer rounded-sm object-cover hover:opacity-80 transition-opacity"
+                          className="absolute start-0 top-0 h-full w-full cursor-pointer rounded-sm object-cover hover:opacity-80 transition-opacity"
                         />
                       </div>
                     ))}
@@ -310,7 +310,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                       >
                         <button
                           type="button"
-                          className="absolute right-0 top-0 z-40 -translate-y-1/2 rounded-sm bg-surface-2 px-2 py-0.5 text-11 font-medium text-secondary"
+                          className="absolute end-0 top-0 z-40 -translate-y-1/2 rounded-sm bg-surface-2 px-2 py-0.5 text-11 font-medium text-secondary"
                         >
                           Edit
                         </button>

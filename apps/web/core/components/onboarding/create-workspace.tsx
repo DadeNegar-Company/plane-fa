@@ -129,7 +129,7 @@ export const CreateWorkspace = observer(function CreateWorkspace(props: Props) {
       <form className="w-full mx-auto mt-2 space-y-4" onSubmit={handleSubmit(handleCreateWorkspace)}>
         <div className="space-y-1">
           <label
-            className="text-13 text-tertiary font-medium after:content-['*'] after:ml-0.5 after:text-danger-primary"
+            className="text-13 text-tertiary font-medium after:content-['*'] after:ms-0.5 after:text-danger-primary"
             htmlFor="name"
           >
             {t("workspace_creation.form.name.label")}
@@ -172,7 +172,7 @@ export const CreateWorkspace = observer(function CreateWorkspace(props: Props) {
         </div>
         <div className="space-y-1">
           <label
-            className="text-13 text-tertiary font-medium after:content-['*'] after:ml-0.5 after:text-danger-primary"
+            className="text-13 text-tertiary font-medium after:content-['*'] after:ms-0.5 after:text-danger-primary"
             htmlFor="slug"
           >
             {t("workspace_creation.form.url.label")}
@@ -227,7 +227,7 @@ export const CreateWorkspace = observer(function CreateWorkspace(props: Props) {
         <hr className="w-full border-strong" />
         <div className="space-y-1">
           <label
-            className="text-13 text-tertiary font-medium after:content-['*'] after:ml-0.5 after:text-danger-primary"
+            className="text-13 text-tertiary font-medium after:content-['*'] after:ms-0.5 after:text-danger-primary"
             htmlFor="organization_size"
           >
             {t("workspace_creation.form.organization_size.label")}

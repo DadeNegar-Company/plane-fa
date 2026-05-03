@@ -80,7 +80,7 @@ export function EstimateCreateStageOne(props: TEstimateCreateStageOne) {
               {t("project_settings.estimates.create.start_from_scratch")}
             </div>
             <button
-              className="border border-subtle rounded-md p-3 py-2.5 text-left space-y-1 w-full block hover:bg-layer-transparent-hover"
+              className="border border-subtle rounded-md p-3 py-2.5 text-start space-y-1 w-full block hover:bg-layer-transparent-hover"
               onClick={() => handleEstimatePoints("custom")}
             >
               <p className="text-14 font-medium">{t("project_settings.estimates.create.custom")}</p>
@@ -100,7 +100,7 @@ export function EstimateCreateStageOne(props: TEstimateCreateStageOne) {
                 currentEstimateSystem.templates[name]?.hide ? null : (
                   <button
                     key={name}
-                    className="border border-subtle rounded-md p-3 py-2.5 text-left space-y-1 hover:bg-surface-2"
+                    className="border border-subtle rounded-md p-3 py-2.5 text-start space-y-1 hover:bg-surface-2"
                     onClick={() => handleEstimatePoints(name)}
                   >
                     <p className="text-14 font-medium">{currentEstimateSystem.templates[name]?.title}</p>

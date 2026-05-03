@@ -114,7 +114,7 @@ export const CycleAnalyticsProgress = observer(function CycleAnalyticsProgress(p
                 <Disclosure.Button className="relative flex items-center gap-2 w-full">
                   <div className="font-medium text-secondary text-13">{t("project_cycles.active_cycle.progress")}</div>
                 </Disclosure.Button>
-                <Disclosure.Button className="ml-auto">
+                <Disclosure.Button className="ms-auto">
                   {open ? (
                     <ChevronUpIcon className="h-3.5 w-3.5" aria-hidden="true" />
                   ) : (

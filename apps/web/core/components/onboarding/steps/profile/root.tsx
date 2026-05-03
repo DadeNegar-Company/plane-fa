@@ -206,7 +206,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
         {/* Name Input */}
         <div className="flex flex-col gap-2">
           <label
-            className="block text-13 font-medium text-tertiary after:content-['*'] after:ml-0.5 after:text-danger-primary"
+            className="block text-13 font-medium text-tertiary after:content-['*'] after:ms-0.5 after:text-danger-primary"
             htmlFor="first_name"
           >
             {t("onboarding.profile.name_label")}

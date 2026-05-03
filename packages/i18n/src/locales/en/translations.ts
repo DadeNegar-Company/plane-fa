@@ -521,6 +521,11 @@ export default {
     filters: "Filters",
     filters_created_date: "Created date",
     display: "Display",
+    favorites: "Favorites",
+    custom: "Custom",
+    show: "Show",
+    sub_group_by: "Sub-group by",
+    last_updated_date: "Last updated date",
     load_more: "Load more",
     activity: "Activity",
     analytics: "Analytics",
@@ -3155,5 +3160,58 @@ export default {
   },
   billing_extra: {
     all_plans: "All plans",
+  },
+  editor: {
+    typography: {
+      text: "Text",
+      h1: "Heading 1",
+      h2: "Heading 2",
+      h3: "Heading 3",
+      h4: "Heading 4",
+      h5: "Heading 5",
+      h6: "Heading 6",
+    },
+    text_alignment: {
+      left: "Left align",
+      center: "Center align",
+      right: "Right align",
+    },
+    basic_marks: {
+      bold: "Bold",
+      italic: "Italic",
+      underline: "Underline",
+      strikethrough: "Strikethrough",
+    },
+    lists: {
+      numbered: "Numbered list",
+      bulleted: "Bulleted list",
+      todo: "To-do list",
+    },
+    user_action: {
+      quote: "Quote",
+      code: "Code",
+    },
+    image: "Image",
+    table: "Table",
+    font_styles: {
+      sans_serif: "Sans serif",
+      serif: "Serif",
+      mono: "Mono",
+    },
+  },
+  views_extra: {
+    not_found_title: "View does not exist",
+  },
+  project_cycles_extra: {
+    not_found_title: "Cycle does not exist",
+  },
+  project_modules_extra: {
+    not_found_title: "Module does not exist",
+  },
+  workspace_projects_extra: {
+    empty_title: "No projects yet",
+  },
+  pages_extra: {
+    not_found: "Page not found",
   },
 } as const;

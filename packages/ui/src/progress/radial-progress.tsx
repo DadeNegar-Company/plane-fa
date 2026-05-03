@@ -25,7 +25,7 @@ export function RadialProgressBar(props: IRadialProgressBar) {
 
   return (
     <div className="relative h-4 w-4">
-      <svg className="absolute left-0 top-0" viewBox="0 0 100 100">
+      <svg className="absolute start-0 top-0" viewBox="0 0 100 100">
         <circle
           className={"stroke-current opacity-10"}
           cx="50"

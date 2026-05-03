@@ -129,7 +129,7 @@ export const IssueMainContent = observer(function IssueMainContent(props: Props)
           issueOperations={issueOperations}
           disabled={isArchived || !isEditable}
           value={issue.name}
-          containerClassName="-ml-3"
+          containerClassName="-ms-3"
         />
 
         <DescriptionInput

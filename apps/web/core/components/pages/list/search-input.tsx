@@ -47,7 +47,7 @@ export function PageSearchInput(props: Props) {
         <IconButton
           variant="ghost"
           size="lg"
-          className="shrink-0 my-auto -mr-1"
+          className="shrink-0 my-auto -me-1"
           onClick={() => {
             setIsSearchOpen(true);
             inputRef.current?.focus();
@@ -66,7 +66,7 @@ export function PageSearchInput(props: Props) {
         <SearchIcon className="h-3.5 w-3.5" />
         <input
           ref={inputRef}
-          className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none ml-2"
+          className="w-full max-w-[234px] border-none bg-transparent text-13 text-primary placeholder:text-placeholder focus:outline-none ms-2"
           placeholder={t("common.search.label")}
           value={searchQuery}
           onChange={(e) => updateSearchQuery(e.target.value)}

@@ -166,7 +166,7 @@ export const RelationIssueListItem = observer(function RelationIssueListItem(pro
                 issueServiceType={issueServiceType}
               />
             </div>
-            <div className="pl-2 flex-shrink-0 text-13">
+            <div className="ps-2 flex-shrink-0 text-13">
               <CustomMenu placement="bottom-end" ellipsis>
                 {!disabled && (
                   <CustomMenu.MenuItem onClick={handleEditIssue}>

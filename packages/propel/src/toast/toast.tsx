@@ -123,14 +123,14 @@ function ToastRender({ id, toast }: { id: React.Key; toast: BaseToast.Root.Toast
       className={cn(
         // Base layout and positioning
         "flex group items-center rounded-lg border shadow-raised-200 w-[350px]",
-        "absolute right-3 bottom-3 z-[calc(1000-var(--toast-index))]",
+        "absolute end-3 bottom-3 z-[calc(1000-var(--toast-index))]",
         "select-none transition-[opacity,transform] duration-500 ease-&lsqb;cubic-bezier(0.22,1,0.36,1)&rsqb;",
 
         // Default transform with stacking and scaling
         "[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+calc(min(var(--toast-index),10)*-10px)))_scale(calc(max(0,1-(var(--toast-index)*0.1))))]",
 
         // Pseudo-element for gap spacing
-        "after:absolute after:bottom-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-['']",
+        "after:absolute after:bottom-full after:start-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-['']",
 
         // State-based opacity
         "data-[ending-style]:opacity-0 data-[limited]:opacity-0",
@@ -163,7 +163,7 @@ function ToastRender({ id, toast }: { id: React.Key; toast: BaseToast.Root.Toast
         e.preventDefault();
       }}
     >
-      <BaseToast.Close className="absolute top-3 right-3 text-icon-secondary hover:text-icon-tertiary cursor-pointer">
+      <BaseToast.Close className="absolute top-3 end-3 text-icon-secondary hover:text-icon-tertiary cursor-pointer">
         <CloseIcon strokeWidth={1.5} width={16} height={16} />
       </BaseToast.Close>
       <div className="flex items-start gap-2 w-full p-4">
@@ -217,7 +217,7 @@ export function ToastStatic({ type, title, message, actionItems, theme = "light"
           data.borderColorClassName
         )}
       >
-        <div className="absolute top-1 right-1 text-icon-tertiary cursor-default">
+        <div className="absolute top-1 end-1 text-icon-tertiary cursor-default">
           <CloseIcon strokeWidth={1.5} width={14} height={14} />
         </div>
         <div className="flex items-start gap-3 w-full p-4">

@@ -8,6 +8,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Palette } from "lucide-react";
 // editor
 import type { EditorRefApi } from "@plane/editor";
+// i18n
+import { useTranslation } from "@plane/i18n";
 // ui
 import { useOutsideClickDetector } from "@plane/hooks";
 import { TrashIcon } from "@plane/propel/icons";
@@ -31,6 +33,7 @@ const toolbarItems = TOOLBAR_ITEMS.sticky;
 
 export function StickyEditorToolbar(props: Props) {
   const { executeCommand, editorRef, handleColorChange, handleDelete } = props;
+  const { t } = useTranslation();
 
   // State to manage active states of toolbar items
   const [activeStates, setActiveStates] = useState<Record<string, boolean>>({});
@@ -92,7 +95,7 @@ export function StickyEditorToolbar(props: Props) {
                       key={item.renderKey}
                       tooltipContent={
                         <p className="flex flex-col gap-1 text-center text-11">
-                          <span className="font-medium">{item.name}</span>
+                          <span className="font-medium">{t(item.i18n_name)}</span>
                           {item.shortcut && <kbd className="text-placeholder">{item.shortcut.join(" + ")}</kbd>}
                         </p>
                       }

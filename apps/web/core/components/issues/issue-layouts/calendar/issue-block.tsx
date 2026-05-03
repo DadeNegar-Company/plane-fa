@@ -104,7 +104,7 @@ export const CalendarIssueBlock = observer(
             >
               <>
                 {issue?.tempId !== undefined && (
-                  <div className="absolute left-0 top-0 z-[99999] h-full w-full animate-pulse bg-surface-1/20" />
+                  <div className="absolute start-0 top-0 z-[99999] h-full w-full animate-pulse bg-surface-1/20" />
                 )}
 
                 <div

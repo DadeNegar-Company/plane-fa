@@ -113,7 +113,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
                 <>
                   <button
                     type="button"
-                    className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2 rounded-sm bg-surface-2 px-2 py-0.5 text-11 font-medium text-secondary"
+                    className="absolute end-0 top-0 z-40 -translate-y-1/2 translate-x-1/2 rounded-sm bg-surface-2 px-2 py-0.5 text-11 font-medium text-secondary"
                   >
                     Edit
                   </button>
@@ -121,7 +121,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
                   <img
                     src={image ? URL.createObjectURL(image) : value ? getFileURL(value) : ""}
                     alt="image"
-                    className="absolute left-0 top-0 h-full w-full rounded-md object-cover"
+                    className="absolute start-0 top-0 h-full w-full rounded-md object-cover"
                   />
                 </>
               ) : (

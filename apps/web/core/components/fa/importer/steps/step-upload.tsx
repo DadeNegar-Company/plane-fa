@@ -134,7 +134,10 @@ function PreviewSection({ data }: { data: TUploadResponse }) {
             <thead>
               <tr className="bg-layer-3">
                 {data.detected_columns.map((col: string) => (
-                  <th key={col} className="whitespace-nowrap px-3 py-2 text-left text-caption-md-medium text-secondary">
+                  <th
+                    key={col}
+                    className="whitespace-nowrap px-3 py-2 text-start text-caption-md-medium text-secondary"
+                  >
                     {col}
                   </th>
                 ))}

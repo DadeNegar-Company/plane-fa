@@ -99,7 +99,7 @@ export const NoProjectsEmptyState = observer(function NoProjectsEmptyState() {
             <span className="relative flex size-4 items-center justify-center rounded-full p-4 capitalize text-on-color">
               <img
                 src={getFileURL(currentUser?.avatar_url)}
-                className="absolute left-0 top-0 h-full w-full rounded-full object-cover"
+                className="absolute start-0 top-0 h-full w-full rounded-full object-cover"
                 alt={currentUser?.display_name || currentUser?.email}
               />
             </span>
@@ -190,7 +190,7 @@ export const NoProjectsEmptyState = observer(function NoProjectsEmptyState() {
                 ) : (
                   <button
                     type="button"
-                    className="text-accent-primary hover:text-accent-secondary text-13 font-medium text-left"
+                    className="text-accent-primary hover:text-accent-secondary text-13 font-medium text-start"
                     onClick={item.cta.onClick}
                   >
                     {t(item.cta.text)}

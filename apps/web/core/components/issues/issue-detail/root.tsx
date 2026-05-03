@@ -252,10 +252,12 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
           </div>
           <div
             className={cn(
-              "flex h-full flex-col border-l border-subtle bg-surface-1 transition-all duration-300",
+              // [FA-CUSTOM] Issue detail panel anchors to the end edge (right in LTR,
+              // left in RTL) with the separator (border-s) on the side facing content.
+              "flex h-full flex-col border-s border-subtle bg-surface-1 transition-all duration-300",
               issueDetailSidebarCollapsed
-                ? "w-0 min-w-0 overflow-hidden border-l-0"
-                : "fixed right-0 z-[5] w-full min-w-[300px] sm:w-1/2 md:relative md:w-1/4 lg:min-w-80 xl:min-w-96"
+                ? "w-0 min-w-0 overflow-hidden border-s-0"
+                : "fixed end-0 z-[5] w-full min-w-[300px] sm:w-1/2 md:relative md:w-1/4 lg:min-w-80 xl:min-w-96"
             )}
           >
             <IssueDetailsSidebar

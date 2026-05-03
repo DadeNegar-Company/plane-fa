@@ -54,7 +54,7 @@ export const ModuleDescriptionBanner = observer(function ModuleDescriptionBanner
         {!hasDescription && !isExpanded && (
           <span className="text-placeholder text-11">{t("common.click_to_add_description")}</span>
         )}
-        <div className="ml-auto">
+        <div className="ms-auto">
           {isExpanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
         </div>
       </button>

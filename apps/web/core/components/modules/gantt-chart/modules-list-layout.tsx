@@ -6,6 +6,8 @@
 
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
+// i18n
+import { useTranslation } from "@plane/i18n";
 // PLane
 import { GANTT_TIMELINE_TYPE } from "@plane/types";
 import type { IBlockUpdateData, IBlockUpdateDependencyData, IModule } from "@plane/types";

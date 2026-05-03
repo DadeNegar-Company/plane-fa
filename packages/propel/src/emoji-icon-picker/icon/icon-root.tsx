@@ -49,7 +49,7 @@ export function IconRoot(props: IconRootProps) {
               onFocus={() => setIsInputFocused(true)}
               onBlur={() => setIsInputFocused(false)}
             >
-              <SearchIcon className="absolute left-2.5 bottom-3 h-3.5 w-3.5 text-placeholder" />
+              <SearchIcon className="absolute start-2.5 bottom-3 h-3.5 w-3.5 text-placeholder" />
 
               <input
                 placeholder="Search"
@@ -62,15 +62,15 @@ export function IconRoot(props: IconRootProps) {
         )}
         <div className="grid grid-cols-9 gap-2 items-center justify-items-center px-2.5 py-1 h-9">
           {showHexInput ? (
-            <div className="col-span-8 flex items-center gap-1 justify-self-stretch ml-2">
+            <div className="col-span-8 flex items-center gap-1 justify-self-stretch ms-2">
               <span
-                className="h-4 w-4 flex-shrink-0 rounded-full mr-1"
+                className="h-4 w-4 flex-shrink-0 rounded-full me-1"
                 style={{
                   backgroundColor: `#${hexValue}`,
                 }}
               />
               <span className="text-11 text-tertiary flex-shrink-0">HEX</span>
-              <span className="text-11 text-secondary flex-shrink-0 -mr-1">#</span>
+              <span className="text-11 text-secondary flex-shrink-0 -me-1">#</span>
               <input
                 type="text"
                 value={hexValue}
@@ -79,7 +79,7 @@ export function IconRoot(props: IconRootProps) {
                   setHexValue(value);
                   if (/^[0-9A-Fa-f]{6}$/.test(value)) setActiveColor(adjustColorForContrast(`#${value}`));
                 }}
-                className="block placeholder-(--text-color-placeholder) focus:outline-none px-3 py-2 border-[0.5px] border-subtle flex-grow pl-0 text-11 text-secondary rounded-sm border-none bg-transparent ring-0"
+                className="block placeholder-(--text-color-placeholder) focus:outline-none px-3 py-2 border-[0.5px] border-subtle flex-grow ps-0 text-11 text-secondary rounded-sm border-none bg-transparent ring-0"
                 autoFocus
               />
             </div>
@@ -115,7 +115,7 @@ export function IconRoot(props: IconRootProps) {
             )}
           </button>
         </div>
-        <div className="flex items-center gap-2 w-full pl-4 pr-3 py-1 h-6">
+        <div className="flex items-center gap-2 w-full ps-4 pe-3 py-1 h-6">
           <InfoIcon className="h-3 w-3" />
           <p className="text-11"> Colors will be adjusted to ensure sufficient contrast.</p>
         </div>

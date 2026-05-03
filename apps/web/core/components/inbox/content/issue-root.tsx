@@ -169,7 +169,7 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
           issueOperations={issueOperations}
           disabled={!isEditable}
           value={issue.name}
-          containerClassName="-ml-3"
+          containerClassName="-ms-3"
         />
 
         {loader === "issue-loading" || issue.description_html === undefined ? (
@@ -177,7 +177,7 @@ export const InboxIssueMainContent = observer(function InboxIssueMainContent(pro
         ) : (
           <DescriptionInput
             issueSequenceId={issue.sequence_id}
-            containerClassName="-ml-3 border-none"
+            containerClassName="-ms-3 border-none"
             disabled={!isEditable}
             editorRef={editorRef}
             entityId={issue.id}

@@ -227,7 +227,7 @@ function CustomMenu(props: ICustomMenuDropdownProps) {
       as="div"
       ref={dropdownRef}
       tabIndex={tabIndex}
-      className={cn("relative w-min text-left", className)}
+      className={cn("relative w-min text-start", className)}
       onKeyDownCapture={handleKeyDown}
       onClick={(e) => {
         e.stopPropagation();
@@ -400,7 +400,7 @@ function SubMenu(props: ICustomSubMenuProps) {
           {({ active }) => (
             <div
               className={cn(
-                "w-full select-none rounded-sm px-1 py-1.5 text-left text-secondary flex items-center justify-between cursor-pointer",
+                "w-full select-none rounded-sm px-1 py-1.5 text-start text-secondary flex items-center justify-between cursor-pointer",
                 {
                   "bg-layer-transparent-hover": active && !disabled,
                   "text-placeholder": disabled,
@@ -462,7 +462,7 @@ function MenuItem(props: ICustomMenuItemProps) {
         <button
           type="button"
           className={cn(
-            "w-full select-none truncate rounded-sm px-1 py-1.5 text-left text-secondary",
+            "w-full select-none truncate rounded-sm px-1 py-1.5 text-start text-secondary",
             {
               "bg-layer-transparent-hover": active && !disabled,
               "text-placeholder": disabled,
@@ -492,7 +492,7 @@ function SubMenuTrigger(props: ICustomSubMenuTriggerProps) {
       {({ active }) => (
         <div
           className={cn(
-            "w-full select-none rounded-sm px-1 py-1.5 text-left text-secondary flex items-center justify-between",
+            "w-full select-none rounded-sm px-1 py-1.5 text-start text-secondary flex items-center justify-between",
             {
               "bg-layer-transparent-hover": active && !disabled,
               "text-placeholder": disabled,

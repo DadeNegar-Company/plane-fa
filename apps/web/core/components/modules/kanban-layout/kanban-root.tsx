@@ -64,7 +64,7 @@ const SubGroupColumn = observer(function SubGroupColumn({
               <div className="flex items-center gap-1.5 px-1 py-0.5 text-11 font-medium text-tertiary">
                 {sg.icon && <span className="flex h-3 w-3 items-center justify-center">{sg.icon}</span>}
                 <span className="truncate">{sg.name}</span>
-                <span className="ml-auto">{moduleIds.length}</span>
+                <span className="ms-auto">{moduleIds.length}</span>
               </div>
               {moduleIds.map((id) => (
                 <div key={id} className="rounded-sm">
@@ -145,7 +145,7 @@ export const ModuleKanbanRoot = observer(function ModuleKanbanRoot(props: Props)
           >
             {group.name}
           </div>
-          <div className={`flex-shrink-0 text-13 font-medium text-tertiary ${isCollapsed ? "pr-0.5" : "pl-2"}`}>
+          <div className={`flex-shrink-0 text-13 font-medium text-tertiary ${isCollapsed ? "pe-0.5" : "ps-2"}`}>
             {itemCount}
           </div>
         </div>

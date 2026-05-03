@@ -215,7 +215,7 @@ export const ComplexMenu: Story = {
           <div className="flex items-center gap-2">
             <Bell className="h-4 w-4" />
             <span>Notifications</span>
-            <span className="ml-auto rounded-sm bg-red-500 px-2 py-0.5 text-11 text-on-color">3</span>
+            <span className="ms-auto rounded-sm bg-red-500 px-2 py-0.5 text-11 text-on-color">3</span>
           </div>
         </Menu.MenuItem>
         <Menu.MenuItem onClick={() => alert("Help")}>

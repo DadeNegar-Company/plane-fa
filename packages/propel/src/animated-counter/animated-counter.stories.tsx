@@ -284,7 +284,7 @@ export const InBadge: Story = {
         <div className="flex flex-col items-center gap-4">
           <div className="relative">
             <button className="px-4 py-2 bg-layer-1 border border-subtle rounded-lg">Notifications</button>
-            <div className="absolute -top-2 -right-2 min-w-[24px] h-6 flex items-center justify-center bg-red-500 text-on-color rounded-full px-1.5">
+            <div className="absolute -top-2 -end-2 min-w-[24px] h-6 flex items-center justify-center bg-red-500 text-on-color rounded-full px-1.5">
               <AnimatedCounter count={notifications} size="sm" className="text-11 font-medium" />
             </div>
           </div>

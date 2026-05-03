@@ -6,6 +6,8 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import type { EditorRefApi } from "@plane/editor";
+// i18n
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import { CheckIcon, ChevronDownIcon } from "@plane/propel/icons";
 import { Tooltip } from "@plane/propel/tooltip";
@@ -29,12 +31,13 @@ type ToolbarButtonProps = {
 
 const ToolbarButton = React.memo(function ToolbarButton(props: ToolbarButtonProps) {
   const { item, isActive, executeCommand } = props;
+  const { t } = useTranslation();
 
   return (
     <Tooltip
       tooltipContent={
         <p className="flex flex-col gap-1 text-center text-11">
-          <span className="font-medium">{item.name}</span>
+          <span className="font-medium">{t(item.i18n_name)}</span>
           {item.shortcut && <kbd className="text-placeholder">{item.shortcut.join(" + ")}</kbd>}
         </p>
       }
@@ -70,6 +73,7 @@ const toolbarItems = TOOLBAR_ITEMS.document;
 
 export function PageToolbar(props: Props) {
   const { editorRef } = props;
+  const { t } = useTranslation();
   // states
   const [activeStates, setActiveStates] = useState<Record<string, boolean>>(() => {
     const initialStates: Record<string, boolean> = {};
@@ -121,18 +125,18 @@ export function PageToolbar(props: Props) {
         customButton={
           <span
             className={cn(
-              "text-13 border-[0.5px] border-strong h-7 w-24 rounded-sm px-2 flex items-center justify-between gap-2 whitespace-nowrap text-left",
+              "text-13 border-[0.5px] border-strong h-7 w-24 rounded-sm px-2 flex items-center justify-between gap-2 whitespace-nowrap text-start",
               {
                 "bg-layer-1-selected text-primary": isTypographyMenuOpen,
                 "text-tertiary hover:bg-layer-1-hover": !isTypographyMenuOpen,
               }
             )}
           >
-            {activeTypography?.name || "Text"}
+            {activeTypography ? t(activeTypography.i18n_name) : t("editor.typography.text")}
             <ChevronDownIcon className="shrink-0 size-3" />
           </span>
         }
-        className="pr-2"
+        className="pe-2"
         placement="bottom-start"
         closeOnSelect
         maxHeight="lg"
@@ -157,7 +161,7 @@ export function PageToolbar(props: Props) {
           >
             <span className="flex items-center gap-2">
               <item.icon className="size-3" />
-              {item.name}
+              {t(item.i18n_name)}
             </span>
             {activeTypography?.itemKey === item.itemKey && <CheckIcon className="size-3 text-tertiary shrink-0" />}
           </CustomMenu.MenuItem>
@@ -180,7 +184,7 @@ export function PageToolbar(props: Props) {
         />
       </div>
       {Object.keys(toolbarItems).map((key) => (
-        <div key={key} className="flex items-center gap-0.5 px-2 first:pl-0 last:pr-0">
+        <div key={key} className="flex items-center gap-0.5 px-2 first:ps-0 last:pe-0">
           {toolbarItems[key].map((item) => (
             <ToolbarButton
               key={item.renderKey}

@@ -310,7 +310,7 @@ export function ModuleForm(props: Props) {
                     fullHeight
                     hideDropdownArrow
                     label={
-                      <span className="flex-grow truncate text-left text-body-xs-medium">
+                      <span className="flex-grow truncate text-start text-body-xs-medium">
                         {value && value.length > 0 ? (
                           <span>{`${value.length} ${t("labels")}`}</span>
                         ) : (

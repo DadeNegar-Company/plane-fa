@@ -50,7 +50,7 @@ export const ProfileSettingsModal = observer(function ProfileSettingsModal() {
           />
           <ProfileSettingsContent activeTab={activeTab} className="flex-1 rounded-r-xl" />
         </div>
-        <div className="absolute top-3.5 right-3.5">
+        <div className="absolute top-3.5 end-3.5">
           <IconButton size="base" variant="tertiary" icon={X} onClick={handleClose} />
         </div>
       </div>

@@ -64,7 +64,7 @@ export function NameColumn(props: NameProps) {
                   <span className="relative flex size-6 items-center justify-center rounded-full capitalize text-on-color">
                     <img
                       src={getFileURL(avatar_url)}
-                      className="absolute left-0 top-0 h-full w-full rounded-full object-cover"
+                      className="absolute start-0 top-0 h-full w-full rounded-full object-cover"
                       alt={display_name || email}
                     />
                   </span>

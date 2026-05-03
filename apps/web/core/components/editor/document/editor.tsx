@@ -101,7 +101,7 @@ export const DocumentEditor = forwardRef(function DocumentEditor(
       }}
       extendedEditorProps={extendedEditorProps}
       {...rest}
-      containerClassName={cn("relative px-3 pb-3", containerClassName)} // [FA-CUSTOM] was: pl-3 — symmetric padding for RTL support
+      containerClassName={cn("relative px-3 pb-3", containerClassName)} // [FA-CUSTOM] was: ps-3 — symmetric padding for RTL support
     />
   );
 });

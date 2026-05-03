@@ -61,8 +61,8 @@ export function StepAssigneeMapping({ wizard }: Props) {
         <table className="min-w-full">
           <thead>
             <tr className="bg-layer-3">
-              <th className="px-4 py-2 text-left text-caption-md-medium text-secondary">Name in File</th>
-              <th className="px-4 py-2 text-left text-caption-md-medium text-secondary">Project Member</th>
+              <th className="px-4 py-2 text-start text-caption-md-medium text-secondary">Name in File</th>
+              <th className="px-4 py-2 text-start text-caption-md-medium text-secondary">Project Member</th>
             </tr>
           </thead>
           <tbody>

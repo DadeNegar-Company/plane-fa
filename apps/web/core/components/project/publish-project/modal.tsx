@@ -210,7 +210,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
           <div className="px-5 space-y-4">
             {isProjectPublished && projectPublishSettings && (
               <>
-                <div className="border border-strong rounded-md py-1.5 pl-4 pr-1 flex items-center justify-between gap-2">
+                <div className="border border-strong rounded-md py-1.5 ps-4 pe-1 flex items-center justify-between gap-2">
                   <a
                     href={publishLink}
                     className="text-13 text-secondary truncate"

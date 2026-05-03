@@ -70,7 +70,7 @@ export function FiltersDropdown(props: Props) {
                         <span>{title}</span>
                       </div>
                       {isFiltersApplied && (
-                        <span className="absolute h-2 w-2 -right-0.5 -top-0.5 bg-accent-primary rounded-full" />
+                        <span className="absolute h-2 w-2 -end-0.5 -top-0.5 bg-accent-primary rounded-full" />
                       )}
                     </>
                   </Button>

@@ -89,7 +89,7 @@ export const WorkspaceMembersList = observer(function WorkspaceMembersList(props
               <div className="flex">
                 <h4 className="text-h5-medium pt-2 pb-2">{t("workspace_settings.settings.members.pending_invites")}</h4>
                 {searchedInvitationsIds && (
-                  <CountChip count={searchedInvitationsIds.length} className="h-5  m-auto ml-2" />
+                  <CountChip count={searchedInvitationsIds.length} className="h-5  m-auto ms-2" />
                 )}
               </div>{" "}
               <ChevronDownIcon className={`h-5 w-5 transition-all ${showPendingInvites ? "rotate-180" : ""}`} />
@@ -97,7 +97,7 @@ export const WorkspaceMembersList = observer(function WorkspaceMembersList(props
           }
         >
           <Disclosure.Panel>
-            <div className="ml-auto items-center gap-1.5 rounded-md bg-surface-1 py-1.5">
+            <div className="ms-auto items-center gap-1.5 rounded-md bg-surface-1 py-1.5">
               {searchedInvitationsIds?.map((invitationId) => (
                 <WorkspaceInvitationsListItem key={invitationId} invitationId={invitationId} />
               ))}

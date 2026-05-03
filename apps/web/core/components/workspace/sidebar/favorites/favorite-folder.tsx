@@ -86,7 +86,7 @@ export function FavoriteFolder(props: Props) {
             render: ({ container }) => {
               const root = createRoot(container);
               root.render(
-                <div className="rounded-sm flex gap-1 bg-surface-1 text-13 p-1 pr-2">
+                <div className="rounded-sm flex gap-1 bg-surface-1 text-13 p-1 pe-2">
                   <div className="size-5 grid place-items-center flex-shrink-0">
                     <FavoriteFolderIcon />
                   </div>
@@ -168,17 +168,17 @@ export function FavoriteFolder(props: Props) {
             >
               {/* draggable indicator */}
 
-              <div className="flex-shrink-0 w-3 h-3 rounded-xs absolute left-0 hidden group-hover:flex justify-center items-center transition-colors bg-surface-2 cursor-pointer text-secondary hover:text-primary">
+              <div className="flex-shrink-0 w-3 h-3 rounded-xs absolute start-0 hidden group-hover:flex justify-center items-center transition-colors bg-surface-2 cursor-pointer text-secondary hover:text-primary">
                 <GripVertical className="w-3 h-3" />
               </div>
 
               <>
-                <Tooltip tooltipContent={`${favorite.name}`} position="right" className="ml-8" isMobile={isMobile}>
+                <Tooltip tooltipContent={`${favorite.name}`} position="right" className="ms-8" isMobile={isMobile}>
                   <div className="flex-grow flex truncate">
                     <Disclosure.Button
                       as="button"
                       type="button"
-                      className="flex-grow flex items-center gap-1.5 text-left select-none w-full"
+                      className="flex-grow flex items-center gap-1.5 text-start select-none w-full"
                     >
                       <Tooltip
                         isMobile={isMobile}
@@ -191,7 +191,7 @@ export function FavoriteFolder(props: Props) {
                         <button
                           type="button"
                           className={cn(
-                            "hidden group-hover/project-item:flex items-center justify-center absolute top-1/2 -left-3 -translate-y-1/2 rounded-sm text-placeholder cursor-grab",
+                            "hidden group-hover/project-item:flex items-center justify-center absolute top-1/2 -start-3 -translate-y-1/2 rounded-sm text-placeholder cursor-grab",
                             {
                               "cursor-not-allowed opacity-60": favorite.sort_order === null,
                               "cursor-grabbing": isDragging,

@@ -33,7 +33,7 @@ export function AuthBanner(props: TAuthBanner) {
       <p className="w-full text-13 font-medium text-accent-primary">{message}</p>
       <button
         type="button"
-        className="relative ml-auto size-6 rounded-xs grid place-items-center transition-all hover:bg-accent-primary/20 text-accent-primary/80"
+        className="relative ms-auto size-6 rounded-xs grid place-items-center transition-all hover:bg-accent-primary/20 text-accent-primary/80"
         onClick={() => handleBannerData?.(undefined)}
         aria-label={t("aria_labels.auth_forms.close_alert")}
       >

@@ -261,7 +261,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
         id={`issue-${issueId}`}
         ref={cellRef}
         tabIndex={0}
-        className="relative md:sticky left-0 z-10 group/list-block bg-surface-1 max-w-lg"
+        className="relative md:sticky start-0 z-10 group/list-block bg-surface-1 max-w-lg"
       >
         <ControlLink
           href={workItemLink}
@@ -271,7 +271,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
         >
           <Row
             className={cn(
-              "group clickable cursor-pointer h-11 w-full flex items-center text-13 after:absolute border-r-[0.5px] z-10 border-subtle-1 bg-transparent group-[.selected-issue-row]:bg-accent-primary/5 group-[.selected-issue-row]:hover:bg-accent-primary/10",
+              "group clickable cursor-pointer h-11 w-full flex items-center text-13 after:absolute border-e-[0.5px] z-10 border-subtle-1 bg-transparent group-[.selected-issue-row]:bg-accent-primary/5 group-[.selected-issue-row]:hover:bg-accent-primary/10",
               {
                 "border-b-[0.5px]": !getIsIssuePeeked(issueDetail.id),
                 "border border-accent-strong hover:border-accent-strong":
@@ -316,7 +316,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
                   }
                   disabled={issueDetail.project_id === projectId}
                 >
-                  <div className="flex-shrink-0 grid place-items-center w-3.5 mr-1 absolute left-1">
+                  <div className="flex-shrink-0 grid place-items-center w-3.5 me-1 absolute start-1">
                     <MultipleSelectEntityAction
                       className={cn(
                         "opacity-0 pointer-events-none group-hover/list-block:opacity-100 group-hover/list-block:pointer-events-auto transition-opacity",
@@ -360,7 +360,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
                     <Tooltip tooltipContent={issueDetail.name} isMobile={isMobile}>
                       <div
                         dir="auto"
-                        className="h-full w-full cursor-pointer truncate pr-4 text-start text-13 text-primary focus:outline-none"
+                        className="h-full w-full cursor-pointer truncate pe-4 text-start text-13 text-primary focus:outline-none"
                         tabIndex={-1}
                       >
                         {issueDetail.name}

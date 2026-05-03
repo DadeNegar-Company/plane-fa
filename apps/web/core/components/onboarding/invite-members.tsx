@@ -145,14 +145,14 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
   return (
     <div>
       <div className="group relative grid grid-cols-10 gap-4">
-        <div className="col-span-6 ml-8">
+        <div className="col-span-6 ms-8">
           <Controller
             control={control}
             name={`emails.${index}.email`}
             rules={{
               pattern: {
                 value: emailRegex,
-                message: "Invalid Email ID",
+                message: t("onboarding.team.invalid_email"),
               },
             }}
             render={({ field: { value, onChange, ref } }) => (
@@ -175,7 +175,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
             )}
           />
         </div>
-        <div className="col-span-4 mr-8">
+        <div className="col-span-4 me-8">
           <Controller
             control={control}
             name={`emails.${index}.role`}
@@ -188,7 +188,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
                   onChange(val);
                   setValue(`emails.${index}.role_active`, true);
                 }}
-                className="w-full flex-shrink-0 text-left"
+                className="w-full flex-shrink-0 text-start"
               >
                 <Listbox.Button
                   type="button"
@@ -248,10 +248,10 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
         {fields.length > 1 && (
           <button
             type="button"
-            className="absolute right-0 hidden place-items-center self-center rounded-sm group-hover:grid"
+            className="absolute end-0 hidden place-items-center self-center rounded-sm group-hover:grid"
             onClick={() => remove(index)}
           >
-            <XCircle className="h-5 w-5 pl-0.5 text-placeholder" />
+            <XCircle className="h-5 w-5 ps-0.5 text-placeholder" />
           </button>
         )}
       </div>

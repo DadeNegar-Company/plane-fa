@@ -80,12 +80,12 @@ export function ImportHistoryTable({ workspaceSlug, projectId }: Props) {
       <table className="min-w-full">
         <thead>
           <tr className="bg-layer-3">
-            <th className="px-4 py-2 text-left text-caption-md-medium text-secondary">File</th>
-            <th className="px-4 py-2 text-left text-caption-md-medium text-secondary">Source</th>
-            <th className="px-4 py-2 text-left text-caption-md-medium text-secondary">Status</th>
-            <th className="px-4 py-2 text-right text-caption-md-medium text-secondary">Imported</th>
-            <th className="px-4 py-2 text-right text-caption-md-medium text-secondary">Errors</th>
-            <th className="px-4 py-2 text-left text-caption-md-medium text-secondary">Date</th>
+            <th className="px-4 py-2 text-start text-caption-md-medium text-secondary">File</th>
+            <th className="px-4 py-2 text-start text-caption-md-medium text-secondary">Source</th>
+            <th className="px-4 py-2 text-start text-caption-md-medium text-secondary">Status</th>
+            <th className="px-4 py-2 text-end text-caption-md-medium text-secondary">Imported</th>
+            <th className="px-4 py-2 text-end text-caption-md-medium text-secondary">Errors</th>
+            <th className="px-4 py-2 text-start text-caption-md-medium text-secondary">Date</th>
           </tr>
         </thead>
         <tbody>
@@ -103,10 +103,10 @@ export function ImportHistoryTable({ workspaceSlug, projectId }: Props) {
                   {STATUS_LABELS[job.status] || job.status}
                 </Badge>
               </td>
-              <td className="px-4 py-2 text-right text-body-xs-regular text-primary">
+              <td className="px-4 py-2 text-end text-body-xs-regular text-primary">
                 {job.imported_count} / {job.total_rows}
               </td>
-              <td className="px-4 py-2 text-right text-body-xs-regular text-tertiary">{job.error_count}</td>
+              <td className="px-4 py-2 text-end text-body-xs-regular text-tertiary">{job.error_count}</td>
               <td className="px-4 py-2 text-body-xs-regular text-tertiary">
                 {new Date(job.created_at).toLocaleDateString()}
               </td>

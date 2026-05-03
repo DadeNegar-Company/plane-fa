@@ -150,7 +150,7 @@ export const ProjectFeaturesList = observer(function ProjectFeaturesList(props: 
                 }
               />
               {/* {currentProjectDetails?.[featureItem.property as keyof IProject] && (
-                <div className="pl-14">{featureItem.renderChildren?.(currentProjectDetails, workspaceSlug)}</div>
+                <div className="ps-14">{featureItem.renderChildren?.(currentProjectDetails, workspaceSlug)}</div>
               )} */}
             </div>
           ))}

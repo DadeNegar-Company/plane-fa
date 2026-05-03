@@ -167,7 +167,7 @@ export const IssueTitleInput = observer(function IssueTitleInput(props: IssueTit
         />
         <div
           className={cn(
-            "pointer-events-none absolute bottom-1 right-1 z-[2] rounded-sm bg-surface-1 p-0.5 text-11 text-secondary opacity-0 transition-opacity",
+            "pointer-events-none absolute bottom-1 end-1 z-[2] rounded-sm bg-surface-1 p-0.5 text-11 text-secondary opacity-0 transition-opacity",
             {
               "opacity-100": isLengthVisible,
             }

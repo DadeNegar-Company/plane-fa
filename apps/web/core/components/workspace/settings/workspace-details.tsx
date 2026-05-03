@@ -153,7 +153,7 @@ export const WorkspaceDetails = observer(function WorkspaceDetails() {
                 <div className="relative flex size-14">
                   <img
                     src={getFileURL(workspaceLogo)}
-                    className="absolute left-0 top-0 size-full rounded-md object-cover"
+                    className="absolute start-0 top-0 size-full rounded-md object-cover"
                     alt="Workspace Logo"
                   />
                 </div>
@@ -166,13 +166,17 @@ export const WorkspaceDetails = observer(function WorkspaceDetails() {
           </div>
           <div className="flex flex-col gap-1">
             <div className="text-h5-semibold leading-6 mb:-my-5">{watch("name")}</div>
-            <button type="button" onClick={handleCopyUrl} className="text-body-xs-regular tracking-tight text-left">{`${
+            <button
+              type="button"
+              onClick={handleCopyUrl}
+              className="text-body-xs-regular tracking-tight text-start"
+            >{`${
               typeof window !== "undefined" && window.location.origin.replace("http://", "").replace("https://", "")
             }/${currentWorkspace.slug}`}</button>
             {isAdmin && (
               <button
                 type="button"
-                className="flex items-center gap-1.5 text-left text-caption-sm-medium text-accent-primary"
+                className="flex items-center gap-1.5 text-start text-caption-sm-medium text-accent-primary"
                 onClick={() => setIsImageUploadModalOpen(true)}
               >
                 {workspaceLogo && workspaceLogo !== "" ? (

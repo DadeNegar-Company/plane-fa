@@ -81,7 +81,7 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
       !isPeekView
         ? {
             accessorKey: "project__name",
-            header: () => <div className="text-left">{columnsLabels["project__name"]}</div>,
+            header: () => <div className="text-start">{columnsLabels["project__name"]}</div>,
             cell: ({ row }) => {
               const project = getProjectById(row.original.project_id);
               return (
@@ -104,9 +104,9 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
           }
         : {
             accessorKey: "display_name",
-            header: () => <div className="text-left">{columnsLabels["display_name"]}</div>,
+            header: () => <div className="text-start">{columnsLabels["display_name"]}</div>,
             cell: ({ row }: { row: Row<WorkItemInsightColumns> }) => (
-              <div className="text-left">
+              <div className="text-start">
                 <div className="flex items-center gap-2">
                   {row.original.avatar_url && row.original.avatar_url !== "" ? (
                     <Avatar
@@ -137,8 +137,8 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
           },
       {
         accessorKey: "backlog_work_items",
-        header: () => <div className="text-right">{columnsLabels["backlog_work_items"]}</div>,
-        cell: ({ row }) => <div className="text-right">{row.original.backlog_work_items}</div>,
+        header: () => <div className="text-end">{columnsLabels["backlog_work_items"]}</div>,
+        cell: ({ row }) => <div className="text-end">{row.original.backlog_work_items}</div>,
         meta: {
           export: {
             key: columnsLabels["backlog_work_items"],
@@ -148,8 +148,8 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
       },
       {
         accessorKey: "started_work_items",
-        header: () => <div className="text-right">{columnsLabels["started_work_items"]}</div>,
-        cell: ({ row }) => <div className="text-right">{row.original.started_work_items}</div>,
+        header: () => <div className="text-end">{columnsLabels["started_work_items"]}</div>,
+        cell: ({ row }) => <div className="text-end">{row.original.started_work_items}</div>,
         meta: {
           export: {
             key: columnsLabels["started_work_items"],
@@ -159,8 +159,8 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
       },
       {
         accessorKey: "un_started_work_items",
-        header: () => <div className="text-right">{columnsLabels["un_started_work_items"]}</div>,
-        cell: ({ row }) => <div className="text-right">{row.original.un_started_work_items}</div>,
+        header: () => <div className="text-end">{columnsLabels["un_started_work_items"]}</div>,
+        cell: ({ row }) => <div className="text-end">{row.original.un_started_work_items}</div>,
         meta: {
           export: {
             key: columnsLabels["un_started_work_items"],
@@ -170,8 +170,8 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
       },
       {
         accessorKey: "completed_work_items",
-        header: () => <div className="text-right">{columnsLabels["completed_work_items"]}</div>,
-        cell: ({ row }) => <div className="text-right">{row.original.completed_work_items}</div>,
+        header: () => <div className="text-end">{columnsLabels["completed_work_items"]}</div>,
+        cell: ({ row }) => <div className="text-end">{row.original.completed_work_items}</div>,
         meta: {
           export: {
             key: columnsLabels["completed_work_items"],
@@ -181,8 +181,8 @@ const WorkItemsInsightTable = observer(function WorkItemsInsightTable() {
       },
       {
         accessorKey: "cancelled_work_items",
-        header: () => <div className="text-right">{columnsLabels["cancelled_work_items"]}</div>,
-        cell: ({ row }) => <div className="text-right">{row.original.cancelled_work_items}</div>,
+        header: () => <div className="text-end">{columnsLabels["cancelled_work_items"]}</div>,
+        cell: ({ row }) => <div className="text-end">{row.original.cancelled_work_items}</div>,
         meta: {
           export: {
             key: columnsLabels["cancelled_work_items"],

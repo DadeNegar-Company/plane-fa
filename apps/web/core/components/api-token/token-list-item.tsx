@@ -36,7 +36,7 @@ export function ApiTokenListItem(props: Props) {
         <Tooltip tooltipContent={t("api_tokens_extra.delete_token")} isMobile={isMobile}>
           <button
             onClick={() => setDeleteModalOpen(true)}
-            className="absolute right-4 hidden place-items-center group-hover:grid"
+            className="absolute end-4 hidden place-items-center group-hover:grid"
             data-ph-element={PROFILE_SETTINGS_TRACKER_ELEMENTS.LIST_ITEM_DELETE_ICON}
           >
             <XCircle className="h-4 w-4 text-danger-primary" />
@@ -47,7 +47,7 @@ export function ApiTokenListItem(props: Props) {
           <span
             className={`${
               token.is_active ? "bg-success-subtle text-success-primary" : "bg-layer-1 text-placeholder"
-            } ml-2 flex h-4 max-h-fit items-center rounded-xs px-2 text-11 font-medium`}
+            } ms-2 flex h-4 max-h-fit items-center rounded-xs px-2 text-11 font-medium`}
           >
             {token.is_active ? t("api_tokens_extra.active") : t("api_tokens_extra.expired")}
           </span>

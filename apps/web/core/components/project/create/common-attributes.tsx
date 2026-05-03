@@ -113,7 +113,7 @@ function ProjectCommonAttributes(props: Props) {
               onChange={handleIdentifierChange(onChange)}
               hasError={Boolean(errors.identifier)}
               placeholder={t("project_id")}
-              className={cn("w-full text-11 focus:border-blue-400 pr-7", {
+              className={cn("w-full text-11 focus:border-blue-400 pe-7", {
                 uppercase: value,
               })}
               tabIndex={getIndex("identifier")}
@@ -126,7 +126,7 @@ function ProjectCommonAttributes(props: Props) {
           className="text-13"
           position="right-start"
         >
-          <InfoIcon className="absolute right-2 top-2.5 h-3 w-3 text-placeholder" />
+          <InfoIcon className="absolute end-2 top-2.5 h-3 w-3 text-placeholder" />
         </Tooltip>
         <span className="text-11 text-danger-primary">{errors?.identifier?.message}</span>
       </div>

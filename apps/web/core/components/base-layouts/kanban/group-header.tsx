@@ -29,7 +29,7 @@ export function GroupHeader({ group, itemCount, isCollapsed, onToggleGroup }: IG
         >
           {group.name}
         </div>
-        <div className={`flex-shrink-0 text-13 font-medium text-tertiary ${isCollapsed ? "pr-0.5" : "pl-2"}`}>
+        <div className={`flex-shrink-0 text-13 font-medium text-tertiary ${isCollapsed ? "pe-0.5" : "ps-2"}`}>
           {itemCount}
         </div>
       </div>

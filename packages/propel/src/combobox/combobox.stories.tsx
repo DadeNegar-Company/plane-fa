@@ -46,7 +46,7 @@ const meta = {
       <Combobox {...args} value={value} onValueChange={(v) => setValue(v as string)}>
         <Combobox.Button className="flex w-72 items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 hover:bg-gray-50">
           <span>{value ? frameworks.find((f) => f.value === value)?.label : "Select framework..."}</span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
         </Combobox.Button>
         <Combobox.Options showSearch searchPlaceholder="Search framework..." className="w-72">
           {frameworks.map((framework) => (
@@ -77,7 +77,7 @@ export const WithoutSearch: Story = {
       <Combobox value={value} onValueChange={(v) => setValue(v as string)}>
         <Combobox.Button className="flex w-72 items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 hover:bg-gray-50">
           <span>{value ? frameworks.find((f) => f.value === value)?.label : "Select framework..."}</span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
         </Combobox.Button>
         <Combobox.Options className="w-72">
           {frameworks.map((framework) => (
@@ -104,7 +104,7 @@ export const MultiSelect: Story = {
       <Combobox multiSelect value={value} onValueChange={(v) => setValue(v as string[])}>
         <Combobox.Button className="flex w-72 items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 hover:bg-gray-50">
           <span className="truncate">{value.length > 0 ? `${value.length} selected` : "Select frameworks..."}</span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
         </Combobox.Button>
         <Combobox.Options showSearch searchPlaceholder="Search framework..." className="w-72">
           {frameworks.map((framework) => (
@@ -134,7 +134,7 @@ export const MultiSelectWithLimit: Story = {
             <span className="truncate">
               {value.length > 0 ? `${value.length}/3 selected` : "Select up to 3 frameworks..."}
             </span>
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
           </Combobox.Button>
           <Combobox.Options showSearch searchPlaceholder="Search framework..." className="w-72">
             {frameworks.map((framework) => (
@@ -163,7 +163,7 @@ export const Disabled: Story = {
       <Combobox disabled value={value} onValueChange={(v) => setValue(v as string)}>
         <Combobox.Button className="flex w-72 items-center justify-between rounded-md border border-gray-300 bg-gray-100 px-4 py-2 opacity-50">
           <span>{value ? frameworks.find((f) => f.value === value)?.label : "Select framework..."}</span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
         </Combobox.Button>
         <Combobox.Options showSearch searchPlaceholder="Search framework..." className="w-72">
           {frameworks.map((framework) => (
@@ -189,7 +189,7 @@ export const DisabledOptions: Story = {
       <Combobox value={value} onValueChange={(v) => setValue(v as string)}>
         <Combobox.Button className="flex w-72 items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 hover:bg-gray-50">
           <span>{value ? frameworks.find((f) => f.value === value)?.label : "Select framework..."}</span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
         </Combobox.Button>
         <Combobox.Options showSearch searchPlaceholder="Search framework..." className="w-72">
           {frameworks.map((framework) => (
@@ -216,7 +216,7 @@ export const CustomMaxHeight: Story = {
       <Combobox value={value} onValueChange={(v) => setValue(v as string)}>
         <Combobox.Button className="flex w-72 items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 hover:bg-gray-50">
           <span>{value ? frameworks.find((f) => f.value === value)?.label : "Select framework..."}</span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
         </Combobox.Button>
         <Combobox.Options showSearch searchPlaceholder="Search framework..." maxHeight="sm" className="w-72">
           {frameworks.map((framework) => (
@@ -242,7 +242,7 @@ export const CustomEmptyMessage: Story = {
       <Combobox value={value} onValueChange={(v) => setValue(v as string)}>
         <Combobox.Button className="flex w-72 items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 hover:bg-gray-50">
           <span>{value ? frameworks.find((f) => f.value === value)?.label : "Select framework..."}</span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
         </Combobox.Button>
         <Combobox.Options
           showSearch

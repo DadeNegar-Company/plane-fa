@@ -7,6 +7,7 @@
 import { useMemo } from "react";
 // plane imports
 import { IS_FAVORITE_MENU_OPEN } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { EPageAccess } from "@plane/types";
 import { copyUrlToClipboard } from "@plane/utils";
@@ -37,6 +38,8 @@ export const usePageOperations = (
   pageOperations: TPageOperations;
 } => {
   const { page } = props;
+  // i18n
+  const { t } = useTranslation();
   // derived values
   const {
     access,
@@ -64,8 +67,8 @@ export const usePageOperations = (
         await copyUrlToClipboard(pageLink);
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Link Copied!",
-          message: "Page link copied to clipboard.",
+          title: t("common.link_copied"),
+          message: t("pages.toast.link_copied"),
         });
       },
       duplicate: async () => {
@@ -73,35 +76,37 @@ export const usePageOperations = (
           await duplicate();
           setToast({
             type: TOAST_TYPE.SUCCESS,
-            title: "Success!",
-            message: "Page duplicated successfully.",
+            title: t("common.success"),
+            message: t("pages.toast.duplicate.success"),
           });
         } catch (_error) {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
-            message: "Page could not be duplicated. Please try again later.",
+            title: t("common.error.label"),
+            message: t("pages.toast.duplicate.error"),
           });
         }
       },
       move: async () => {},
       openInNewTab: () => window.open(pageLink, "_blank"),
       toggleAccess: async () => {
-        const changedPageType = access === EPageAccess.PUBLIC ? "private" : "public";
+        const isMakingPublic = access !== EPageAccess.PUBLIC;
         try {
           if (access === EPageAccess.PUBLIC)
             await executeCollaborativeAction({ type: "sendMessageToServer", message: "make-private" });
           else await executeCollaborativeAction({ type: "sendMessageToServer", message: "make-public" });
           setToast({
             type: TOAST_TYPE.SUCCESS,
-            title: "Success!",
-            message: `The page has been marked ${changedPageType} and moved to the ${changedPageType} section.`,
+            title: t("common.success"),
+            message: isMakingPublic ? t("pages.toast.access.made_public") : t("pages.toast.access.made_private"),
           });
         } catch (_error) {
           setToast({
             type: TOAST_TYPE.ERROR,
-            title: "Error!",
-            message: `The page couldn't be marked ${changedPageType}. Please try again.`,
+            title: t("common.error.label"),
+            message: isMakingPublic
+              ? t("pages.toast.access.make_public_error")
+              : t("pages.toast.access.make_private_error"),
           });
         }
       },
@@ -111,14 +116,14 @@ export const usePageOperations = (
             await executeCollaborativeAction({ type: "sendMessageToServer", message: "unarchive" });
             setToast({
               type: TOAST_TYPE.SUCCESS,
-              title: "Success!",
-              message: "Page restored successfully.",
+              title: t("common.success"),
+              message: t("pages.toast.restore.success"),
             });
           } catch (_error) {
             setToast({
               type: TOAST_TYPE.ERROR,
-              title: "Error!",
-              message: "Page could not be restored. Please try again later.",
+              title: t("common.error.label"),
+              message: t("pages.toast.restore.error"),
             });
           }
         } else {
@@ -126,14 +131,14 @@ export const usePageOperations = (
             await executeCollaborativeAction({ type: "sendMessageToServer", message: "archive" });
             setToast({
               type: TOAST_TYPE.SUCCESS,
-              title: "Success!",
-              message: "Page archived successfully.",
+              title: t("common.success"),
+              message: t("pages.toast.archive.success"),
             });
           } catch (_error) {
             setToast({
               type: TOAST_TYPE.ERROR,
-              title: "Error!",
-              message: "Page could not be archived. Please try again later.",
+              title: t("common.error.label"),
+              message: t("pages.toast.archive.error"),
             });
           }
         }
@@ -144,14 +149,14 @@ export const usePageOperations = (
             await removePageFromFavorites();
             setToast({
               type: TOAST_TYPE.SUCCESS,
-              title: "Success!",
-              message: "Page removed from favorites.",
+              title: t("common.success"),
+              message: t("pages.toast.unfavorite.success"),
             });
           } catch (_error) {
             setToast({
               type: TOAST_TYPE.ERROR,
-              title: "Error!",
-              message: "Page could not be removed from favorites. Please try again later.",
+              title: t("common.error.label"),
+              message: t("pages.toast.unfavorite.error"),
             });
           }
         } else {
@@ -160,14 +165,14 @@ export const usePageOperations = (
             if (!isFavoriteMenuOpen) toggleFavoriteMenu(true);
             setToast({
               type: TOAST_TYPE.SUCCESS,
-              title: "Success!",
-              message: "Page added to favorites.",
+              title: t("common.success"),
+              message: t("pages.toast.favorite.success"),
             });
           } catch (_error) {
             setToast({
               type: TOAST_TYPE.ERROR,
-              title: "Error!",
-              message: "Page could not be added to favorites. Please try again later.",
+              title: t("common.error.label"),
+              message: t("pages.toast.favorite.error"),
             });
           }
         }
@@ -178,14 +183,14 @@ export const usePageOperations = (
             await executeCollaborativeAction({ type: "sendMessageToServer", message: "unlock" });
             setToast({
               type: TOAST_TYPE.SUCCESS,
-              title: "Success!",
-              message: "Page unlocked successfully.",
+              title: t("common.success"),
+              message: t("pages.toast.unlock.success"),
             });
           } catch (_error) {
             setToast({
               type: TOAST_TYPE.ERROR,
-              title: "Error!",
-              message: "Page could not be unlocked. Please try again later.",
+              title: t("common.error.label"),
+              message: t("pages.toast.unlock.error"),
             });
           }
         } else {
@@ -193,14 +198,14 @@ export const usePageOperations = (
             await executeCollaborativeAction({ type: "sendMessageToServer", message: "lock" });
             setToast({
               type: TOAST_TYPE.SUCCESS,
-              title: "Success!",
-              message: "Page locked successfully.",
+              title: t("common.success"),
+              message: t("pages.toast.lock.success"),
             });
           } catch (_error) {
             setToast({
               type: TOAST_TYPE.ERROR,
-              title: "Error!",
-              message: "Page could not be locked. Please try again later.",
+              title: t("common.error.label"),
+              message: t("pages.toast.lock.error"),
             });
           }
         }
@@ -217,6 +222,7 @@ export const usePageOperations = (
     is_locked,
     isFavoriteMenuOpen,
     removePageFromFavorites,
+    t,
     toggleFavoriteMenu,
   ]);
   return {

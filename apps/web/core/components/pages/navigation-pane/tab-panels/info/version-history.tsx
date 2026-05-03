@@ -114,7 +114,7 @@ export const PageNavigationPaneInfoTabVersionHistory = observer(function PageNav
       <div className="mt-3">
         <ul className="relative">
           {/* timeline line */}
-          <div className={cn("absolute left-0 top-0 h-full flex w-6 justify-center")}>
+          <div className={cn("absolute start-0 top-0 h-full flex w-6 justify-center")}>
             <div className="w-px bg-layer-3" />
           </div>
           {/* end timeline line */}

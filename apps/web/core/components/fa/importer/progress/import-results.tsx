@@ -85,7 +85,7 @@ export function ImportResults({ wizard, onClose }: Props) {
           <div className="flex items-center justify-between">
             <h4 className="text-body-sm-medium text-primary">Error Log</h4>
             <Button variant="tertiary" size="sm" onClick={downloadErrorLog}>
-              <Download className="mr-1 size-3.5" />
+              <Download className="me-1 size-3.5" />
               Download CSV
             </Button>
           </div>
@@ -93,8 +93,8 @@ export function ImportResults({ wizard, onClose }: Props) {
             <table className="min-w-full">
               <thead>
                 <tr className="bg-layer-3">
-                  <th className="px-3 py-2 text-left text-caption-md-medium text-secondary">Row</th>
-                  <th className="px-3 py-2 text-left text-caption-md-medium text-secondary">Error</th>
+                  <th className="px-3 py-2 text-start text-caption-md-medium text-secondary">Row</th>
+                  <th className="px-3 py-2 text-start text-caption-md-medium text-secondary">Error</th>
                 </tr>
               </thead>
               <tbody>

@@ -81,7 +81,7 @@ export const BasePaidPlanCard = observer(function BasePaidPlanCard(props: TBaseP
                       })}
                     >
                       <p className="w-full text-caption-md-medium leading-5 flex items-center line-clamp-1">
-                        <CheckCircle className="size-4 mr-2 text-tertiary flex-shrink-0" />
+                        <CheckCircle className="size-4 me-2 text-tertiary flex-shrink-0" />
                         <span className="text-secondary truncate">{feature}</span>
                       </p>
                     </li>

@@ -250,7 +250,7 @@ export const DateRangeDropdown = observer(function DateRangeDropdown(props: Prop
             </span>
             {isClearable && !disabled && hasDisplayedDates && (
               <CloseIcon
-                className={cn("h-2.5 w-2.5 flex-shrink-0 cursor-pointer ml-1", clearIconClassName)}
+                className={cn("h-2.5 w-2.5 flex-shrink-0 cursor-pointer ms-1", clearIconClassName)}
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();

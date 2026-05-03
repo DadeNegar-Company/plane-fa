@@ -52,21 +52,21 @@ function ProjectCreateHeader(props: Props) {
       <CoverImage
         src={coverImage}
         alt={t("project_cover_image_alt")}
-        className="absolute left-0 top-0 h-full w-full rounded-lg"
+        className="absolute start-0 top-0 h-full w-full rounded-lg"
       />
       {showActionButtons && (
-        <div className="absolute left-2.5 top-2.5">
+        <div className="absolute start-2.5 top-2.5">
           <ProjectTemplateSelect onClick={handleTemplateSelect} />
         </div>
       )}
       {isClosable && (
-        <div className="absolute right-2 top-2 p-2">
+        <div className="absolute end-2 top-2 p-2">
           <button type="button" onClick={handleClose} tabIndex={getIndex("close")}>
             <CloseIcon className="h-5 w-5 text-on-color" />
           </button>
         </div>
       )}
-      <div className="absolute bottom-2 right-2">
+      <div className="absolute bottom-2 end-2">
         <Controller
           name="cover_image_url"
           control={control}
@@ -84,7 +84,7 @@ function ProjectCreateHeader(props: Props) {
           )}
         />
       </div>
-      <div className="absolute -bottom-[22px] left-3">
+      <div className="absolute -bottom-[22px] start-3">
         <Controller
           name="logo_props"
           control={control}

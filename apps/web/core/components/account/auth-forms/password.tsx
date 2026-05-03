@@ -137,7 +137,7 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
           </div>
           <button
             type="button"
-            className="relative ml-auto w-6 h-6 rounded-xs flex justify-center items-center transition-all cursor-pointer hover:bg-danger-subtle-hover text-accent-primary/80"
+            className="relative ms-auto w-6 h-6 rounded-xs flex justify-center items-center transition-all cursor-pointer hover:bg-danger-subtle-hover text-accent-primary/80"
             onClick={() => setBannerMessage(false)}
           >
             <CloseIcon className="w-4 h-4 shrink-0 text-danger-primary" />
@@ -188,7 +188,7 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
             {passwordFormData.email.length > 0 && (
               <button
                 type="button"
-                className="absolute right-3 size-5"
+                className="absolute end-3 size-5"
                 onClick={handleEmailClear}
                 aria-label={t("aria_labels.auth_forms.clear_email")}
               >
@@ -210,7 +210,7 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
               value={passwordFormData.password}
               onChange={(e) => handleFormChange("password", e.target.value)}
               placeholder={t("auth.common.password.placeholder")}
-              className="disable-autofill-style h-10 w-full border border-strong !bg-surface-1 pr-12 placeholder:text-placeholder"
+              className="disable-autofill-style h-10 w-full border border-strong !bg-surface-1 pe-12 placeholder:text-placeholder"
               onFocus={() => setIsPasswordInputFocused(true)}
               onBlur={() => setIsPasswordInputFocused(false)}
               autoComplete="off"
@@ -219,7 +219,7 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
             <button
               type="button"
               onClick={() => handleShowPassword("password")}
-              className="absolute right-3 size-5 grid place-items-center"
+              className="absolute end-3 size-5 grid place-items-center"
               aria-label={t(
                 showPassword?.password ? "aria_labels.auth_forms.hide_password" : "aria_labels.auth_forms.show_password"
               )}
@@ -247,14 +247,14 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
                 value={passwordFormData.confirm_password}
                 onChange={(e) => handleFormChange("confirm_password", e.target.value)}
                 placeholder={t("auth.common.password.confirm_password.placeholder")}
-                className="disable-autofill-style h-10 w-full border border-strong !bg-surface-1 pr-12 placeholder:text-placeholder"
+                className="disable-autofill-style h-10 w-full border border-strong !bg-surface-1 pe-12 placeholder:text-placeholder"
                 onFocus={() => setIsRetryPasswordInputFocused(true)}
                 onBlur={() => setIsRetryPasswordInputFocused(false)}
                 autoComplete="off"
               />
               <button
                 type="button"
-                className="absolute right-3 size-5 grid place-items-center"
+                className="absolute end-3 size-5 grid place-items-center"
                 aria-label={t(
                   showPassword?.retypePassword
                     ? "aria_labels.auth_forms.hide_password"

@@ -13,7 +13,7 @@ export function PageLoader() {
       <div className="px-3 border-b border-subtle py-3">
         <Loader className="relative flex items-center gap-2">
           <Loader.Item width="200px" height="30px" />
-          <div className="relative flex items-center gap-2 ml-auto">
+          <div className="relative flex items-center gap-2 ms-auto">
             <Loader.Item width="100px" height="30px" />
             <Loader.Item width="100px" height="30px" />
           </div>
@@ -23,7 +23,7 @@ export function PageLoader() {
         {range(10).map((i) => (
           <Loader key={i} className="relative flex items-center gap-2 p-3 py-4 border-b border-subtle">
             <Loader.Item width={`${250 + 10 * Math.floor(Math.random() * 10)}px`} height="22px" />
-            <div className="ml-auto relative flex items-center gap-2">
+            <div className="ms-auto relative flex items-center gap-2">
               <Loader.Item width="60px" height="22px" />
               <Loader.Item width="22px" height="22px" />
               <Loader.Item width="22px" height="22px" />

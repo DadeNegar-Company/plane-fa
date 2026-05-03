@@ -30,7 +30,7 @@ export const useExportColumns = () => {
                 <span className="relative flex h-4 w-4 items-center justify-center rounded-full capitalize text-on-color">
                   <img
                     src={getFileURL(avatar_url)}
-                    className="absolute left-0 top-0 h-full w-full rounded-full object-cover"
+                    className="absolute start-0 top-0 h-full w-full rounded-full object-cover"
                     alt={display_name || email}
                   />
                 </span>

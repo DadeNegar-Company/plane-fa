@@ -35,7 +35,7 @@ export const DragHandle = forwardRef(function DragHandle(
       ref={ref}
     >
       <MoreVertical className="h-3.5 w-3.5 stroke-placeholder" />
-      <MoreVertical className="-ml-5 h-3.5 w-3.5 stroke-placeholder" />
+      <MoreVertical className="-ms-5 h-3.5 w-3.5 stroke-placeholder" />
     </button>
   );
 });

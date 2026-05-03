@@ -313,7 +313,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
                   </label>
 
                   {projectPreferences.showLimitedProjects && (
-                    <div className="pl-8">
+                    <div className="ps-8">
                       <div className="flex flex-col gap-1 w-full">
                         <div className="flex flex-col gap-2 w-full pb-1.5">
                           <label className="text-11 text-secondary w-full">{t("enter_number_of_projects")}</label>
@@ -335,7 +335,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
                           />
                         </div>
                         {parseInt(projectCountInput) < 1 && projectCountInput !== "" && (
-                          <span className="text-11 text-danger-primary pl-0.5">Minimum value is 1</span>
+                          <span className="text-11 text-danger-primary ps-0.5">Minimum value is 1</span>
                         )}
                       </div>
                     </div>

@@ -12,7 +12,7 @@ import { InboxSidebarLoader } from "./inbox-sidebar-loader";
 export function InboxLayoutLoader() {
   return (
     <div className="relative w-full h-full flex overflow-hidden">
-      <div className="flex-shrink-0 w-2/6 h-full border-r border-strong">
+      <div className="flex-shrink-0 w-2/6 h-full border-e border-strong">
         <InboxSidebarLoader />
       </div>
       <div className="w-4/6">

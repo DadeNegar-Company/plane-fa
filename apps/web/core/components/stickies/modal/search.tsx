@@ -53,12 +53,12 @@ export const StickySearch = observer(function StickySearch() {
   );
 
   return (
-    <div className="flex items-center mr-2 my-auto">
+    <div className="flex items-center me-2 my-auto">
       {!isSearchOpen && (
         <IconButton
           variant="ghost"
           size="lg"
-          className="-mr-2"
+          className="-me-2"
           icon={SearchIcon}
           onClick={() => {
             setIsSearchOpen(true);
@@ -68,7 +68,7 @@ export const StickySearch = observer(function StickySearch() {
       )}
       <div
         className={cn(
-          "ml-auto flex items-center justify-start gap-1 rounded-md border border-transparent text-placeholder w-0 transition-[width] ease-linear overflow-hidden opacity-0",
+          "ms-auto flex items-center justify-start gap-1 rounded-md border border-transparent text-placeholder w-0 transition-[width] ease-linear overflow-hidden opacity-0",
           {
             "w-30 md:w-64 px-2.5 py-1.5 border-subtle opacity-100": isSearchOpen,
           }

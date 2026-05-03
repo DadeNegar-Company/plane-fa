@@ -245,7 +245,7 @@ export function LabelDropdown(props: ILabelDropdownProps) {
       <ComboDropDown
         as="div"
         ref={dropdownRef}
-        className={`w-auto max-w-full h-full flex-shrink-0 text-left ${className}`}
+        className={`w-auto max-w-full h-full flex-shrink-0 text-start ${className}`}
         value={value}
         onChange={onChange}
         disabled={disabled}
@@ -315,7 +315,7 @@ export function LabelDropdown(props: ILabelDropdownProps) {
                       if (!query.length) return;
                       void handleAddLabel(query);
                     }}
-                    className={`text-left text-secondary ${query.length ? "cursor-pointer" : "cursor-default"}`}
+                    className={`text-start text-secondary ${query.length ? "cursor-pointer" : "cursor-default"}`}
                   >
                     {/* TODO: translate here */}
                     {query.length ? (
@@ -327,7 +327,7 @@ export function LabelDropdown(props: ILabelDropdownProps) {
                     )}
                   </p>
                 ) : (
-                  <p className="text-left text-secondary ">{t("common.search.no_matching_results")}</p>
+                  <p className="text-start text-secondary ">{t("common.search.no_matching_results")}</p>
                 )}
               </div>
             </div>

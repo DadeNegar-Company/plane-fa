@@ -113,7 +113,7 @@ export const SubIssuesListItem = observer(function SubIssuesListItem(props: Prop
       >
         {issue && (
           <div
-            className="group relative flex min-h-11 h-full w-full items-center pr-2 py-1 transition-all hover:bg-surface-2"
+            className="group relative flex min-h-11 h-full w-full items-center pe-2 py-1 transition-all hover:bg-surface-2"
             style={{ paddingLeft: `${spacingLeft}px` }}
           >
             <div className="flex size-5 items-center justify-center flex-shrink-0">

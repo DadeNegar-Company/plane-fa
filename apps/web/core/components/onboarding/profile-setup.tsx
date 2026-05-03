@@ -138,7 +138,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "Profile setup completed!",
+        message: t("onboarding.use_case.profile_completed"),
       });
       // For Invited Users, they will skip all other steps and finish onboarding.
       if (totalSteps <= 2) {
@@ -149,7 +149,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Profile setup failed. Please try again!",
+        message: t("onboarding.use_case.profile_failed"),
       });
     }
   };
@@ -175,7 +175,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "User details update failed. Please try again!",
+        message: t("onboarding.profile.details_failed"),
       });
     }
   };
@@ -193,7 +193,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "Profile setup completed!",
+        message: t("onboarding.use_case.profile_completed"),
       });
       // For Invited Users, they will skip all other steps and finish onboarding.
       if (totalSteps <= 2) {
@@ -204,7 +204,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Profile setup failed. Please try again!",
+        message: t("onboarding.use_case.profile_failed"),
       });
     }
   };
@@ -275,20 +275,20 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                   {!userAvatar || userAvatar === "" ? (
                     <div className="flex flex-col items-center justify-between">
                       <div className="relative h-14 w-14 overflow-hidden">
-                        <div className="absolute left-0 top-0 flex items-center justify-center h-full w-full rounded-full text-on-color text-24 font-medium bg-accent-primary uppercase">
+                        <div className="absolute start-0 top-0 flex items-center justify-center h-full w-full rounded-full text-on-color text-24 font-medium bg-accent-primary uppercase">
                           {watch("first_name")[0] ?? "R"}
                         </div>
                       </div>
                       <div className="pt-1 text-13 font-medium text-accent-secondary hover:text-tertiary">
-                        Choose image
+                        {t("onboarding.profile.choose_image")}
                       </div>
                     </div>
                   ) : (
-                    <div className="relative mr-3 h-16 w-16 overflow-hidden">
+                    <div className="relative me-3 h-16 w-16 overflow-hidden">
                       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
                       <img
                         src={getFileURL(userAvatar ?? "")}
-                        className="absolute left-0 top-0 h-full w-full rounded-full object-cover"
+                        className="absolute start-0 top-0 h-full w-full rounded-full object-cover"
                         onClick={() => setIsImageUploadModalOpen(true)}
                         alt={user?.display_name}
                       />
@@ -299,20 +299,20 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label
-                    className="text-13 text-tertiary font-medium after:content-['*'] after:ml-0.5 after:text-danger-primary"
+                    className="text-13 text-tertiary font-medium after:content-['*'] after:ms-0.5 after:text-danger-primary"
                     htmlFor="first_name"
                   >
-                    First name
+                    {t("common.first_name")}
                   </label>
                   <Controller
                     control={control}
                     name="first_name"
                     rules={{
-                      required: "First name is required",
+                      required: t("onboarding.profile.first_name_required"),
                       validate: validatePersonName,
                       maxLength: {
                         value: 50,
-                        message: "First name must be within 50 characters.",
+                        message: t("onboarding.profile.first_name_max"),
                       },
                     }}
                     render={({ field: { value, onChange, ref } }) => (
@@ -338,20 +338,20 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                 </div>
                 <div className="space-y-1">
                   <label
-                    className="text-13 text-tertiary font-medium after:content-['*'] after:ml-0.5 after:text-danger-primary"
+                    className="text-13 text-tertiary font-medium after:content-['*'] after:ms-0.5 after:text-danger-primary"
                     htmlFor="last_name"
                   >
-                    Last name
+                    {t("common.last_name")}
                   </label>
                   <Controller
                     control={control}
                     name="last_name"
                     rules={{
-                      required: "Last name is required",
+                      required: t("onboarding.profile.last_name_required"),
                       validate: validatePersonName,
                       maxLength: {
                         value: 50,
-                        message: "Last name must be within 50 characters.",
+                        message: t("onboarding.profile.last_name_max"),
                       },
                     }}
                     render={({ field: { value, onChange, ref } }) => (
@@ -378,7 +378,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                 <>
                   <div className="space-y-1">
                     <label className="text-13 text-tertiary font-medium" htmlFor="password">
-                      Set a password ({t("common.optional")})
+                      {t("onboarding.profile.set_password")} ({t("common.optional")})
                     </label>
                     <Controller
                       control={control}
@@ -395,20 +395,20 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                             onChange={onChange}
                             ref={ref}
                             hasError={Boolean(errors.password)}
-                            placeholder="New password..."
-                            className="w-full border-[0.5px] border-subtle pr-12 placeholder:text-placeholder"
+                            placeholder={t("onboarding.profile.new_password_placeholder")}
+                            className="w-full border-[0.5px] border-subtle pe-12 placeholder:text-placeholder"
                             onFocus={() => setIsPasswordInputFocused(true)}
                             onBlur={() => setIsPasswordInputFocused(false)}
                             autoComplete="new-password"
                           />
                           {showPassword.password ? (
                             <EyeOff
-                              className="absolute right-3 h-4 w-4 stroke-placeholder hover:cursor-pointer"
+                              className="absolute end-3 h-4 w-4 stroke-placeholder hover:cursor-pointer"
                               onClick={() => handleShowPassword("password")}
                             />
                           ) : (
                             <Eye
-                              className="absolute right-3 h-4 w-4 stroke-placeholder hover:cursor-pointer"
+                              className="absolute end-3 h-4 w-4 stroke-placeholder hover:cursor-pointer"
                               onClick={() => handleShowPassword("password")}
                             />
                           )}
@@ -427,7 +427,11 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                       rules={{
                         required: watch("password") ? true : false,
                         validate: (value) =>
-                          watch("password") ? (value === watch("password") ? true : "Passwords don't match") : true,
+                          watch("password")
+                            ? value === watch("password")
+                              ? true
+                              : t("auth.common.password.errors.match")
+                            : true,
                       }}
                       render={({ field: { value, onChange, ref } }) => (
                         <div className="relative flex items-center rounded-md">
@@ -439,17 +443,17 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                             ref={ref}
                             hasError={Boolean(errors.confirm_password)}
                             placeholder={t("auth.common.password.confirm_password.placeholder")}
-                            className="w-full border-subtle pr-12 placeholder:text-placeholder"
+                            className="w-full border-subtle pe-12 placeholder:text-placeholder"
                             autoComplete="new-password"
                           />
                           {showPassword.retypePassword ? (
                             <EyeOff
-                              className="absolute right-3 h-4 w-4 stroke-placeholder hover:cursor-pointer"
+                              className="absolute end-3 h-4 w-4 stroke-placeholder hover:cursor-pointer"
                               onClick={() => handleShowPassword("retypePassword")}
                             />
                           ) : (
                             <Eye
-                              className="absolute right-3 h-4 w-4 stroke-placeholder hover:cursor-pointer"
+                              className="absolute end-3 h-4 w-4 stroke-placeholder hover:cursor-pointer"
                               onClick={() => handleShowPassword("retypePassword")}
                             />
                           )}
@@ -470,16 +474,16 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
             <>
               <div className="space-y-1">
                 <label
-                  className="text-13 text-tertiary font-medium after:content-['*'] after:ml-0.5 after:text-danger-primary"
+                  className="text-13 text-tertiary font-medium after:content-['*'] after:ms-0.5 after:text-danger-primary"
                   htmlFor="role"
                 >
-                  What role are you working on? Choose one.
+                  {t("onboarding.profile.role_question")}
                 </label>
                 <Controller
                   control={control}
                   name="role"
                   rules={{
-                    required: "This field is required",
+                    required: t("common.errors.required"),
                   }}
                   render={({ field: { value, onChange } }) => (
                     <div className="flex flex-wrap gap-2 py-2 overflow-auto break-all">
@@ -506,17 +510,17 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
               </div>
               <div className="space-y-1">
                 <label
-                  className="text-13 text-tertiary font-medium after:content-['*'] after:ml-0.5 after:text-danger-primary"
+                  className="text-13 text-tertiary font-medium after:content-['*'] after:ms-0.5 after:text-danger-primary"
                   htmlFor="use_case"
                 >
-                  What is your domain expertise? Choose one or more.
+                  {t("onboarding.profile.domain_question")}
                 </label>
                 <Controller
                   control={control}
                   name="use_case"
                   rules={{
-                    required: "Please select at least one option",
-                    validate: (value) => (value && value.length > 0) || "Please select at least one option",
+                    required: t("onboarding.use_case.select_at_least_one"),
+                    validate: (value) => (value && value.length > 0) || t("onboarding.use_case.select_at_least_one"),
                   }}
                   render={({ field: { value, onChange } }) => (
                     <div className="flex flex-wrap gap-2 py-2 overflow-auto break-all">
@@ -550,7 +554,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
             </>
           )}
           <Button variant="primary" type="submit" size="xl" className="w-full" disabled={isButtonDisabled}>
-            {isSubmitting ? <Spinner height="20px" width="20px" /> : "Continue"}
+            {isSubmitting ? <Spinner height="20px" width="20px" /> : t("common.continue")}
           </Button>
         </form>
       </div>

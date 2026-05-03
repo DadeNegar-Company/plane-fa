@@ -78,7 +78,7 @@ export const OnboardingHeader = observer(function OnboardingHeader(props: Onboar
           />
         </Tooltip>
       </div>
-      <div className={cn("flex items-center justify-between gap-6 w-full px-6", canGoBack && "pl-4 pr-6")}>
+      <div className={cn("flex items-center justify-between gap-6 w-full px-6", canGoBack && "ps-4 pe-6")}>
         <div className="flex items-center gap-2.5">
           {canGoBack && (
             <button onClick={handleStepBack} className="cursor-pointer" type="button" disabled={!canGoBack}>

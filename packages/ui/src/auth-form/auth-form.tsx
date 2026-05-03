@@ -200,7 +200,7 @@ export function AuthForm({
             <button
               type="button"
               onClick={handleModeChange}
-              className="ml-1 text-13 text-accent-primary hover:text-accent-secondary transition-colors duration-200"
+              className="ms-1 text-13 text-accent-primary hover:text-accent-secondary transition-colors duration-200"
               disabled={disabled}
             >
               {getAlternateModeButtonText()}

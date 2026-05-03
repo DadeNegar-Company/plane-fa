@@ -129,12 +129,12 @@ export const PeekOverviewIssueDetails = observer(function PeekOverviewIssueDetai
         issueOperations={issueOperations}
         disabled={disabled || isArchived}
         value={issue.name}
-        containerClassName="-ml-3"
+        containerClassName="-ms-3"
       />
 
       <DescriptionInput
         issueSequenceId={issue.sequence_id}
-        containerClassName="-ml-3 border-none"
+        containerClassName="-ms-3 border-none"
         disabled={disabled || isArchived}
         editorRef={editorRef}
         entityId={issue.id}

@@ -30,7 +30,7 @@ export const SpreadsheetQuickAddIssueForm = observer(function SpreadsheetQuickAd
           className="w-full rounded-md bg-transparent py-3 text-13 leading-5 text-secondary outline-none"
         />
       </form>
-      <p className="ml-3 mt-3 text-11 italic text-secondary">
+      <p className="ms-3 mt-3 text-11 italic text-secondary">
         {isEpic ? t("epic.add.press_enter") : t("issue.add.press_enter")}
       </p>
     </div>

@@ -693,6 +693,11 @@ export default {
     filters: "فیلترها",
     filters_created_date: "تاریخ ایجاد",
     display: "نمایش",
+    favorites: "علاقه‌مندی‌ها",
+    custom: "سفارشی",
+    show: "نمایش دادن",
+    sub_group_by: "زیرگروه‌بندی",
+    last_updated_date: "آخرین به‌روزرسانی",
     load_more: "بارگذاری بیشتر",
     activity: "فعالیت",
     analytics: "تحلیل‌ها",
@@ -3317,5 +3322,58 @@ export default {
   },
   billing_extra: {
     all_plans: "همه پلن‌ها",
+  },
+  editor: {
+    typography: {
+      text: "متن",
+      h1: "تیتر ۱",
+      h2: "تیتر ۲",
+      h3: "تیتر ۳",
+      h4: "تیتر ۴",
+      h5: "تیتر ۵",
+      h6: "تیتر ۶",
+    },
+    text_alignment: {
+      left: "چپ‌چین",
+      center: "وسط‌چین",
+      right: "راست‌چین",
+    },
+    basic_marks: {
+      bold: "درشت",
+      italic: "کج",
+      underline: "زیرخط",
+      strikethrough: "خط‌خورده",
+    },
+    lists: {
+      numbered: "لیست شماره‌دار",
+      bulleted: "لیست نشانه‌دار",
+      todo: "لیست انجام",
+    },
+    user_action: {
+      quote: "نقل‌قول",
+      code: "کد",
+    },
+    image: "تصویر",
+    table: "جدول",
+    font_styles: {
+      sans_serif: "بدون سریف",
+      serif: "سریف",
+      mono: "مونو",
+    },
+  },
+  views_extra: {
+    not_found_title: "نما وجود ندارد",
+  },
+  project_cycles_extra: {
+    not_found_title: "چرخه وجود ندارد",
+  },
+  project_modules_extra: {
+    not_found_title: "ماژول وجود ندارد",
+  },
+  workspace_projects_extra: {
+    empty_title: "هنوز پروژه‌ای ندارید",
+  },
+  pages_extra: {
+    not_found: "صفحه یافت نشد",
   },
 } as const;

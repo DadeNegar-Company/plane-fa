@@ -119,7 +119,7 @@ export const CreateWorkspaceForm = observer(function CreateWorkspaceForm(props: 
         <div className="flex flex-col gap-2 text-13">
           <label htmlFor="workspaceName">
             {t("workspace_creation.form.name.label")}
-            <span className="ml-0.5 text-danger-primary">*</span>
+            <span className="ms-0.5 text-danger-primary">*</span>
           </label>
           <div className="flex flex-col gap-1">
             <Controller
@@ -158,7 +158,7 @@ export const CreateWorkspaceForm = observer(function CreateWorkspaceForm(props: 
         <div className="flex flex-col gap-2 text-13">
           <label htmlFor="workspaceUrl">
             {t("workspace_creation.form.url.label")}
-            <span className="ml-0.5 text-danger-primary">*</span>
+            <span className="ms-0.5 text-danger-primary">*</span>
           </label>
           <div className="flex w-full items-center rounded-md border border-subtle px-3 bg-layer-2">
             <span className="whitespace-nowrap text-12 text-secondary">{window && window.location.host}/</span>
@@ -204,7 +204,7 @@ export const CreateWorkspaceForm = observer(function CreateWorkspaceForm(props: 
         <div className="flex flex-col gap-2 text-13">
           <span>
             {t("workspace_creation.form.organization_size.label")}
-            <span className="ml-0.5 text-danger-primary">*</span>
+            <span className="ms-0.5 text-danger-primary">*</span>
           </span>
           <div className="w-full">
             <Controller

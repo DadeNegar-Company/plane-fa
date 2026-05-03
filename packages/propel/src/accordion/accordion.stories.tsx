@@ -182,7 +182,7 @@ export const AsChildTrigger: Story = {
       <Accordion.Root className="w-96">
         <Accordion.Item value="item-1">
           <Accordion.Trigger asChild>
-            <button className="w-full rounded-md bg-blue-500 px-4 py-2 text-left text-on-color hover:bg-blue-600">
+            <button className="w-full rounded-md bg-blue-500 px-4 py-2 text-start text-on-color hover:bg-blue-600">
               Custom Button Trigger
             </button>
           </Accordion.Trigger>
@@ -192,7 +192,7 @@ export const AsChildTrigger: Story = {
         </Accordion.Item>
         <Accordion.Item value="item-2">
           <Accordion.Trigger asChild>
-            <button className="w-full rounded-md bg-green-500 px-4 py-2 text-left text-on-color hover:bg-green-600">
+            <button className="w-full rounded-md bg-green-500 px-4 py-2 text-start text-on-color hover:bg-green-600">
               Another Custom Trigger
             </button>
           </Accordion.Trigger>

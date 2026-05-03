@@ -264,7 +264,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                     const endDate = getDate(endDateValue);
                     return (
                       <DateRangeDropdown
-                        buttonContainerClassName="w-full text-left h-7.5"
+                        buttonContainerClassName="w-full text-start h-7.5"
                         buttonVariant="transparent-with-text"
                         buttonClassName="text-body-xs-regular"
                         className="group w-full grow"
@@ -298,7 +298,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                   multiple={false}
                   buttonVariant="transparent-with-text"
                   className="group w-full grow"
-                  buttonContainerClassName="w-full text-left h-7.5"
+                  buttonContainerClassName="w-full text-start h-7.5"
                   buttonClassName={`text-body-xs-regular ${value ? "" : "text-placeholder"}`}
                   placeholder={t("lead")}
                   disabled={!isEditingAllowed || isArchived}
@@ -323,7 +323,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                   projectId={projectId?.toString() ?? ""}
                   buttonVariant={value && value.length > 1 ? "transparent-without-text" : "transparent-with-text"}
                   className="group w-full grow"
-                  buttonContainerClassName="w-full text-left h-7.5"
+                  buttonContainerClassName="w-full text-start h-7.5"
                   buttonClassName={`text-body-xs-regular justify-between ${value && value.length > 0 ? "" : "text-placeholder"}`}
                   placeholder={t("members")}
                   disabled={!isEditingAllowed || isArchived}
@@ -345,7 +345,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                   onChange={(val) => {
                     void submitChanges({ label_ids: val });
                   }}
-                  buttonClassName="group w-full text-left h-7.5 flex items-center rounded-sm px-2 hover:bg-layer-transparent-hover"
+                  buttonClassName="group w-full text-start h-7.5 flex items-center rounded-sm px-2 hover:bg-layer-transparent-hover"
                   className="w-full grow"
                   fullWidth
                   hideDropdownArrow

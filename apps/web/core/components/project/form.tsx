@@ -353,7 +353,7 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
                 className="text-13"
                 position="right-start"
               >
-                <Info className="absolute right-2 top-2.5 h-4 w-4 text-placeholder" />
+                <Info className="absolute end-2 top-2.5 h-4 w-4 text-placeholder" />
               </Tooltip>
             </div>
             <span className="text-11 text-danger-primary">

@@ -28,7 +28,7 @@ export const FavoriteItemTitle = observer(function FavoriteItemTitle(props: Prop
   };
 
   return (
-    <Tooltip tooltipContent={title} isMobile={isMobile} position="right" className="ml-8">
+    <Tooltip tooltipContent={title} isMobile={isMobile} position="right" className="ms-8">
       <Link href={href} className="flex items-center gap-1.5 truncate w-full" draggable onClick={handleOnClick}>
         <span className="flex items-center justify-center size-5">{icon}</span>
         <span className="text-13 leading-5 font-medium flex-1 truncate">{title}</span>

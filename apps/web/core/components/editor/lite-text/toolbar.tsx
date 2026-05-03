@@ -135,8 +135,8 @@ export function IssueCommentToolbar(props: Props) {
           {Object.keys(toolbarItems).map((key, index) => (
             <div
               key={key}
-              className={cn("flex items-stretch gap-0.5 border-r border-subtle px-2.5", {
-                "pl-0": index === 0,
+              className={cn("flex items-stretch gap-0.5 border-e border-subtle px-2.5", {
+                "ps-0": index === 0,
               })}
             >
               {toolbarItems[key].map((item) => {
@@ -147,7 +147,7 @@ export function IssueCommentToolbar(props: Props) {
                     key={item.renderKey}
                     tooltipContent={
                       <p className="flex flex-col gap-1 text-center text-11">
-                        <span className="font-medium">{item.name}</span>
+                        <span className="font-medium">{t(item.i18n_name)}</span>
                         {item.shortcut && <kbd className="text-placeholder">{item.shortcut.join(" + ")}</kbd>}
                       </p>
                     }
@@ -176,7 +176,7 @@ export function IssueCommentToolbar(props: Props) {
           ))}
         </div>
         {showSubmitButton && (
-          <div className="sticky right-1">
+          <div className="sticky end-1">
             <Button
               type="submit"
               variant="primary"

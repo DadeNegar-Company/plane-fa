@@ -74,7 +74,7 @@ export const StickyActionBar = observer(function StickyActionBar() {
         </Tooltip>
         {recentStickyId && (
           <Tooltip
-            className="scale-75 -mr-30 translate-x-10"
+            className="scale-75 -me-30 translate-x-10"
             tooltipContent={
               <div className="-m-2 max-h-[150px]">
                 <StickyNote
@@ -83,7 +83,7 @@ export const StickyActionBar = observer(function StickyActionBar() {
                   stickyId={newSticky ? activeStickyId : recentStickyId || ""}
                 />
                 <div
-                  className="absolute top-0 right-0 h-full w-full"
+                  className="absolute top-0 end-0 h-full w-full"
                   style={{
                     background: `linear-gradient(to top, ${recentStickyBackgroundColor}, transparent)`,
                   }}
@@ -130,7 +130,7 @@ export const StickyActionBar = observer(function StickyActionBar() {
 
       <div
         className={cn(
-          "absolute bottom-16 right-0 z-[20]",
+          "absolute bottom-16 end-0 z-[20]",
           "transform transition-all duration-300 ease-in-out",
           newSticky || showRecentSticky ? "translate-y-[0%] min-h-[300px]" : "translate-y-[100%] h-0"
         )}

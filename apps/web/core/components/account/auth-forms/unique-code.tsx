@@ -113,7 +113,7 @@ export function AuthUniqueCodeForm(props: TAuthUniqueCodeForm) {
           {uniqueCodeFormData.email.length > 0 && (
             <button
               type="button"
-              className="absolute right-3 size-5 grid place-items-center"
+              className="absolute end-3 size-5 grid place-items-center"
               aria-label={t("aria_labels.auth_forms.clear_email")}
               onClick={handleEmailClear}
             >
@@ -133,7 +133,7 @@ export function AuthUniqueCodeForm(props: TAuthUniqueCodeForm) {
           value={uniqueCodeFormData.code}
           onChange={(e) => handleFormChange("code", e.target.value)}
           placeholder={t("auth.common.unique_code.placeholder")}
-          className="disable-autofill-style h-10 w-full border border-strong !bg-surface-1 pr-12 placeholder:text-placeholder"
+          className="disable-autofill-style h-10 w-full border border-strong !bg-surface-1 pe-12 placeholder:text-placeholder"
           autoComplete="off"
           autoFocus
         />

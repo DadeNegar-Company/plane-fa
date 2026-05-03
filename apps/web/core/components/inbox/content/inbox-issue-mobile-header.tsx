@@ -93,12 +93,12 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
     <Header variant={EHeaderVariant.SECONDARY} className="justify-start">
       {isNotificationEmbed && (
         <button onClick={embedRemoveCurrentNotification}>
-          <MoveRight className="h-4 w-4 text-tertiary hover:text-secondary mr-2" />
+          <MoveRight className="h-4 w-4 text-tertiary hover:text-secondary me-2" />
         </button>
       )}
       <PanelLeft
         onClick={() => setIsMobileSidebar(!isMobileSidebar)}
-        className={cn("w-4 h-4 flex-shrink-0 mr-2 my-auto", isMobileSidebar ? "text-accent-primary" : "text-secondary")}
+        className={cn("w-4 h-4 flex-shrink-0 me-2 my-auto", isMobileSidebar ? "text-accent-primary" : "text-secondary")}
       />
       <div className="flex items-center gap-2 w-full bg-surface-1 z-[15]">
         <div className="flex items-center gap-x-2">
@@ -123,7 +123,7 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
             <NameDescriptionUpdateStatus isSubmitting={isSubmitting} />
           </div>
         </div>
-        <div className="ml-auto">
+        <div className="ms-auto">
           <CustomMenu verticalEllipsis placement="bottom-start">
             {isAcceptedOrDeclined && (
               <CustomMenu.MenuItem onClick={handleCopyIssueLink}>

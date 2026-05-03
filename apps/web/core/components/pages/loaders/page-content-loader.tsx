@@ -19,7 +19,7 @@ export function PageContentLoader(props: Props) {
     <div className={cn("relative size-full flex flex-col", className)}>
       {/* header */}
       <div className="flex-shrink-0 w-full h-12 border-b border-subtle relative flex items-center divide-x divide-subtle">
-        <Loader className="relative flex items-center gap-1 pr-2">
+        <Loader className="relative flex items-center gap-1 pe-2">
           <Loader.Item width="26px" height="26px" />
           <Loader.Item width="26px" height="26px" />
           <Loader.Item width="26px" height="26px" />
@@ -36,7 +36,7 @@ export function PageContentLoader(props: Props) {
           <Loader.Item width="26px" height="26px" />
           <Loader.Item width="26px" height="26px" />
         </Loader>
-        <Loader className="relative flex items-center gap-1 pl-2">
+        <Loader className="relative flex items-center gap-1 ps-2">
           <Loader.Item width="26px" height="26px" />
           <Loader.Item width="26px" height="26px" />
         </Loader>

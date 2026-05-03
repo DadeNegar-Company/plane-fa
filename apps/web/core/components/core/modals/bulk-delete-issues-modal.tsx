@@ -173,12 +173,12 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
         >
           <div className="relative m-1">
             <SearchIcon
-              className="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-primary text-opacity-40"
+              className="pointer-events-none absolute start-4 top-3.5 h-5 w-5 text-primary text-opacity-40"
               aria-hidden="true"
             />
             <input
               type="text"
-              className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-primary outline-none focus:ring-0 sm:text-13"
+              className="h-12 w-full border-0 bg-transparent ps-11 pe-4 text-primary outline-none focus:ring-0 sm:text-13"
               placeholder={t("common.search.label")}
               onChange={(event) => setQuery(event.target.value)}
             />

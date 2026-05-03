@@ -251,7 +251,7 @@ export const SidebarLayoutPattern: Story = {
       </Info>
 
       <Surface className="bg-surface-1 flex rounded-md">
-        <aside className="border-subtle w-64 border-r p-4">
+        <aside className="border-subtle w-64 border-e p-4">
           <h4 className="text-primary mb-3 font-semibold">Sidebar</h4>
           <div className="space-y-2">
             {["Home", "Projects", "Settings"].map((item) => (

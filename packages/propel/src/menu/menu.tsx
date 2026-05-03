@@ -50,7 +50,7 @@ function MenuItem(props: TMenuItemProps) {
     <BaseMenu.Item
       disabled={disabled}
       className={cn(
-        "w-full select-none truncate rounded-sm px-1 py-1.5 text-left text-secondary hover:bg-layer-1 cursor-pointer outline-none",
+        "w-full select-none truncate rounded-sm px-1 py-1.5 text-start text-secondary hover:bg-layer-1 cursor-pointer outline-none",
         {
           "text-placeholder": disabled,
         },

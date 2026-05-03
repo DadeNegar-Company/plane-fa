@@ -89,7 +89,7 @@ export const ProjectLayoutRoot = observer(function ProjectLayoutRoot() {
             <div className="relative h-full w-full overflow-auto bg-surface-1">
               {/* mutation loader */}
               {issues?.getIssueLoader() === "mutation" && (
-                <div className="fixed w-[40px] h-[40px] z-50 right-[20px] top-[70px] flex justify-center items-center bg-layer-1 shadow-sm rounded-sm">
+                <div className="fixed w-[40px] h-[40px] z-50 end-[20px] top-[70px] flex justify-center items-center bg-layer-1 shadow-sm rounded-sm">
                   <Spinner className="w-4 h-4" />
                 </div>
               )}

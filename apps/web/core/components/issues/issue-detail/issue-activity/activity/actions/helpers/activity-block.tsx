@@ -40,7 +40,7 @@ export function IssueActivityBlockComponent(props: TIssueActivityBlockComponent)
         ends === "top" ? `pb-2` : ends === "bottom" ? `pt-2` : `py-2`
       }`}
     >
-      <div className="absolute left-[13px] top-0 bottom-0 w-px bg-layer-3" aria-hidden />
+      <div className="absolute start-[13px] top-0 bottom-0 w-px bg-layer-3" aria-hidden />
       <div className="flex-shrink-0 w-7 h-7 rounded-lg overflow-hidden flex justify-center items-center z-[4] bg-layer-2 text-secondary border border-subtle shadow-raised-100">
         {icon ? icon : <Network className="w-3.5 h-3.5" />}
       </div>

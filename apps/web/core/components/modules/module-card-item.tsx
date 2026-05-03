@@ -239,12 +239,12 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
                 )}
                 {dp.lead &&
                   (moduleLeadDetails ? (
-                    <span className="cursor-default ml-auto">
+                    <span className="cursor-default ms-auto">
                       <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
                     </span>
                   ) : (
                     <Tooltip tooltipContent={t("common.no_lead")}>
-                      <SquareUser className="h-4 w-4 mx-1 text-tertiary ml-auto" />
+                      <SquareUser className="h-4 w-4 mx-1 text-tertiary ms-auto" />
                     </Tooltip>
                   ))}
               </div>
@@ -299,7 +299,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
           </div>
         </Card>
       </Link>
-      <div className="absolute right-4 bottom-[18px] flex items-center gap-1.5">
+      <div className="absolute end-4 bottom-[18px] flex items-center gap-1.5">
         {isEditingAllowed && (
           <FavoriteStar
             onClick={(e) => {

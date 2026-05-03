@@ -66,7 +66,7 @@ export function StateForm(props: TStateForm) {
     <div className="relative flex space-x-2 bg-surface-1 p-3 rounded-sm">
       {/* color */}
       <div className="flex-shrink-0 h-full mt-2">
-        <Popover button={<PopoverButton color={formData?.color} />} panelClassName="mt-4 -ml-3">
+        <Popover button={<PopoverButton color={formData?.color} />} panelClassName="mt-4 -ms-3">
           <TwitterPicker color={formData?.color} onChange={(value) => handleFormData("color", value.hex)} />
         </Popover>
       </div>

@@ -58,7 +58,7 @@ export const NotificationsSidebarRoot = observer(function NotificationsSidebarRo
   return (
     <div
       className={cn(
-        "relative border-0 md:border-r border-subtle z-[10] flex-shrink-0 bg-surface-1 h-full transition-all max-md:overflow-hidden",
+        "relative border-0 md:border-e border-subtle z-[10] flex-shrink-0 bg-surface-1 h-full transition-all max-md:overflow-hidden",
         currentSelectedNotificationId ? "w-0 md:w-3/12" : "w-full md:w-3/12"
       )}
     >
@@ -89,7 +89,7 @@ export const NotificationsSidebarRoot = observer(function NotificationsSidebarRo
                 )}
               </div>
               {currentNotificationTab === tab.value && (
-                <div className="border absolute bottom-0 right-0 left-0 rounded-t-md border-accent-strong" />
+                <div className="border absolute bottom-0 end-0 start-0 rounded-t-md border-accent-strong" />
               )}
             </div>
           ))}

@@ -133,7 +133,7 @@ export const IssueAttachmentItemList = observer(function IssueAttachmentItemList
           >
             <input {...getInputProps()} />
             {isDragActive && (
-              <div className="absolute flex items-center justify-center left-0 top-0 h-full w-full bg-surface-2/75 z-30 ">
+              <div className="absolute flex items-center justify-center start-0 top-0 h-full w-full bg-surface-2/75 z-30 ">
                 <div className="flex items-center justify-center p-1 rounded-md bg-surface-1">
                   <div className="flex flex-col justify-center items-center px-5 py-6 rounded-md border border-dashed border-strong">
                     <UploadCloud className="size-7" />

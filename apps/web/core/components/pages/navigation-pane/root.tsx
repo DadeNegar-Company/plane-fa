@@ -89,10 +89,12 @@ export const PageNavigationPaneRoot = observer(function PageNavigationPaneRoot(p
 
   return (
     <aside
-      className="shrink-0 h-full flex flex-col bg-surface-1 pt-3.5 border-l border-subtle transition-all duration-300 ease-out"
+      // [FA-CUSTOM] Navigation pane lives at the end side; border-s and
+      // marginInlineEnd flip automatically under dir=rtl.
+      className="shrink-0 h-full flex flex-col bg-surface-1 pt-3.5 border-s border-subtle transition-all duration-300 ease-out"
       style={{
         width: `${paneWidth}px`,
-        marginRight: isNavigationPaneOpen ? "0px" : `-${paneWidth}px`,
+        marginInlineEnd: isNavigationPaneOpen ? "0px" : `-${paneWidth}px`,
       }}
     >
       <div className="mb-3.5 px-3.5">

@@ -34,7 +34,7 @@ export const ActivityFilter = observer(function ActivityFilter(props: TActivityF
         <>
           <IconButton variant="tertiary" icon={ListFilter} />
           {selectedFilters.length < filterOptions.length && (
-            <span className="absolute h-2 w-2 -right-0.5 -top-0.5 bg-accent-primary rounded-full" />
+            <span className="absolute h-2 w-2 -end-0.5 -top-0.5 bg-accent-primary rounded-full" />
           )}
         </>
       }

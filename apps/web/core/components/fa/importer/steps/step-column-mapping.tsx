@@ -62,7 +62,7 @@ export function StepColumnMapping({ wizard }: Props) {
             <div className="w-40 shrink-0">
               <span className="text-body-sm-medium text-primary">
                 {field.label}
-                {field.required && <span className="ml-1 text-danger-primary">*</span>}
+                {field.required && <span className="ms-1 text-danger-primary">*</span>}
               </span>
             </div>
             <div className="text-tertiary">&rarr;</div>

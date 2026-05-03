@@ -56,12 +56,12 @@ export const SubIssueDisplayFilters = observer(function SubIssueDisplayFilters(p
                 isFilterApplied && "bg-accent-primary/20"
               )}
             >
-              {isFilterApplied && <span className="p-1 rounded-full bg-accent-primary absolute -top-1 -right-1" />}
+              {isFilterApplied && <span className="p-1 rounded-full bg-accent-primary absolute -top-1 -end-1" />}
               <SlidersHorizontal className="h-3.5 w-3.5 text-primary" />
             </div>
           }
         >
-          <div className="vertical-scrollbar scrollbar-sm relative h-full w-full divide-y divide-subtle-1 overflow-hidden overflow-y-auto px-2.5 max-h-[25rem] text-left">
+          <div className="vertical-scrollbar scrollbar-sm relative h-full w-full divide-y divide-subtle-1 overflow-hidden overflow-y-auto px-2.5 max-h-[25rem] text-start">
             {/* display properties */}
             <div className="py-2">
               <FilterDisplayProperties

@@ -184,9 +184,11 @@ export function ResizableSidebar({
       <div
         id="main-sidebar"
         className={cn(
-          "h-full z-20 bg-surface-1 border-r border-subtle",
+          // [FA-CUSTOM] border-e is the side facing content (right in LTR, left in RTL).
+          // Collapsed slides off the start edge: -100% in LTR, +100% in RTL.
+          "h-full z-20 bg-surface-1 border-e border-subtle",
           !isResizing && "transition-all duration-300 ease-in-out",
-          isCollapsed ? "translate-x-[-100%] opacity-0 w-0" : "translate-x-0 opacity-100",
+          isCollapsed ? "translate-x-[-100%] rtl:translate-x-[100%] opacity-0 w-0" : "translate-x-0 opacity-100",
           isMobile && "absolute",
           className
         )}
@@ -214,7 +216,7 @@ export function ResizableSidebar({
               "transition-all duration-200 cursor-ew-resize absolute h-full w-1 z-[20]",
               !isResizing && "hover:bg-surface-2",
               isResizing && "w-1.5 bg-layer-1",
-              "top-0 right-0"
+              "top-0 end-0"
             )}
             // onDoubleClick toggle sidebar
             onDoubleClick={() => toggleCollapsed()}
@@ -227,9 +229,12 @@ export function ResizableSidebar({
       {/* Peek View */}
       <div
         className={cn(
-          "absolute left-0 z-20 bg-surface-1 shadow-sm h-full",
+          // [FA-CUSTOM] Peek slides in from the start edge (left in LTR, right in RTL).
+          "absolute start-0 z-20 bg-surface-1 shadow-sm h-full",
           !isResizing && "transition-all duration-300 ease-in-out",
-          isCollapsed && showPeek ? "translate-x-0 opacity-100" : "translate-x-[-100%] opacity-0",
+          isCollapsed && showPeek
+            ? "translate-x-0 opacity-100"
+            : "translate-x-[-100%] rtl:translate-x-[100%] opacity-0",
           "pointer-events-none",
           isCollapsed && showPeek && "pointer-events-auto",
           !showPeek ? "w-0" : "w-full"
@@ -245,7 +250,9 @@ export function ResizableSidebar({
         <aside
           className={cn(
             "group/sidebar h-full w-full bg-surface-1 overflow-hidden relative flex flex-col z-20 pt-4",
-            "self-center border-r border-subtle rounded-md rounded-tl-none rounded-bl-none",
+            // [FA-CUSTOM] border-e + rounded-Xs-none keeps the panel attached to the
+            // start edge of the screen with the rounded side facing content.
+            "self-center border-e border-subtle rounded-md rounded-ts-none rounded-bs-none",
             isAnyExtendedSidebarExpanded && "rounded-none"
           )}
         >
@@ -257,7 +264,7 @@ export function ResizableSidebar({
               "transition-all duration-200 cursor-ew-resize absolute h-full w-1 z-[20]",
               !isResizing && "hover:bg-surface-2",
               isResizing && "bg-layer-1",
-              "top-0 right-0"
+              "top-0 end-0"
             )}
             // onDoubleClick toggle sidebar
             onDoubleClick={() => toggleCollapsed()}

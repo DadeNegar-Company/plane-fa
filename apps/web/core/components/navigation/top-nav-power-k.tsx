@@ -230,7 +230,7 @@ export const TopNavPowerK = observer(() => {
           onClick={() => inputRef.current?.focus()}
           role="button"
         >
-          <SearchIcon className="shrink-0 size-3.5 text-placeholder mr-2" />
+          <SearchIcon className="shrink-0 size-3.5 text-placeholder me-2" />
           <input
             ref={inputRef}
             type="text"
@@ -246,7 +246,7 @@ export const TopNavPowerK = observer(() => {
             className="flex-1 bg-transparent text-13 text-primary placeholder-text-placeholder outline-none min-w-0"
           />
           {searchTerm && (
-            <button type="button" onClick={handleClear} className="shrink-0 ml-2">
+            <button type="button" onClick={handleClear} className="shrink-0 ms-2">
               <CloseIcon className="size-3.5 text-placeholder hover:text-primary" />
             </button>
           )}
