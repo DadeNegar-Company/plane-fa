@@ -181,6 +181,9 @@ export const ChartViewRoot = observer(function ChartViewRoot(props: ChartViewRoo
 
   const content = (
     <div
+      // [FA-CUSTOM] Pin Gantt root to LTR. Includes header (sticky labels use
+      // `left: SIDEBAR_WIDTH px`) and the scrollable main content.
+      dir="ltr"
       className={cn("relative flex flex-col h-full select-none rounded-xs bg-surface-1 shadow", {
         "inset-0 z-[25] bg-surface-1": fullScreenMode,
         "border-[0.5px] border-subtle": border,

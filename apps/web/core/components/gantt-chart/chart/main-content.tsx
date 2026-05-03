@@ -176,6 +176,10 @@ export const GanttChartMainContent = observer(function GanttChartMainContent(pro
             <div
               // DO NOT REMOVE THE ID
               id="gantt-container"
+              // [FA-CUSTOM] Gantt is inherently time-directional (past→future).
+              // Pin LTR so scrollLeft semantics, marginLeft block math, and DnD
+              // coordinates stay correct even when the rest of the app is RTL.
+              dir="ltr"
               className={cn(
                 "h-full w-full overflow-auto vertical-scrollbar horizontal-scrollbar scrollbar-lg flex border-t-[0.5px] border-subtle",
                 {

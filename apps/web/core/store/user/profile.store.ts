@@ -8,7 +8,7 @@ import { cloneDeep, set } from "lodash-es";
 import { action, makeObservable, observable, runInAction } from "mobx";
 // types
 import type { IUserTheme, TUserProfile } from "@plane/types";
-import { ECalendarSystem, EStartOfTheWeek } from "@plane/types"; // [FA-CUSTOM] added ECalendarSystem
+import { ECalendarSystem, EStartOfTheWeek, ETextDirection } from "@plane/types"; // [FA-CUSTOM] added ECalendarSystem, ETextDirection
 // services
 import { UserService } from "@/services/user.service";
 // store
@@ -64,6 +64,7 @@ export class ProfileStore implements IUserProfileStore {
     language: "",
     start_of_the_week: EStartOfTheWeek.SATURDAY,
     calendar_system: ECalendarSystem.JALALI, // [FA-CUSTOM]
+    text_direction: ETextDirection.LTR, // [FA-CUSTOM]
   };
 
   // services

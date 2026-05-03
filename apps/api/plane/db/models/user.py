@@ -256,6 +256,12 @@ class Profile(TimeAuditModel):
         ("jalali", "Jalali"),
     )
     calendar_system = models.CharField(max_length=20, choices=CALENDAR_SYSTEM_CHOICES, default="jalali")
+    # [FA-CUSTOM] Text direction preference (independent of language; default LTR for everyone)
+    TEXT_DIRECTION_CHOICES = (
+        ("ltr", "LTR"),
+        ("rtl", "RTL"),
+    )
+    text_direction = models.CharField(max_length=3, choices=TEXT_DIRECTION_CHOICES, default="ltr")
     goals = models.JSONField(default=dict)
     background_color = models.CharField(max_length=255, default=get_random_color)
 

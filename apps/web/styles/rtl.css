@@ -1,0 +1,51 @@
+/* [FA-CUSTOM] RTL helpers.
+ *
+ * Direction is applied at <html> via store-wrapper. Most layout flips for free
+ * because Tailwind v4 logical utilities (ms-, me-, ps-, pe-, start-, end-)
+ * resolve against `dir`. This file only handles cases that should NOT flip.
+ */
+
+/* Inherently directional content stays LTR even inside an RTL document. */
+.force-ltr,
+[data-force-ltr="true"],
+pre,
+code,
+kbd,
+samp,
+.font-mono {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Numbers, times, and dates inside RTL runs should use bidi isolation so the
+ * surrounding RTL context doesn't reorder digits. */
+[dir="rtl"] .numeric,
+[dir="rtl"] time {
+  unicode-bidi: plaintext;
+}
+
+/* Inputs whose value is fundamentally LTR (URL, email, tel, number) keep LTR
+ * input direction even when the page is RTL. Apps still get RTL placeholders
+ * via the parent `dir`, but the typed value isn't visually reordered. */
+[dir="rtl"] input[type="email"],
+[dir="rtl"] input[type="url"],
+[dir="rtl"] input[type="tel"],
+[dir="rtl"] input[type="number"] {
+  direction: ltr;
+  text-align: start;
+}
+
+/* Directional icons (chevrons, arrows) opt-in via this class so we don't flip
+ * every SVG by accident. */
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Recharts has its own coordinate system and doesn't render correctly under
+ * `dir=rtl` (axis labels mirror, tooltips misposition). Force LTR on the root
+ * wrapper; localized labels still render correctly because text content uses
+ * `unicode-bidi: plaintext` for tspans. */
+[dir="rtl"] .recharts-wrapper,
+[dir="rtl"] .recharts-responsive-container {
+  direction: ltr;
+}

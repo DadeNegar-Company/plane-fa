@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import type { TLanguage } from "@plane/i18n";
 import { useTranslation } from "@plane/i18n";
+import { ETextDirection } from "@plane/types"; // [FA-CUSTOM]
 // helpers
 import { applyCustomTheme, clearCustomTheme, setCalendarSystem } from "@plane/utils"; // [FA-CUSTOM] added setCalendarSystem
 // hooks
@@ -119,6 +120,14 @@ function StoreWrapper(props: TStoreWrapper) {
     if (!userProfile?.calendar_system) return;
     setCalendarSystem(userProfile.calendar_system);
   }, [userProfile?.calendar_system]);
+
+  // [FA-CUSTOM] Sync user-selected text direction (LTR/RTL) onto <html>.
+  // Default LTR when the profile hasn't loaded (anonymous routes / logout).
+  useEffect(() => {
+    const dir: "ltr" | "rtl" = userProfile?.text_direction === ETextDirection.RTL ? "rtl" : "ltr";
+    document.documentElement.dir = dir;
+    document.documentElement.setAttribute("data-direction", dir);
+  }, [userProfile?.text_direction]);
 
   useEffect(() => {
     if (!params) return;

@@ -28,6 +28,12 @@ export enum ECalendarSystem {
   JALALI = "jalali",
 }
 
+// [FA-CUSTOM] User-controlled UI text direction (independent of language)
+export enum ETextDirection {
+  LTR = "ltr",
+  RTL = "rtl",
+}
+
 export interface IUserLite {
   avatar_url: string;
   display_name: string;
@@ -89,6 +95,7 @@ export type TUserProfile = {
   updated_at: Date | string;
   start_of_the_week: EStartOfTheWeek;
   calendar_system: ECalendarSystem; // [FA-CUSTOM]
+  text_direction: ETextDirection; // [FA-CUSTOM]
 };
 
 export interface IInstanceAdminStatus {

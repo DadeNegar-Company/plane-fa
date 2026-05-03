@@ -5,6 +5,7 @@
 @import "../core/components/fa/shamsi-calendar.css"; /* [FA-CUSTOM] Shamsi calendar styles */
 @import "./power-k.css";
 @import "./emoji.css";
+@import "./rtl.css"; /* [FA-CUSTOM] RTL helpers */
 @plugin "@tailwindcss/typography";
 
 /* stickies and editor colors */

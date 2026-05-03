@@ -8,7 +8,7 @@ import { observer } from "mobx-react";
 // plane imports
 import { SUPPORTED_LANGUAGES, useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
-import { ECalendarSystem } from "@plane/types"; // [FA-CUSTOM]
+import { ECalendarSystem, ETextDirection } from "@plane/types"; // [FA-CUSTOM]
 import { CustomSelect } from "@plane/ui";
 // components
 import { TimezoneSelect } from "@/components/global";
@@ -69,6 +69,31 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
       return selectedLanguage.label;
     };
 
+    // [FA-CUSTOM] Text direction change handler. Persisting to the profile
+    // triggers the store-wrapper effect that sets <html dir>, so the UI flips
+    // immediately without a reload.
+    const handleDirectionChange = async (value: string) => {
+      try {
+        await updateUserProfile({ text_direction: value as ETextDirection });
+        setToast({
+          title: t("common.success"),
+          message: t("common.text_direction_updated"),
+          type: TOAST_TYPE.SUCCESS,
+        });
+      } catch (_error) {
+        setToast({
+          title: t("common.error.label"),
+          message: t("common.text_direction_update_failed"),
+          type: TOAST_TYPE.ERROR,
+        });
+      }
+    };
+
+    const TEXT_DIRECTION_OPTIONS = [
+      { value: ETextDirection.LTR, label: t("common.text_direction_ltr") },
+      { value: ETextDirection.RTL, label: t("common.text_direction_rtl") },
+    ];
+
     // [FA-CUSTOM] Calendar system change handler
     const handleCalendarSystemChange = async (value: string) => {
       try {
@@ -123,6 +148,33 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
             </CustomSelect>
           }
         />
+        {/* [FA-CUSTOM] Text direction selector - only shown when language is Persian.
+            Default is LTR for everyone (including existing fa users) until they opt in. */}
+        {profile?.language === "fa" && (
+          <SettingsControlItem
+            title={t("common.text_direction_title")}
+            description={t("common.text_direction_description")}
+            control={
+              <CustomSelect
+                value={profile?.text_direction ?? ETextDirection.LTR}
+                label={
+                  TEXT_DIRECTION_OPTIONS.find((o) => o.value === (profile?.text_direction ?? ETextDirection.LTR))?.label
+                }
+                onChange={handleDirectionChange}
+                buttonClassName="border border-subtle-1"
+                className="rounded-md"
+                input
+                placement="bottom-end"
+              >
+                {TEXT_DIRECTION_OPTIONS.map((item) => (
+                  <CustomSelect.Option key={item.value} value={item.value}>
+                    {item.label}
+                  </CustomSelect.Option>
+                ))}
+              </CustomSelect>
+            }
+          />
+        )}
         <StartOfWeekPreference
           option={{
             title: "First day of the week",
