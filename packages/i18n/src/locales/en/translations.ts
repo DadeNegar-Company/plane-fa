@@ -3231,6 +3231,8 @@ export default {
   },
   billing_extra: {
     all_plans: "All plans",
+    community: "Community",
+    community_description: "Unlimited projects, issues, cycles, modules, pages, and storage",
   },
   editor: {
     typography: {

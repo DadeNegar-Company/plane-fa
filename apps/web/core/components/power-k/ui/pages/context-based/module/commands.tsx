@@ -80,9 +80,10 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Some error occurred",
+        title: t("power_k_categories.some_error"),
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addModuleToFavorites, removeModuleFromFavorites, workspaceSlug, moduleDetails, isFavorite]);
 
   const copyModuleUrlToClipboard = useCallback(() => {

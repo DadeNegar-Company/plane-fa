@@ -3393,6 +3393,8 @@ export default {
   },
   billing_extra: {
     all_plans: "همه پلن‌ها",
+    community: "اجتماعی",
+    community_description: "پروژه‌ها، کارها، چرخه‌ها، ماژول‌ها، صفحه‌ها و فضای ذخیره‌سازی نامحدود",
   },
   editor: {
     typography: {

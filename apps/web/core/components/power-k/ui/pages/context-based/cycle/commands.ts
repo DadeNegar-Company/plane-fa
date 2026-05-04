@@ -40,19 +40,23 @@ export const usePowerKCycleContextBasedActions = (): TPowerKCommandConfig[] => {
   const toggleFavorite = useCallback(() => {
     if (!workspaceSlug || !cycleDetails || !cycleDetails.project_id) return;
     try {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       if (isFavorite) removeCycleFromFavorites(workspaceSlug.toString(), cycleDetails.project_id, cycleDetails.id);
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       else addCycleToFavorites(workspaceSlug.toString(), cycleDetails.project_id, cycleDetails.id);
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Some error occurred",
+        title: t("power_k_categories.some_error"),
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addCycleToFavorites, removeCycleFromFavorites, workspaceSlug, cycleDetails, isFavorite]);
 
   const copyCycleUrlToClipboard = useCallback(() => {
     const url = new URL(window.location.href);
     copyTextToClipboard(url.href)
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,

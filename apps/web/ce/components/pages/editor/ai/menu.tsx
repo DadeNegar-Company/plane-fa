@@ -4,11 +4,13 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import { CornerDownRight, RefreshCcw, Sparkles, TriangleAlert } from "lucide-react";
 // plane editor
 import type { EditorRefApi } from "@plane/editor";
+import { useTranslation } from "@plane/i18n";
 import { ChevronRightIcon } from "@plane/propel/icons";
 // plane ui
 import { Tooltip } from "@plane/propel/tooltip";
@@ -66,6 +68,8 @@ const TONES_LIST = [
 
 export function EditorAIMenu(props: Props) {
   const { editorRef, isOpen, onClose, workspaceId, workspaceSlug } = props;
+  // translation
+  const { t } = useTranslation();
   // states
   const [activeTask, setActiveTask] = useState<AI_EDITOR_TASKS | null>(null);
   const [response, setResponse] = useState<string | undefined>(undefined);
@@ -136,6 +140,7 @@ export function EditorAIMenu(props: Props) {
   // reset on close
   useEffect(() => {
     if (!isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveTask(null);
       setResponse(undefined);
     }
@@ -172,6 +177,7 @@ export function EditorAIMenu(props: Props) {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
                   handleClick(item.key);
                 }}
               >
@@ -234,7 +240,7 @@ export function EditorAIMenu(props: Props) {
                       >
                         Replace selection
                       </button>
-                      <Tooltip tooltipContent="Add to next line">
+                      <Tooltip tooltipContent={t("ai_menu_extra.add_to_next_line")}>
                         <button
                           type="button"
                           className="flex-shrink-0 size-6 grid place-items-center rounded-sm hover:bg-layer-1 outline-none"
@@ -243,13 +249,14 @@ export function EditorAIMenu(props: Props) {
                           <CornerDownRight className="text-tertiary size-4" />
                         </button>
                       </Tooltip>
-                      <Tooltip tooltipContent="Re-generate response">
+                      <Tooltip tooltipContent={t("ai_menu_extra.regenerate")}>
                         <button
                           type="button"
                           className="flex-shrink-0 size-6 grid place-items-center rounded-sm hover:bg-layer-1 outline-none"
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
+                            // eslint-disable-next-line @typescript-eslint/no-floating-promises
                             handleRegenerate();
                           }}
                           disabled={isRegenerating}
@@ -283,6 +290,7 @@ export function EditorAIMenu(props: Props) {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
+                      // eslint-disable-next-line @typescript-eslint/no-floating-promises
                       handleToneChange(tone.key);
                     }}
                   >

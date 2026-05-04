@@ -141,15 +141,18 @@ export const ExtendedSidebarItem = observer(function ExtendedSidebarItem(props: 
   const isActive = itemHref === pathname;
 
   const pinNavigationItem = (key: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     toggleWorkspaceItem(key, true);
   };
 
   const unPinNavigationItem = (key: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     toggleWorkspaceItem(key, false);
   };
 
   const icon = getSidebarNavigationItemIcon(item.key);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
   if (!allowPermissions(item.access as any, EUserPermissionsLevel.WORKSPACE, workspaceSlug.toString())) {
     return null;
   }
@@ -205,14 +208,14 @@ export const ExtendedSidebarItem = observer(function ExtendedSidebarItem(props: 
               </div>
             )}
             {isPinned ? (
-              <Tooltip tooltipContent="Unpin">
+              <Tooltip tooltipContent={t("sidebar_extra.unpin")}>
                 <PinOff
                   className="size-3.5 flex-shrink-0 hover:text-tertiary outline-none text-placeholder"
                   onClick={() => unPinNavigationItem(item.key)}
                 />
               </Tooltip>
             ) : (
-              <Tooltip tooltipContent="Pin">
+              <Tooltip tooltipContent={t("sidebar_extra.pin")}>
                 <Pin
                   className="size-3.5 flex-shrink-0 hover:text-tertiary outline-none text-placeholder"
                   onClick={() => pinNavigationItem(item.key)}

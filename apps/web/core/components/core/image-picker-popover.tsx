@@ -15,6 +15,7 @@ import { Popover } from "@headlessui/react";
 // plane imports
 import { ACCEPTED_COVER_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE, MAX_FILE_SIZE } from "@plane/constants";
 import { useOutsideClickDetector } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 import { Tabs } from "@plane/propel/tabs";
 import { Button, getButtonStyling } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
@@ -37,6 +38,7 @@ type TTabOption = {
 type Props = {
   label: string | React.ReactNode;
   value: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   onChange: (data: string) => void;
   disabled?: boolean;
@@ -50,6 +52,8 @@ const fileService = new FileService();
 
 export const ImagePickerPopover = observer(function ImagePickerPopover(props: Props) {
   const { label, value, control, onChange, disabled = false, tabIndex, isProfileCover = false, projectId } = props;
+  // translation
+  const { t } = useTranslation();
   // states
   const [image, setImage] = useState<File | null>(null);
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -89,6 +93,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
 
   const enabledTabs = useMemo(() => tabOptions.filter((tab) => tab.isEnabled), [tabOptions]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data: unsplashImages, error: unsplashError } = useSWR(
     `UNSPLASH_IMAGES_${searchParams}`,
     () => fileService.getUnsplashImages(searchParams),
@@ -140,9 +145,10 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
           console.error("Error uploading user cover image:", error);
           setIsImageUploading(false);
           setToast({
-            message: error?.error ?? "The image could not be uploaded",
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            message: error?.error ?? t("image_picker.image_not_uploaded_message"),
             type: TOAST_TYPE.ERROR,
-            title: "Image not uploaded",
+            title: t("image_picker.image_not_uploaded"),
           });
         });
     } else {
@@ -161,9 +167,10 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
           console.error("Error uploading project cover image:", error);
           setIsImageUploading(false);
           setToast({
-            message: error?.error ?? "The image could not be uploaded",
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            message: error?.error ?? t("image_picker.image_not_uploaded_message"),
             type: TOAST_TYPE.ERROR,
-            title: "Image not uploaded",
+            title: t("image_picker.image_not_uploaded"),
           });
         });
     }
@@ -230,10 +237,11 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                                   setSearchParams(formData.search);
                                 }
                               }}
+                              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                               value={value}
                               onChange={(e) => setFormData({ ...formData, search: e.target.value })}
                               ref={ref}
-                              placeholder="Search for images"
+                              placeholder={t("image_picker.search_for_images")}
                               className="w-full text-13"
                             />
                           )}
@@ -246,6 +254,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                         unsplashImages.length > 0 ? (
                           <div className="grid grid-cols-4 gap-4">
                             {unsplashImages.map((image) => (
+                              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                               <div
                                 key={image.id}
                                 className="relative col-span-2 aspect-video md:col-span-1"
@@ -283,11 +292,13 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                 <Tabs.Content value="images" className="h-full w-full space-y-4">
                   <div className="grid grid-cols-4 gap-4">
                     {Object.values(STATIC_COVER_IMAGES).map((imageUrl, index) => (
+                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                       <div
                         key={imageUrl}
                         className="relative col-span-2 aspect-video md:col-span-1"
                         onClick={() => handleStaticImageSelect(imageUrl)}
                       >
+                        {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                         <img
                           src={imageUrl}
                           alt={`Cover image ${index + 1}`}
@@ -316,6 +327,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                         </button>
                         {image !== null || (value && value !== "") ? (
                           <>
+                            {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                             <img
                               src={image ? URL.createObjectURL(image) : getCoverImageDisplayURL(value, "")}
                               alt="image"
@@ -356,6 +368,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
                       <Button
                         variant="primary"
                         className="w-full"
+                        // eslint-disable-next-line @typescript-eslint/no-misused-promises
                         onClick={handleSubmit}
                         disabled={!image}
                         loading={isImageUploading}

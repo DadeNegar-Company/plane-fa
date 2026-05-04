@@ -66,7 +66,7 @@ export function AskPiMenu(props: Props) {
               >
                 Replace selection
               </button>
-              <Tooltip tooltipContent="Add to next line">
+              <Tooltip tooltipContent={t("ai_menu_extra.add_to_next_line")}>
                 <button
                   type="button"
                   className="flex-shrink-0 size-6 grid place-items-center rounded-sm hover:bg-layer-1 outline-none"
@@ -75,7 +75,7 @@ export function AskPiMenu(props: Props) {
                   <CornerDownRight className="text-tertiary size-4" />
                 </button>
               </Tooltip>
-              <Tooltip tooltipContent="Re-generate response">
+              <Tooltip tooltipContent={t("ai_menu_extra.regenerate")}>
                 <button
                   type="button"
                   className="flex-shrink-0 size-6 grid place-items-center rounded-sm hover:bg-layer-1 outline-none"

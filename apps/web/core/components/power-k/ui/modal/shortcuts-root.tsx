@@ -7,6 +7,7 @@
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { CloseIcon, SearchIcon } from "@plane/propel/icons";
 import { Input } from "@plane/ui";
 // hooks
@@ -21,6 +22,8 @@ type Props = {
 
 export function ShortcutsModal(props: Props) {
   const { isOpen, onClose } = props;
+  // translation
+  const { t } = useTranslation();
   // states
   const [query, setQuery] = useState("");
   // store hooks
@@ -76,9 +79,11 @@ export function ShortcutsModal(props: Props) {
                       type="text"
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
-                      placeholder="Search for shortcuts"
+                      placeholder={t("power_k_categories.search_shortcuts")}
                       className="w-full border-none bg-transparent py-1 text-11 text-secondary outline-none"
+                      // eslint-disable-next-line jsx-a11y/no-autofocus
                       autoFocus
+                      // eslint-disable-next-line jsx-a11y/tabindex-no-positive
                       tabIndex={1}
                     />
                   </div>

@@ -48,19 +48,23 @@ export const usePowerKPageContextBasedActions = (): TPowerKCommandConfig[] => {
 
   const toggleFavorite = useCallback(() => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       if (isFavorite) removePageFromFavorites?.();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       else addToFavorites?.();
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Some error occurred",
+        title: t("power_k_categories.some_error"),
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToFavorites, removePageFromFavorites, isFavorite]);
 
   const copyPageUrlToClipboard = useCallback(() => {
     const url = new URL(window.location.href);
     copyTextToClipboard(url.href)
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -86,11 +90,13 @@ export const usePowerKPageContextBasedActions = (): TPowerKCommandConfig[] => {
       type: "action",
       action: () => {
         if (isLocked)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           unlock?.({
             shouldSync: true,
             recursive: true,
           });
         else
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           lock?.({
             shouldSync: true,
             recursive: true,
@@ -113,10 +119,12 @@ export const usePowerKPageContextBasedActions = (): TPowerKCommandConfig[] => {
       type: "action",
       action: () => {
         if (access === EPageAccess.PUBLIC)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           makePrivate?.({
             shouldSync: true,
           });
         else
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           makePublic?.({
             shouldSync: true,
           });
@@ -135,10 +143,12 @@ export const usePowerKPageContextBasedActions = (): TPowerKCommandConfig[] => {
       type: "action",
       action: () => {
         if (archived_at)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           restore?.({
             shouldSync: true,
           });
         else
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           archive?.({
             shouldSync: true,
           });

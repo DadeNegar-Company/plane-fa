@@ -107,6 +107,7 @@ export function ExistingIssuesListModal(props: Props) {
         ? projectService.projectIssuesSearch.bind(projectService, workspaceSlug?.toString(), projectId?.toString())
         : undefined);
     if (!searchService) return;
+    // eslint-disable-next-line promise/catch-or-return, @typescript-eslint/no-floating-promises
     searchService({
       search: debouncedSearchTerm,
       ...searchParams,
@@ -132,6 +133,7 @@ export function ExistingIssuesListModal(props: Props) {
 
   useEffect(() => {
     handleSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchTerm, isOpen, isWorkspaceLevel, projectId, workspaceSlug]);
 
   const filteredIssues = issues.filter((issue) => !shouldHideIssue?.(issue));
@@ -192,7 +194,7 @@ export function ExistingIssuesListModal(props: Props) {
             </div>
           )}
           {workspaceLevelToggle && (
-            <Tooltip tooltipContent="Toggle workspace level search" isMobile={isMobile}>
+            <Tooltip tooltipContent={t("rich_filters_extra.toggle_workspace_search")} isMobile={isMobile}>
               <div
                 className={`flex flex-shrink-0 cursor-pointer items-center gap-1 text-11 ${
                   isWorkspaceLevel ? "text-primary" : "text-secondary"
@@ -320,6 +322,7 @@ export function ExistingIssuesListModal(props: Props) {
           <Button
             variant="primary"
             size="lg"
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={onSubmit}
             loading={isSubmitting}
             disabled={isSubmitting || selectedIssues.length === 0}
