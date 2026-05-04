@@ -302,7 +302,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                     className="text-13 text-tertiary font-medium after:content-['*'] after:ms-0.5 after:text-danger-primary"
                     htmlFor="first_name"
                   >
-                    {t("common.first_name")}
+                    {t("onboarding.profile.first_name")}
                   </label>
                   <Controller
                     control={control}
@@ -341,7 +341,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                     className="text-13 text-tertiary font-medium after:content-['*'] after:ms-0.5 after:text-danger-primary"
                     htmlFor="last_name"
                   >
-                    {t("common.last_name")}
+                    {t("onboarding.profile.last_name")}
                   </label>
                   <Controller
                     control={control}

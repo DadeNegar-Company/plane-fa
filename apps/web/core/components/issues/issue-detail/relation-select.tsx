@@ -59,7 +59,7 @@ export const IssueRelationSelect = observer(function IssueRelationSelect(props: 
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Please select at least one work item.",
+        message: t("toasts.work_item.select_at_least_one"),
       });
       return;
     }

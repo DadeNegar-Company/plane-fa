@@ -49,13 +49,13 @@ export const IssueCommentReaction = observer(function IssueCommentReaction(props
           setToast({
             title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
-            message: "Reaction created successfully",
+            message: t("toasts.reaction.created"),
           });
         } catch (_error) {
           setToast({
             title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
-            message: "Reaction creation failed",
+            message: t("toasts.reaction.created_failed"),
           });
         }
       },
@@ -68,13 +68,13 @@ export const IssueCommentReaction = observer(function IssueCommentReaction(props
           setToast({
             title: t("common.success"),
             type: TOAST_TYPE.SUCCESS,
-            message: "Reaction removed successfully",
+            message: t("toasts.reaction.removed"),
           });
         } catch (_error) {
           setToast({
             title: t("common.error.label"),
             type: TOAST_TYPE.ERROR,
-            message: "Reaction remove failed",
+            message: t("toasts.reaction.removed_failed"),
           });
         }
       },

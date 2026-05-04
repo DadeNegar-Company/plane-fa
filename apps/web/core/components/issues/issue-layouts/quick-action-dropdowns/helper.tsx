@@ -103,8 +103,8 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
     copyUrlToClipboard(workItemLink).then(() =>
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Link copied",
-        message: "Work item link copied to clipboard",
+        title: t("common.link_copied"),
+        message: t("toasts.work_item.link_copied"),
       })
     );
 
@@ -120,15 +120,15 @@ export const useIssueActionHandlers = (props: MenuItemFactoryProps) => {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Restore success",
-          message: "Your work item can be found in project work items.",
+          title: t("common.success"),
+          message: t("toasts.work_item.restored_message"),
         });
       })
       .catch(() => {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Work item could not be restored. Please try again.",
+          message: t("toasts.work_item.restore_failed"),
         });
       });
   };

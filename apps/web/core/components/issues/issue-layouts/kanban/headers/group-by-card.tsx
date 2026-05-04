@@ -79,13 +79,13 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "Work items added to the cycle successfully.",
+        message: t("toasts.work_item.added_to_cycle"),
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Selected work items could not be added to the cycle. Please try again.",
+        message: t("toasts.work_item.added_to_cycle_failed"),
       });
     }
   };

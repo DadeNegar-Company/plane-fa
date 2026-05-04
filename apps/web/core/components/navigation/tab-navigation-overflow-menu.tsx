@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 import { Link } from "react-router";
 import { MoreHorizontal, Pin } from "lucide-react";
@@ -67,7 +68,7 @@ export function TabNavigationOverflowMenu({ overflowItems, isActive, tabPreferen
                       onShow(item.key);
                     }}
                     className="invisible group-hover/menu-item:visible p-1 rounded-sm text-tertiary hover:text-primary transition-colors"
-                    title="Show"
+                    title={t("common.show")}
                   >
                     <Pin className="size-3" />
                   </button>

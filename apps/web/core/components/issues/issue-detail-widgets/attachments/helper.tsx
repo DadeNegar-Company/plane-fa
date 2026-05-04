@@ -5,6 +5,7 @@
  */
 
 import { useMemo } from "react";
+import { useTranslation } from "@plane/i18n";
 import { setPromiseToast, TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TIssueServiceType } from "@plane/types";
 import { EIssueServiceType } from "@plane/types";
@@ -36,6 +37,7 @@ export const useAttachmentOperations = (
   const {
     attachment: { createAttachment, removeAttachment, getAttachmentsUploadStatusByIssueId },
   } = useIssueDetail(issueServiceType);
+  const { t } = useTranslation();
 
   const attachmentOperations: TAttachmentOperations = useMemo(
     () => ({
@@ -43,14 +45,14 @@ export const useAttachmentOperations = (
         if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing required fields");
         const attachmentUploadPromise = createAttachment(workspaceSlug, projectId, issueId, file);
         setPromiseToast(attachmentUploadPromise, {
-          loading: "Uploading attachment...",
+          loading: t("toasts.attachment.uploading"),
           success: {
-            title: "Attachment uploaded",
-            message: () => "The attachment has been successfully uploaded",
+            title: t("toasts.attachment.uploaded_title"),
+            message: () => t("toasts.attachment.uploaded_message"),
           },
           error: {
-            title: "Attachment not uploaded",
-            message: () => "The attachment could not be uploaded",
+            title: t("toasts.attachment.not_uploaded_title"),
+            message: () => t("toasts.attachment.not_uploaded_message"),
           },
         });
 
@@ -61,19 +63,20 @@ export const useAttachmentOperations = (
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing required fields");
           await removeAttachment(workspaceSlug, projectId, issueId, attachmentId);
           setToast({
-            message: "The attachment has been successfully removed",
+            message: t("toasts.attachment.removed_message"),
             type: TOAST_TYPE.SUCCESS,
-            title: "Attachment removed",
+            title: t("toasts.attachment.removed_title"),
           });
         } catch (_error) {
           setToast({
-            message: "The Attachment could not be removed",
+            message: t("toasts.attachment.not_removed_message"),
             type: TOAST_TYPE.ERROR,
-            title: "Attachment not removed",
+            title: t("toasts.attachment.not_removed_title"),
           });
         }
       },
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [workspaceSlug, projectId, issueId, createAttachment, removeAttachment]
   );
   const attachmentsUploadStatus = getAttachmentsUploadStatusByIssueId(issueId);

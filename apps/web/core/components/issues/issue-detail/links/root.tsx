@@ -54,18 +54,18 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing required fields");
           await createLink(workspaceSlug, projectId, issueId, data);
           setToast({
-            message: "The link has been successfully created",
+            message: t("toasts.link.created"),
             type: TOAST_TYPE.SUCCESS,
-            title: "Link created",
+            title: t("common.success"),
           });
           toggleIssueLinkModal(false);
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
           setToast({
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-            message: error?.data?.error ?? "The link could not be created",
+            message: error?.data?.error ?? t("toasts.link.created_failed"),
             type: TOAST_TYPE.ERROR,
-            title: "Link not created",
+            title: t("common.error.label"),
           });
           throw error;
         }
@@ -75,16 +75,16 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing required fields");
           await updateLink(workspaceSlug, projectId, issueId, linkId, data);
           setToast({
-            message: "The link has been successfully updated",
+            message: t("toasts.link.updated"),
             type: TOAST_TYPE.SUCCESS,
-            title: "Link updated",
+            title: t("common.success"),
           });
           toggleIssueLinkModal(false);
         } catch (error) {
           setToast({
-            message: "The link could not be updated",
+            message: t("toasts.link.updated_failed"),
             type: TOAST_TYPE.ERROR,
-            title: "Link not updated",
+            title: t("common.error.label"),
           });
           throw error;
         }
@@ -94,20 +94,21 @@ export function IssueLinkRoot(props: TIssueLinkRoot) {
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing required fields");
           await removeLink(workspaceSlug, projectId, issueId, linkId);
           setToast({
-            message: "The link has been successfully removed",
+            message: t("toasts.link.deleted"),
             type: TOAST_TYPE.SUCCESS,
-            title: "Link removed",
+            title: t("common.success"),
           });
           toggleIssueLinkModal(false);
         } catch {
           setToast({
-            message: "The link could not be removed",
+            message: t("toasts.link.deleted_failed"),
             type: TOAST_TYPE.ERROR,
-            title: "Link not removed",
+            title: t("common.error.label"),
           });
         }
       },
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [workspaceSlug, projectId, issueId, createLink, updateLink, removeLink, toggleIssueLinkModal]
   );
 

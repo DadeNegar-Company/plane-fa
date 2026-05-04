@@ -21,6 +21,8 @@ import { useModuleFilter } from "@/hooks/store/use-module-filter";
 import { useProject } from "@/hooks/store/use-project";
 
 export const ModulesListGanttChartView = observer(function ModulesListGanttChartView() {
+  // i18n
+  const { t } = useTranslation();
   // router
   const { workspaceSlug, projectId } = useParams();
   // store
@@ -64,8 +66,8 @@ export const ModulesListGanttChartView = observer(function ModulesListGanttChart
   return (
     <TimeLineTypeContext.Provider value={GANTT_TIMELINE_TYPE.MODULE}>
       <GanttChartRoot
-        title="Modules"
-        loaderTitle="Modules"
+        title={t("common.modules")}
+        loaderTitle={t("common.modules")}
         blockIds={filteredModuleIds}
         sidebarToRender={(props) => <ModuleGanttSidebar {...props} />}
         // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/no-unsafe-argument

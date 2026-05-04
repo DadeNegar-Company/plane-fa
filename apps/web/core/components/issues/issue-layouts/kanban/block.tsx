@@ -13,6 +13,7 @@ import { useParams } from "next/navigation";
 // plane helpers
 import { MoreHorizontal } from "lucide-react";
 import { useOutsideClickDetector } from "@plane/hooks";
+import { useTranslation } from "@plane/i18n";
 // types
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { Tooltip } from "@plane/propel/tooltip";
@@ -76,6 +77,7 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
   const { isMobile } = usePlatformOS();
 
   const customActionButton = (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       ref={menuActionRef}
       className={`flex items-center h-full w-full cursor-pointer rounded-sm p-1 text-placeholder hover:bg-layer-1 ${
@@ -109,6 +111,7 @@ const KanbanIssueDetailsBlock = observer(function KanbanIssueDetailsBlock(props:
             displayProperties={displayProperties}
           />
         )}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
         <div
           className={cn("absolute -top-1 end-0", {
             "hidden group-hover/kanban-block:block": !isMobile,
@@ -179,6 +182,8 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
   const { getIsIssuePeeked } = useIssueDetail(isEpic ? EIssueServiceType.EPICS : EIssueServiceType.ISSUES);
   const { handleRedirection } = useIssuePeekOverviewRedirection(isEpic);
   const { isMobile } = usePlatformOS();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { t } = useTranslation();
 
   // handlers
   const handleIssuePeekOverview = (issue: TIssue) => handleRedirection(workspaceSlug, issue, isMobile);
@@ -246,6 +251,7 @@ export const KanbanIssueBlock = observer(function KanbanIssueBlock(props: IssueB
         },
       })
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardRef?.current, issue?.id, isDragAllowed, canDropOverIssue, setIsCurrentBlockDragging, setIsDraggingOverBlock]);
 
   if (!issue) return null;

@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { ISSUE_GROUP_BY_OPTIONS } from "@plane/constants";
@@ -34,7 +35,7 @@ export const FilterSubGroupBy = observer(function FilterSubGroupBy(props: Props)
   return (
     <>
       <FilterHeader
-        title="Sub-group by"
+        title={t("common.sub_group_by")}
         isPreviewEnabled={previewEnabled}
         handleIsPreviewEnabled={() => setPreviewEnabled(!previewEnabled)}
       />

@@ -5,11 +5,13 @@
  */
 
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TContextMenuItem } from "@plane/ui";
 import { CustomMenu } from "@plane/ui";
 import { copyUrlToClipboard, cn } from "@plane/utils";
 import { useLayoutMenuItems } from "@/components/common/quick-actions-helper";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Ellipsis, MoreHorizontal } from "lucide-react";
 import { IconButton } from "@plane/propel/icon-button";
 
@@ -21,6 +23,7 @@ type Props = {
 
 export const LayoutQuickActions = observer(function LayoutQuickActions(props: Props) {
   const { workspaceSlug, projectId, storeType } = props;
+  const { t } = useTranslation();
 
   const layoutLink = `${workspaceSlug}/projects/${projectId}/${storeType === "EPIC" ? "epics" : "issues"}`;
 
@@ -28,8 +31,9 @@ export const LayoutQuickActions = observer(function LayoutQuickActions(props: Pr
     copyUrlToClipboard(layoutLink).then(() => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Link copied",
-        message: `${storeType === "EPIC" ? "Epics" : "Work items"} link copied to clipboard.`,
+        title: t("common.link_copied"),
+        // eslint-disable-next-line promise/always-return
+        message: `${storeType === "EPIC" ? "Epics" : t("common.work_items")} ${t("toasts.link.copied")}`,
       });
     });
 
@@ -39,6 +43,7 @@ export const LayoutQuickActions = observer(function LayoutQuickActions(props: Pr
     workspaceSlug,
     projectId,
     storeType,
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     handleCopyLink,
     handleOpenInNewTab,
   });

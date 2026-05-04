@@ -258,7 +258,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
       {email && !emailRegex.test(email) && (
         <div className="mx-8 my-1">
           <span className="text-13">🤥</span>{" "}
-          <span className="mt-1 text-11 text-danger-primary">That doesn{"'"}t look like an email address.</span>
+          <span className="mt-1 text-11 text-danger-primary">{t("onboarding.team.not_email")}</span>
         </div>
       )}
     </div>
@@ -308,7 +308,7 @@ export function InviteMembers(props: Props) {
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Invitations sent successfully.",
+          message: t("onboarding.team.invitations_sent"),
         });
         await nextStep();
       })
@@ -346,10 +346,8 @@ export function InviteMembers(props: Props) {
       <div className="w-full h-full overflow-auto px-6 py-10 sm:px-7 sm:py-14 md:px-14 lg:px-28">
         <div className="flex flex-col w-full items-center justify-center p-8 mt-6 md:w-4/5 mx-auto">
           <div className="text-center space-y-1 py-4 mx-auto w-4/5">
-            <h3 className="text-24 font-bold text-primary">Invite your teammates</h3>
-            <p className="font-medium text-placeholder">
-              Work in plane happens best with your team. Invite them now to use Plane to its potential.
-            </p>
+            <h3 className="text-24 font-bold text-primary">{t("onboarding.team.title")}</h3>
+            <p className="font-medium text-placeholder">{t("onboarding.team.description")}</p>
           </div>
           {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
           <form
@@ -362,8 +360,8 @@ export function InviteMembers(props: Props) {
           >
             <div className="w-full text-13 py-4">
               <div className="group relative grid grid-cols-10 gap-4 mx-8 py-2">
-                <div className="col-span-6 px-1 text-13 text-secondary font-medium">Email</div>
-                <div className="col-span-4 px-1 text-13 text-secondary font-medium">Role</div>
+                <div className="col-span-6 px-1 text-13 text-secondary font-medium">{t("onboarding.team.email")}</div>
+                <div className="col-span-4 px-1 text-13 text-secondary font-medium">{t("onboarding.team.role")}</div>
               </div>
               <div className="mb-3 space-y-3 sm:space-y-4">
                 {fields.map((field, index) => (
@@ -389,7 +387,7 @@ export function InviteMembers(props: Props) {
                 onClick={appendField}
               >
                 <PlusIcon className="h-4 w-4" strokeWidth={2} />
-                Add another
+                {t("onboarding.team.add_another")}
               </button>
             </div>
             <div className="flex flex-col mx-auto px-8 sm:px-2 items-center justify-center gap-4 w-full max-w-96">
@@ -400,11 +398,11 @@ export function InviteMembers(props: Props) {
                 className="w-full"
                 disabled={isInvitationDisabled || !isValid || isSubmitting}
               >
-                {isSubmitting ? <Spinner height="20px" width="20px" /> : "Continue"}
+                {isSubmitting ? <Spinner height="20px" width="20px" /> : t("common.continue")}
               </Button>
               {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
               <Button variant="ghost" size="xl" className="w-full" onClick={nextStep}>
-                I’ll do it later
+                {t("onboarding.team.do_later")}
               </Button>
             </div>
           </form>
