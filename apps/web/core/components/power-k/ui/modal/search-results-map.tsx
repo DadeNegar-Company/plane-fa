@@ -23,7 +23,9 @@ import { IssueIdentifier } from "@/plane-web/components/issues/issue-details/iss
 
 export type TPowerKSearchResultGroupDetails = {
   icon?: React.ComponentType<{ className?: string }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   itemName: (item: any) => React.ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   path: (item: any, projectId: string | undefined) => string;
   title: string;
 };
@@ -38,7 +40,7 @@ export const POWER_K_SEARCH_RESULTS_GROUPS_MAP: Record<TPowerKSearchResultsKeys,
     ),
     path: (cycle: IWorkspaceDefaultSearchResult) =>
       `/${cycle?.workspace__slug}/projects/${cycle?.project_id}/cycles/${cycle?.id}`,
-    title: "Cycles",
+    title: "power_k_categories.cycles",
   },
   issue: {
     itemName: (workItem: IWorkspaceIssueSearchResult) => (

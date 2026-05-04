@@ -3430,6 +3430,9 @@ export default {
   views_quick_action: {
     link_copied: "Link Copied!",
     not_found: "We couldn't find the view",
+    not_found_title: "View not found",
+    not_found_message: "We couldn't find the view",
+    update_not_found_message: "The view you're trying to update doesn't exist.",
   },
   workspace_wrapper_toasts: {
     error_title: "Something went wrong",

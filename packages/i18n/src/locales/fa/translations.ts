@@ -3561,6 +3561,10 @@ export default {
     update_error: "به‌روزرسانی فضای کاری انجام نشد. لطفاً دوباره تلاش کنید.",
     logo_updated: "لوگو با موفقیت به‌روز شد.",
     logo_removed: "لوگو با موفقیت حذف شد.",
+    updated: "فضای کاری با موفقیت به‌روزرسانی شد",
+    picture_removed: "تصویر فضای کاری با موفقیت حذف شد.",
+    picture_remove_failed: "هنگام حذف تصویر پروفایل خطایی رخ داد. لطفاً دوباره تلاش کنید.",
+    url_copied: "آدرس فضای کاری در کلیپ‌بورد کپی شد.",
   },
   exporter_extra: {
     csv: "CSV",
@@ -3588,6 +3592,9 @@ export default {
   views_quick_action: {
     link_copied: "پیوند کپی شد!",
     not_found: "نما پیدا نشد",
+    not_found_title: "نما یافت نشد",
+    not_found_message: "ما این نما را پیدا نکردیم",
+    update_not_found_message: "نمایی که می‌خواهید به‌روزرسانی کنید وجود ندارد.",
   },
   workspace_wrapper_toasts: {
     error_title: "مشکلی پیش آمد",

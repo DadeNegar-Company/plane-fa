@@ -31,11 +31,12 @@ export const DefaultWorkspaceViewQuickActions = observer(function DefaultWorkspa
 
   const viewLink = `${workspaceSlug}/workspace-views/${view.key}`;
   const handleCopyText = () =>
+    // eslint-disable-next-line promise/always-return
     copyUrlToClipboard(viewLink).then(() => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Link Copied!",
-        message: "View link copied to clipboard.",
+        title: t("common.link_copied"),
+        message: t("view_link_copied_to_clipboard"),
       });
     });
   const handleOpenInNewTab = () => window.open(`/${viewLink}`, "_blank");
@@ -49,6 +50,7 @@ export const DefaultWorkspaceViewQuickActions = observer(function DefaultWorkspa
     },
     {
       key: "copy-link",
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       action: handleCopyText,
       title: t("copy_link"),
       icon: LinkIcon,

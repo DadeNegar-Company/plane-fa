@@ -125,8 +125,8 @@ export const WorkspaceLevelWorkItemFiltersHOC = observer(function WorkspaceLevel
       if (!viewDetails) {
         setToast({
           type: TOAST_TYPE.ERROR,
-          title: "We couldn't find the view",
-          message: "The view you're trying to update doesn't exist.",
+          title: t("views_quick_action.not_found_title"),
+          message: t("views_quick_action.update_not_found_message"),
         });
 
         return;
