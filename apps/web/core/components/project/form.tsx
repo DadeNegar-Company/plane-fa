@@ -274,7 +274,7 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
               required: t("name_is_required"),
               maxLength: {
                 value: 255,
-                message: "Project name should be less than 255 characters",
+                message: t("workspace_projects_toasts.form.name_max"),
               },
             }}
             render={({ field: { value, onChange, ref } }) => (

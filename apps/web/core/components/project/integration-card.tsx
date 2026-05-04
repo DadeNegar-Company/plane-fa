@@ -89,7 +89,7 @@ export function IntegrationCard({ integration }: Props) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Repository could not be synced with the project. Please try again.",
+          message: t("workspace_projects_toasts.integration.sync_error"),
         });
       });
   };

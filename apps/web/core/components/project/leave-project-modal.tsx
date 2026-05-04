@@ -76,7 +76,7 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
                 setToast({
                   type: TOAST_TYPE.ERROR,
                   title: t("common.error.label"),
-                  message: "Something went wrong please try again later.",
+                  message: t("common.errors.default.message"),
                 });
               })
           );
@@ -84,21 +84,21 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
           setToast({
             type: TOAST_TYPE.ERROR,
             title: t("common.error.label"),
-            message: "Please confirm leaving the project by typing the 'Leave Project'.",
+            message: t("workspace_projects_toasts.leave.confirm_required"),
           });
         }
       } else {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Please enter the project name as shown in the description.",
+          message: t("workspace_projects_toasts.leave.name_mismatch"),
         });
       }
     } else {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Please fill all fields.",
+        message: t("workspace_projects_toasts.leave.fields_required"),
       });
     }
   };
@@ -166,7 +166,7 @@ export const LeaveProjectModal = observer(function LeaveProjectModal(props: ILea
                 onChange={onChange}
                 ref={ref}
                 hasError={Boolean(errors.confirmLeave)}
-                placeholder="Enter 'leave project'"
+                placeholder={t("workspace_projects_toasts.leave.confirm_placeholder")}
                 className="mt-2 w-full"
               />
             )}

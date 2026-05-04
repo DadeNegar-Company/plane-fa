@@ -7,6 +7,7 @@
 import type { FC } from "react";
 import { useState } from "react";
 // ui
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import type { IExportData } from "@plane/types";
 // helpers
@@ -20,6 +21,7 @@ type Props = {
 
 export function SingleExport({ service, refreshing }: Props) {
   const provider = service.provider;
+  const { t } = useTranslation();
 
   const [isLoading] = useState(false);
 
@@ -75,7 +77,7 @@ export function SingleExport({ service, refreshing }: Props) {
           )}
         </>
       ) : (
-        <div className="text-11 text-danger-primary">Expired</div>
+        <div className="text-11 text-danger-primary">{t("exporter_extra.expired")}</div>
       )}
     </div>
   );

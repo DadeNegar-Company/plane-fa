@@ -67,13 +67,13 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "Project deleted successfully.",
+        message: t("workspace_projects_toasts.delete.success_message"),
       });
     } catch (_error) {
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Something went wrong. Please try again later.",
+        message: t("common.errors.default.message"),
       });
     }
   };
@@ -135,7 +135,7 @@ export function DeleteProjectModal(props: DeleteProjectModal) {
                 onChange={onChange}
                 ref={ref}
                 hasError={Boolean(errors.confirmDelete)}
-                placeholder="Enter 'delete my project'"
+                placeholder={t("workspace_projects_toasts.delete.placeholder")}
                 className="mt-2 w-full"
                 autoComplete="off"
               />

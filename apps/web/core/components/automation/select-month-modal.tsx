@@ -7,6 +7,7 @@
 import { useParams } from "next/navigation";
 // react-hook-form
 import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import type { IProject } from "@plane/types";
 // ui
@@ -23,6 +24,7 @@ type Props = {
 
 export function SelectMonthModal({ type, initialValues, isOpen, handleClose, handleChange }: Props) {
   const { workspaceSlug, projectId } = useParams();
+  const { t } = useTranslation();
 
   const {
     formState: { errors, isSubmitting },
@@ -48,7 +50,7 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
     <ModalCore isOpen={isOpen} handleClose={onClose} position={EModalPosition.CENTER} width={EModalWidth.XXL}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <h3 className="text-16 font-medium leading-6 text-primary">Customize time range</h3>
+          <h3 className="text-16 font-medium leading-6 text-primary">{t("automation_modal.title")}</h3>
           <div className="mt-8 flex items-center gap-2">
             <div className="flex w-full flex-col justify-center gap-1">
               {type === "auto-close" ? (
@@ -71,12 +73,14 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
                           onChange={onChange}
                           ref={ref}
                           hasError={Boolean(errors.close_in)}
-                          placeholder="Enter Months"
+                          placeholder={t("automation_modal.enter_months")}
                           className="w-full border-subtle"
                           min={1}
                           max={12}
                         />
-                        <span className="absolute end-8 top-2.5 text-13 text-secondary">Months</span>
+                        <span className="absolute end-8 top-2.5 text-13 text-secondary">
+                          {t("automation_modal.months")}
+                        </span>
                       </div>
                     )}
                   />
@@ -105,12 +109,14 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
                           onChange={onChange}
                           ref={ref}
                           hasError={Boolean(errors.archive_in)}
-                          placeholder="Enter Months"
+                          placeholder={t("automation_modal.enter_months")}
                           className="w-full border-subtle"
                           min={1}
                           max={12}
                         />
-                        <span className="absolute end-8 top-2.5 text-13 text-secondary">Months</span>
+                        <span className="absolute end-8 top-2.5 text-13 text-secondary">
+                          {t("automation_modal.months")}
+                        </span>
                       </div>
                     )}
                   />

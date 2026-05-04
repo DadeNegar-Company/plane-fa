@@ -121,8 +121,8 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
     copyUrlToClipboard(projectLink).then(() =>
       setToast({
         type: TOAST_TYPE.INFO,
-        title: "Link Copied!",
-        message: "Project link copied to clipboard.",
+        title: t("common.link_copied"),
+        message: t("workspace_projects_toasts.card.link_copied_message"),
       })
     );
   const handleOpenInNewTab = () => window.open(`/${projectLink}`, "_blank");
