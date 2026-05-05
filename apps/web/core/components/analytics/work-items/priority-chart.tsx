@@ -31,6 +31,7 @@ import { ChartLoader } from "../loaders";
 import { generateBarColor } from "./utils";
 
 declare module "@tanstack/react-table" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
     export: {
       key: string;
@@ -59,6 +60,7 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
   const params = useParams();
   const workspaceSlug = params.workspaceSlug.toString();
 
+  /* eslint-disable @typescript-eslint/restrict-template-expressions */
   const { data: priorityChartData, isLoading: priorityChartLoading } = useSWR(
     `customized-insights-chart-${workspaceSlug}-${selectedDuration}-
     ${selectedProjects}-${selectedCycle}-${selectedModule}-${props.x_axis}-${props.y_axis}-${props.group_by}-${isPeekView}-${isEpic}`,
@@ -77,6 +79,7 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
         isPeekView
       )
   );
+  /* eslint-enable @typescript-eslint/restrict-template-expressions */
   const parsedData = useMemo(
     () =>
       priorityChartData && parseChartData(priorityChartData, props.x_axis, props.group_by, props.x_axis_date_grouping),
@@ -96,6 +99,7 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
           key: "count",
           label: "Count",
           stackId: "bar-one",
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
           fill: (payload) => generateBarColor(payload.key, { x_axis, y_axis, group_by }, baseColors, workspaceStates),
           textClassName: "",
           showPercentage: false,
@@ -138,14 +142,14 @@ const PriorityChart = observer(function PriorityChart(props: Props) {
     return parsedBars;
   }, [chart_model, group_by, parsedData, resolvedTheme, workspaceStates, x_axis, y_axis]);
 
-  const yAxisLabel = useMemo(
-    () => ANALYTICS_Y_AXIS_VALUES.find((item) => item.value === props.y_axis)?.label ?? props.y_axis,
-    [props.y_axis]
-  );
-  const xAxisLabel = useMemo(
-    () => ANALYTICS_X_AXIS_VALUES.find((item) => item.value === props.x_axis)?.label ?? props.x_axis,
-    [props.x_axis]
-  );
+  const yAxisLabel = useMemo(() => {
+    const item = ANALYTICS_Y_AXIS_VALUES.find((i) => i.value === props.y_axis);
+    return item ? (item.i18n_label ? t(item.i18n_label) : item.label) : props.y_axis;
+  }, [props.y_axis, t]);
+  const xAxisLabel = useMemo(() => {
+    const item = ANALYTICS_X_AXIS_VALUES.find((i) => i.value === props.x_axis);
+    return item ? (item.i18n_label ? t(item.i18n_label) : item.label) : props.x_axis;
+  }, [props.x_axis, t]);
 
   const defaultColumns: ColumnDef<TChartDatum>[] = useMemo(
     () => [

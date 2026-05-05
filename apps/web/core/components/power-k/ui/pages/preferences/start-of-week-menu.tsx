@@ -4,10 +4,12 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
 import { Command } from "cmdk";
 // plane imports
 import { START_OF_THE_WEEK_OPTIONS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import type { EStartOfTheWeek } from "@plane/types";
 // local imports
 import { PowerKModalCommandItem } from "../../modal/command-item";
@@ -18,11 +20,12 @@ type Props = {
 
 export function PowerKPreferencesStartOfWeekMenu(props: Props) {
   const { onSelect } = props;
+  const { t } = useTranslation();
 
   return (
     <Command.Group>
       {START_OF_THE_WEEK_OPTIONS.map((day) => (
-        <PowerKModalCommandItem key={day.value} onSelect={() => onSelect(day.value)} label={day.label} />
+        <PowerKModalCommandItem key={day.value} onSelect={() => onSelect(day.value)} label={t(day.i18n_label)} />
       ))}
     </Command.Group>
   );

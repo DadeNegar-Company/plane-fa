@@ -7,6 +7,7 @@
 import { useState } from "react";
 import { observer } from "mobx-react";
 // ui
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { EModalPosition, EModalWidth, ModalCore } from "@plane/ui";
@@ -30,6 +31,7 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
   const { areEstimateEnabledByProjectId, deleteEstimate } = useProjectEstimates();
   const { asJson: estimate } = useEstimate(estimateId);
   const { updateProject } = useProject();
+  const { t } = useTranslation();
   // states
   const [buttonLoader, setButtonLoader] = useState(false);
 
@@ -44,15 +46,15 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
       setButtonLoader(false);
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Estimate deleted",
+        title: t("estimates_extra.deleted_title"),
         message: "Estimate has been removed from your project.",
       });
       handleClose();
-    } catch (error) {
+    } catch (_error) {
       setButtonLoader(false);
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Estimate creation failed",
+        title: t("estimates_extra.delete_failed_title"),
         message: "We were unable to delete the estimate, please try again.",
       });
     }
@@ -79,6 +81,7 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
           <Button variant="secondary" size="lg" onClick={handleClose} disabled={buttonLoader}>
             Cancel
           </Button>
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button variant="error-fill" size="lg" onClick={handleDeleteEstimate} disabled={buttonLoader}>
             {buttonLoader ? "Deleting" : "Delete Estimate"}
           </Button>

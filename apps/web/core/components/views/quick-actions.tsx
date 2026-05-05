@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { MoreHorizontal } from "lucide-react";
 // types
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { IconButton } from "@plane/propel/icon-button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IProjectView } from "@plane/types";
@@ -35,6 +36,7 @@ type Props = {
 
 export const ViewQuickActions = observer(function ViewQuickActions(props: Props) {
   const { parentRef, projectId, view, workspaceSlug, customClassName } = props;
+  const { t } = useTranslation();
   // states
   const [createUpdateViewModal, setCreateUpdateViewModal] = useState(false);
   const [deleteViewModal, setDeleteViewModal] = useState(false);
@@ -52,10 +54,11 @@ export const ViewQuickActions = observer(function ViewQuickActions(props: Props)
 
   const viewLink = `${workspaceSlug}/projects/${projectId}/views/${view.id}`;
   const handleCopyText = () =>
+    // eslint-disable-next-line promise/always-return
     copyUrlToClipboard(viewLink).then(() => {
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Link Copied!",
+        title: t("common.link_copied"),
         message: "View link copied to clipboard.",
       });
     });
@@ -69,6 +72,7 @@ export const ViewQuickActions = observer(function ViewQuickActions(props: Props)
     view,
     handleEdit: () => setCreateUpdateViewModal(true),
     handleDelete: () => setDeleteViewModal(true),
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     handleCopyLink: handleCopyText,
     handleOpenInNewTab,
   });

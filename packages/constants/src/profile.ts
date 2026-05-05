@@ -64,29 +64,36 @@ export const START_OF_THE_WEEK_OPTIONS = [
   {
     value: EStartOfTheWeek.SUNDAY,
     label: "Sunday",
+    i18n_label: "common.days.sunday",
   },
   {
     value: EStartOfTheWeek.MONDAY,
     label: "Monday",
+    i18n_label: "common.days.monday",
   },
   {
     value: EStartOfTheWeek.TUESDAY,
     label: "Tuesday",
+    i18n_label: "common.days.tuesday",
   },
   {
     value: EStartOfTheWeek.WEDNESDAY,
     label: "Wednesday",
+    i18n_label: "common.days.wednesday",
   },
   {
     value: EStartOfTheWeek.THURSDAY,
     label: "Thursday",
+    i18n_label: "common.days.thursday",
   },
   {
     value: EStartOfTheWeek.FRIDAY,
     label: "Friday",
+    i18n_label: "common.days.friday",
   },
   {
     value: EStartOfTheWeek.SATURDAY,
     label: "Saturday",
+    i18n_label: "common.days.saturday",
   },
 ];

@@ -1050,6 +1050,17 @@ export default {
     overview: "نمای کلی",
     no_of: "تعداد {entity}",
     resolved: "حل‌شده",
+    oops: "اوه!",
+    copy_failed: "کپی ناموفق",
+    days: {
+      sunday: "یک‌شنبه",
+      monday: "دوشنبه",
+      tuesday: "سه‌شنبه",
+      wednesday: "چهارشنبه",
+      thursday: "پنج‌شنبه",
+      friday: "جمعه",
+      saturday: "شنبه",
+    },
   },
   chart: {
     x_axis: "محور X",
@@ -3654,5 +3665,128 @@ export default {
     work_item_delete_failed: "حذف کار انجام نشد",
     work_item_update_failed: "به‌روزرسانی کار انجام نشد",
     permission_denied: "دسترسی مجاز نیست",
+  },
+  state_groups_i18n: {
+    backlog: "بک‌لاگ",
+    unstarted: "شروع‌نشده",
+    started: "شروع‌شده",
+    completed: "تکمیل‌شده",
+    cancelled: "لغوشده",
+  },
+  dashboard: {
+    duration: {
+      all_time: "همه زمان‌ها",
+      due_today: "مهلت امروز",
+      due_this_week: "مهلت این هفته",
+      due_this_month: "مهلت این ماه",
+      due_this_year: "مهلت امسال",
+      custom: "سفارشی",
+    },
+    assigned: {
+      upcoming: "آینده",
+      overdue: "گذشته از مهلت",
+      marked_completed: "تکمیل علامت‌گذاری شده",
+    },
+    created: {
+      pending: "در انتظار",
+      marked_completed: "تکمیل علامت‌گذاری شده",
+    },
+  },
+  analytics_dimensions: {
+    state_name: "نام وضعیت",
+    state_group: "گروه وضعیت",
+    priority: "اولویت",
+    label: "برچسب",
+    assignee: "مسئول",
+    estimate_point: "نقطه تخمین",
+    cycle: "چرخه",
+    module: "ماژول",
+    completed_date: "تاریخ تکمیل",
+    due_date: "مهلت",
+    start_date: "تاریخ شروع",
+    created_date: "تاریخ ایجاد",
+    work_item: "آیتم کاری",
+    estimate: "تخمین",
+    epic: "اپیک",
+  },
+  auth_password: {
+    min_length: "حداقل ۸ کاراکتر",
+  },
+  user_settings: {
+    fetch_failed: "دریافت تنظیمات کاربر ناموفق بود",
+  },
+  user_profile: {
+    toast: {
+      fetch_failed: "دریافت پروفایل کاربر ناموفق بود",
+      update_failed: "به‌روزرسانی پروفایل کاربر ناموفق بود",
+      onboard_finish_failed: "تکمیل آشناسازی کاربر ناموفق بود",
+      tour_complete_failed: "به‌روزرسانی وضعیت تور پروفایل ناموفق بود",
+      theme_update_failed: "به‌روزرسانی پوسته پروفایل ناموفق بود",
+    },
+  },
+  profile_preferences: {
+    timezone: {
+      success: "منطقه زمانی با موفقیت به‌روز شد",
+      failed: "به‌روزرسانی منطقه زمانی ناموفق بود",
+    },
+    language: {
+      success: "زبان با موفقیت به‌روز شد",
+      failed: "به‌روزرسانی زبان ناموفق بود",
+    },
+    calendar: {
+      success: "تقویم با موفقیت به‌روز شد",
+      failed: "به‌روزرسانی تقویم ناموفق بود",
+    },
+    start_of_week: {
+      success: "اولین روز هفته با موفقیت به‌روز شد",
+      failed: "لطفاً بعداً دوباره تلاش کنید.",
+      update_failed_title: "به‌روزرسانی ناموفق بود",
+    },
+  },
+  profile_general: {
+    update_success: "تصویر پروفایل با موفقیت حذف شد.",
+    update_failed: "خطایی در حذف تصویر پروفایل رخ داد. لطفاً دوباره تلاش کنید.",
+    email_placeholder: "ایمیل خود را وارد کنید",
+  },
+  project_states_extra: {
+    delete_failed: "حذف وضعیت انجام نشد. لطفاً دوباره تلاش کنید.",
+    create_success: "وضعیت با موفقیت ایجاد شد.",
+    create_failed: "ایجاد وضعیت انجام نشد. لطفاً دوباره تلاش کنید.",
+    update_success: "وضعیت با موفقیت به‌روز شد.",
+    update_failed: "به‌روزرسانی وضعیت انجام نشد. لطفاً دوباره تلاش کنید.",
+    delete_success: "وضعیت با موفقیت حذف شد.",
+    form: {
+      name_placeholder: "نام",
+      description_placeholder: "این وضعیت را برای اعضا توضیح دهید.",
+    },
+  },
+  estimates_extra: {
+    deleted_title: "تخمین حذف شد",
+    delete_failed_title: "ایجاد تخمین انجام نشد",
+    list_title: "فهرست تخمین‌ها",
+    archived_title: "تخمین‌های بایگانی‌شده",
+  },
+  pages_delete: {
+    title: "حذف صفحه",
+  },
+  views_extra_toasts: {
+    delete: {
+      success: "نما با موفقیت حذف شد.",
+      failed: "حذف نما انجام نشد. لطفاً دوباره تلاش کنید.",
+    },
+  },
+  fa_importer: {
+    review: {
+      total_rows: "کل ردیف‌ها",
+      columns_mapped: "ستون‌های نگاشته‌شده",
+      statuses_mapped: "وضعیت‌های نگاشته‌شده",
+      assignees_mapped: "مسئولین نگاشته‌شده",
+    },
+    results: {
+      imported: "وارد شده",
+      skipped: "رد شده",
+      errors: "خطاها",
+    },
+    upload_error_title: "خطای بارگذاری",
   },
 } as const;

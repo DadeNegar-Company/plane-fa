@@ -5,6 +5,7 @@
  */
 
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 // plane imports
 import { cn } from "@plane/utils";
 // assets
@@ -22,7 +23,9 @@ import { useAppRouter } from "@/hooks/use-app-router";
 import useLocalStorage from "@/hooks/use-local-storage";
 import type { Route } from "./+types/page";
 
+// eslint-disable-next-line react-refresh/only-export-components
 function CycleDetailPage({ params }: Route.ComponentProps) {
+  const { t } = useTranslation();
   // router
   const router = useAppRouter();
   const { workspaceSlug, projectId, cycleId } = params;
@@ -56,7 +59,7 @@ function CycleDetailPage({ params }: Route.ComponentProps) {
       {!cycle && !loader ? (
         <EmptyState
           image={emptyCycle}
-          title="Cycle does not exist"
+          title={t("project_cycles_extra.not_found_title")}
           description="The cycle you are looking for does not exist or has been deleted."
           primaryButton={{
             text: "View other cycles",
@@ -90,4 +93,5 @@ function CycleDetailPage({ params }: Route.ComponentProps) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default observer(CycleDetailPage);

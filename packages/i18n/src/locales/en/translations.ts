@@ -879,6 +879,17 @@ export default {
     overview: "Overview",
     no_of: "No. of {entity}",
     resolved: "Resolved",
+    oops: "Oops!",
+    copy_failed: "Copy failed",
+    days: {
+      sunday: "Sunday",
+      monday: "Monday",
+      tuesday: "Tuesday",
+      wednesday: "Wednesday",
+      thursday: "Thursday",
+      friday: "Friday",
+      saturday: "Saturday",
+    },
   },
   chart: {
     x_axis: "X-axis",
@@ -3492,5 +3503,128 @@ export default {
     work_item_delete_failed: "Work item delete failed",
     work_item_update_failed: "Work item update failed",
     permission_denied: "Permission denied",
+  },
+  state_groups_i18n: {
+    backlog: "Backlog",
+    unstarted: "Unstarted",
+    started: "Started",
+    completed: "Completed",
+    cancelled: "Canceled",
+  },
+  dashboard: {
+    duration: {
+      all_time: "All time",
+      due_today: "Due today",
+      due_this_week: "Due this week",
+      due_this_month: "Due this month",
+      due_this_year: "Due this year",
+      custom: "Custom",
+    },
+    assigned: {
+      upcoming: "Upcoming",
+      overdue: "Overdue",
+      marked_completed: "Marked completed",
+    },
+    created: {
+      pending: "Pending",
+      marked_completed: "Marked completed",
+    },
+  },
+  analytics_dimensions: {
+    state_name: "State name",
+    state_group: "State group",
+    priority: "Priority",
+    label: "Label",
+    assignee: "Assignee",
+    estimate_point: "Estimate point",
+    cycle: "Cycle",
+    module: "Module",
+    completed_date: "Completed date",
+    due_date: "Due date",
+    start_date: "Start date",
+    created_date: "Created date",
+    work_item: "Work item",
+    estimate: "Estimate",
+    epic: "Epic",
+  },
+  auth_password: {
+    min_length: "Min 8 characters",
+  },
+  user_settings: {
+    fetch_failed: "Failed to fetch user settings",
+  },
+  user_profile: {
+    toast: {
+      fetch_failed: "Failed to fetch user profile",
+      update_failed: "Failed to update user profile",
+      onboard_finish_failed: "Failed to finish user onboarding",
+      tour_complete_failed: "Failed to update user profile is_tour_completed",
+      theme_update_failed: "Failed to update user profile theme",
+    },
+  },
+  profile_preferences: {
+    timezone: {
+      success: "Timezone updated successfully",
+      failed: "Failed to update timezone",
+    },
+    language: {
+      success: "Language updated successfully",
+      failed: "Failed to update language",
+    },
+    calendar: {
+      success: "Calendar system updated successfully",
+      failed: "Failed to update calendar system",
+    },
+    start_of_week: {
+      success: "First day of the week updated successfully",
+      failed: "Please try again later.",
+      update_failed_title: "Update failed",
+    },
+  },
+  profile_general: {
+    update_success: "Profile picture deleted successfully.",
+    update_failed: "There was some error in deleting your profile picture. Please try again.",
+    email_placeholder: "Enter your email",
+  },
+  project_states_extra: {
+    delete_failed: "State could not be deleted. Please try again.",
+    create_success: "State created successfully.",
+    create_failed: "State could not be created. Please try again.",
+    update_success: "State updated successfully.",
+    update_failed: "State could not be updated. Please try again.",
+    delete_success: "State deleted successfully.",
+    form: {
+      name_placeholder: "Name",
+      description_placeholder: "Describe this state for your members.",
+    },
+  },
+  estimates_extra: {
+    deleted_title: "Estimate deleted",
+    delete_failed_title: "Estimate creation failed",
+    list_title: "Estimates list",
+    archived_title: "Archived estimates",
+  },
+  pages_delete: {
+    title: "Delete page",
+  },
+  views_extra_toasts: {
+    delete: {
+      success: "View deleted successfully.",
+      failed: "View could not be deleted. Please try again.",
+    },
+  },
+  fa_importer: {
+    review: {
+      total_rows: "Total Rows",
+      columns_mapped: "Columns Mapped",
+      statuses_mapped: "Statuses Mapped",
+      assignees_mapped: "Assignees Mapped",
+    },
+    results: {
+      imported: "Imported",
+      skipped: "Skipped",
+      errors: "Errors",
+    },
+    upload_error_title: "Upload Error",
   },
 } as const;

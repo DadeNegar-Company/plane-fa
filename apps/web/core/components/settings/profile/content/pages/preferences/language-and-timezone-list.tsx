@@ -34,13 +34,13 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
         await updateCurrentUser({ user_timezone: value });
         setToast({
           title: t("common.success"),
-          message: "Timezone updated successfully",
+          message: t("profile_preferences.timezone.success"),
           type: TOAST_TYPE.SUCCESS,
         });
       } catch (_error) {
         setToast({
           title: t("common.error.label"),
-          message: "Failed to update timezone",
+          message: t("profile_preferences.timezone.failed"),
           type: TOAST_TYPE.ERROR,
         });
       }
@@ -51,13 +51,13 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
         await updateUserProfile({ language: value });
         setToast({
           title: t("common.success"),
-          message: "Language updated successfully",
+          message: t("profile_preferences.language.success"),
           type: TOAST_TYPE.SUCCESS,
         });
       } catch (_error) {
         setToast({
           title: t("common.error.label"),
-          message: "Failed to update language",
+          message: t("profile_preferences.language.failed"),
           type: TOAST_TYPE.ERROR,
         });
       }
@@ -100,13 +100,13 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
         await updateUserProfile({ calendar_system: value as ECalendarSystem });
         setToast({
           title: t("common.success"),
-          message: "Calendar system updated successfully",
+          message: t("profile_preferences.calendar.success"),
           type: TOAST_TYPE.SUCCESS,
         });
       } catch (_error) {
         setToast({
           title: t("common.error.label"),
-          message: "Failed to update calendar system",
+          message: t("profile_preferences.calendar.failed"),
           type: TOAST_TYPE.ERROR,
         });
       }

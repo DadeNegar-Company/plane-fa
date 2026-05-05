@@ -16,9 +16,6 @@ import { SettingsControlItem } from "@/components/settings/control-item";
 // hooks
 import { useUserProfile } from "@/hooks/store/user";
 
-const getStartOfWeekLabel = (startOfWeek: EStartOfTheWeek) =>
-  START_OF_THE_WEEK_OPTIONS.find((option) => option.value === startOfWeek)?.label;
-
 export const StartOfWeekPreference = observer(function StartOfWeekPreference(props: {
   option: { title: string; description: string };
 }) {
@@ -26,16 +23,25 @@ export const StartOfWeekPreference = observer(function StartOfWeekPreference(pro
   const { data: userProfile, updateUserProfile } = useUserProfile();
   const { t } = useTranslation();
 
+  const getStartOfWeekLabel = (startOfWeek: EStartOfTheWeek) => {
+    const option = START_OF_THE_WEEK_OPTIONS.find((opt) => opt.value === startOfWeek);
+    return option ? t(option.i18n_label) : undefined;
+  };
+
   const handleStartOfWeekChange = async (val: number) => {
     try {
       await updateUserProfile({ start_of_the_week: val });
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "First day of the week updated successfully",
+        message: t("profile_preferences.start_of_week.success"),
       });
     } catch (_error) {
-      setToast({ type: TOAST_TYPE.ERROR, title: "Update failed", message: "Please try again later." });
+      setToast({
+        type: TOAST_TYPE.ERROR,
+        title: t("profile_preferences.start_of_week.update_failed_title"),
+        message: t("profile_preferences.start_of_week.failed"),
+      });
     }
   };
 
@@ -56,7 +62,7 @@ export const StartOfWeekPreference = observer(function StartOfWeekPreference(pro
           <>
             {START_OF_THE_WEEK_OPTIONS.map((day) => (
               <CustomSelect.Option key={day.value} value={day.value}>
-                {day.label}
+                {t(day.i18n_label)}
               </CustomSelect.Option>
             ))}
           </>

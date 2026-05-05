@@ -57,7 +57,7 @@ export const StateDelete = observer(function StateDelete(props: TStateDelete) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "State could not be deleted. Please try again.",
+          message: t("project_states_extra.delete_failed"),
         });
       }
       setIsDelete(false);

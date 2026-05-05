@@ -25,6 +25,7 @@ export function ProfileWorkload({ stateDistribution }: Props) {
       <div className="grid grid-cols-1 justify-stretch gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {stateDistribution.map((group) => (
           <div key={group.state_group}>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a>
               <Card direction={ECardDirection.ROW} spacing={ECardSpacing.SM}>
                 <div
@@ -39,7 +40,7 @@ export function ProfileWorkload({ stateDistribution }: Props) {
                       ? "Not started"
                       : group.state_group === "started"
                         ? "Working on"
-                        : STATE_GROUPS[group.state_group].label}
+                        : t(STATE_GROUPS[group.state_group].i18n_label)}
                   </span>
                   <p className="text-18 font-semibold">{group.state_count}</p>
                 </div>

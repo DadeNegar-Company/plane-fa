@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 // plane imports
 import { PROJECT_TRACKER_ELEMENTS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Button, getButtonStyling } from "@plane/propel/button";
 import { cn } from "@plane/utils";
 // assets
@@ -17,7 +18,9 @@ import ProjectLightEmptyState from "@/app/assets/empty-state/project-settings/no
 // hooks
 import { useCommandPalette } from "@/hooks/store/use-command-palette";
 
+// eslint-disable-next-line react-refresh/only-export-components
 function ProjectSettingsPage() {
+  const { t } = useTranslation();
   // store hooks
   const { resolvedTheme } = useTheme();
   const { toggleCreateProjectModal } = useCommandPalette();
@@ -26,7 +29,7 @@ function ProjectSettingsPage() {
   return (
     <div className="flex flex-col gap-4 items-center justify-center h-full max-w-[480px] mx-auto">
       <img src={resolvedPath} alt="No projects yet" />
-      <div className="text-16 font-semibold text-tertiary">No projects yet</div>
+      <div className="text-16 font-semibold text-tertiary">{t("workspace_projects_extra.empty_title")}</div>
       <div className="text-13 text-tertiary text-center">
         Projects act as the foundation for goal-driven work. They let you manage your teams, tasks, and everything you
         need to get things done.
@@ -46,4 +49,5 @@ function ProjectSettingsPage() {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default observer(ProjectSettingsPage);

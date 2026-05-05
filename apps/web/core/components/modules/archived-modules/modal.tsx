@@ -46,7 +46,7 @@ export function ArchiveModuleModal(props: Props) {
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
-          title: "Archive success",
+          title: t("workspace_projects_toasts.archive.success_title"),
           message: "Your archives can be found in project archives.",
         });
         onClose();

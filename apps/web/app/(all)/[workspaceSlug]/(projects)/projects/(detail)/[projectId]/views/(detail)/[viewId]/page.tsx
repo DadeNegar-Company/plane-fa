@@ -6,6 +6,7 @@
 
 import { observer } from "mobx-react";
 import useSWR from "swr";
+import { useTranslation } from "@plane/i18n";
 // assets
 import emptyView from "@/app/assets/empty-state/view.svg?url";
 // components
@@ -18,7 +19,9 @@ import { useProjectView } from "@/hooks/store/use-project-view";
 import { useAppRouter } from "@/hooks/use-app-router";
 import type { Route } from "./+types/page";
 
+// eslint-disable-next-line react-refresh/only-export-components
 function ProjectViewIssuesPage({ params }: Route.ComponentProps) {
+  const { t } = useTranslation();
   // router
   const router = useAppRouter();
   const { workspaceSlug, projectId, viewId } = params;
@@ -26,17 +29,19 @@ function ProjectViewIssuesPage({ params }: Route.ComponentProps) {
   const { fetchViewDetails, getViewById } = useProjectView();
   const { getProjectById } = useProject();
   // derived values
+
   const projectView = getViewById(viewId);
   const project = getProjectById(projectId);
   const pageTitle = project?.name && projectView?.name ? `${project?.name} - ${projectView?.name}` : undefined;
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { error } = useSWR(`VIEW_DETAILS_${viewId}`, () => fetchViewDetails(workspaceSlug, projectId, viewId));
 
   if (error) {
     return (
       <EmptyState
         image={emptyView}
-        title="View does not exist"
+        title={t("views_extra.not_found_title")}
         description="The view you are looking for does not exist or you don't have permission to view it."
         primaryButton={{
           text: "View other views",
@@ -54,4 +59,5 @@ function ProjectViewIssuesPage({ params }: Route.ComponentProps) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default observer(ProjectViewIssuesPage);

@@ -59,7 +59,7 @@ export const StateDeleteModal = observer(function StateDeleteModal(props: TState
           setToast({
             type: TOAST_TYPE.ERROR,
             title: t("common.error.label"),
-            message: "State could not be deleted. Please try again.",
+            message: t("project_states_extra.delete_failed"),
           });
       })
       .finally(() => {

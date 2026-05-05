@@ -1,5 +1,6 @@
 // [FA-CUSTOM] Step 5: Review summary and start import
 
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import type { UseImportWizardReturn } from "../hooks/use-import-wizard";
 
@@ -8,6 +9,7 @@ type Props = {
 };
 
 export function StepReview({ wizard }: Props) {
+  const { t } = useTranslation();
   const { uploadData, columnMapping, statusMapping, assigneeMapping } = wizard;
   if (!uploadData) return null;
 
@@ -23,10 +25,13 @@ export function StepReview({ wizard }: Props) {
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <SummaryCard label="Total Rows" value={uploadData.total_rows} />
-        <SummaryCard label="Columns Mapped" value={`${mappedColumns.length} fields`} />
-        <SummaryCard label="Statuses Mapped" value={`${mappedStatuses} / ${totalStatuses}`} />
-        <SummaryCard label="Assignees Mapped" value={`${mappedAssignees} / ${totalAssignees}`} />
+        <SummaryCard label={t("fa_importer.review.total_rows")} value={uploadData.total_rows} />
+        <SummaryCard label={t("fa_importer.review.columns_mapped")} value={`${mappedColumns.length} fields`} />
+        <SummaryCard label={t("fa_importer.review.statuses_mapped")} value={`${mappedStatuses} / ${totalStatuses}`} />
+        <SummaryCard
+          label={t("fa_importer.review.assignees_mapped")}
+          value={`${mappedAssignees} / ${totalAssignees}`}
+        />
       </div>
 
       {/* Column mapping summary */}

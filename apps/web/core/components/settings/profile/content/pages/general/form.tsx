@@ -102,7 +102,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Profile picture deleted successfully.",
+          message: t("profile_general.update_success"),
         });
         setValue("avatar_url", "");
         return;
@@ -111,7 +111,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "There was some error in deleting your profile picture. Please try again.",
+          message: t("profile_general.update_failed"),
         });
       })
       .finally(() => {
@@ -365,7 +365,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                       value={value}
                       ref={ref}
                       hasError={Boolean(errors.email)}
-                      placeholder="Enter your email"
+                      placeholder={t("profile_general.email_placeholder")}
                       className={`w-full cursor-not-allowed rounded-md !bg-surface-2 ${
                         errors.email ? "border-danger-strong" : ""
                       }`}

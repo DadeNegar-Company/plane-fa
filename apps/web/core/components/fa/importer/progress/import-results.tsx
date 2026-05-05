@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import { CheckCircle, AlertTriangle, XCircle, Download } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { cn } from "@plane/utils";
 import type { UseImportWizardReturn } from "../hooks/use-import-wizard";
@@ -30,6 +31,7 @@ const STATUS_MESSAGES: Record<string, string> = {
 };
 
 export function ImportResults({ wizard, onClose }: Props) {
+  const { t } = useTranslation();
   const job = wizard.importJob;
 
   const downloadErrorLog = useCallback(() => {
@@ -74,9 +76,17 @@ export function ImportResults({ wizard, onClose }: Props) {
 
       {/* Result summary */}
       <div className="grid grid-cols-3 gap-3">
-        <ResultCard label="Imported" value={job.imported_count} colorClass="text-success-primary" />
-        <ResultCard label="Skipped" value={job.skipped_count} colorClass="text-warning-primary" />
-        <ResultCard label="Errors" value={job.error_count} colorClass="text-danger-primary" />
+        <ResultCard
+          label={t("fa_importer.results.imported")}
+          value={job.imported_count}
+          colorClass="text-success-primary"
+        />
+        <ResultCard
+          label={t("fa_importer.results.skipped")}
+          value={job.skipped_count}
+          colorClass="text-warning-primary"
+        />
+        <ResultCard label={t("fa_importer.results.errors")} value={job.error_count} colorClass="text-danger-primary" />
       </div>
 
       {/* Error log */}

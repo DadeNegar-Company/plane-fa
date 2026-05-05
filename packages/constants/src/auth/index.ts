@@ -21,6 +21,7 @@ export const SPACE_PASSWORD_CRITERIA = [
   {
     key: "min_8_char",
     label: "Min 8 characters",
+    i18n_label: "auth_password.min_length",
     isCriteriaValid: (password: string) => password.length >= PASSWORD_MIN_LENGTH,
   },
   // {

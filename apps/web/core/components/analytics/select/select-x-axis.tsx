@@ -5,13 +5,14 @@
  */
 
 // plane package imports
+import { useTranslation } from "@plane/i18n";
 import type { ChartXAxisProperty } from "@plane/types";
 import { CustomSelect } from "@plane/ui";
 
 type Props = {
   value?: ChartXAxisProperty;
   onChange: (val: ChartXAxisProperty | null) => void;
-  options: { value: ChartXAxisProperty; label: string }[];
+  options: { value: ChartXAxisProperty; label: string; i18n_label?: string }[];
   placeholder?: string;
   hiddenOptions?: ChartXAxisProperty[];
   allowNoValue?: boolean;
@@ -20,6 +21,7 @@ type Props = {
 
 export function SelectXAxis(props: Props) {
   const { value, onChange, options, hiddenOptions, allowNoValue, label } = props;
+  const { t } = useTranslation();
   return (
     <CustomSelect value={value} label={label} onChange={onChange} maxHeight="lg">
       {allowNoValue && <CustomSelect.Option value={null}>No value</CustomSelect.Option>}
@@ -27,7 +29,7 @@ export function SelectXAxis(props: Props) {
         if (hiddenOptions?.includes(item.value)) return null;
         return (
           <CustomSelect.Option key={item.value} value={item.value}>
-            {item.label}
+            {item.i18n_label ? t(item.i18n_label) : item.label}
           </CustomSelect.Option>
         );
       })}

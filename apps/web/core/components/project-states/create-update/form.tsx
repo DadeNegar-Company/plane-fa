@@ -6,6 +6,7 @@
 
 import { useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import type { IState } from "@plane/types";
 import { Popover, Input, TextArea } from "@plane/ui";
@@ -31,11 +32,13 @@ function PopoverButton({ color }: { color?: string }) {
 
 export function StateForm(props: TStateForm) {
   const { data, onSubmit, onCancel, buttonDisabled, buttonTitle } = props;
+  const { t } = useTranslation();
   // states
   const [formData, setFromData] = useState<Partial<IState> | undefined>(undefined);
   const [errors, setErrors] = useState<Partial<Record<keyof IState, string>> | undefined>(undefined);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (data && !formData) setFromData(data);
   }, [data, formData]);
 
@@ -77,12 +80,13 @@ export function StateForm(props: TStateForm) {
           id="name"
           type="text"
           name="name"
-          placeholder="Name"
+          placeholder={t("project_states_extra.form.name_placeholder")}
           value={formData?.name}
           onChange={(e) => handleFormData("name", e.target.value)}
           hasError={(errors && Boolean(errors.name)) || false}
           className="w-full"
           maxLength={100}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
         />
 
@@ -90,7 +94,7 @@ export function StateForm(props: TStateForm) {
         <TextArea
           id="description"
           name="description"
-          placeholder="Describe this state for your members."
+          placeholder={t("project_states_extra.form.description_placeholder")}
           value={formData?.description}
           onChange={(e) => handleFormData("description", e.target.value)}
           hasError={(errors && Boolean(errors.description)) || false}
@@ -98,6 +102,7 @@ export function StateForm(props: TStateForm) {
         />
 
         <div className="flex space-x-2 items-center">
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button onClick={formSubmit} variant="primary" size="lg" disabled={buttonDisabled}>
             {buttonTitle}
           </Button>

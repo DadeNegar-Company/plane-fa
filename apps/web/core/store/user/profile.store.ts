@@ -116,7 +116,7 @@ export class ProfileStore implements IUserProfileStore {
         this.isLoading = false;
         this.error = {
           status: "user-profile-fetch-error",
-          message: "Failed to fetch user profile",
+          message: "user_profile.toast.fetch_failed",
         };
       });
       throw error;
@@ -145,7 +145,7 @@ export class ProfileStore implements IUserProfileStore {
       runInAction(() => {
         this.error = {
           status: "user-profile-update-error",
-          message: "Failed to update user profile",
+          message: "user_profile.toast.update_failed",
         };
       });
     }
@@ -188,7 +188,7 @@ export class ProfileStore implements IUserProfileStore {
       runInAction(() => {
         this.error = {
           status: "user-profile-onboard-finish-error",
-          message: "Failed to finish user onboarding",
+          message: "user_profile.toast.onboard_finish_failed",
         };
       });
       throw error;
@@ -212,7 +212,7 @@ export class ProfileStore implements IUserProfileStore {
         this.mutateUserProfile({ is_tour_completed: isUserProfileTourCompleted });
         this.error = {
           status: "user-profile-tour-complete-error",
-          message: "Failed to update user profile is_tour_completed",
+          message: "user_profile.toast.tour_complete_failed",
         };
       });
       throw error;
@@ -246,7 +246,7 @@ export class ProfileStore implements IUserProfileStore {
         });
         this.error = {
           status: "user-profile-theme-update-error",
-          message: "Failed to update user profile theme",
+          message: "user_profile.toast.theme_update_failed",
         };
       });
       throw error;

@@ -121,69 +121,84 @@ export const ANALYTICS_DURATION_FILTER_OPTIONS = [
   },
 ];
 
-export const ANALYTICS_X_AXIS_VALUES: { value: ChartXAxisProperty; label: string }[] = [
+export const ANALYTICS_X_AXIS_VALUES: { value: ChartXAxisProperty; label: string; i18n_label: string }[] = [
   {
     value: ChartXAxisProperty.STATES,
     label: "State name",
+    i18n_label: "analytics_dimensions.state_name",
   },
   {
     value: ChartXAxisProperty.STATE_GROUPS,
     label: "State group",
+    i18n_label: "analytics_dimensions.state_group",
   },
   {
     value: ChartXAxisProperty.PRIORITY,
     label: "Priority",
+    i18n_label: "analytics_dimensions.priority",
   },
   {
     value: ChartXAxisProperty.LABELS,
     label: "Label",
+    i18n_label: "analytics_dimensions.label",
   },
   {
     value: ChartXAxisProperty.ASSIGNEES,
     label: "Assignee",
+    i18n_label: "analytics_dimensions.assignee",
   },
   {
     value: ChartXAxisProperty.ESTIMATE_POINTS,
     label: "Estimate point",
+    i18n_label: "analytics_dimensions.estimate_point",
   },
   {
     value: ChartXAxisProperty.CYCLES,
     label: "Cycle",
+    i18n_label: "analytics_dimensions.cycle",
   },
   {
     value: ChartXAxisProperty.MODULES,
     label: "Module",
+    i18n_label: "analytics_dimensions.module",
   },
   {
     value: ChartXAxisProperty.COMPLETED_AT,
     label: "Completed date",
+    i18n_label: "analytics_dimensions.completed_date",
   },
   {
     value: ChartXAxisProperty.TARGET_DATE,
     label: "Due date",
+    i18n_label: "analytics_dimensions.due_date",
   },
   {
     value: ChartXAxisProperty.START_DATE,
     label: "Start date",
+    i18n_label: "analytics_dimensions.start_date",
   },
   {
     value: ChartXAxisProperty.CREATED_AT,
     label: "Created date",
+    i18n_label: "analytics_dimensions.created_date",
   },
 ];
 
-export const ANALYTICS_Y_AXIS_VALUES: { value: ChartYAxisMetric; label: string }[] = [
+export const ANALYTICS_Y_AXIS_VALUES: { value: ChartYAxisMetric; label: string; i18n_label: string }[] = [
   {
     value: ChartYAxisMetric.WORK_ITEM_COUNT,
     label: "Work item",
+    i18n_label: "analytics_dimensions.work_item",
   },
   {
     value: ChartYAxisMetric.ESTIMATE_POINT_COUNT,
     label: "Estimate",
+    i18n_label: "analytics_dimensions.estimate",
   },
   {
     value: ChartYAxisMetric.EPIC_WORK_ITEM_COUNT,
     label: "Epic",
+    i18n_label: "analytics_dimensions.epic",
   },
 ];
 

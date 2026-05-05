@@ -97,11 +97,12 @@ export function useImportWizard(workspaceSlug: string, projectId: string) {
       } catch (e: unknown) {
         const msg = getErrorMessage(e, "Upload failed");
         setError(msg);
-        setToast({ type: TOAST_TYPE.ERROR, title: "Upload Error", message: msg });
+        setToast({ type: TOAST_TYPE.ERROR, title: t("fa_importer.upload_error_title"), message: msg });
       } finally {
         setIsLoading(false);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [workspaceSlug, projectId, importService]
   );
 

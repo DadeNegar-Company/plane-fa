@@ -38,7 +38,7 @@ export const StateUpdate = observer(function StateUpdate(props: TStateUpdate) {
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("common.success"),
-        message: "State updated successfully.",
+        message: t("project_states_extra.update_success"),
       });
       handleClose();
       return { status: "success" };
@@ -55,7 +55,7 @@ export const StateUpdate = observer(function StateUpdate(props: TStateUpdate) {
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "State could not be updated. Please try again.",
+          message: t("project_states_extra.update_failed"),
         });
         return { status: "error" };
       }

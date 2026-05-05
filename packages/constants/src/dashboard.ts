@@ -20,30 +20,37 @@ export enum EDurationFilters {
 export const DURATION_FILTER_OPTIONS: {
   key: EDurationFilters;
   label: string;
+  i18n_label: string;
 }[] = [
   {
     key: EDurationFilters.NONE,
     label: "All time",
+    i18n_label: "dashboard.duration.all_time",
   },
   {
     key: EDurationFilters.TODAY,
     label: "Due today",
+    i18n_label: "dashboard.duration.due_today",
   },
   {
     key: EDurationFilters.THIS_WEEK,
     label: "Due this week",
+    i18n_label: "dashboard.duration.due_this_week",
   },
   {
     key: EDurationFilters.THIS_MONTH,
     label: "Due this month",
+    i18n_label: "dashboard.duration.due_this_month",
   },
   {
     key: EDurationFilters.THIS_YEAR,
     label: "Due this year",
+    i18n_label: "dashboard.duration.due_this_year",
   },
   {
     key: EDurationFilters.CUSTOM,
     label: "Custom",
+    i18n_label: "dashboard.duration.custom",
   },
 ];
 
@@ -63,18 +70,22 @@ export const PROJECT_BACKGROUND_COLORS = [
 export const FILTERED_ISSUES_TABS_LIST: {
   key: TIssuesListTypes;
   label: string;
+  i18n_label: string;
 }[] = [
   {
     key: "upcoming",
     label: "Upcoming",
+    i18n_label: "dashboard.assigned.upcoming",
   },
   {
     key: "overdue",
     label: "Overdue",
+    i18n_label: "dashboard.assigned.overdue",
   },
   {
     key: "completed",
     label: "Marked completed",
+    i18n_label: "dashboard.assigned.marked_completed",
   },
 ];
 
@@ -82,14 +93,17 @@ export const FILTERED_ISSUES_TABS_LIST: {
 export const UNFILTERED_ISSUES_TABS_LIST: {
   key: TIssuesListTypes;
   label: string;
+  i18n_label: string;
 }[] = [
   {
     key: "pending",
     label: "Pending",
+    i18n_label: "dashboard.created.pending",
   },
   {
     key: "completed",
     label: "Marked completed",
+    i18n_label: "dashboard.created.marked_completed",
   },
 ];
 

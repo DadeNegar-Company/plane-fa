@@ -8,6 +8,7 @@ import { observer } from "mobx-react";
 import useSWR from "swr";
 // plane imports
 import { PanelRight } from "lucide-react";
+import { useTranslation } from "@plane/i18n";
 import { cn } from "@plane/utils";
 // assets
 import emptyModule from "@/app/assets/empty-state/module.svg?url";
@@ -25,6 +26,7 @@ import type { Route } from "./+types/page";
 
 // eslint-disable-next-line react-refresh/only-export-components
 function ModuleIssuesPage({ params }: Route.ComponentProps) {
+  const { t } = useTranslation();
   // router
   const router = useAppRouter();
 
@@ -55,7 +57,7 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
       {error ? (
         <EmptyState
           image={emptyModule}
-          title="Module does not exist"
+          title={t("project_modules_extra.not_found_title")}
           description="The module you are looking for does not exist or has been deleted."
           primaryButton={{
             text: "View other modules",

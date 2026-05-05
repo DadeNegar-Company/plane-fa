@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import Link from "next/link";
 import useSWR from "swr";
 // plane types
+import { useTranslation } from "@plane/i18n";
 import { getButtonStyling } from "@plane/propel/button";
 import type { TSearchEntityRequestPayload, TWebhookConnectionQueryParams } from "@plane/types";
 import { EFileAssetType } from "@plane/types";
@@ -39,7 +40,9 @@ const projectPageVersionService = new ProjectPageVersionService();
 
 const storeType = EPageStoreType.PROJECT;
 
+// eslint-disable-next-line react-refresh/only-export-components
 function PageDetailsPage({ params }: Route.ComponentProps) {
+  const { t } = useTranslation();
   // router
   const router = useAppRouter();
   const { workspaceSlug, projectId, pageId } = params;
@@ -53,6 +56,7 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
   const { uploadEditorAsset, duplicateEditorAsset } = useEditorAsset();
   // derived values
   const workspaceId = workspaceSlug ? (getWorkspaceBySlug(workspaceSlug)?.id ?? "") : "";
+
   const { canCurrentUserAccessPage, id, name, updateDescription } = page ?? {};
   // entity search handler
   const fetchEntityCallback = useCallback(
@@ -66,6 +70,7 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
   // editor config
   const { getEditorFileHandlers } = useEditorConfig();
   // fetch page details
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { error: pageDetailsError } = useSWR(
     `PAGE_DETAILS_${pageId}`,
     () => fetchPageDetails(workspaceSlug, projectId, pageId),
@@ -83,6 +88,7 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
         await projectPageVersionService.fetchAllVersions(workspaceSlug, projectId, pageId),
       fetchDescriptionBinary: async () => {
         if (!id) return;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return await projectPageService.fetchDescriptionBinary(workspaceSlug, projectId, id);
       },
       fetchEntity: fetchEntityCallback,
@@ -161,7 +167,7 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
   if (pageDetailsError || !canCurrentUserAccessPage)
     return (
       <div className="h-full w-full flex flex-col items-center justify-center">
-        <h3 className="text-16 font-semibold text-center">Page not found</h3>
+        <h3 className="text-16 font-semibold text-center">{t("pages_extra.not_found")}</h3>
         <p className="text-13 text-secondary text-center mt-3">
           The page you are trying to access doesn{"'"}t exist or you don{"'"}t have permission to view it.
         </p>
@@ -197,4 +203,5 @@ function PageDetailsPage({ params }: Route.ComponentProps) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default observer(PageDetailsPage);
