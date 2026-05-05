@@ -2994,6 +2994,7 @@ export default {
     last_edited_by: "آخرین ویرایش توسط",
     previously_edited_by: "قبلاً ویرایش‌شده توسط",
     edited_by: "ویرایش‌شده توسط",
+    markdown_copied: "Markdown در کلیپ‌بورد کپی شد.",
   },
   self_hosted_maintenance_message: {
     plane_didnt_start_up_this_could_be_because_one_or_more_plane_services_failed_to_start:
@@ -3275,8 +3276,10 @@ export default {
       last_name: "نام خانوادگی",
       first_name_required: "نام الزامی است",
       first_name_max: "نام باید حداکثر ۵۰ کاراکتر باشد.",
+      first_name_sample: "علی",
       last_name_required: "نام خانوادگی الزامی است",
       last_name_max: "نام خانوادگی باید حداکثر ۵۰ کاراکتر باشد.",
+      last_name_sample: "رضایی",
       set_password: "تنظیم رمز عبور",
       set_password_label: "تنظیم رمز عبور",
       new_password_placeholder: "رمز عبور جدید...",
@@ -3409,6 +3412,11 @@ export default {
     select_time_required: "لطفاً یک زمان انتخاب کنید",
   },
   image_picker: {
+    tabs: {
+      unsplash: "Unsplash",
+      images: "تصاویر",
+      upload: "بارگذاری",
+    },
     images: "تصاویر",
     upload: "بارگذاری",
     image_not_uploaded: "تصویر بارگذاری نشد",
@@ -3819,6 +3827,10 @@ export default {
     delete_failed_title: "ایجاد تخمین انجام نشد",
     list_title: "فهرست تخمین‌ها",
     archived_title: "تخمین‌های بایگانی‌شده",
+    delete: {
+      success_message: "تخمین از پروژه شما حذف شد.",
+      failed_message: "حذف تخمین ناموفق بود، لطفاً دوباره تلاش کنید.",
+    },
   },
   pages_delete: {
     title: "حذف صفحه",
@@ -3854,10 +3866,30 @@ export default {
   issues_extra: {
     bulk_delete: {
       title: "آیتم‌های کاری را برای حذف انتخاب کنید",
+      select_at_least_one: "لطفاً حداقل یک آیتم کاری انتخاب کنید.",
+      success_message: "آیتم‌های کاری با موفقیت حذف شدند!",
     },
     confirm_discard: {
       title: "این پیش‌نویس را ذخیره می‌کنید؟",
     },
+  },
+  gpt_assistant: {
+    task_required: "لطفاً برای دریافت کمک هوش مصنوعی، یک تسک وارد کنید.",
+  },
+  custom_theme: {
+    invalid_hex_code: "یک کد hex معتبر وارد کنید",
+    reloading_to_apply: "بارگذاری مجدد برای اعمال تغییرات...",
+    download: {
+      success_message: "پیکربندی تم با موفقیت دانلود شد.",
+      failed_message: "دانلود پیکربندی تم ناموفق بود.",
+    },
+    import: {
+      success_message: "پیکربندی تم با موفقیت وارد شد",
+    },
+  },
+  gantt_chart: {
+    drag_drop_manual_only: "کشیدن و رها کردن فقط در مرتب‌سازی دستی فعال است",
+    block_update_failed: "خطایی در به‌روزرسانی تاریخ‌های بلاک رخ داد",
   },
   billing: {
     all_plans: "همه پلن‌ها",

@@ -47,7 +47,7 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("estimates_extra.deleted_title"),
-        message: "Estimate has been removed from your project.",
+        message: t("estimates_extra.delete.success_message"),
       });
       handleClose();
     } catch (_error) {
@@ -55,7 +55,7 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("estimates_extra.delete_failed_title"),
-        message: "We were unable to delete the estimate, please try again.",
+        message: t("estimates_extra.delete.failed_message"),
       });
     }
   };

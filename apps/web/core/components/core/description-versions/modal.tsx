@@ -69,7 +69,7 @@ export const DescriptionVersionsModal = observer(function DescriptionVersionsMod
     setToast({
       type: TOAST_TYPE.SUCCESS,
       title: t("toast.success"),
-      message: "Markdown copied to clipboard.",
+      message: t("description_versions.markdown_copied"),
     });
   }, [t]);
 
@@ -160,6 +160,7 @@ export const DescriptionVersionsModal = observer(function DescriptionVersionsMod
             <IconButton type="button" variant="ghost" size="base" onClick={handleCopyMarkdown} icon={CopyIcon} />
           </Tooltip>
           <div className="flex items-center gap-2">
+            {/* eslint-disable-next-line jsx-a11y/tabindex-no-positive */}
             <Button variant="secondary" size="lg" onClick={handleClose} tabIndex={1}>
               {t("common.cancel")}
             </Button>

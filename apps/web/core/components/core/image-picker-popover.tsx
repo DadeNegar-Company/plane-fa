@@ -32,6 +32,7 @@ import { FileService } from "@/services/file.service";
 type TTabOption = {
   key: string;
   title: string;
+  i18n_title: string;
   isEnabled: boolean;
 };
 
@@ -75,16 +76,19 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
       {
         key: "unsplash",
         title: "Unsplash",
+        i18n_title: "image_picker.tabs.unsplash",
         isEnabled: hasUnsplashConfigured,
       },
       {
         key: "images",
         title: "Images",
+        i18n_title: "image_picker.tabs.images",
         isEnabled: true,
       },
       {
         key: "upload",
         title: "Upload",
+        i18n_title: "image_picker.tabs.upload",
         isEnabled: true,
       },
     ],
@@ -213,7 +217,7 @@ export const ImagePickerPopover = observer(function ImagePickerPopover(props: Pr
               <Tabs.List className="flex rounded bg-layer-3 p-1">
                 {enabledTabs.map((tab) => (
                   <Tabs.Trigger key={tab.key} value={tab.key} size="md">
-                    {tab.title}
+                    {t(tab.i18n_title)}
                   </Tabs.Trigger>
                 ))}
                 <Tabs.Indicator />

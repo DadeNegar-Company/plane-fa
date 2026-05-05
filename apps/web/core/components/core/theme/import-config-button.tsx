@@ -73,7 +73,7 @@ export const CustomThemeImportConfigButton = observer(function CustomThemeImport
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: t("success"),
-        message: "Theme configuration imported successfully",
+        message: t("custom_theme.import.success_message"),
       });
     } catch (error) {
       console.error("Failed to upload config:", error);
@@ -92,7 +92,14 @@ export const CustomThemeImportConfigButton = observer(function CustomThemeImport
 
   return (
     <>
-      <input ref={fileInputRef} type="file" accept=".json" onChange={handleUploadConfig} className="hidden" />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onChange={handleUploadConfig}
+        className="hidden"
+      />
       <Button variant="secondary" size="lg" type="button" onClick={() => fileInputRef.current?.click()}>
         Import config
       </Button>

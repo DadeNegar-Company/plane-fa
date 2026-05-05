@@ -326,7 +326,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                         onChange={onChange}
                         ref={ref}
                         hasError={Boolean(errors.first_name)}
-                        placeholder="Wilbur"
+                        placeholder={t("onboarding.profile.first_name_sample")}
                         className="w-full border-strong"
                         autoComplete="on"
                       />
@@ -363,7 +363,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                         onChange={onChange}
                         ref={ref}
                         hasError={Boolean(errors.last_name)}
-                        placeholder="Wright"
+                        placeholder={t("onboarding.profile.last_name_sample")}
                         className="w-full border-strong"
                         autoComplete="on"
                       />

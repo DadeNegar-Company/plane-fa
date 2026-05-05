@@ -105,7 +105,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
       setToast({
         type: TOAST_TYPE.ERROR,
         title: t("common.error.label"),
-        message: "Please select at least one work item.",
+        message: t("issues_extra.bulk_delete.select_at_least_one"),
       });
       return;
     }
@@ -118,7 +118,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
         setToast({
           type: TOAST_TYPE.SUCCESS,
           title: t("common.success"),
-          message: "Work items deleted successfully!",
+          message: t("issues_extra.bulk_delete.success_message"),
         });
         handleClose();
       })
@@ -126,7 +126,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
         setToast({
           type: TOAST_TYPE.ERROR,
           title: t("common.error.label"),
-          message: "Something went wrong. Please try again.",
+          message: t("common.errors.default.message"),
         })
       );
   };

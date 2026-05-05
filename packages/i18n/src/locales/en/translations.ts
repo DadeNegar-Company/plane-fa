@@ -2819,6 +2819,7 @@ export default {
     last_edited_by: "Last edited by",
     previously_edited_by: "Previously edited by",
     edited_by: "Edited by",
+    markdown_copied: "Markdown copied to clipboard.",
   },
   self_hosted_maintenance_message: {
     plane_didnt_start_up_this_could_be_because_one_or_more_plane_services_failed_to_start:
@@ -3104,8 +3105,10 @@ export default {
       last_name: "Last name",
       first_name_required: "First name is required",
       first_name_max: "First name must be within 50 characters.",
+      first_name_sample: "Wilbur",
       last_name_required: "Last name is required",
       last_name_max: "Last name must be within 50 characters.",
+      last_name_sample: "Wright",
       set_password: "Set a password",
       set_password_label: "Set a password",
       new_password_placeholder: "New password...",
@@ -3247,6 +3250,11 @@ export default {
     select_time_required: "Please select a time",
   },
   image_picker: {
+    tabs: {
+      unsplash: "Unsplash",
+      images: "Images",
+      upload: "Upload",
+    },
     images: "Images",
     upload: "Upload",
     image_not_uploaded: "Image not uploaded",
@@ -3657,6 +3665,10 @@ export default {
     delete_failed_title: "Estimate creation failed",
     list_title: "Estimates list",
     archived_title: "Archived estimates",
+    delete: {
+      success_message: "Estimate has been removed from your project.",
+      failed_message: "We were unable to delete the estimate, please try again.",
+    },
   },
   pages_delete: {
     title: "Delete page",
@@ -3692,10 +3704,30 @@ export default {
   issues_extra: {
     bulk_delete: {
       title: "Select work items to delete",
+      select_at_least_one: "Please select at least one work item.",
+      success_message: "Work items deleted successfully!",
     },
     confirm_discard: {
       title: "Save this draft?",
     },
+  },
+  gpt_assistant: {
+    task_required: "Please enter some task to get AI assistance.",
+  },
+  custom_theme: {
+    invalid_hex_code: "Enter a valid hex code",
+    reloading_to_apply: "Reloading to apply changes...",
+    download: {
+      success_message: "Theme configuration downloaded successfully.",
+      failed_message: "Failed to download theme configuration.",
+    },
+    import: {
+      success_message: "Theme configuration imported successfully",
+    },
+  },
+  gantt_chart: {
+    drag_drop_manual_only: "Drag and drop is only enabled when sorted by manual",
+    block_update_failed: "Something went wrong while updating block dates",
   },
   billing: {
     all_plans: "All plans",
