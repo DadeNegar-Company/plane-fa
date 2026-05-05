@@ -93,7 +93,7 @@ export function ImportResults({ wizard, onClose }: Props) {
       {!!job.error_log?.length && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-body-sm-medium text-primary">Error Log</h4>
+            <h4 className="text-body-sm-medium text-primary">{t("fa_importer.error_log")}</h4>
             <Button variant="tertiary" size="sm" onClick={downloadErrorLog}>
               <Download className="me-1 size-3.5" />
               Download CSV

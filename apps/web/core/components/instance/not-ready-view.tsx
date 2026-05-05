@@ -4,10 +4,12 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { GOD_MODE_URL } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { PlaneLockup } from "@plane/propel/icons";
 // assets
@@ -16,6 +18,7 @@ import PlaneBackgroundPattern from "@/app/assets/auth/background-pattern.svg?url
 import PlaneTakeOffImage from "@/app/assets/plane-takeoff.png?url";
 
 export function InstanceNotReady() {
+  const { t } = useTranslation();
   const { resolvedTheme } = useTheme();
   const patternBackground = resolvedTheme === "dark" ? PlaneBackgroundPatternDark : PlaneBackgroundPattern;
 
@@ -38,7 +41,7 @@ export function InstanceNotReady() {
           <div className="h-full w-full relative container px-5 mx-auto flex justify-center items-center">
             <div className="w-auto max-w-2xl relative space-y-8 py-10">
               <div className="relative flex flex-col justify-center items-center space-y-4">
-                <h1 className="text-24 font-bold pb-3">Welcome aboard Plane!</h1>
+                <h1 className="text-24 font-bold pb-3">{t("instance.welcome_aboard")}</h1>
                 <img src={PlaneTakeOffImage} className="w-full h-full object-cover" alt="Plane Logo" />
                 <p className="font-medium text-14 text-placeholder">
                   Get started by setting up your instance and workspace

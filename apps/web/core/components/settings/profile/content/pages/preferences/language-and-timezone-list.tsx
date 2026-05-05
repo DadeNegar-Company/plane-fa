@@ -184,7 +184,7 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
         {/* [FA-CUSTOM] Calendar system selector */}
         <SettingsControlItem
           title={t("common.calendar_system")}
-          description="Choose between Gregorian and Jalali (Shamsi) calendar for all dates."
+          description={t("profile_preferences_extra.calendar_description")}
           control={
             <CustomSelect
               value={profile?.calendar_system ?? ECalendarSystem.GREGORIAN}

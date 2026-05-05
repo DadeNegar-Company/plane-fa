@@ -98,7 +98,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
   return (
     <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XL}>
       <div className="space-y-5 px-5 py-8 sm:p-6">
-        <h3 className="text-16 font-medium leading-6 text-primary">Upload Image</h3>
+        <h3 className="text-16 font-medium leading-6 text-primary">{t("image_upload_modal.title")}</h3>
         <div className="space-y-3">
           <div className="flex items-center justify-center gap-3">
             <div

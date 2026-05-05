@@ -90,55 +90,62 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
 
   const handleUpdateChange = async (payload: Partial<IProject>) => {
     if (!workspaceSlug || !project) return;
-    return updateProject(workspaceSlug.toString(), project.id, payload)
-      .then(() => {
-        setToast({
-          type: TOAST_TYPE.SUCCESS,
-          title: t("toast.success"),
-          message: t("project_settings.general.toast.success"),
-        });
-      })
-      .catch((err) => {
-        try {
-          // Handle the new error format where codes are nested in arrays under field names
-          const errorData = err ?? {};
+    return (
+      updateProject(workspaceSlug.toString(), project.id, payload)
+        // eslint-disable-next-line promise/always-return
+        .then(() => {
+          setToast({
+            type: TOAST_TYPE.SUCCESS,
+            title: t("toast.success"),
+            message: t("project_settings.general.toast.success"),
+          });
+        })
 
-          const nameError = errorData.name?.includes("PROJECT_NAME_ALREADY_EXIST");
-          const identifierError = errorData?.identifier?.includes("PROJECT_IDENTIFIER_ALREADY_EXIST");
+        .catch((err) => {
+          try {
+            // Handle the new error format where codes are nested in arrays under field names
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const errorData = err ?? {};
 
-          if (nameError || identifierError) {
-            if (nameError) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            const nameError = errorData.name?.includes("PROJECT_NAME_ALREADY_EXIST");
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            const identifierError = errorData?.identifier?.includes("PROJECT_IDENTIFIER_ALREADY_EXIST");
+
+            if (nameError || identifierError) {
+              if (nameError) {
+                setToast({
+                  type: TOAST_TYPE.ERROR,
+                  title: t("toast.error"),
+                  message: t("project_name_already_taken"),
+                });
+              }
+
+              if (identifierError) {
+                setToast({
+                  type: TOAST_TYPE.ERROR,
+                  title: t("toast.error"),
+                  message: t("project_identifier_already_taken"),
+                });
+              }
+            } else {
               setToast({
                 type: TOAST_TYPE.ERROR,
                 title: t("toast.error"),
-                message: t("project_name_already_taken"),
+                message: t("something_went_wrong"),
               });
             }
-
-            if (identifierError) {
-              setToast({
-                type: TOAST_TYPE.ERROR,
-                title: t("toast.error"),
-                message: t("project_identifier_already_taken"),
-              });
-            }
-          } else {
+          } catch (error) {
+            // Fallback error handling if the error processing fails
+            console.error("Error processing API error:", error);
             setToast({
               type: TOAST_TYPE.ERROR,
               title: t("toast.error"),
               message: t("something_went_wrong"),
             });
           }
-        } catch (error) {
-          // Fallback error handling if the error processing fails
-          console.error("Error processing API error:", error);
-          setToast({
-            type: TOAST_TYPE.ERROR,
-            title: t("toast.error"),
-            message: t("something_went_wrong"),
-          });
-        }
-      });
+        })
+    );
   };
 
   const onSubmit = async (formData: IProject) => {
@@ -181,6 +188,7 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
       await projectService
         .checkProjectIdentifierAvailability(workspaceSlug, payload.identifier ?? "")
         .then(async (res) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, promise/always-return
           if (res.exists) setError("identifier", { message: t("common.identifier_already_exists") });
           else await handleUpdateChange(payload);
         });
@@ -191,6 +199,7 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
   };
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative h-44 w-full">
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
@@ -210,17 +219,23 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
                   buttonClassName="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-lg bg-white/10"
                   label={<Logo logo={value} size={28} />}
                   // TODO: fix types
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onChange={(val: any) => {
                     let logoValue = {};
 
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                     if (val?.type === "emoji")
                       logoValue = {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                         value: val.value,
                       };
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
                     else if (val?.type === "icon") logoValue = val.value;
 
                     onChange({
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                       in_use: val?.type,
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                       [val?.type]: logoValue,
                     });
                     setIsOpen(false);
@@ -315,7 +330,7 @@ export function ProjectDetailsForm(props: IProjectDetailsForm) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-1">
-            <h4 className="text-13">Project ID</h4>
+            <h4 className="text-13">{t("workspace_projects.form.project_id")}</h4>
             <div className="relative">
               <Controller
                 control={control}

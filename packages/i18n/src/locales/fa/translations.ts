@@ -166,6 +166,10 @@ export default {
       title: "امن‌سازی حساب شما",
       description: "تنظیم رمز عبور به شما کمک می‌کند با امنیت وارد شوید",
     },
+    not_authorized: {
+      title: "متاسفانه شما اجازه مشاهده این صفحه را ندارید",
+      short_title: "دسترسی غیرمجاز!",
+    },
     sign_out: {
       toast: {
         error: {
@@ -1168,6 +1172,7 @@ export default {
       high: "بالا",
       medium: "متوسط",
       low: "پایین",
+      none: "هیچ‌کدام",
     },
     display: {
       properties: {
@@ -1565,6 +1570,20 @@ export default {
     create: {
       label: "افزودن پروژه",
     },
+    delete: {
+      title: "حذف پروژه",
+    },
+    join: {
+      title: "پیوستن به پروژه؟",
+    },
+    leave: {
+      title: "خروج از پروژه",
+    },
+    form: {
+      identifier: "شناسه",
+      network: "شبکه",
+      project_id: "شناسه پروژه",
+    },
     network: {
       label: "شبکه",
       private: {
@@ -1736,6 +1755,12 @@ export default {
     },
   },
   workspace_settings: {
+    api_tokens: {
+      empty_state: "هیچ توکن API وجود ندارد",
+    },
+    delete: {
+      type_name_to_continue: "برای ادامه نام این فضای کاری را تایپ کنید.",
+    },
     label: "تنظیمات فضای کاری",
     page_label: "{workspace} - تنظیمات عمومی",
     key_created: "کلید ایجاد شد",
@@ -1997,6 +2022,26 @@ export default {
     },
   },
   project_settings: {
+    member_defaults: {
+      project_lead: {
+        title: "مسئول پروژه",
+        description: "مسئول این پروژه را انتخاب کنید.",
+      },
+      default_assignee: {
+        title: "مسئول پیش‌فرض",
+        description: "مسئول پیش‌فرض پروژه را انتخاب کنید.",
+      },
+      guest_access: {
+        title: "دسترسی مهمان",
+        description: "این اجازه می‌دهد که مهمان‌ها به همه آیتم‌های کاری پروژه دسترسی مشاهده داشته باشند.",
+      },
+    },
+    control_section: {
+      archive_description:
+        "آرشیو کردن یک پروژه، آن را از پیمایش جانبی شما حذف می‌کند، اگرچه همچنان می‌توانید از صفحه پروژه‌های خود به آن دسترسی داشته باشید. می‌توانید پروژه را بازیابی کنید یا هر زمان که خواستید حذف کنید.",
+      delete_description:
+        "هنگام حذف یک پروژه، همه داده‌ها و منابع موجود در آن پروژه برای همیشه حذف می‌شوند و قابل بازیابی نیستند.",
+    },
     label: "تنظیمات پروژه",
     general: {
       enter_project_id: "شناسه پروژه را وارد کنید",
@@ -2844,6 +2889,9 @@ export default {
     },
   },
   project_modules: {
+    archive_modal: {
+      title: "آرشیو ماژول {name}",
+    },
     status: {
       backlog: "بک‌لاگ",
       planned: "برنامه‌ریزی‌شده",
@@ -3447,6 +3495,11 @@ export default {
   },
   views_extra: {
     not_found_title: "نما وجود ندارد",
+    empty_state: {
+      title: "آیتم‌های کاری نما اینجا نمایش داده می‌شوند",
+      description:
+        "آیتم‌های کاری به شما کمک می‌کنند تا تکه‌های جداگانه کار را پیگیری کنید. با آیتم‌های کاری، پیگیری کنید چه چیزی در حال انجام است، چه کسی روی آن کار می‌کند و چه چیزی انجام شده است.",
+    },
   },
   project_cycles_extra: {
     not_found_title: "چرخه وجود ندارد",
@@ -3749,6 +3802,7 @@ export default {
     email_placeholder: "ایمیل خود را وارد کنید",
   },
   project_states_extra: {
+    delete_title: "حذف وضعیت",
     delete_failed: "حذف وضعیت انجام نشد. لطفاً دوباره تلاش کنید.",
     create_success: "وضعیت با موفقیت ایجاد شد.",
     create_failed: "ایجاد وضعیت انجام نشد. لطفاً دوباره تلاش کنید.",
@@ -3788,5 +3842,31 @@ export default {
       errors: "خطاها",
     },
     upload_error_title: "خطای بارگذاری",
+    error_log: "گزارش خطا",
+    column_mappings: "نگاشت ستون‌ها",
+  },
+  image_upload_modal: {
+    title: "بارگذاری تصویر",
+  },
+  instance: {
+    welcome_aboard: "به Plane خوش آمدید!",
+  },
+  issues_extra: {
+    bulk_delete: {
+      title: "آیتم‌های کاری را برای حذف انتخاب کنید",
+    },
+    confirm_discard: {
+      title: "این پیش‌نویس را ذخیره می‌کنید؟",
+    },
+  },
+  billing: {
+    all_plans: "همه پلن‌ها",
+  },
+  changelog: {
+    fetch_error_description:
+      "در دریافت به‌روزرسانی‌ها مشکلی پیش آمد. لطفاً برای مشاهده آخرین به‌روزرسانی‌ها از changelog ما دیدن کنید.",
+  },
+  profile_preferences_extra: {
+    calendar_description: "بین تقویم میلادی و جلالی (شمسی) برای تمام تاریخ‌ها انتخاب کنید.",
   },
 } as const;

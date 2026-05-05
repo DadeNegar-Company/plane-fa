@@ -997,6 +997,7 @@ export default {
       high: "High",
       medium: "Medium",
       low: "Low",
+      none: "None",
     },
     display: {
       properties: {
@@ -1394,6 +1395,20 @@ export default {
     create: {
       label: "Add Project",
     },
+    delete: {
+      title: "Delete project",
+    },
+    join: {
+      title: "Join Project?",
+    },
+    leave: {
+      title: "Leave Project",
+    },
+    form: {
+      identifier: "Identifier",
+      network: "Network",
+      project_id: "Project ID",
+    },
     network: {
       label: "Network",
       private: {
@@ -1564,6 +1579,12 @@ export default {
     },
   },
   workspace_settings: {
+    api_tokens: {
+      empty_state: "No API tokens",
+    },
+    delete: {
+      type_name_to_continue: "Type in this workspace's name to continue.",
+    },
     label: "Workspace settings",
     page_label: "{workspace} - General settings",
     key_created: "Key created",
@@ -1824,6 +1845,26 @@ export default {
     },
   },
   project_settings: {
+    member_defaults: {
+      project_lead: {
+        title: "Project Lead",
+        description: "Select the project lead for the project.",
+      },
+      default_assignee: {
+        title: "Default Assignee",
+        description: "Select the default assignee for the project.",
+      },
+      guest_access: {
+        title: "Guest access",
+        description: "This will allow guests to have view access to all the project work items.",
+      },
+    },
+    control_section: {
+      archive_description:
+        "Archiving a project will unlist your project from your side navigation although you will still be able to access it from your projects page. You can restore the project or delete it whenever you want.",
+      delete_description:
+        "When deleting a project, all of the data and resources within that project will be permanently removed and cannot be recovered.",
+    },
     label: "Project settings",
     general: {
       enter_project_id: "Enter project ID",
@@ -2673,6 +2714,9 @@ export default {
     },
   },
   project_modules: {
+    archive_modal: {
+      title: "Archive module {name}",
+    },
     status: {
       backlog: "Backlog",
       planned: "Planned",
@@ -3107,6 +3151,10 @@ export default {
       title: "Set password",
       description: "Create a new password.",
     },
+    not_authorized: {
+      title: "Oops! You are not authorized to view this page",
+      short_title: "Not Authorized!",
+    },
   },
   webhooks_extra: {
     delete_modal: {
@@ -3285,6 +3333,11 @@ export default {
   },
   views_extra: {
     not_found_title: "View does not exist",
+    empty_state: {
+      title: "View work items will appear here",
+      description:
+        "Work items help you track individual pieces of work. With work items, keep track of what's going on, who is working on it, and what's done.",
+    },
   },
   project_cycles_extra: {
     not_found_title: "Cycle does not exist",
@@ -3587,6 +3640,7 @@ export default {
     email_placeholder: "Enter your email",
   },
   project_states_extra: {
+    delete_title: "Delete State",
     delete_failed: "State could not be deleted. Please try again.",
     create_success: "State created successfully.",
     create_failed: "State could not be created. Please try again.",
@@ -3626,5 +3680,31 @@ export default {
       errors: "Errors",
     },
     upload_error_title: "Upload Error",
+    error_log: "Error Log",
+    column_mappings: "Column Mappings",
+  },
+  image_upload_modal: {
+    title: "Upload image",
+  },
+  instance: {
+    welcome_aboard: "Welcome aboard Plane!",
+  },
+  issues_extra: {
+    bulk_delete: {
+      title: "Select work items to delete",
+    },
+    confirm_discard: {
+      title: "Save this draft?",
+    },
+  },
+  billing: {
+    all_plans: "All plans",
+  },
+  changelog: {
+    fetch_error_description:
+      "We're having trouble fetching the updates. Please visit our changelog to view the latest updates.",
+  },
+  profile_preferences_extra: {
+    calendar_description: "Choose between Gregorian and Jalali (Shamsi) calendar for all dates.",
   },
 } as const;

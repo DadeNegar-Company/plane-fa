@@ -36,7 +36,7 @@ export function StepReview({ wizard }: Props) {
 
       {/* Column mapping summary */}
       <div className="rounded-lg border border-subtle p-3">
-        <h4 className="mb-2 text-caption-md-medium uppercase text-tertiary">Column Mappings</h4>
+        <h4 className="mb-2 text-caption-md-medium uppercase text-tertiary">{t("fa_importer.column_mappings")}</h4>
         <div className="space-y-1">
           {mappedColumns.map(([planeField, fileCol]) => (
             <div key={planeField} className="flex items-center gap-2 text-caption-md-regular">

@@ -4,7 +4,9 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from "react";
+import { useTranslation } from "@plane/i18n";
 // ui
 import { Button } from "@plane/propel/button";
 // assets
@@ -16,6 +18,7 @@ type Props = {
 
 export function ApiTokenEmptyState(props: Props) {
   const { onClick } = props;
+  const { t } = useTranslation();
 
   return (
     <div
@@ -23,7 +26,7 @@ export function ApiTokenEmptyState(props: Props) {
     >
       <div className="flex w-full flex-col items-center text-center">
         <img src={emptyApiTokens} className="w-52 sm:w-60 object-contain" alt="empty" />
-        <h6 className="mb-3 mt-6 text-18 font-semibold sm:mt-8">No API tokens</h6>
+        <h6 className="mb-3 mt-6 text-18 font-semibold sm:mt-8">{t("workspace_settings.api_tokens.empty_state")}</h6>
         <p className="mb-7 text-tertiary sm:mb-8">
           Create API tokens for safe and easy data sharing with external apps, maintaining control and security.
         </p>

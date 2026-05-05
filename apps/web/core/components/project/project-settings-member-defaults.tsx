@@ -107,6 +107,7 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
       project_lead:
         formData.project_lead === "none" ? null : (formData.project_lead ?? currentProjectDetails?.project_lead),
     })
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           title: `${t("success")}!`,
@@ -119,12 +120,14 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
       });
   };
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   const toggleGuestViewAllIssues = async (value: boolean) => {
     if (!workspaceSlug || !projectId) return;
 
     updateProject(workspaceSlug, projectId, {
       guest_view_all_features: value,
     })
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           title: `${t("success")}!`,
@@ -139,7 +142,10 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
 
   return (
     <div className="flex flex-col gap-y-6 my-6">
-      <DefaultSettingItem title="Project Lead" description="Select the project lead for the project.">
+      <DefaultSettingItem
+        title={t("project_settings.member_defaults.project_lead.title")}
+        description={t("project_settings.member_defaults.project_lead.description")}
+      >
         {currentProjectDetails ? (
           <Controller
             control={control}
@@ -148,6 +154,7 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
               <MemberSelect
                 value={value}
                 onChange={(val: string) => {
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
                   submitChanges({ project_lead: val });
                 }}
                 isDisabled={!isAdmin}
@@ -160,7 +167,10 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
           </Loader>
         )}
       </DefaultSettingItem>
-      <DefaultSettingItem title="Default Assignee" description="Select the default assignee for the project.">
+      <DefaultSettingItem
+        title={t("project_settings.member_defaults.default_assignee.title")}
+        description={t("project_settings.member_defaults.default_assignee.description")}
+      >
         {currentProjectDetails ? (
           <Controller
             control={control}
@@ -169,6 +179,7 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
               <MemberSelect
                 value={value}
                 onChange={(val: string) => {
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
                   submitChanges({ default_assignee: val });
                 }}
                 isDisabled={!isAdmin}
@@ -183,12 +194,13 @@ export const ProjectSettingsMemberDefaults = observer(function ProjectSettingsMe
       </DefaultSettingItem>
       {currentProjectDetails && (
         <DefaultSettingItem
-          title="Guest access"
-          description="This will allow guests to have view access to all the project work items."
+          title={t("project_settings.member_defaults.guest_access.title")}
+          description={t("project_settings.member_defaults.guest_access.description")}
         >
           <div className="flex items-center justify-end">
             <ToggleSwitch
               value={!!currentProjectDetails?.guest_view_all_features}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onChange={() => toggleGuestViewAllIssues(!currentProjectDetails?.guest_view_all_features)}
               disabled={!isAdmin}
               size="sm"

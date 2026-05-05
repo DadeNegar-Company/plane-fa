@@ -5,6 +5,7 @@
  */
 
 import { useState } from "react";
+import { useTranslation } from "@plane/i18n";
 // types
 import { Button } from "@plane/propel/button";
 import type { IProject } from "@plane/types";
@@ -24,6 +25,7 @@ type TJoinProjectModalProps = {
 
 export function JoinProjectModal(props: TJoinProjectModalProps) {
   const { handleClose, isOpen, project, workspaceSlug } = props;
+  const { t } = useTranslation();
   // states
   const [isJoiningLoading, setIsJoiningLoading] = useState(false);
   // store hooks
@@ -51,7 +53,7 @@ export function JoinProjectModal(props: TJoinProjectModalProps) {
   return (
     <ModalCore isOpen={isOpen} handleClose={handleClose} position={EModalPosition.CENTER} width={EModalWidth.XL}>
       <div className="space-y-5 px-5 py-8 sm:p-6">
-        <h3 className="text-16 font-medium leading-6 text-primary">Join Project?</h3>
+        <h3 className="text-16 font-medium leading-6 text-primary">{t("workspace_projects.join.title")}</h3>
         <p>
           Are you sure you want to join the project <span className="break-words font-semibold">{project?.name}</span>?
           Please click the &apos;Join Project&apos; button below to continue.
@@ -62,6 +64,7 @@ export function JoinProjectModal(props: TJoinProjectModalProps) {
         <Button variant="secondary" size="lg" onClick={handleClose}>
           Cancel
         </Button>
+        {/* eslint-disable-next-line jsx-a11y/tabindex-no-positive, @typescript-eslint/no-misused-promises */}
         <Button variant="primary" size="lg" tabIndex={1} type="submit" onClick={handleJoin} loading={isJoiningLoading}>
           {isJoiningLoading ? "Joining..." : "Join Project"}
         </Button>

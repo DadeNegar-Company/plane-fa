@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FC } from "react";
 import { useState } from "react";
 import { observer } from "mobx-react";
@@ -52,7 +53,8 @@ export const FilterPriority = observer(function FilterPriority(props: Props) {
                 isChecked={filterValue?.includes(priority.key) ? true : false}
                 onClick={() => handleInboxIssueFilters("priority", handleFilterValue(priority.key))}
                 icon={<PriorityIcon priority={priority.key} className="h-3.5 w-3.5" />}
-                title={priority.title}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                title={t(priority.i18n_title)}
               />
             ))
           ) : (

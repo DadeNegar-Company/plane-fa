@@ -81,6 +81,7 @@ export const DeleteWorkspaceForm = observer(function DeleteWorkspaceForm(props: 
   };
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 p-6">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
         <span
@@ -101,7 +102,7 @@ export const DeleteWorkspaceForm = observer(function DeleteWorkspaceForm(props: 
           </div>
 
           <div className="text-secondary mt-4">
-            <p className="break-words text-body-xs-regular ">Type in this workspace&apos;s name to continue.</p>
+            <p className="break-words text-body-xs-regular ">{t("workspace_settings.delete.type_name_to_continue")}</p>
             <Controller
               control={control}
               name="workspaceName"

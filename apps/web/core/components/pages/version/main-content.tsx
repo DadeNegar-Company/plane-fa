@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import useSWR from "swr";
 import { EyeIcon, TriangleAlert } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TPageVersion } from "@plane/types";
@@ -40,12 +41,14 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
     restoreEnabled,
     storeType,
   } = props;
+  const { t } = useTranslation();
   // states
   const [isRestoring, setIsRestoring] = useState(false);
   const [isRetrying, setIsRetrying] = useState(false);
 
   const {
     data: versionDetails,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     error: versionDetailsError,
     mutate: mutateVersionDetails,
   } = useSWR(
@@ -57,6 +60,7 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
     if (!restoreEnabled) return;
     setIsRestoring(true);
     await handleRestore(versionDetails?.description_html ?? "<p></p>")
+      // eslint-disable-next-line promise/always-return
       .then(() => {
         setToast({
           type: TOAST_TYPE.SUCCESS,
@@ -90,9 +94,10 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
               <TriangleAlert className="size-10" />
             </span>
             <div>
-              <h6 className="text-16 font-semibold">Something went wrong!</h6>
+              <h6 className="text-16 font-semibold">{t("common.something_went_wrong")}</h6>
               <p className="text-13 text-tertiary">The version could not be loaded, please try again.</p>
             </div>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <Button variant="link" onClick={handleRetry} loading={isRetrying}>
               Try again
             </Button>
@@ -113,6 +118,7 @@ export const PageVersionsMainContent = observer(function PageVersionsMainContent
               </span>
             </div>
             {restoreEnabled && (
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               <Button variant="primary" className="flex-shrink-0" onClick={handleRestoreVersion} loading={isRestoring}>
                 {isRestoring ? "Restoring" : "Restore"}
               </Button>

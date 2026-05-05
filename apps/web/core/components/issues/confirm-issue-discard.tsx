@@ -5,6 +5,7 @@
  */
 
 import { useState } from "react";
+import { useTranslation } from "@plane/i18n";
 // ui
 import { Button } from "@plane/propel/button";
 import { EModalPosition, EModalWidth, ModalCore } from "@plane/ui";
@@ -18,6 +19,7 @@ type Props = {
 
 export function ConfirmIssueDiscard(props: Props) {
   const { isOpen, handleClose, onDiscard, onConfirm } = props;
+  const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,7 +39,7 @@ export function ConfirmIssueDiscard(props: Props) {
       <div className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
         <div className="sm:flex sm:items-start">
           <div className="mt-3 text-center sm:mt-0 sm:text-start">
-            <h3 className="text-16 font-medium leading-6 text-primary">Save this draft?</h3>
+            <h3 className="text-16 font-medium leading-6 text-primary">{t("issues_extra.confirm_discard.title")}</h3>
             <div className="mt-2">
               <p className="text-13 text-secondary">
                 You can save this work item to Drafts so you can come back to it later.{" "}
@@ -56,6 +58,7 @@ export function ConfirmIssueDiscard(props: Props) {
           <Button variant="secondary" onClick={onClose}>
             Cancel
           </Button>
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button variant="primary" onClick={handleDeletion} loading={isLoading}>
             {isLoading ? "Saving" : "Save to Drafts"}
           </Button>

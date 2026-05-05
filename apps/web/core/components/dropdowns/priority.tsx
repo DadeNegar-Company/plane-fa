@@ -82,7 +82,8 @@ function BorderButton(props: ButtonProps) {
   return (
     <Tooltip
       tooltipHeading={t("priority")}
-      tooltipContent={priorityDetails?.title ?? t("common.none")}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      tooltipContent={priorityDetails ? t(priorityDetails.i18n_title) : t("common.none")}
       disabled={!showTooltip}
       isMobile={isMobile}
       renderByDefault={renderToolTipByDefault}
@@ -132,7 +133,8 @@ function BorderButton(props: ButtonProps) {
               "text-placeholder": !priority || priority === "none",
             })}
           >
-            {priorityDetails?.title ?? placeholder}
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */}
+            {priorityDetails ? t(priorityDetails.i18n_title) : placeholder}
           </span>
         )}
         {dropdownArrow && (
@@ -223,7 +225,8 @@ function BackgroundButton(props: ButtonProps) {
               "text-placeholder": !priority || priority === "none",
             })}
           >
-            {priorityDetails?.title ?? t("common.priority") ?? placeholder}
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */}
+            {priorityDetails ? t(priorityDetails.i18n_title) : (t("common.priority") ?? placeholder)}
           </span>
         )}
         {dropdownArrow && (
@@ -257,7 +260,8 @@ function TransparentButton(props: ButtonProps) {
   return (
     <Tooltip
       tooltipHeading={t("priority")}
-      tooltipContent={priorityDetails?.title ?? t("common.none")}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      tooltipContent={priorityDetails ? t(priorityDetails.i18n_title) : t("common.none")}
       disabled={!showTooltip}
       isMobile={isMobile}
       renderByDefault={renderToolTipByDefault}
@@ -307,7 +311,8 @@ function TransparentButton(props: ButtonProps) {
               "text-placeholder": !priority || priority === "none",
             })}
           >
-            {priorityDetails?.title ?? t("common.priority") ?? placeholder}
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */}
+            {priorityDetails ? t(priorityDetails.i18n_title) : (t("common.priority") ?? placeholder)}
           </span>
         )}
         {dropdownArrow && (
@@ -369,7 +374,8 @@ export function PriorityDropdown(props: Props) {
     content: (
       <div className="flex items-center gap-2">
         <PriorityIcon priority={priority.key} size={14} withContainer />
-        <span className="flex-grow truncate">{priority.title}</span>
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */}
+        <span className="flex-grow truncate">{t(priority.i18n_title)}</span>
       </div>
     ),
   }));
@@ -479,6 +485,7 @@ export function PriorityDropdown(props: Props) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("search")}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
                 displayValue={(assigned: any) => assigned?.name}
                 onKeyDown={searchInputKeyDown}
               />

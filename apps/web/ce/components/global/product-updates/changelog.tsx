@@ -6,12 +6,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 // hooks
 import { Loader } from "@plane/ui";
 import { ProductUpdatesFallback } from "@/components/global/product-updates/fallback";
 import { useInstance } from "@/hooks/store/use-instance";
 
 export const ProductUpdatesChangelog = observer(function ProductUpdatesChangelog() {
+  const { t } = useTranslation();
   // refs
   const isLoadingRef = useRef(true);
   // states
@@ -65,7 +67,7 @@ export const ProductUpdatesChangelog = observer(function ProductUpdatesChangelog
   if (shouldShowFallback) {
     return (
       <ProductUpdatesFallback
-        description="We're having trouble fetching the updates. Please visit our changelog to view the latest updates."
+        description={t("changelog.fetch_error_description")}
         variant={config?.is_self_managed ? "self-managed" : "cloud"}
       />
     );
@@ -78,6 +80,7 @@ export const ProductUpdatesChangelog = observer(function ProductUpdatesChangelog
           <Loader.Item height="95%" width="95%" />
         </Loader>
       )}
+      {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
       <iframe
         src={changeLogUrl}
         className={`w-full h-full ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
