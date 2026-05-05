@@ -274,7 +274,7 @@ export function InstanceSetupForm() {
                   <button
                     type="button"
                     tabIndex={-1}
-                    className="absolute right-3 top-3.5 flex items-center justify-center text-placeholder"
+                    className="absolute end-3 top-3.5 flex items-center justify-center text-placeholder"
                     onClick={() => handleShowPassword("password")}
                   >
                     <EyeOff className="h-4 w-4" />
@@ -283,7 +283,7 @@ export function InstanceSetupForm() {
                   <button
                     type="button"
                     tabIndex={-1}
-                    className="absolute right-3 top-3.5 flex items-center justify-center text-placeholder"
+                    className="absolute end-3 top-3.5 flex items-center justify-center text-placeholder"
                     onClick={() => handleShowPassword("password")}
                   >
                     <Eye className="h-4 w-4" />
@@ -309,7 +309,7 @@ export function InstanceSetupForm() {
                   value={formData.confirm_password}
                   onChange={(e) => handleFormChange("confirm_password", e.target.value)}
                   placeholder="Confirm password"
-                  className="w-full border border-subtle !bg-surface-1 pr-12 placeholder:text-placeholder"
+                  className="w-full border border-subtle !bg-surface-1 pe-12 placeholder:text-placeholder"
                   onFocus={() => setIsRetryPasswordInputFocused(true)}
                   onBlur={() => setIsRetryPasswordInputFocused(false)}
                   autoComplete="new-password"
@@ -318,7 +318,7 @@ export function InstanceSetupForm() {
                   <button
                     type="button"
                     tabIndex={-1}
-                    className="absolute right-3 top-3.5 flex items-center justify-center text-placeholder"
+                    className="absolute end-3 top-3.5 flex items-center justify-center text-placeholder"
                     onClick={() => handleShowPassword("retypePassword")}
                   >
                     <EyeOff className="h-4 w-4" />
@@ -327,7 +327,7 @@ export function InstanceSetupForm() {
                   <button
                     type="button"
                     tabIndex={-1}
-                    className="absolute right-3 top-3.5 flex items-center justify-center text-placeholder"
+                    className="absolute end-3 top-3.5 flex items-center justify-center text-placeholder"
                     onClick={() => handleShowPassword("retypePassword")}
                   >
                     <Eye className="h-4 w-4" />

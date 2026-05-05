@@ -93,7 +93,7 @@ export const PeekOverviewIssueProperties = observer(function PeekOverviewIssuePr
           </div>
           <div className="w-3/4">
             <div
-              className={`inline-flex items-center gap-1.5 rounded-sm px-2.5 py-0.5 text-left text-13 capitalize bg-layer-2 ${
+              className={`inline-flex items-center gap-1.5 rounded-sm px-2.5 py-0.5 text-start text-13 capitalize bg-layer-2 ${
                 priority?.key === "urgent"
                   ? "border-priority-urgent text-priority-urgent"
                   : priority?.key === "high"

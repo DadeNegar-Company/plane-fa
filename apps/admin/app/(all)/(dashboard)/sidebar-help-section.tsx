@@ -57,7 +57,7 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
       )}
     >
       <div className={`flex items-center gap-1 ${isSidebarCollapsed ? "flex-col justify-center" : "w-full"}`}>
-        <Tooltip tooltipContent="Redirect to Plane" position="right" className="ml-4" disabled={!isSidebarCollapsed}>
+        <Tooltip tooltipContent="Redirect to Plane" position="right" className="ms-4" disabled={!isSidebarCollapsed}>
           <a
             href={redirectionLink}
             className={`relative px-2 py-1 flex items-center gap-1 rounded-sm bg-layer-1 text-body-xs-medium text-secondary whitespace-nowrap`}
@@ -66,10 +66,10 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
             {!isSidebarCollapsed && "Redirect to Plane"}
           </a>
         </Tooltip>
-        <Tooltip tooltipContent="Help" position={isSidebarCollapsed ? "right" : "top"} className="ml-4">
+        <Tooltip tooltipContent="Help" position={isSidebarCollapsed ? "right" : "top"} className="ms-4">
           <button
             type="button"
-            className={`ml-auto grid place-items-center rounded-md p-1.5 text-secondary outline-none hover:bg-layer-1-hover hover:text-primary ${
+            className={`ms-auto grid place-items-center rounded-md p-1.5 text-secondary outline-none hover:bg-layer-1-hover hover:text-primary ${
               isSidebarCollapsed ? "w-full" : ""
             }`}
             onClick={() => setIsNeedHelpOpen((prev) => !prev)}
@@ -77,7 +77,7 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
             <HelpCircle className="size-4" />
           </button>
         </Tooltip>
-        <Tooltip tooltipContent="Toggle sidebar" position={isSidebarCollapsed ? "right" : "top"} className="ml-4">
+        <Tooltip tooltipContent="Toggle sidebar" position={isSidebarCollapsed ? "right" : "top"} className="ms-4">
           <button
             type="button"
             className={`grid place-items-center rounded-md p-1.5 text-secondary outline-none hover:bg-layer-1-hover hover:text-primary ${
@@ -102,7 +102,7 @@ export const AdminSidebarHelpSection = observer(function AdminSidebarHelpSection
         >
           <div
             className={`absolute bottom-2 min-w-[10rem] z-[15] ${
-              isSidebarCollapsed ? "left-full" : "-left-[75px]"
+              isSidebarCollapsed ? "left-full" : "-start-[75px]"
             } divide-y divide-subtle-1 whitespace-nowrap rounded-sm bg-surface-1 p-1 shadow-raised-100`}
             ref={helpOptionsRef}
           >

@@ -35,7 +35,7 @@ export const AdminSidebarMenu = observer(function AdminSidebarMenu() {
         return (
           <Link key={index} href={item.href} onClick={handleItemClick}>
             <div>
-              <Tooltip tooltipContent={item.name} position="right" className="ml-2" disabled={!isSidebarCollapsed}>
+              <Tooltip tooltipContent={item.name} position="right" className="ms-2" disabled={!isSidebarCollapsed}>
                 <div
                   className={cn(
                     "group flex w-full items-center gap-3 rounded-md px-3 py-2 outline-none transition-colors",

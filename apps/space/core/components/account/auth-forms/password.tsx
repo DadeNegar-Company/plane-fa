@@ -138,7 +138,7 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
           />
           {passwordFormData.email.length > 0 && (
             <XCircle
-              className="absolute right-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
+              className="absolute end-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
               onClick={handleEmailClear}
             />
           )}
@@ -156,7 +156,7 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
             value={passwordFormData.password}
             onChange={(e) => handleFormChange("password", e.target.value)}
             placeholder="Enter password"
-            className="disable-autofill-style h-10 w-full border border-subtle !bg-surface-1 pr-12 placeholder:text-placeholder"
+            className="disable-autofill-style h-10 w-full border border-subtle !bg-surface-1 pe-12 placeholder:text-placeholder"
             onFocus={() => setIsPasswordInputFocused(true)}
             onBlur={() => setIsPasswordInputFocused(false)}
             autoComplete="off"
@@ -164,12 +164,12 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
           />
           {showPassword?.password ? (
             <EyeOff
-              className="absolute right-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
+              className="absolute end-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
               onClick={() => handleShowPassword("password")}
             />
           ) : (
             <Eye
-              className="absolute right-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
+              className="absolute end-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
               onClick={() => handleShowPassword("password")}
             />
           )}
@@ -189,19 +189,19 @@ export const AuthPasswordForm = observer(function AuthPasswordForm(props: Props)
               value={passwordFormData.confirm_password}
               onChange={(e) => handleFormChange("confirm_password", e.target.value)}
               placeholder="Confirm password"
-              className="disable-autofill-style h-10 w-full border border-subtle !bg-surface-1 pr-12 placeholder:text-placeholder"
+              className="disable-autofill-style h-10 w-full border border-subtle !bg-surface-1 pe-12 placeholder:text-placeholder"
               onFocus={() => setIsRetryPasswordInputFocused(true)}
               onBlur={() => setIsRetryPasswordInputFocused(false)}
               autoComplete="off"
             />
             {showPassword?.retypePassword ? (
               <EyeOff
-                className="absolute right-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
+                className="absolute end-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
                 onClick={() => handleShowPassword("retypePassword")}
               />
             ) : (
               <Eye
-                className="absolute right-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
+                className="absolute end-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
                 onClick={() => handleShowPassword("retypePassword")}
               />
             )}

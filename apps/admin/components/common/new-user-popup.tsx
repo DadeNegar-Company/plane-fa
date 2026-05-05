@@ -24,7 +24,7 @@ export const NewUserPopup = observer(function NewUserPopup() {
 
   if (!isNewUserPopup) return <></>;
   return (
-    <div className="absolute bottom-8 right-8 p-6 w-96 border border-subtle shadow-md rounded-lg bg-surface-1">
+    <div className="absolute bottom-8 end-8 p-6 w-96 border border-subtle shadow-md rounded-lg bg-surface-1">
       <div className="flex gap-4">
         <div className="grow">
           <div className="text-14 font-semibold">Create workspace</div>

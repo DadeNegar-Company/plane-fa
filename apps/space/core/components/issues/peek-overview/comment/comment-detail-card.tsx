@@ -88,7 +88,7 @@ export const CommentCard = observer(function CommentCard(props: Props) {
           </div>
         )}
 
-        <span className="absolute -bottom-0.5 -right-1 rounded-tl-sm bg-layer-1 px-0.5 py-px">
+        <span className="absolute -bottom-0.5 -end-1 rounded-tl-sm bg-layer-1 px-0.5 py-px">
           <MessageSquare className="size-3 text-secondary" aria-hidden="true" strokeWidth={2} />
         </span>
       </div>
@@ -168,7 +168,7 @@ export const CommentCard = observer(function CommentCard(props: Props) {
         </div>
       </div>
       {!isInIframe && currentUser?.id === comment?.actor_detail?.id && (
-        <Menu as="div" className="relative w-min text-left">
+        <Menu as="div" className="relative w-min text-start">
           <Menu.Button
             type="button"
             onClick={() => {}}
@@ -186,7 +186,7 @@ export const CommentCard = observer(function CommentCard(props: Props) {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 z-10 mt-1 max-h-36 min-w-[8rem] origin-top-right overflow-auto overflow-y-scroll whitespace-nowrap rounded-md border border-strong bg-surface-1 p-1 text-11 shadow-lg focus:outline-none">
+            <Menu.Items className="absolute end-0 z-10 mt-1 max-h-36 min-w-[8rem] origin-top-right overflow-auto overflow-y-scroll whitespace-nowrap rounded-md border border-strong bg-surface-1 p-1 text-11 shadow-lg focus:outline-none">
               <Menu.Item>
                 {({ active }) => (
                   <div className="py-1">
@@ -195,7 +195,7 @@ export const CommentCard = observer(function CommentCard(props: Props) {
                       onClick={() => {
                         setIsEditing(true);
                       }}
-                      className={`w-full select-none truncate rounded-sm px-1 py-1.5 text-left text-secondary hover:bg-layer-transparent-hover ${
+                      className={`w-full select-none truncate rounded-sm px-1 py-1.5 text-start text-secondary hover:bg-layer-transparent-hover ${
                         active ? "bg-layer-transparent-hover" : ""
                       }`}
                     >
@@ -210,7 +210,7 @@ export const CommentCard = observer(function CommentCard(props: Props) {
                     <button
                       type="button"
                       onClick={handleDelete}
-                      className={`w-full select-none truncate rounded-sm px-1 py-1.5 text-left text-secondary hover:bg-layer-transparent-hover ${
+                      className={`w-full select-none truncate rounded-sm px-1 py-1.5 text-start text-secondary hover:bg-layer-transparent-hover ${
                         active ? "bg-layer-transparent-hover" : ""
                       }`}
                     >

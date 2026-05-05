@@ -103,7 +103,7 @@ export function AuthUniqueCodeForm(props: TAuthUniqueCodeForm) {
           />
           {uniqueCodeFormData.email.length > 0 && (
             <XCircle
-              className="absolute right-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
+              className="absolute end-3 h-5 w-5 stroke-placeholder hover:cursor-pointer"
               onClick={handleEmailClear}
             />
           )}
@@ -119,7 +119,7 @@ export function AuthUniqueCodeForm(props: TAuthUniqueCodeForm) {
           value={uniqueCodeFormData.code}
           onChange={(e) => handleFormChange("code", e.target.value)}
           placeholder="123456"
-          className="disable-autofill-style h-10 w-full border border-subtle !bg-surface-1 pr-12 placeholder:text-placeholder"
+          className="disable-autofill-style h-10 w-full border border-subtle !bg-surface-1 pe-12 placeholder:text-placeholder"
           autoComplete="off"
           autoFocus
         />
