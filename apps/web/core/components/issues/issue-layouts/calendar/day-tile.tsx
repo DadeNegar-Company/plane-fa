@@ -15,7 +15,7 @@ import type { TGroupedIssues, TIssue, TIssueMap, TPaginationData, ICalendarDate 
 // types
 // ui
 // components
-import { cn, renderFormattedPayloadDate, getCalendarSystem } from "@plane/utils"; // [FA-CUSTOM] added getCalendarSystem
+import { cn, renderFormattedPayloadDate, getCalendarSystem, isWeekend as isCalendarWeekend } from "@plane/utils"; // [FA-CUSTOM] added getCalendarSystem, isWeekend
 import { highlightIssueOnDrop } from "@/components/issues/issue-layouts/utils";
 // helpers
 import { MONTHS_LIST, JALALI_MONTHS_LIST } from "@/constants/calendar"; // [FA-CUSTOM] added JALALI_MONTHS_LIST
@@ -142,7 +142,8 @@ export const CalendarDayTile = observer(function CalendarDayTile(props: Props) {
   const isToday = date.date.toDateString() === new Date().toDateString();
   const isSelectedDate = date.date.toDateString() == selectedDate.toDateString();
 
-  const isWeekend = [0, 6].includes(date.date.getDay());
+  // [FA-CUSTOM] Calendar-aware weekend (Thu/Fri in Jalali, Sun/Sat in Gregorian)
+  const isWeekend = isCalendarWeekend(date.date);
   const isMonthLayout = calendarLayout === "month";
 
   const normalBackground = isWeekend ? "bg-layer-1" : "bg-layer-transparent";

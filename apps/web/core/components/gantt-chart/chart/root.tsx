@@ -11,7 +11,7 @@ import { createPortal } from "react-dom";
 // plane imports
 // components
 import type { ChartDataType, IBlockUpdateData, IBlockUpdateDependencyData, TGanttViews } from "@plane/types";
-import { cn } from "@plane/utils";
+import { cn, getEffectiveStartOfWeek } from "@plane/utils"; // [FA-CUSTOM] added getEffectiveStartOfWeek
 import { GanttChartHeader, GanttChartMainContent } from "@/components/gantt-chart";
 // helpers
 // hooks
@@ -93,7 +93,8 @@ export const ChartViewRoot = observer(function ChartViewRoot(props: ChartViewRoo
     updateAllBlocksOnChartChangeWhileDragging,
   } = useTimeLineChartStore();
   const { data } = useUserProfile();
-  const startOfWeek = data?.start_of_the_week;
+  // [FA-CUSTOM] Force Saturday in Jalali; honor user setting in Gregorian.
+  const startOfWeek = getEffectiveStartOfWeek(data?.start_of_the_week);
 
   const updateCurrentViewRenderPayload = (side: null | "left" | "right", view: TGanttViews, targetDate?: Date) => {
     const selectedCurrentView: TGanttViews = view;

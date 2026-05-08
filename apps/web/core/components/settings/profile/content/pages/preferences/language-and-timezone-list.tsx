@@ -175,12 +175,15 @@ export const ProfileSettingsLanguageAndTimezonePreferencesList = observer(
             }
           />
         )}
-        <StartOfWeekPreference
-          option={{
-            title: "First day of the week",
-            description: "This will change how all calendars in your app look.",
-          }}
-        />
+        {/* [FA-CUSTOM] Hide first-day-of-week setting in Jalali — Persian week is fixed at Saturday. */}
+        {profile?.calendar_system !== ECalendarSystem.JALALI && (
+          <StartOfWeekPreference
+            option={{
+              title: "First day of the week",
+              description: "This will change how all calendars in your app look.",
+            }}
+          />
+        )}
         {/* [FA-CUSTOM] Calendar system selector */}
         <SettingsControlItem
           title={t("common.calendar_system")}

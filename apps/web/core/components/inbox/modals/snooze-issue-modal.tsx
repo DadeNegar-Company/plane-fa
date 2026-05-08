@@ -10,6 +10,9 @@ import { useTranslation } from "@plane/i18n";
 import { Button } from "@plane/propel/button";
 import { Calendar } from "@plane/propel/calendar";
 import { EModalPosition, EModalWidth, ModalCore } from "@plane/ui";
+// [FA-CUSTOM] Calendar-aware date picker support
+import { ShamsiCalendar } from "@/components/fa/shamsi-calendar";
+import { useCalendarSystem } from "@/hooks/fa/use-calendar-system";
 
 export type InboxIssueSnoozeModalProps = {
   isOpen: boolean;
@@ -24,6 +27,7 @@ export function InboxIssueSnoozeModal(props: InboxIssueSnoozeModalProps) {
   const [date, setDate] = useState(value || new Date());
   //hooks
   const { t } = useTranslation();
+  const { isJalali } = useCalendarSystem(); // [FA-CUSTOM]
 
   return (
     <ModalCore
@@ -34,22 +38,37 @@ export function InboxIssueSnoozeModal(props: InboxIssueSnoozeModalProps) {
       className="w-auto"
     >
       <div className="flex h-full w-full flex-col gap-y-1 px-5 py-8 sm:p-6">
-        <Calendar
-          className="rounded-md border border-subtle p-3"
-          captionLayout="dropdown"
-          selected={date ? new Date(date) : undefined}
-          defaultMonth={date ? new Date(date) : undefined}
-          onSelect={(date: Date | undefined) => {
-            if (!date) return;
-            setDate(date);
-          }}
-          mode="single"
-          disabled={[
-            {
-              before: new Date(),
-            },
-          ]}
-        />
+        {/* [FA-CUSTOM] Use ShamsiCalendar in Jalali mode */}
+        {isJalali ? (
+          <ShamsiCalendar
+            className="rounded-md border border-subtle p-3"
+            selected={date ? new Date(date) : undefined}
+            defaultMonth={date ? new Date(date) : undefined}
+            onSelect={(d: Date | undefined) => {
+              if (!d) return;
+              setDate(d);
+            }}
+            mode="single"
+            disabled={[{ before: new Date() }]}
+          />
+        ) : (
+          <Calendar
+            className="rounded-md border border-subtle p-3"
+            captionLayout="dropdown"
+            selected={date ? new Date(date) : undefined}
+            defaultMonth={date ? new Date(date) : undefined}
+            onSelect={(date: Date | undefined) => {
+              if (!date) return;
+              setDate(date);
+            }}
+            mode="single"
+            disabled={[
+              {
+                before: new Date(),
+              },
+            ]}
+          />
+        )}
         <Button
           variant="primary"
           onClick={() => {

@@ -176,3 +176,30 @@ export const getOrderedDays = <T>(
     const dayB = (7 + getDayIndex(b) - startOfWeek) % 7;
     return dayA - dayB;
   });
+
+/**
+ * [FA-CUSTOM] Returns the effective first day of the week.
+ * In Jalali, the start of the week is always Saturday — the user-level setting
+ * is ignored because the Persian week is fixed. In Gregorian, the user
+ * preference is honored (defaulting to Saturday if undefined to match the
+ * project-wide default in profile.store.ts).
+ */
+export const getEffectiveStartOfWeek = (profileStartOfWeek: EStartOfTheWeek | undefined): EStartOfTheWeek => {
+  if (getCalendarSystem() === "jalali") return EStartOfTheWeek.SATURDAY;
+  return profileStartOfWeek ?? EStartOfTheWeek.SATURDAY;
+};
+
+/**
+ * [FA-CUSTOM] Returns the weekend day indices for the active calendar system.
+ * Day indices use the JS Date.getDay() convention (0=Sunday … 6=Saturday).
+ *  - Jalali: Thursday (4) and Friday (5)
+ *  - Gregorian: Sunday (0) and Saturday (6)
+ */
+export const getWeekendDays = (): number[] => (getCalendarSystem() === "jalali" ? [4, 5] : [0, 6]);
+
+/**
+ * [FA-CUSTOM] Returns true if the given date falls on a weekend in the active
+ * calendar system. Defers to getWeekendDays() so a single source of truth
+ * drives every weekend-aware UI surface.
+ */
+export const isWeekend = (date: Date): boolean => getWeekendDays().includes(date.getDay());

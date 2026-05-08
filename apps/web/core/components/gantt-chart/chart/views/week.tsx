@@ -6,7 +6,7 @@
 
 import { observer } from "mobx-react";
 // plane utils
-import { cn } from "@plane/utils";
+import { cn, getWeekendDays } from "@plane/utils"; // [FA-CUSTOM] added getWeekendDays
 // hooks
 import { useTimeLineChartStore } from "@/hooks/use-timeline-chart";
 //
@@ -18,6 +18,8 @@ export const WeekChartView = observer(function WeekChartView() {
   const { currentViewData, renderView } = useTimeLineChartStore();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const weekBlocks: IWeekBlock[] = renderView;
+  // [FA-CUSTOM] Calendar-aware weekend day indices (Thu/Fri in Jalali).
+  const weekendDays = getWeekendDays();
 
   return (
     <div className={`absolute top-0 left-0 min-h-full h-max w-max flex`}>
@@ -89,7 +91,8 @@ export const WeekChartView = observer(function WeekChartView() {
                   })}
                   style={{ width: `${currentViewData?.data.dayWidth}px` }}
                 >
-                  {["sat", "sun"].includes(weekDay?.dayData?.shortTitle) && (
+                  {/* [FA-CUSTOM] Use calendar-aware weekend index instead of hardcoded sat/sun shortTitle */}
+                  {weekendDays.includes(weekDay?.day) && (
                     <div className="h-full bg-surface-2 outline-[0.25px] outline-strong" />
                   )}
                 </div>

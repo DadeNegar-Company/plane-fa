@@ -7,7 +7,7 @@
 import { observer } from "mobx-react";
 // plane imports
 import type { TGroupedIssues, TIssue, TIssueMap, TPaginationData, ICalendarDate, ICalendarWeek } from "@plane/types";
-import { cn, getOrderedDays, renderFormattedPayloadDate } from "@plane/utils";
+import { cn, getOrderedDays, renderFormattedPayloadDate, isWeekend, getEffectiveStartOfWeek } from "@plane/utils"; // [FA-CUSTOM] added isWeekend, getEffectiveStartOfWeek
 // hooks
 import { useUserProfile } from "@/hooks/store/user";
 // types
@@ -68,18 +68,16 @@ export const CalendarWeekDays = observer(function CalendarWeekDays(props: Props)
   } = props;
   // hooks
   const { data } = useUserProfile();
-  const startOfWeek = data?.start_of_the_week;
+  // [FA-CUSTOM] In Jalali, force Saturday and ignore the user setting.
+  const startOfWeek = getEffectiveStartOfWeek(data?.start_of_the_week);
 
   const calendarLayout = issuesFilterStore?.issueFilters?.displayFilters?.calendar?.layout ?? "month";
   const showWeekends = issuesFilterStore?.issueFilters?.displayFilters?.calendar?.show_weekends ?? false;
 
   if (!week) return null;
 
-  const shouldShowDay = (dayDate: Date) => {
-    if (showWeekends) return true;
-    const day = dayDate.getDay();
-    return !(day === 0 || day === 6);
-  };
+  // [FA-CUSTOM] Calendar-aware weekend hiding: Sun/Sat in Gregorian, Thu/Fri in Jalali.
+  const shouldShowDay = (dayDate: Date) => showWeekends || !isWeekend(dayDate);
 
   const sortedWeekDays = getOrderedDays(Object.values(week), (item) => item.date.getDay(), startOfWeek);
 

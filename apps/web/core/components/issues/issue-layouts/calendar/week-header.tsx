@@ -5,8 +5,7 @@
  */
 
 import { observer } from "mobx-react";
-import { EStartOfTheWeek } from "@plane/types";
-import { getOrderedDays } from "@plane/utils";
+import { getOrderedDays, getEffectiveStartOfWeek, getWeekendDays } from "@plane/utils"; // [FA-CUSTOM] added getEffectiveStartOfWeek, getWeekendDays
 import { DAYS_LIST } from "@/constants/calendar";
 // helpers
 // hooks
@@ -21,7 +20,10 @@ export const CalendarWeekHeader = observer(function CalendarWeekHeader(props: Pr
   const { isLoading, showWeekends } = props;
   // hooks
   const { data } = useUserProfile();
-  const startOfWeek = data?.start_of_the_week;
+  // [FA-CUSTOM] Force Saturday in Jalali; honor user setting in Gregorian.
+  const startOfWeek = getEffectiveStartOfWeek(data?.start_of_the_week);
+  // [FA-CUSTOM] Calendar-aware weekend day indices used to filter the header columns
+  const weekendDays = getWeekendDays();
 
   // derived
   const orderedDays = getOrderedDays(Object.values(DAYS_LIST), (item) => item.value, startOfWeek);
@@ -36,8 +38,8 @@ export const CalendarWeekHeader = observer(function CalendarWeekHeader(props: Pr
         <div className="absolute h-[1.5px] w-3/4 animate-[bar-loader_2s_linear_infinite] bg-accent-primary" />
       )}
       {orderedDays.map((day) => {
-        if (!showWeekends && (day.value === EStartOfTheWeek.SUNDAY || day.value === EStartOfTheWeek.SATURDAY))
-          return null;
+        // [FA-CUSTOM] Hide weekend columns based on the active calendar's weekend days.
+        if (!showWeekends && weekendDays.includes(day.value)) return null;
 
         return (
           <div key={day.shortTitle} className="flex h-11 items-center justify-center md:justify-end bg-layer-1 px-4">

@@ -10,6 +10,7 @@ import { Calendar, Earth, Languages, Palette } from "lucide-react";
 // plane imports
 import { useTranslation } from "@plane/i18n";
 import { setToast, TOAST_TYPE } from "@plane/propel/toast";
+import { ECalendarSystem } from "@plane/types"; // [FA-CUSTOM]
 import type { EStartOfTheWeek, TUserProfile } from "@plane/types";
 // components
 import type { TPowerKCommandConfig } from "@/components/power-k/core/types";
@@ -23,7 +24,7 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
   // store hooks
   const { setTheme } = useTheme();
   const { updateCurrentUser } = useUser();
-  const { updateUserProfile, updateUserTheme } = useUserProfile();
+  const { data: userProfile, updateUserProfile, updateUserTheme } = useUserProfile(); // [FA-CUSTOM] expose userProfile for calendar-aware visibility
   // translation
   const { t } = useTranslation();
 
@@ -145,7 +146,8 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         handleUpdateUserProfile({ start_of_the_week: startOfWeek });
       },
       isEnabled: () => true,
-      isVisible: () => true,
+      // [FA-CUSTOM] Hide in Jalali — Persian week is fixed at Saturday.
+      isVisible: () => userProfile?.calendar_system !== ECalendarSystem.JALALI,
       closeOnSelect: true,
     },
     {
