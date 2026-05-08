@@ -134,12 +134,14 @@ export const IssueMainContent = observer(function IssueMainContent(props: Props)
 
         <DescriptionInput
           issueSequenceId={issue.sequence_id}
-          containerClassName="p-0 border-none"
+          // [FA-CUSTOM] Use logical -ms/ps so RTL flips drag-handle hover area correctly
+          containerClassName="-ms-6 border-none p-0! ps-6!"
           disabled={isArchived || !isEditable}
           editorRef={editorRef}
           entityId={issue.id}
           fileAssetType={EFileAssetType.ISSUE_DESCRIPTION}
           initialValue={issue.description_html}
+          key={issue.id}
           onSubmit={async (value, isMigrationUpdate) => {
             if (!issue.id || !issue.project_id) return;
             await issueOperations.update(workspaceSlug, issue.project_id, issue.id, {
