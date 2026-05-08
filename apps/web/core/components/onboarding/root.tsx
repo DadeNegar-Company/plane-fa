@@ -12,6 +12,7 @@ import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { IWorkspaceMemberInvitation, TOnboardingStep, TOnboardingSteps, TUserProfile } from "@plane/types";
 import { EOnboardingSteps } from "@plane/types";
 // hooks
+import { useInstance } from "@/hooks/store/use-instance";
 import { useWorkspace } from "@/hooks/store/use-workspace";
 import { useUser, useUserProfile } from "@/hooks/store/user";
 // local components
@@ -29,8 +30,10 @@ export const OnboardingRoot = observer(function OnboardingRoot({ invitations = [
   const { data: user } = useUser();
   const { data: userProfile, updateUserProfile, finishUserOnboarding } = useUserProfile();
   const { workspaces } = useWorkspace();
+  const { config: instanceConfig } = useInstance();
 
   const workspacesList = Object.values(workspaces ?? {});
+  const isSelfManaged = instanceConfig?.is_self_managed;
 
   // Calculate total steps based on whether invitations are available
   const hasInvitations = invitations.length > 0;
@@ -70,7 +73,16 @@ export const OnboardingRoot = observer(function OnboardingRoot({ invitations = [
     (step: EOnboardingSteps, skipInvites?: boolean) => {
       switch (step) {
         case EOnboardingSteps.PROFILE_SETUP:
-          setCurrentStep(EOnboardingSteps.ROLE_SETUP);
+          if (isSelfManaged) {
+            // Skip role & use case steps for self-hosted
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            stepChange({ profile_complete: true });
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            if (workspacesList.length > 0) finishOnboarding();
+            else setCurrentStep(EOnboardingSteps.WORKSPACE_CREATE_OR_JOIN);
+          } else {
+            setCurrentStep(EOnboardingSteps.ROLE_SETUP);
+          }
           break;
         case EOnboardingSteps.ROLE_SETUP:
           setCurrentStep(EOnboardingSteps.USE_CASE_SETUP);
@@ -99,7 +111,7 @@ export const OnboardingRoot = observer(function OnboardingRoot({ invitations = [
           break;
       }
     },
-    [stepChange, finishOnboarding, workspacesList]
+    [stepChange, finishOnboarding, workspacesList, isSelfManaged]
   );
 
   const updateCurrentStep = (step: EOnboardingSteps) => setCurrentStep(step);

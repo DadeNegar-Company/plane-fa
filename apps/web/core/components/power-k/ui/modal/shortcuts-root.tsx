@@ -9,6 +9,7 @@ import { Dialog, Transition } from "@headlessui/react";
 // plane imports
 import { useTranslation } from "@plane/i18n";
 import { CloseIcon, SearchIcon } from "@plane/propel/icons";
+import { ScrollArea } from "@plane/propel/scrollarea";
 import { Input } from "@plane/ui";
 // hooks
 import { usePowerK } from "@/hooks/store/use-power-k";
@@ -64,30 +65,35 @@ export function ShortcutsModal(props: Props) {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative flex h-full items-center justify-center">
-                <div className="flex h-[61vh] w-full flex-col  space-y-4 overflow-hidden rounded-lg bg-surface-1 p-5 shadow-raised-200 transition-all sm:w-[28rem]">
-                  <Dialog.Title as="h3" className="flex justify-between">
+                <div className="flex h-[61vh] w-full flex-col space-y-4 overflow-hidden rounded-lg bg-surface-1 py-5 shadow-raised-200 transition-all sm:w-[28rem]">
+                  <Dialog.Title as="h3" className="flex justify-between px-5">
                     <span className="text-16 font-medium">Keyboard shortcuts</span>
                     <button type="button" onClick={handleClose}>
                       <CloseIcon className="h-4 w-4 text-secondary hover:text-primary" aria-hidden="true" />
                     </button>
                   </Dialog.Title>
-                  <div className="flex w-full items-center rounded-sm border-[0.5px] border-subtle bg-surface-2 px-2">
-                    <SearchIcon className="h-3.5 w-3.5 text-secondary" />
-                    <Input
-                      id="search"
-                      name="search"
-                      type="text"
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                      placeholder={t("power_k_categories.search_shortcuts")}
-                      className="w-full border-none bg-transparent py-1 text-11 text-secondary outline-none"
-                      // eslint-disable-next-line jsx-a11y/no-autofocus
-                      autoFocus
-                      // eslint-disable-next-line jsx-a11y/tabindex-no-positive
-                      tabIndex={1}
-                    />
+                  <div className="px-5">
+                    <div className="flex w-full items-center rounded-sm border-[0.5px] border-subtle bg-surface-2 px-2">
+                      <SearchIcon className="h-3.5 w-3.5 text-secondary" />
+                      <Input
+                        id="search"
+                        name="search"
+                        type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder={t("power_k_categories.search_shortcuts")}
+                        className="w-full border-none bg-transparent py-1 text-11 text-secondary outline-none"
+                        // eslint-disable-next-line jsx-a11y/no-autofocus
+                        autoFocus
+                        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
+                        tabIndex={1}
+                      />
+                    </div>
                   </div>
-                  <ShortcutRenderer searchQuery={query} commands={allCommandsWithShortcuts} />
+
+                  <ScrollArea size="sm" rootClassName="overflow-y-scroll px-5">
+                    <ShortcutRenderer searchQuery={query} commands={allCommandsWithShortcuts} />
+                  </ScrollArea>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
