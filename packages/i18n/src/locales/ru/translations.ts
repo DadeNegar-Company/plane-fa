@@ -402,7 +402,6 @@ export default {
   time_tracking_description: "Записывайте время, потраченное на рабочие элементы и проекты.",
   work_management_description: "Управление рабочими элементами и проектами",
   documentation: "Документация",
-  message_support: "Написать в поддержку",
   contact_sales: "Связаться с отделом продаж",
   hyper_mode: "Гиперрежим",
   keyboard_shortcuts: "Горячие клавиши",
@@ -415,7 +414,6 @@ export default {
   docs: "Документация",
   full_changelog: "Полный журнал изменений",
   support: "Поддержка",
-  discord: "Discord",
   powered_by_plane_pages: "Работает на Plane Pages",
   please_select_at_least_one_invitation: "Пожалуйста, выберите хотя бы одно приглашение.",
   please_select_at_least_one_invitation_description:
@@ -2867,9 +2865,7 @@ export default {
     help_actions: {
       open_keyboard_shortcuts: "Открыть горячие клавиши",
       open_plane_documentation: "Открыть документацию Plane",
-      join_discord: "Присоединиться к Discord",
       report_bug: "Сообщить об ошибке",
-      chat_with_us: "Написать нам",
     },
     page_placeholders: {
       default: "Введите команду или поиск",

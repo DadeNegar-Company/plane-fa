@@ -392,7 +392,6 @@ export default {
   time_tracking_description: "Rejestruj czas spędzony na elementach pracy i projektach.",
   work_management_description: "Łatwo zarządzaj swoją pracą i projektami.",
   documentation: "Dokumentacja",
-  message_support: "Skontaktuj się z pomocą",
   contact_sales: "Skontaktuj się z działem sprzedaży",
   hyper_mode: "Tryb Hyper",
   keyboard_shortcuts: "Skróty klawiaturowe",
@@ -405,7 +404,6 @@ export default {
   docs: "Dokumentację",
   full_changelog: "Pełny dziennik zmian",
   support: "Wsparcie",
-  discord: "Discord",
   powered_by_plane_pages: "Oparte na Plane Pages",
   please_select_at_least_one_invitation: "Wybierz co najmniej jedno zaproszenie.",
   please_select_at_least_one_invitation_description:

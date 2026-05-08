@@ -405,7 +405,6 @@ export default {
   time_tracking_description: "Registra el tiempo dedicado a elementos de trabajo y proyectos.",
   work_management_description: "Gestiona tu trabajo y proyectos con facilidad.",
   documentation: "Documentación",
-  message_support: "Mensaje al soporte",
   contact_sales: "Contactar ventas",
   hyper_mode: "Modo Hyper",
   keyboard_shortcuts: "Atajos de teclado",
@@ -418,7 +417,6 @@ export default {
   docs: "Documentación",
   full_changelog: "Registro de cambios completo",
   support: "Soporte",
-  discord: "Discord",
   powered_by_plane_pages: "Desarrollado por Plane Pages",
   please_select_at_least_one_invitation: "Por favor selecciona al menos una invitación.",
   please_select_at_least_one_invitation_description:

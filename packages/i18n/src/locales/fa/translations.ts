@@ -402,7 +402,6 @@ export default {
   time_tracking_description: "زمان صرف‌شده روی آیتم‌های کاری و پروژه‌ها را ثبت کنید.",
   work_management_description: "کار و پروژه‌های خود را به‌راحتی مدیریت کنید.",
   documentation: "مستندات",
-  message_support: "پیام به پشتیبانی",
   contact_sales: "تماس با فروش",
   hyper_mode: "حالت سریع",
   keyboard_shortcuts: "میانبرهای کیبورد",
@@ -415,7 +414,6 @@ export default {
   docs: "مستندات",
   full_changelog: "تاریخچه تغییرات کامل",
   support: "پشتیبانی",
-  discord: "Discord",
   powered_by_plane_pages: "قدرت‌گرفته از Plane Pages",
   please_select_at_least_one_invitation: "لطفاً حداقل یک دعوت‌نامه انتخاب کنید.",
   please_select_at_least_one_invitation_description: "لطفاً حداقل یک دعوت‌نامه برای پیوستن به فضای کاری انتخاب کنید.",
@@ -3184,9 +3182,7 @@ export default {
     help_actions: {
       open_keyboard_shortcuts: "باز کردن میانبرهای کیبورد",
       open_plane_documentation: "باز کردن مستندات Plane",
-      join_discord: "پیوستن به Discord ما",
       report_bug: "گزارش باگ",
-      chat_with_us: "گفتگو با ما",
     },
     page_placeholders: {
       default: "دستور یا جستجو تایپ کنید",

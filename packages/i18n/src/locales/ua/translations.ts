@@ -402,7 +402,6 @@ export default {
   time_tracking_description: "Фіксуйте час, витрачений на робочі одиниці та проєкти.",
   work_management_description: "Зручно керуйте своєю роботою та проєктами.",
   documentation: "Документація",
-  message_support: "Звернутися в підтримку",
   contact_sales: "Зв’язатися з відділом продажів",
   hyper_mode: "Гіпер-режим",
   keyboard_shortcuts: "Гарячі клавіші",
@@ -415,7 +414,6 @@ export default {
   docs: "Документацію",
   full_changelog: "Повний журнал змін",
   support: "Підтримка",
-  discord: "Discord",
   powered_by_plane_pages: "Працює на Plane Pages",
   please_select_at_least_one_invitation: "Виберіть принаймні одне запрошення.",
   please_select_at_least_one_invitation_description:
@@ -2859,9 +2857,7 @@ export default {
     help_actions: {
       open_keyboard_shortcuts: "Відкрити гарячі клавіші",
       open_plane_documentation: "Відкрити документацію Plane",
-      join_discord: "Приєднатися до Discord",
       report_bug: "Повідомити про помилку",
-      chat_with_us: "Написати нам",
     },
     page_placeholders: {
       default: "Введіть команду або виконайте пошук",

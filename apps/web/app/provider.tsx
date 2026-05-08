@@ -31,10 +31,6 @@ const InstanceWrapper = lazy(function InstanceWrapper() {
   return import("@/lib/wrappers/instance-wrapper");
 });
 
-const ChatSupportModal = lazy(function ChatSupportModal() {
-  return import("@/components/global/chat-support-modal");
-});
-
 export interface IAppProvider {
   children: React.ReactNode;
 }
@@ -53,7 +49,6 @@ export function AppProvider(props: IAppProvider) {
           <StoreWrapper>
             <InstanceWrapper>
               <Suspense>
-                <ChatSupportModal />
                 <SWRConfig value={WEB_SWR_CONFIG}>{children}</SWRConfig>
               </Suspense>
             </InstanceWrapper>

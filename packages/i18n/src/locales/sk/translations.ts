@@ -394,7 +394,6 @@ export default {
   time_tracking_description: "Zaznamenajte čas strávený na pracovných položkách a projektoch.",
   work_management_description: "Spravujte svoju prácu a projekty jednoducho.",
   documentation: "Dokumentácia",
-  message_support: "Kontaktovať podporu",
   contact_sales: "Kontaktovať predaj",
   hyper_mode: "Hyper režim",
   keyboard_shortcuts: "Klávesové skratky",
@@ -407,7 +406,6 @@ export default {
   docs: "Dokumentáciu",
   full_changelog: "Úplný zmenový protokol",
   support: "Podpora",
-  discord: "Discord",
   powered_by_plane_pages: "Poháňa Plane Pages",
   please_select_at_least_one_invitation: "Vyberte aspoň jednu pozvánku.",
   please_select_at_least_one_invitation_description:
