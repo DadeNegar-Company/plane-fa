@@ -27,7 +27,6 @@
   },
   "author": "Plane Software Inc.",
   "dependencies": {
-    "@dotenvx/dotenvx": "catalog:",
     "@effect/platform": "^0.94.0",
     "@effect/platform-node": "^0.104.0",
     "@fontsource/inter": "5.2.8",
@@ -49,6 +48,7 @@
     "axios": "catalog:",
     "compression": "1.8.1",
     "cors": "^2.8.5",
+    "dotenv": "catalog:",
     "effect": "^3.16.3",
     "express": "catalog:",
     "express-ws": "^5.0.2",
