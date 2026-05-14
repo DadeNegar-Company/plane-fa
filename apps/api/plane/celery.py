@@ -18,6 +18,12 @@ from plane.settings.redis import redis_instance
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plane.settings.production")
 
+# Boot OpenTelemetry BEFORE Celery app instantiation so CeleryInstrumentor
+# (registered inside init_tracer) patches the task-execution signal handlers
+# before any worker/beat starts consuming. Safe no-op if OTLP_ENDPOINT unset.
+from plane.utils.telemetry import init_tracer  # noqa: E402
+init_tracer()
+
 ri = redis_instance()
 
 app = Celery("plane")
