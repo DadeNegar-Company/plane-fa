@@ -173,13 +173,23 @@ jobs:
   deploy:
     name: Deploy to Server
     runs-on: [self-hosted, deploy]
+    # Deploy only requires API, Space, Live, and Proxy to succeed. Web and Admin
+    # builds have been failing on dep issues since 2026-05-08 (Web: pnpm/turbo
+    # PATH partially fixed; Admin: brace-expansion ESM export mismatch). Forcing
+    # deploy to wait on them blocks unrelated backend changes (observability,
+    # bug fixes, etc.). Web/Admin already-deployed images keep serving until
+    # those builds are repaired separately.
     needs:
-      - build-web
-      - build-admin
       - build-space
       - build-live
       - build-api
       - build-proxy
+    if: |
+      always() &&
+      needs.build-api.result == 'success' &&
+      needs.build-space.result == 'success' &&
+      needs.build-live.result == 'success' &&
+      needs.build-proxy.result == 'success'
     steps:
       - uses: actions/checkout@v4
 
