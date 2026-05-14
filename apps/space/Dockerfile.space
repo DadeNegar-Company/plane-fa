@@ -4,7 +4,9 @@ WORKDIR /app
 
 ENV TURBO_TELEMETRY_DISABLED=1
 ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+# /pnpm/bin (not /pnpm) is where pnpm 9+ writes -g binaries — without it on PATH
+# `pnpm add -g turbo` errors with "global bin directory not in PATH" and exits 1.
+ENV PATH="$PNPM_HOME/bin:$PATH"
 ENV CI=1
 
 RUN corepack enable pnpm
