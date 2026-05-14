@@ -22,6 +22,8 @@
     "@fontsource/ibm-plex-mono": "5.2.7",
     "@fontsource/material-symbols-rounded": "5.2.30",
     "@headlessui/react": "^1.7.19",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/auto-instrumentations-node": "^0.72.0",
     "@plane/constants": "workspace:*",
     "@plane/editor": "workspace:*",
     "@plane/i18n": "workspace:*",

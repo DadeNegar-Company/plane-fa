@@ -94,6 +94,19 @@ services:
       replicas: ${SPACE_REPLICAS:-1}
       restart_policy:
         condition: any
+    environment:
+      # Zero-code OTel for the react-router-serve SSR runtime. Same pattern
+      # as plane-live: --require loads auto-instrumentations before the SSR
+      # server requires express/http/undici.
+      NODE_OPTIONS: --require @opentelemetry/auto-instrumentations-node/register
+      OTEL_SERVICE_NAME: plane-fa-space
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_RESOURCE_ATTRIBUTES: deployment.environment=production,service.namespace=plane-fa
+      OTEL_NODE_RESOURCE_DETECTORS: env,host,os,container
+    networks:
+      - default
+      - signoz-net
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider -S http://127.0.0.1:3000/ 2>&1 | grep -q HTTP/ || exit 1"]
       interval: 30s
