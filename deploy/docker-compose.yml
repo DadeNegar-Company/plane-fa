@@ -98,7 +98,7 @@ services:
       # Zero-code OTel for the react-router-serve SSR runtime. Same pattern
       # as plane-live with an absolute --require path (pnpm hoists deps into
       # apps/space/node_modules, not /app's root node_modules).
-      NODE_OPTIONS: --require /app/apps/space/node_modules/@opentelemetry/auto-instrumentations-node/register
+      NODE_OPTIONS: --require /app/apps/space/node_modules/@opentelemetry/auto-instrumentations-node/build/src/register.js
       OTEL_SERVICE_NAME: plane-fa-space
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
@@ -140,7 +140,7 @@ services:
       # Absolute path: pnpm hoists deps into apps/live/node_modules (not /app's
       # root node_modules) so the bare `@opentelemetry/...` specifier doesn't
       # resolve from CWD=/app.
-      NODE_OPTIONS: --require /app/apps/live/node_modules/@opentelemetry/auto-instrumentations-node/register
+      NODE_OPTIONS: --require /app/apps/live/node_modules/@opentelemetry/auto-instrumentations-node/build/src/register.js
       OTEL_SERVICE_NAME: plane-fa-live
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
