@@ -121,10 +121,22 @@ services:
     logging: *default-logging
     environment:
       <<: [*live-env, *redis-env]
+      # Zero-code OTel — --require loads auto-instrumentations (express, http,
+      # redis, undici) before any of those modules is imported, so we get
+      # request/dep spans without touching the live entrypoint code.
+      NODE_OPTIONS: --require @opentelemetry/auto-instrumentations-node/register
+      OTEL_SERVICE_NAME: plane-fa-live
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_RESOURCE_ATTRIBUTES: deployment.environment=production,service.namespace=plane-fa
+      OTEL_NODE_RESOURCE_DETECTORS: env,host,os,container
     deploy:
       replicas: ${LIVE_REPLICAS:-1}
       restart_policy:
         condition: any
+    networks:
+      - default
+      - signoz-net
     depends_on:
       - api
       - web

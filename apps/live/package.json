@@ -35,6 +35,8 @@
     "@hocuspocus/extension-redis": "2.15.2",
     "@hocuspocus/server": "2.15.2",
     "@hocuspocus/transformer": "2.15.2",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/auto-instrumentations-node": "^0.72.0",
     "@plane/decorators": "workspace:*",
     "@plane/editor": "workspace:*",
     "@plane/logger": "workspace:*",
