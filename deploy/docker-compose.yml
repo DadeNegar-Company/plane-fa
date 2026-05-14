@@ -96,9 +96,9 @@ services:
         condition: any
     environment:
       # Zero-code OTel for the react-router-serve SSR runtime. Same pattern
-      # as plane-live: --require loads auto-instrumentations before the SSR
-      # server requires express/http/undici.
-      NODE_OPTIONS: --require @opentelemetry/auto-instrumentations-node/register
+      # as plane-live with an absolute --require path (pnpm hoists deps into
+      # apps/space/node_modules, not /app's root node_modules).
+      NODE_OPTIONS: --require /app/apps/space/node_modules/@opentelemetry/auto-instrumentations-node/register
       OTEL_SERVICE_NAME: plane-fa-space
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
@@ -137,7 +137,10 @@ services:
       # Zero-code OTel — --require loads auto-instrumentations (express, http,
       # redis, undici) before any of those modules is imported, so we get
       # request/dep spans without touching the live entrypoint code.
-      NODE_OPTIONS: --require @opentelemetry/auto-instrumentations-node/register
+      # Absolute path: pnpm hoists deps into apps/live/node_modules (not /app's
+      # root node_modules) so the bare `@opentelemetry/...` specifier doesn't
+      # resolve from CWD=/app.
+      NODE_OPTIONS: --require /app/apps/live/node_modules/@opentelemetry/auto-instrumentations-node/register
       OTEL_SERVICE_NAME: plane-fa-live
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
