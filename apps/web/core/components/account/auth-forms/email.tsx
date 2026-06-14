@@ -39,8 +39,13 @@ export const AuthEmailForm = observer(function AuthEmailForm(props: TAuthEmailFo
     const payload: IEmailCheckData = {
       email: email,
     };
-    await onSubmit(payload);
-    setIsSubmitting(false);
+    try {
+      await onSubmit(payload);
+    } finally {
+      // Always clear loading, even if the request fails/times out — otherwise the
+      // spinner can spin forever and the user is stuck on the email step.
+      setIsSubmitting(false);
+    }
   };
 
   const isButtonDisabled = email.length === 0 || Boolean(emailError?.email) || isSubmitting;

@@ -11,7 +11,7 @@ import { EAuthModes, EAuthSteps } from "@plane/constants";
 import type { IEmailCheckData } from "@plane/types";
 // helpers
 import type { TAuthErrorInfo } from "@/helpers/authentication.helper";
-import { authErrorHandler } from "@/helpers/authentication.helper";
+import { authErrorHandler, genericAuthError } from "@/helpers/authentication.helper";
 // hooks
 import { useInstance } from "@/hooks/store/use-instance";
 import { useAppRouter } from "@/hooks/use-app-router";
@@ -77,7 +77,10 @@ export const AuthFormRoot = observer(function AuthFormRoot(props: TAuthFormRoot)
       })
       .catch((error) => {
         const errorhandler = authErrorHandler(error?.error_code?.toString(), data?.email || undefined);
-        if (errorhandler?.type) setErrorInfo(errorhandler);
+        // Recognized auth errors show their specific banner; network/timeout/proxy/CSRF
+        // errors (which carry no error_code) fall back to a generic banner so the user
+        // gets feedback and can retry instead of silently staying on the email step.
+        setErrorInfo(errorhandler?.type ? errorhandler : genericAuthError());
       });
   };
 

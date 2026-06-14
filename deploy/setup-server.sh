@@ -148,7 +148,7 @@ LISTEN_HTTPS_PORT=443
 # ── Application ──────────────────────────────────────────────────────────────
 SECRET_KEY=${SECRET_KEY}
 DEBUG=0
-GUNICORN_WORKERS=1
+GUNICORN_WORKERS=4
 API_KEY_RATE_LIMIT=60/minute
 
 # ── Database (PostgreSQL) ────────────────────────────────────────────────────

@@ -17,6 +17,10 @@ export abstract class APIService {
     this.axiosInstance = axios.create({
       baseURL,
       withCredentials: true,
+      // Fail fast instead of hanging forever if the backend is slow/unreachable.
+      // 60s sits below Cloudflare's edge timeout, so users get a clean error + retry
+      // instead of an infinite spinner. Long-running work in Plane is async (Celery).
+      timeout: 60000,
     });
 
     this.setupInterceptors();

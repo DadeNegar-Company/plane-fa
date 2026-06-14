@@ -438,6 +438,16 @@ export const authErrorHandler = (errorCode: EAuthenticationErrorCodes, email?: s
   return undefined;
 };
 
+// Fallback banner for errors that carry no recognized auth error_code:
+// network failures, request timeouts, proxy 5xx, CSRF 403s, etc. Without this,
+// such errors are swallowed silently and the user is left with no feedback.
+export const genericAuthError = (): TAuthErrorInfo => ({
+  type: EErrorAlertType.BANNER_ALERT,
+  code: EAuthenticationErrorCodes.AUTHENTICATION_FAILED_SIGN_IN,
+  title: `Something went wrong`,
+  message: `We couldn't reach the server. Please check your connection and try again.`,
+});
+
 export const passwordErrors = [
   EAuthenticationErrorCodes.PASSWORD_TOO_WEAK,
   EAuthenticationErrorCodes.INVALID_NEW_PASSWORD,
