@@ -1,0 +1,15 @@
+diff --git a/index.js b/index.js
+index 0478be81eabc2b140c2405999e46ba98214461eb..475714458a1d71315bc1ee49997fa4f799de8d08 100644
+--- a/index.js
++++ b/index.js
+@@ -2,6 +2,10 @@ var concatMap = require('concat-map');
+ var balanced = require('balanced-match');
+ 
+ module.exports = expandTop;
++// Provide a named `expand` export so ESM consumers can do
++// `import { expand } from 'brace-expansion'` (minimatch@9/10.1.1, @react-router/dev)
++// while classic CJS `require('brace-expansion')(...)` keeps working (minimatch@3).
++module.exports.expand = expandTop;
+ 
+ var escSlash = '\0SLASH'+Math.random()+'\0';
+ var escOpen = '\0OPEN'+Math.random()+'\0';

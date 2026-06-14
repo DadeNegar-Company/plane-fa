@@ -129,6 +129,11 @@ overrides:
   yaml@2: 2.8.3
   path-to-regexp: 0.1.13
 
+patchedDependencies:
+  brace-expansion@1.1.11:
+    hash: f6739704a4c00fab8a8790593c674f751e1fbf1cb2594b04955487464749ab55
+    path: patches/brace-expansion@1.1.11.patch
+
 importers:
 
   .:
@@ -15559,7 +15564,7 @@ snapshots:
       widest-line: 4.0.1
       wrap-ansi: 8.1.0
 
-  brace-expansion@1.1.11:
+  brace-expansion@1.1.11(patch_hash=f6739704a4c00fab8a8790593c674f751e1fbf1cb2594b04955487464749ab55):
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
@@ -18502,15 +18507,15 @@ snapshots:
 
   minimatch@10.2.3:
     dependencies:
-      brace-expansion: 1.1.11
+      brace-expansion: 1.1.11(patch_hash=f6739704a4c00fab8a8790593c674f751e1fbf1cb2594b04955487464749ab55)
 
   minimatch@3.1.4:
     dependencies:
-      brace-expansion: 1.1.11
+      brace-expansion: 1.1.11(patch_hash=f6739704a4c00fab8a8790593c674f751e1fbf1cb2594b04955487464749ab55)
 
   minimatch@9.0.9:
     dependencies:
-      brace-expansion: 1.1.11
+      brace-expansion: 1.1.11(patch_hash=f6739704a4c00fab8a8790593c674f751e1fbf1cb2594b04955487464749ab55)
 
   minimist@1.2.8: {}
 
