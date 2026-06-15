@@ -173,13 +173,18 @@ jobs:
   deploy:
     name: Deploy to Server
     runs-on: [self-hosted, deploy]
-    # Deploy only requires API, Space, Live, and Proxy to succeed. Web and Admin
-    # builds have been failing on dep issues since 2026-05-08 (Web: pnpm/turbo
-    # PATH partially fixed; Admin: brace-expansion ESM export mismatch). Forcing
-    # deploy to wait on them blocks unrelated backend changes (observability,
-    # bug fixes, etc.). Web/Admin already-deployed images keep serving until
-    # those builds are repaired separately.
+    # Deploy WAITS for every image build (incl. Web and Admin) so the rolling
+    # `docker compose pull` picks up freshly-pushed :latest tags in the SAME run
+    # — otherwise a frontend change builds but deploy pulls the previous image
+    # and the change lags a run behind. Web/Admin builds were repaired on
+    # 2026-06-14 (brace-expansion dual CJS/ESM patch), so waiting on them is safe.
+    #
+    # The `if:` still only HARD-REQUIRES the backend builds (API/Space/Live/Proxy)
+    # to succeed: if Web or Admin ever break again, deploy still ships backend
+    # changes and keeps serving the last-good Web/Admin images.
     needs:
+      - build-web
+      - build-admin
       - build-space
       - build-live
       - build-api
