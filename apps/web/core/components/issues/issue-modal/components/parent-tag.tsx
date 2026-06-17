@@ -58,7 +58,9 @@ export const IssueParentTag = observer(function IssueParentTag(props: TIssuePare
                 />
               )}
             </span>
-            <span className="truncate font-medium">{selectedParentIssue.name.substring(0, 50)}</span>
+            <span dir="auto" className="truncate font-medium">
+              {selectedParentIssue.name.substring(0, 50)}
+            </span>
             <button
               type="button"
               className="grid place-items-center"

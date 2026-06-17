@@ -20,7 +20,9 @@ export function LabelActivityChip(props: TIssueLabelPill) {
           }}
           aria-hidden="true"
         />
-        <span className="flex-shrink truncate font-medium text-primary">{name}</span>
+        <span dir="auto" className="flex-shrink truncate font-medium text-primary">
+          {name}
+        </span>
       </span>
     </Tooltip>
   );

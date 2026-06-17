@@ -72,7 +72,7 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
   const { allowPermissions } = useUserPermissions();
   const { currentProjectDetails, loader } = useProject();
   // local storage
-  const { setValue, storedValue } = useLocalStorage("module_sidebar_collapsed", "false");
+  const { setValue, storedValue } = useLocalStorage("module_sidebar_collapsed_v2", "false");
   // derived values
   const isSidebarCollapsed = storedValue ? (storedValue === "true" ? true : false) : false;
   const activeLayout = issueFilters?.displayFilters?.layout;

@@ -42,7 +42,9 @@ export const CycleListProjectGroupHeader = observer(function CycleListProjectGro
         <Logo logo={project.logo_props} size={16} />
       </div>
       <div className="relative flex w-full flex-row items-center gap-1 overflow-hidden">
-        <div className="inline-block line-clamp-1 truncate font-medium text-primary">{project.name}</div>
+        <div dir="auto" className="inline-block line-clamp-1 truncate font-medium text-primary">
+          {project.name}
+        </div>
         {showCount && <div className="ps-2 text-13 font-medium text-tertiary">{`${count ?? "0"}`}</div>}
       </div>
     </Row>

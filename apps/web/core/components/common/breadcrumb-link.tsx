@@ -25,7 +25,11 @@ const IconWrapper = React.memo(function IconWrapper({ icon }: { icon: React.Reac
 IconWrapper.displayName = "IconWrapper";
 
 const LabelWrapper = React.memo(function LabelWrapper({ label }: { label: React.ReactNode }) {
-  return <div className="relative line-clamp-1 block max-w-[150px] overflow-hidden truncate text-primary">{label}</div>;
+  return (
+    <div dir="auto" className="relative line-clamp-1 block max-w-[150px] overflow-hidden truncate text-primary">
+      {label}
+    </div>
+  );
 });
 
 LabelWrapper.displayName = "LabelWrapper";

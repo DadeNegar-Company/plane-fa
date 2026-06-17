@@ -110,7 +110,9 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
               <Logo logo={projectDetails?.logo_props} size={12} />
             </span>
           )}
-          <span className="flex-grow truncate">{projectDetails?.name}</span>
+          <span className="flex-grow truncate" dir="auto">
+            {projectDetails?.name}
+          </span>
         </div>
       ),
     };
@@ -212,7 +214,9 @@ export const ProjectDropdownBase = observer(function ProjectDropdownBase(props: 
           >
             {!hideIcon && getProjectIcon(value)}
             {BUTTON_VARIANTS_WITH_TEXT.includes(buttonVariant) && (
-              <span className="truncate max-w-40">{getDisplayName(value, placeholder)}</span>
+              <span className="truncate max-w-40" dir="auto">
+                {getDisplayName(value, placeholder)}
+              </span>
             )}
             {dropdownArrow && (
               <ChevronDownIcon className={cn("h-2.5 w-2.5 flex-shrink-0", dropdownArrowClassName)} aria-hidden="true" />

@@ -28,7 +28,7 @@ import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { ILinkDetails, IModule, ModuleLink, TNameDescriptionLoader } from "@plane/types";
 import { EFileAssetType } from "@plane/types";
 // plane ui
-import { Loader, CustomSelect } from "@plane/ui";
+import { Loader, CustomSelect, Input } from "@plane/ui";
 // shared sidebar component
 import { SidebarPropertyListItem } from "@/components/common/layout/sidebar/property-list-item";
 // components
@@ -45,6 +45,7 @@ import { useModule } from "@/hooks/store/use-module";
 import { useUserPermissions } from "@/hooks/store/user";
 
 const defaultValues: Partial<IModule> = {
+  name: "",
   lead_id: "",
   member_ids: [],
   label_ids: [],
@@ -79,7 +80,7 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
   const estimateType = areEstimateEnabled && currentActiveEstimateId && estimateById(currentActiveEstimateId);
   const isEstimatePointValid = estimateType && String(estimateType?.type) === String(EEstimateSystem.POINTS);
 
-  const { reset, control } = useForm({
+  const { reset, control, setValue } = useForm({
     defaultValues,
   });
 
@@ -231,7 +232,52 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
               )}
             />
           </div>
-          <h4 className="w-full break-words text-18 font-semibold text-primary">{moduleDetails.name}</h4>
+          <Controller
+            control={control}
+            name="name"
+            render={({ field: { value, onChange, ref } }) => (
+              <Input
+                ref={ref}
+                id="module-name-input"
+                name="name"
+                type="text"
+                value={value ?? ""}
+                onChange={onChange}
+                onBlur={() => {
+                  const trimmedName = (value ?? "").trim();
+                  if (!trimmedName) {
+                    setToast({
+                      type: TOAST_TYPE.ERROR,
+                      title: t("common.error.label"),
+                      message: t("title_is_required"),
+                    });
+                    setValue("name", moduleDetails.name);
+                    return;
+                  }
+                  if (trimmedName === moduleDetails.name) return;
+                  submitChanges({ name: trimmedName }).catch(() => {
+                    setToast({
+                      type: TOAST_TYPE.ERROR,
+                      title: t("common.error.label"),
+                      message: t("common.errors.default.message"),
+                    });
+                    setValue("name", moduleDetails.name);
+                  });
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    e.currentTarget.blur();
+                  }
+                }}
+                mode="transparent"
+                maxLength={255}
+                disabled={!isEditingAllowed || isArchived}
+                placeholder={t("title")}
+                className="w-full px-0 text-18 font-semibold text-primary"
+              />
+            )}
+          />
         </div>
 
         <DescriptionInput

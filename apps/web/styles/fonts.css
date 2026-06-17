@@ -8,4 +8,15 @@
     url("../app/assets/fonts/yekan-bakh/YekanBakh-VF.woff2") format("woff2"),
     url("../app/assets/fonts/yekan-bakh/YekanBakh-VF.woff") format("woff"),
     url("../app/assets/fonts/yekan-bakh/YekanBakh-VF.ttf") format("truetype");
+
+  /* [FA-CUSTOM] Vertical-metric overrides to center glyphs in fixed-height boxes
+   * (buttons, chips, inputs). Yekan Bakh ships asymmetric metrics
+   * (ascent 1.0 / descent 0.55 / cap-height 0.612 em), which seats text ~0.08em
+   * ABOVE the optical center of a line box. We re-derive the metrics so the
+   * cap-height box is centered (ascent - descent = cap-height) while keeping the
+   * total height (ascent + descent) at the original 1.55em so normal line spacing
+   * is unchanged. line-gap-override: 0% makes the height fully predictable. */
+  ascent-override: 108%;
+  descent-override: 47%;
+  line-gap-override: 0%;
 }

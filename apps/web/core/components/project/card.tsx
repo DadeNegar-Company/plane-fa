@@ -232,7 +232,9 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
               </div>
 
               <div className="flex w-full flex-col justify-between gap-0.5 truncate">
-                <h3 className="truncate font-semibold text-on-color">{project.name}</h3>
+                <h3 dir="auto" className="truncate font-semibold text-on-color">
+                  {project.name}
+                </h3>
                 <span className="flex items-center gap-1.5">
                   <p className="text-11 font-medium text-on-color">{project.identifier} </p>
                   {project.network === 0 && <LockIcon className="h-2.5 w-2.5 text-on-color " />}
@@ -278,7 +280,7 @@ export const ProjectCard = observer(function ProjectCard(props: Props) {
             "opacity-90": isArchived,
           })}
         >
-          <p className="line-clamp-2 break-words text-13 text-tertiary">
+          <p dir="auto" className="line-clamp-2 break-words text-13 text-tertiary">
             {project.description && project.description.trim() !== ""
               ? project.description
               : `Created on ${renderFormattedDate(project.created_at)}`}

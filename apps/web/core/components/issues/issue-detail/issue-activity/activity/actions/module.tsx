@@ -40,7 +40,9 @@ export const IssueModuleActivity = observer(function IssueModuleActivity(props: 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 truncate font-medium text-primary hover:underline"
             >
-              <span className="truncate">{activity.new_value}</span>
+              <span dir="auto" className="truncate">
+                {activity.new_value}
+              </span>
             </a>
           </>
         ) : activity.verb === "updated" ? (
@@ -52,7 +54,10 @@ export const IssueModuleActivity = observer(function IssueModuleActivity(props: 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 truncate font-medium text-primary hover:underline"
             >
-              <span className="truncate"> {activity.new_value}</span>
+              <span dir="auto" className="truncate">
+                {" "}
+                {activity.new_value}
+              </span>
             </a>
           </>
         ) : (
@@ -64,7 +69,10 @@ export const IssueModuleActivity = observer(function IssueModuleActivity(props: 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 truncate font-medium text-primary hover:underline"
             >
-              <span className="truncate"> {activity.old_value}</span>
+              <span dir="auto" className="truncate">
+                {" "}
+                {activity.old_value}
+              </span>
             </a>
           </>
         )}

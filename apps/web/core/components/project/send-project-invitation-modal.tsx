@@ -143,7 +143,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
             <div className="shrink-0 pt-0.5">
               <Avatar name={memberDetails?.member.display_name} src={getFileURL(memberDetails?.member.avatar_url)} />
             </div>
-            <div className="truncate">
+            <div dir="auto" className="truncate">
               {memberDetails?.member.display_name} (
               {memberDetails?.member.first_name + " " + memberDetails?.member.last_name})
             </div>

@@ -211,7 +211,9 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
           <div>
             <div className="flex items-center justify-between gap-2">
               <Tooltip tooltipContent={moduleDetails.name} position="top" isMobile={isMobile}>
-                <span className="truncate text-14 font-medium">{moduleDetails.name}</span>
+                <span dir="auto" className="truncate text-14 font-medium">
+                  {moduleDetails.name}
+                </span>
               </Tooltip>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
               <div className="flex items-center gap-2" onClick={handleEventPropagation}>
@@ -260,7 +262,9 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
                       className="flex items-center gap-1 rounded-sm bg-layer-1 px-1.5 py-0.5 text-11 text-tertiary"
                     >
                       <span className="h-2 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: label.color }} />
-                      <span className="truncate max-w-[80px]">{label.name}</span>
+                      <span dir="auto" className="truncate max-w-[80px]">
+                        {label.name}
+                      </span>
                     </div>
                   );
                 })}

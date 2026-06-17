@@ -69,6 +69,7 @@ const SidebarDropdownItem = observer(function SidebarDropdownItem(props: TProps)
             </span>
             <div className="w-[inherit]">
               <div
+                dir="auto"
                 className={`truncate text-start text-ellipsis text-13 font-medium ${workspaceSlug === workspace.slug ? "" : "text-secondary"}`}
               >
                 {workspace.name}

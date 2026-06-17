@@ -126,7 +126,9 @@ export const WorkspaceMenuRoot = observer(function WorkspaceMenuRoot(props: Work
                     name={activeWorkspace?.name}
                     classNames="border border-subtle rounded-md size-7"
                   />
-                  <h4 className="truncate text-14 font-medium text-primary">{activeWorkspace?.name ?? t("loading")}</h4>
+                  <h4 dir="auto" className="truncate text-14 font-medium text-primary">
+                    {activeWorkspace?.name ?? t("loading")}
+                  </h4>
                 </div>
                 <ChevronDownIcon
                   className={cn("flex-shrink-0 size-4 text-placeholder duration-300", {

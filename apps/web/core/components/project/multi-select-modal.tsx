@@ -166,7 +166,9 @@ export const ProjectMultiSelectModal = observer(function ProjectMultiSelectModal
                         <Logo logo={projectDetails.logo_props} size={16} />
                       </span>
                       <span className="flex-shrink-0 text-10">{projectDetails.identifier}</span>
-                      <p className="text-13 truncate">{projectDetails.name}</p>
+                      <p dir="auto" className="text-13 truncate">
+                        {projectDetails.name}
+                      </p>
                     </div>
                   </Combobox.Option>
                 );

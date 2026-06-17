@@ -52,7 +52,9 @@ const SubGroupColumn = observer(function SubGroupColumn({
       {/* Column header */}
       <div className="flex items-center gap-2 px-3 py-2 text-13 font-semibold text-primary">
         {group.icon && <span className="flex h-4 w-4 items-center justify-center">{group.icon}</span>}
-        <span className="flex-1 truncate">{group.name}</span>
+        <span dir="auto" className="flex-1 truncate">
+          {group.name}
+        </span>
         <span className="text-11 font-normal text-tertiary">{Object.values(subGroupedIds).flat().length}</span>
       </div>
       {/* Sub-group sections */}
@@ -63,7 +65,9 @@ const SubGroupColumn = observer(function SubGroupColumn({
             <div key={sg.id} className="flex flex-col gap-1">
               <div className="flex items-center gap-1.5 px-1 py-0.5 text-11 font-medium text-tertiary">
                 {sg.icon && <span className="flex h-3 w-3 items-center justify-center">{sg.icon}</span>}
-                <span className="truncate">{sg.name}</span>
+                <span dir="auto" className="truncate">
+                  {sg.name}
+                </span>
                 <span className="ms-auto">{moduleIds.length}</span>
               </div>
               {moduleIds.map((id) => (
@@ -139,6 +143,7 @@ export const ModuleKanbanRoot = observer(function ModuleKanbanRoot(props: Props)
           }`}
         >
           <div
+            dir="auto"
             className={`line-clamp-1 inline-block overflow-hidden truncate font-medium text-primary ${
               isCollapsed ? "vertical-lr max-h-[400px]" : ""
             }`}

@@ -90,7 +90,9 @@ export function FavoriteFolder(props: Props) {
                   <div className="size-5 grid place-items-center flex-shrink-0">
                     <FavoriteFolderIcon />
                   </div>
-                  <p className="truncate text-13 font-medium text-secondary">{favorite.name}</p>
+                  <p dir="auto" className="truncate text-13 font-medium text-secondary">
+                    {favorite.name}
+                  </p>
                 </div>
               );
               return () => root.unmount();
@@ -204,7 +206,9 @@ export function FavoriteFolder(props: Props) {
                       <div className="size-5 grid place-items-center flex-shrink-0">
                         <FavoriteFolderIcon />
                       </div>
-                      <p className="truncate text-13 font-medium text-secondary">{favorite.name}</p>
+                      <p dir="auto" className="truncate text-13 font-medium text-secondary">
+                        {favorite.name}
+                      </p>
                     </Disclosure.Button>
                   </div>
                 </Tooltip>

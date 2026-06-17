@@ -345,7 +345,9 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                             backgroundColor: label.color ?? "#000000",
                           }}
                         />
-                        <span className="text-11 text-ellipsis truncate">{label.label_name ?? "No labels"}</span>
+                        <span dir="auto" className="text-11 text-ellipsis truncate">
+                          {label.label_name ?? "No labels"}
+                        </span>
                       </div>
                     }
                     completed={label.completed_issues}

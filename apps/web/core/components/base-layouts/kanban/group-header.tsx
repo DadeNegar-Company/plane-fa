@@ -23,6 +23,7 @@ export function GroupHeader({ group, itemCount, isCollapsed, onToggleGroup }: IG
         }`}
       >
         <div
+          dir="auto"
           className={`line-clamp-1 inline-block overflow-hidden truncate font-medium text-primary ${
             isCollapsed ? "vertical-lr max-h-[400px]" : ""
           }`}

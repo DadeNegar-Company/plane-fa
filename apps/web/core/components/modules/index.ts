@@ -11,7 +11,6 @@ export * from "./sidebar-select";
 export * from "./delete-module-modal";
 export * from "./form";
 export * from "./gantt-chart";
-export * from "./module-description-banner";
 export * from "./kanban-layout";
 export * from "./links";
 export * from "./modal";

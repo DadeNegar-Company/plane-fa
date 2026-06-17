@@ -71,7 +71,7 @@ export function IssueLinkDetail(props: TIssueLinkDetail) {
               tooltipContent={linkDetail.title && linkDetail.title !== "" ? linkDetail.title : linkDetail.url}
               isMobile={isMobile}
             >
-              <span className="truncate text-11">
+              <span dir="auto" className="truncate text-11">
                 {linkDetail.title && linkDetail.title !== "" ? linkDetail.title : linkDetail.url}
               </span>
             </Tooltip>

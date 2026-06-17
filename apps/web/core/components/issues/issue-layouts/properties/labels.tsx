@@ -155,7 +155,9 @@ const LabelItem = observer(function LabelItem({
               backgroundColor: label?.color ?? "#000000",
             }}
           />
-          <div className="line-clamp-1 inline-block w-auto max-w-[200px] truncate">{label?.name}</div>
+          <div dir="auto" className="line-clamp-1 inline-block w-auto max-w-[200px] truncate">
+            {label?.name}
+          </div>
         </div>
       </div>
     </Tooltip>

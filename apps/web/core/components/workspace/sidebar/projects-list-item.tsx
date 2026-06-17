@@ -164,7 +164,9 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
                   <div className="size-4 grid place-items-center flex-shrink-0">
                     {project && <Logo logo={project?.logo_props} />}
                   </div>
-                  <p className="truncate text-secondary">{project?.name}</p>
+                  <p dir="auto" className="truncate text-secondary">
+                    {project?.name}
+                  </p>
                 </div>
               );
               return () => root.unmount();
@@ -340,14 +342,18 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
                     <div className="size-4 grid place-items-center flex-shrink-0">
                       <Logo logo={project.logo_props} size={16} />
                     </div>
-                    <p className="truncate text-13 font-medium text-secondary">{project.name}</p>
+                    <p dir="auto" className="truncate text-13 font-medium text-secondary">
+                      {project.name}
+                    </p>
                   </Disclosure.Button>
                 ) : (
                   <div className="flex-grow flex items-center gap-1.5 text-start select-none w-full">
                     <div className="size-4 grid place-items-center flex-shrink-0">
                       <Logo logo={project.logo_props} size={16} />
                     </div>
-                    <p className="truncate text-13 font-medium text-secondary">{project.name}</p>
+                    <p dir="auto" className="truncate text-13 font-medium text-secondary">
+                      {project.name}
+                    </p>
                   </div>
                 )}
               </ControlLink>

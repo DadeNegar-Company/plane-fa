@@ -45,7 +45,9 @@ export const HeaderSubGroupByCard = observer(function HeaderSubGroupByCard(props
       </div>
 
       <div className="flex flex-shrink-0 items-center gap-1 text-13">
-        <div className="line-clamp-1 text-primary">{title}</div>
+        <div dir="auto" className="line-clamp-1 text-primary">
+          {title}
+        </div>
         <div className="ps-2 text-13 font-medium text-tertiary">{count || 0}</div>
       </div>
 

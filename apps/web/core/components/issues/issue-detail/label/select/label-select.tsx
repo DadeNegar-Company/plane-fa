@@ -70,7 +70,9 @@ export const IssueLabelSelect = observer(function IssueLabelSelect(props: IIssue
             backgroundColor: label.color,
           }}
         />
-        <div className="line-clamp-1 inline-block truncate">{label.name}</div>
+        <div dir="auto" className="line-clamp-1 inline-block truncate">
+          {label.name}
+        </div>
       </div>
     ),
   }));

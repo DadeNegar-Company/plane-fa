@@ -137,7 +137,9 @@ export const IssueDetailsSidebar = observer(function IssueDetailsSidebar(props: 
               <SidebarPropertyListItem icon={UserCirclePropertyIcon} label={t("common.created_by")}>
                 <div className="px-2 flex gap-2">
                   <ButtonAvatars showTooltip userIds={createdByDetails.id} />
-                  <span className="grow truncate text-body-xs-regular leading-5">{createdByDetails?.display_name}</span>
+                  <span dir="auto" className="grow truncate text-body-xs-regular leading-5">
+                    {createdByDetails?.display_name}
+                  </span>
                 </div>
               </SidebarPropertyListItem>
             )}

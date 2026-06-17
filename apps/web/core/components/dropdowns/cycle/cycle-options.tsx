@@ -101,7 +101,9 @@ export const CycleOptions = observer(function CycleOptions(props: CycleOptionsPr
       content: (
         <div className="flex items-center gap-2">
           <CycleGroupIcon cycleGroup={cycleStatus} className="h-3.5 w-3.5 flex-shrink-0" />
-          <span className="flex-grow truncate">{cycleDetails?.name}</span>
+          <span className="flex-grow truncate" dir="auto">
+            {cycleDetails?.name}
+          </span>
         </div>
       ),
     };

@@ -59,7 +59,13 @@ export const ModulesLinksListItem = observer(function ModulesLinksListItem(props
             <Icon className="size-3 stroke-2 text-tertiary group-hover:text-primary shrink-0" />
           </span>
           <Tooltip tooltipContent={link.title && link.title !== "" ? link.title : link.url} isMobile={isMobile}>
-            <a href={link.url} target="_blank" rel="noopener noreferrer" className="cursor-pointer truncate text-11">
+            <a
+              dir="auto"
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer truncate text-11"
+            >
               {link.title && link.title !== "" ? link.title : link.url}
             </a>
           </Tooltip>

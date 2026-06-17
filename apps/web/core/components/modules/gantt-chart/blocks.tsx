@@ -74,6 +74,7 @@ export const ModuleGanttBlock = observer(function ModuleGanttBlock(props: Props)
       >
         <div className="absolute left-0 top-0 h-full w-full bg-surface-1/50" />
         <div
+          dir="auto"
           className="sticky w-auto overflow-hidden truncate px-2.5 py-1 text-13 text-primary"
           style={{ left: `${SIDEBAR_WIDTH}px` }}
         >
@@ -116,7 +117,9 @@ export const ModuleGanttSidebarBlock = observer(function ModuleGanttSidebarBlock
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div className="relative flex h-full w-full cursor-pointer items-center gap-2" onClick={handleModulePeek}>
       <ModuleStatusIcon status={moduleDetails?.status ?? "backlog"} height="16px" width="16px" />
-      <h6 className="flex-grow truncate text-13 font-medium">{moduleDetails?.name}</h6>
+      <h6 dir="auto" className="flex-grow truncate text-13 font-medium">
+        {moduleDetails?.name}
+      </h6>
     </div>
   );
 });

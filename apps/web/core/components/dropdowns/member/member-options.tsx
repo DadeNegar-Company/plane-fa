@@ -110,6 +110,7 @@ export const MemberOptions = observer(function MemberOptions(props: Props) {
                 "flex-grow truncate",
                 isUserSuspended(userId, workspaceSlug?.toString()) ? "text-placeholder" : ""
               )}
+              dir="auto"
             >
               {currentUser?.id === userId ? t("you") : userDetails?.display_name}
             </span>

@@ -140,7 +140,7 @@ export const PeekOverviewProperties = observer(function PeekOverviewProperties(p
               showTooltip
               userIds={createdByDetails?.display_name.includes("-intake") ? null : createdByDetails?.id}
             />
-            <span className="grow truncate text-body-xs-medium text-secondary leading-5">
+            <span dir="auto" className="grow truncate text-body-xs-medium text-secondary leading-5">
               {createdByDetails?.display_name.includes("-intake") ? "Plane" : createdByDetails?.display_name}
             </span>
           </SidebarPropertyListItem>

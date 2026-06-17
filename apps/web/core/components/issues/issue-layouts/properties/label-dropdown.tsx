@@ -109,7 +109,9 @@ export function LabelDropdown(props: ILabelDropdownProps) {
                 backgroundColor: label?.color,
               }}
             />
-            <div className="line-clamp-1 inline-block truncate">{label?.name}</div>
+            <div dir="auto" className="line-clamp-1 inline-block truncate">
+              {label?.name}
+            </div>
           </div>
         ),
       })),

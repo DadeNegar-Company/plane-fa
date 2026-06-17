@@ -238,7 +238,9 @@ export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase
                                       backgroundColor: label.color,
                                     }}
                                   />
-                                  <span className="truncate">{label.name}</span>
+                                  <span className="truncate" dir="auto">
+                                    {label.name}
+                                  </span>
                                 </div>
                                 <div className="flex shrink-0 items-center justify-center rounded-sm p-1">
                                   <CheckIcon className={`h-3 w-3 ${selected ? "opacity-100" : "opacity-0"}`} />
@@ -250,8 +252,11 @@ export const WorkItemLabelSelectBase = observer(function WorkItemLabelSelectBase
                     } else
                       return (
                         <div key={label.id} className="border-y border-subtle">
-                          <div className="flex select-none items-center gap-2 truncate p-2 text-primary">
-                            <Component className="h-3 w-3" /> {label.name}
+                          <div className="flex select-none items-center gap-2 p-2 text-primary">
+                            <Component className="h-3 w-3 flex-shrink-0" />{" "}
+                            <span className="truncate" dir="auto">
+                              {label.name}
+                            </span>
                           </div>
                           <div>
                             {children.map((child) => (

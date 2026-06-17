@@ -123,7 +123,9 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
                   >
                     <CycleIcon className="h-5 w-5" />
                     <div className="flex w-full justify-between truncate">
-                      <span className="truncate">{cycleDetails?.name}</span>
+                      <span dir="auto" className="truncate">
+                        {cycleDetails?.name}
+                      </span>
                       {cycleDetails.status && (
                         <span className="flex-shrink-0 flex items-center rounded-full bg-layer-1  px-2 capitalize">
                           {cycleDetails.status.toLocaleLowerCase()}

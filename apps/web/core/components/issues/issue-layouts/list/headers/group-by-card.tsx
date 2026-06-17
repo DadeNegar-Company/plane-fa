@@ -122,7 +122,9 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
           className="relative flex w-full flex-row items-center gap-1 overflow-hidden cursor-pointer"
           onClick={() => handleCollapsedGroups(groupID)}
         >
-          <div className="inline-block line-clamp-1 truncate font-medium text-primary">{title}</div>
+          <div dir="auto" className="inline-block line-clamp-1 truncate font-medium text-primary">
+            {title}
+          </div>
           <div className="ps-2 text-13 font-medium text-tertiary">{count || 0}</div>
           <div className="px-2.5">
             <WorkFlowGroupTree groupBy={groupBy} groupId={groupID} />
