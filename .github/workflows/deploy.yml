@@ -11,7 +11,11 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_PREFIX: ghcr.io/${{ github.repository }}
+  # Pinned lowercase: the org rename made `${{ github.repository }}` resolve to
+  # "DadeNegar-Company/plane-fa" — an invalid (uppercase) Docker tag — and the old
+  # `dadenegarco` namespace now 403s on push. GHCR lowercases the org login, so
+  # the live namespace is `dadenegar-company` (matches deploy/docker-compose.yml).
+  IMAGE_PREFIX: ghcr.io/dadenegar-company/plane-fa
 
 jobs:
   # ---------------------------------------------------------------------------
