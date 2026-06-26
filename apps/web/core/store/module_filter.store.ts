@@ -198,7 +198,8 @@ export class ModuleFilterStore implements IModuleFilterStore {
       this.displayFilters[projectId] = {
         favorites: displayFilters?.favorites || false,
         layout: resolvedLayout,
-        order_by: displayFilters?.order_by || "name",
+        // [FA-CUSTOM] Gantt defaults to start-date ordering; other layouts keep name order
+        order_by: displayFilters?.order_by || (resolvedLayout === "gantt" ? "start_date" : "name"),
         group_by: groupBy,
         sub_group_by: subGroupBy,
         show_empty_groups: displayFilters?.show_empty_groups ?? true,
@@ -227,6 +228,15 @@ export class ModuleFilterStore implements IModuleFilterStore {
       // clear sub_group_by when switching away from kanban layout
       if (displayFilters.layout && displayFilters.layout !== "kanban") {
         set(this.displayFilters, [projectId, "sub_group_by"], null);
+      }
+      // [FA-CUSTOM] when switching to the Gantt timeline (without setting an order in the same
+      // update), default ordering to start date if it is still the list default (name).
+      if (
+        displayFilters.layout === "gantt" &&
+        displayFilters.order_by === undefined &&
+        this.displayFilters[projectId]?.order_by === "name"
+      ) {
+        set(this.displayFilters, [projectId, "order_by"], "start_date");
       }
     });
     this.saveDisplayFiltersToLocalStorage();

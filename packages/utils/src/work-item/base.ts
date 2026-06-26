@@ -278,7 +278,8 @@ export const getComputedDisplayFilters = (
       layout: filters?.calendar?.layout || "month",
     },
     layout: filters?.layout || EIssueLayoutTypes.LIST,
-    order_by: filters?.order_by || "sort_order",
+    // [FA-CUSTOM] Gantt defaults to start-date ordering; other layouts keep manual order
+    order_by: filters?.order_by || (filters?.layout === EIssueLayoutTypes.GANTT ? "start_date" : "sort_order"),
     group_by: filters?.group_by || null,
     sub_group_by: filters?.sub_group_by || null,
     sub_issue: filters?.sub_issue || false,
