@@ -59,7 +59,7 @@ Before recommending a backport, check whether the file is touched by our customi
 
 ```bash
 # Did we modify the file since divergence?
-git log --oneline f53446340b..develop -- <path>
+git log --oneline f53446340b..main -- <path>
 ```
 
 Our key customization areas:
@@ -98,7 +98,7 @@ Recommend at most **5 items in 🔴**. If there's nothing critical, say so hones
 
 For each item the user wants to apply:
 
-1. Check our state: `git diff <merge-base>..develop -- <files>`
+1. Check our state: `git diff <merge-base>..main -- <files>`
 2. If no conflict: `git checkout <commit-sha> -- <files>` then verify with compile/type checks
 3. If conflict: read both versions, manual merge while preserving our customizations
 4. Run relevant compile checks:

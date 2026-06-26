@@ -250,7 +250,7 @@ main() {
   echo "  1. Ensure DNS A record points ${DOMAIN} → $(curl -sf ifconfig.me || echo '<server-ip>')"
   echo "  2. Add SSH public key for GitHub Actions"
   echo "  3. Update GitHub Secrets (SERVER_HOST, SERVER_USER, SSH_PRIVATE_KEY)"
-  echo "  4. Push to 'develop' branch to trigger auto-deploy"
+  echo "  4. Push to 'main' branch to trigger auto-deploy"
   echo "==========================================="
 }
 
