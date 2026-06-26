@@ -207,6 +207,11 @@ jobs:
           set -e
           echo "=== Deploy started at $(date) ==="
 
+          # SHA-pin: pull and run the exact images built for this commit
+          # (compose falls back to :latest if unset). Enables precise manual
+          # rollback on the host: IMAGE_TAG=<prev-sha> docker compose up -d
+          export IMAGE_TAG="${{ github.sha }}"
+
           # Install daily Docker cleanup cron if not present (idempotent)
           if ! crontab -l 2>/dev/null | grep -q 'docker-cleanup'; then
             (crontab -l 2>/dev/null; echo "# docker-cleanup: daily prune of unused Docker resources at 3am UTC"; echo "0 3 * * * docker container prune -f --filter until=24h > /dev/null 2>&1; docker image prune -af --filter until=72h > /dev/null 2>&1; docker builder prune -f --keep-storage=2GB > /dev/null 2>&1") | crontab -
