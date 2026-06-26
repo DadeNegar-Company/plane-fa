@@ -251,6 +251,17 @@ export class ProjectViewIssuesFilter extends IssueFilterHelperStore implements I
             _filters.displayFilters.group_by = "state";
             updatedDisplayFilters.group_by = "state";
           }
+          // [FA-CUSTOM] when switching to the Gantt layout (without setting an order in the same
+          // update), default ordering to start date — but only override the manual default, so an
+          // order the user picked beforehand is preserved.
+          if (
+            updatedDisplayFilters.layout === "gantt_chart" &&
+            updatedDisplayFilters.order_by === undefined &&
+            _filters.displayFilters.order_by === "sort_order"
+          ) {
+            _filters.displayFilters.order_by = "start_date";
+            updatedDisplayFilters.order_by = "start_date";
+          }
 
           runInAction(() => {
             Object.keys(updatedDisplayFilters).forEach((_key) => {
