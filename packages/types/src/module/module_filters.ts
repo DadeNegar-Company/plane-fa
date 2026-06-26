@@ -17,7 +17,8 @@ export type TModuleOrderByOptions =
   | "-target_date"
   | "created_at"
   | "-created_at"
-  | "sort_order";
+  | "sort_order"
+  | "-sort_order";
 
 export type TModuleLayoutOptions = "list" | "board" | "gantt" | "kanban";
 

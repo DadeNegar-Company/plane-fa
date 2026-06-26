@@ -33,29 +33,59 @@ const naturalSort = (a: string, b: string): number => collator.compare(a, b);
  * @returns {IModule[]}
  */
 export const orderModules = (modules: IModule[], orderByKey: TModuleOrderByOptions | undefined): IModule[] => {
-  let orderedModules: IModule[] = [];
-  if (modules.length === 0 || !orderByKey) return [];
+  if (modules.length === 0) return [];
 
-  if (orderByKey === "name") orderedModules = [...modules].sort((a, b) => naturalSort(a.name, b.name));
-  if (orderByKey === "-name") orderedModules = [...modules].sort((a, b) => naturalSort(b.name, a.name));
-  if (["progress", "-progress"].includes(orderByKey))
-    orderedModules = sortBy(modules, [
-      (m) => {
-        let progress = (m.completed_issues + m.cancelled_issues) / m.total_issues;
-        if (isNaN(progress)) progress = 0;
-        return orderByKey === "progress" ? progress : -progress;
-      },
-    ]);
-  if (["issues_length", "-issues_length"].includes(orderByKey))
-    orderedModules = sortBy(modules, [(m) => (orderByKey === "issues_length" ? m.total_issues : !m.total_issues)]);
-  if (orderByKey === "start_date") orderedModules = sortBy(modules, [(m) => m.start_date]);
-  if (orderByKey === "-start_date") orderedModules = sortBy(modules, [(m) => !m.start_date]);
-  if (orderByKey === "target_date") orderedModules = sortBy(modules, [(m) => m.target_date]);
-  if (orderByKey === "-target_date") orderedModules = sortBy(modules, [(m) => !m.target_date]);
-  if (orderByKey === "created_at") orderedModules = sortBy(modules, [(m) => m.created_at]);
-  if (orderByKey === "-created_at") orderedModules = sortBy(modules, [(m) => !m.created_at]);
+  // Never drop the list when no/unknown ordering is set — fall back to the manual order.
+  const key: TModuleOrderByOptions = orderByKey ?? "sort_order";
+  const isDescending = key.startsWith("-");
+  const baseKey = isDescending ? key.slice(1) : key;
 
-  if (orderByKey === "sort_order") orderedModules = sortBy(modules, [(m) => m.sort_order]);
+  // Build a numeric sort key for date fields. Undated (or unparseable) modules always sort
+  // to the end in BOTH directions; dated modules sort ascending or descending by timestamp.
+  // Parse the full value (not getDate, which truncates to date-only) so created_at keeps
+  // sub-day precision.
+  const dateSortKey = (value: string | null | undefined): number => {
+    if (!value) return Number.POSITIVE_INFINITY;
+    const time = new Date(value).getTime();
+    if (Number.isNaN(time)) return Number.POSITIVE_INFINITY;
+    return isDescending ? -time : time;
+  };
+
+  let orderedModules: IModule[];
+  switch (baseKey) {
+    case "name":
+      orderedModules = [...modules].sort((a, b) =>
+        isDescending ? naturalSort(b.name, a.name) : naturalSort(a.name, b.name)
+      );
+      break;
+    case "progress":
+      orderedModules = sortBy(modules, [
+        (m) => {
+          let progress = (m.completed_issues + m.cancelled_issues) / m.total_issues;
+          if (isNaN(progress)) progress = 0;
+          return isDescending ? -progress : progress;
+        },
+      ]);
+      break;
+    case "issues_length":
+      orderedModules = sortBy(modules, [(m) => (isDescending ? -(m.total_issues ?? 0) : (m.total_issues ?? 0))]);
+      break;
+    case "start_date":
+      orderedModules = sortBy(modules, [(m) => dateSortKey(m.start_date)]);
+      break;
+    case "target_date":
+      orderedModules = sortBy(modules, [(m) => dateSortKey(m.target_date)]);
+      break;
+    case "created_at":
+      orderedModules = sortBy(modules, [(m) => dateSortKey(m.created_at)]);
+      break;
+    case "sort_order":
+      orderedModules = sortBy(modules, [(m) => m.sort_order]);
+      if (isDescending) orderedModules.reverse();
+      break;
+    default:
+      orderedModules = [...modules];
+  }
   return orderedModules;
 };
 
