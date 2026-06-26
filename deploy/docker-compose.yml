@@ -83,6 +83,11 @@ services:
       replicas: ${WEB_REPLICAS:-1}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          memory: 1g
+        reservations:
+          memory: 256m
     depends_on:
       - api
       - worker
@@ -94,6 +99,11 @@ services:
       replicas: ${SPACE_REPLICAS:-1}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          memory: 1g
+        reservations:
+          memory: 256m
     environment:
       # Zero-code OTel for the react-router-serve SSR runtime. Same pattern
       # as plane-live with an absolute --require path (pnpm hoists deps into
@@ -125,6 +135,11 @@ services:
       replicas: ${ADMIN_REPLICAS:-1}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          memory: 512m
+        reservations:
+          memory: 128m
     depends_on:
       - api
       - web
@@ -150,6 +165,11 @@ services:
       replicas: ${LIVE_REPLICAS:-1}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          memory: 512m
+        reservations:
+          memory: 128m
     networks:
       - default
       - signoz-net
@@ -165,6 +185,11 @@ services:
       replicas: ${API_REPLICAS:-1}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          memory: 2g
+        reservations:
+          memory: 512m
     volumes:
       - logs_api:/code/plane/logs
     environment:
@@ -187,6 +212,11 @@ services:
       replicas: ${WORKER_REPLICAS:-1}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          memory: 2g
+        reservations:
+          memory: 512m
     volumes:
       - logs_worker:/code/plane/logs
     environment:
@@ -210,6 +240,11 @@ services:
       replicas: ${BEAT_WORKER_REPLICAS:-1}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          memory: 512m
+        reservations:
+          memory: 128m
     volumes:
       - logs_beat-worker:/code/plane/logs
     environment:
@@ -233,6 +268,9 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
+      resources:
+        limits:
+          memory: 1g
     volumes:
       - logs_migrator:/code/plane/logs
     environment:
@@ -334,6 +372,11 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+      resources:
+        limits:
+          memory: 256m
+        reservations:
+          memory: 64m
     environment:
       <<: *proxy-env
     ports:
