@@ -49,3 +49,31 @@ samp,
 [dir="rtl"] .recharts-responsive-container {
   direction: ltr;
 }
+
+/* [FA-CUSTOM] Persian digits via the Yekan Bakh `ss01` (FaNum) OpenType feature.
+ * Gated on the UI *language* — not direction — because a Persian user who keeps
+ * an LTR layout still expects Persian digits. The i18n store keeps
+ * `document.documentElement.lang` in sync with the chosen language, so this rule
+ * activates/deactivates automatically with no JS digit conversion and no change
+ * to the underlying DOM text (copy/paste, search and logic stay Latin).
+ * `rlig`/`calt` are kept on for correct Persian letter joining (matches the
+ * Parto design-system body rule). */
+html[lang="fa"] {
+  font-feature-settings:
+    "ss01" 1,
+    "calt" 1,
+    "rlig" 1;
+}
+
+/* Inherently technical/LTR runs keep Latin digits even in Persian mode: code,
+ * keyboard hints, monospace, and anything explicitly marked LTR (URLs, emails,
+ * identifiers). This mirrors the bidi-isolation list above. */
+html[lang="fa"] .force-ltr,
+html[lang="fa"] [data-force-ltr="true"],
+html[lang="fa"] pre,
+html[lang="fa"] code,
+html[lang="fa"] kbd,
+html[lang="fa"] samp,
+html[lang="fa"] .font-mono {
+  font-feature-settings: normal;
+}
