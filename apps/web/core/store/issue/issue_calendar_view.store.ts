@@ -10,7 +10,13 @@ import { observable, action, makeObservable, runInAction, computed, reaction } f
 import { computedFn } from "mobx-utils";
 import type { ICalendarPayload, ICalendarWeek } from "@plane/types";
 import { EStartOfTheWeek } from "@plane/types";
-import { generateCalendarData, getWeekNumberOfDate, getCalendarSystem, setCalendarSystem } from "@plane/utils"; // [FA-CUSTOM] added getCalendarSystem, setCalendarSystem
+import {
+  generateCalendarData,
+  getWeekNumberOfDate,
+  getCalendarSystem,
+  setCalendarSystem,
+  setDateLocale,
+} from "@plane/utils"; // [FA-CUSTOM] added getCalendarSystem, setCalendarSystem, setDateLocale
 // [FA-CUSTOM] Jalali calendar support
 import {
   getYear as jalaliGetYear,
@@ -97,6 +103,17 @@ export class CalendarStore implements ICalendarStore {
       () => this.rootStore.rootStore.user.userProfile.data?.calendar_system,
       (calendarSystem) => {
         if (calendarSystem) setCalendarSystem(calendarSystem);
+        this.regenerateCalendar();
+      }
+    );
+
+    // [FA-CUSTOM] Watch for language changes and regenerate so month names switch
+    // script (e.g., "Farvardin" ⇄ "فروردین"). setDateLocale runs first to update
+    // module state before regenerateCalendar reads it (same race-avoidance as above).
+    reaction(
+      () => this.rootStore.rootStore.user.userProfile.data?.language,
+      (language) => {
+        setDateLocale(language);
         this.regenerateCalendar();
       }
     );

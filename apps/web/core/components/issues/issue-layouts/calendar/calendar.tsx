@@ -22,10 +22,10 @@ import type {
 import { EIssuesStoreType, EIssueLayoutTypes } from "@plane/types";
 // ui
 import { Spinner } from "@plane/ui";
-import { renderFormattedPayloadDate, cn, getCalendarSystem } from "@plane/utils"; // [FA-CUSTOM] added getCalendarSystem
+import { renderFormattedPayloadDate, cn, getCalendarSystem, getDateLocaleLanguage } from "@plane/utils"; // [FA-CUSTOM] added getCalendarSystem, getDateLocaleLanguage
 import { getYear as jalaliGetYear, getMonth as jalaliGetMonth, getDate as jalaliGetDate } from "date-fns-jalali"; // [FA-CUSTOM]
 // constants
-import { MONTHS_LIST, JALALI_MONTHS_LIST } from "@/constants/calendar"; // [FA-CUSTOM] added JALALI_MONTHS_LIST
+import { MONTHS_LIST, MONTHS_LIST_FA, getActiveMonthsList } from "@/constants/calendar"; // [FA-CUSTOM] calendar+language-aware month list
 // helpers
 // hooks
 import { useIssues } from "@/hooks/store/use-issues";
@@ -211,7 +211,7 @@ export const CalendarChart = observer(function CalendarChart(props: Props) {
               <p className="p-4 text-18 font-semibold">
                 {/* [FA-CUSTOM] Calendar-aware mobile date display */}
                 {`${getCalendarSystem() === "jalali" ? jalaliGetDate(selectedDate) : selectedDate.getDate()} ${
-                  (getCalendarSystem() === "jalali" ? JALALI_MONTHS_LIST : MONTHS_LIST)[
+                  getActiveMonthsList()[
                     (getCalendarSystem() === "jalali" ? jalaliGetMonth(selectedDate) : selectedDate.getMonth()) + 1
                   ].title
                 }, ${getCalendarSystem() === "jalali" ? jalaliGetYear(selectedDate) : selectedDate.getFullYear()}`}
@@ -240,8 +240,9 @@ export const CalendarChart = observer(function CalendarChart(props: Props) {
         {/* mobile view */}
         <div className="md:hidden">
           <p className="p-4 text-18 font-semibold">
+            {/* [FA-CUSTOM] Gregorian mobile date — Persian month names when language=fa */}
             {`${selectedDate.getDate()} ${
-              MONTHS_LIST[selectedDate.getMonth() + 1].title
+              (getDateLocaleLanguage() === "fa" ? MONTHS_LIST_FA : MONTHS_LIST)[selectedDate.getMonth() + 1].title
             }, ${selectedDate.getFullYear()}`}
           </p>
           <CalendarIssueBlocks

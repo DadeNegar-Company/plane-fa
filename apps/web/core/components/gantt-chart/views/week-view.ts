@@ -9,7 +9,7 @@ import type { ChartDataType } from "@plane/types";
 import { EStartOfTheWeek } from "@plane/types";
 import { getCalendarSystem } from "@plane/utils"; // [FA-CUSTOM]
 import { getYear as jalaliGetYear, getMonth as jalaliGetMonth, getDate as jalaliGetDate } from "date-fns-jalali"; // [FA-CUSTOM]
-import { months, jalaliMonths, generateWeeks } from "../data"; // [FA-CUSTOM] added jalaliMonths
+import { getActiveMonths, generateWeeks } from "../data"; // [FA-CUSTOM] calendar+language-aware months
 import { getNumberOfDaysBetweenTwoDates, getWeekNumberByDate } from "./helpers";
 export interface IDayBlock {
   date: Date;
@@ -157,7 +157,7 @@ export const getWeeksBetweenTwoDates = (
 
     // [FA-CUSTOM] Calendar-aware month/year for week titles
     const isJalali = getCalendarSystem() === "jalali";
-    const activeMonthList = isJalali ? jalaliMonths : months;
+    const activeMonthList = getActiveMonths();
     const monthAtStartOfTheWeek = isJalali ? jalaliGetMonth(weekStartDate) : weekStartDate.getMonth();
     const yearAtStartOfTheWeek = isJalali ? jalaliGetYear(weekStartDate) : weekStartDate.getFullYear();
     const monthAtEndOfTheWeek = isJalali ? jalaliGetMonth(weekEndDate) : weekEndDate.getMonth();
@@ -208,7 +208,7 @@ const populateDaysForWeek = (startDate: Date, startOfWeek: EStartOfTheWeek = ESt
   const today = new Date();
   const weekDays = generateWeeks(startOfWeek);
   const isJalali = getCalendarSystem() === "jalali"; // [FA-CUSTOM]
-  const activeMonthList = isJalali ? jalaliMonths : months; // [FA-CUSTOM]
+  const activeMonthList = getActiveMonths(); // [FA-CUSTOM]
 
   // [FA-CUSTOM] Track the month of the first day to detect cross-month boundaries
   const firstDayMonth = isJalali ? jalaliGetMonth(currentDate) : currentDate.getMonth();

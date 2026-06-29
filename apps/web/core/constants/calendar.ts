@@ -6,6 +6,7 @@
 
 import type { TCalendarLayouts } from "@plane/types";
 import { EStartOfTheWeek } from "@plane/types";
+import { getCalendarSystem, getDateLocaleLanguage } from "@plane/utils"; // [FA-CUSTOM] calendar+language-aware month list
 
 export const MONTHS_LIST: {
   [monthNumber: number]: {
@@ -82,6 +83,53 @@ export const JALALI_MONTHS_LIST: {
   10: { shortTitle: "Dey", title: "Dey" },
   11: { shortTitle: "Bah", title: "Bahman" },
   12: { shortTitle: "Esf", title: "Esfand" },
+};
+
+// [FA-CUSTOM] Gregorian month names in Persian script (for language=fa + Gregorian calendar)
+export const MONTHS_LIST_FA: typeof MONTHS_LIST = {
+  1: { shortTitle: "ژانویه", title: "ژانویه" },
+  2: { shortTitle: "فوریه", title: "فوریه" },
+  3: { shortTitle: "مارس", title: "مارس" },
+  4: { shortTitle: "آوریل", title: "آوریل" },
+  5: { shortTitle: "مه", title: "مه" },
+  6: { shortTitle: "ژوئن", title: "ژوئن" },
+  7: { shortTitle: "ژوئیه", title: "ژوئیه" },
+  8: { shortTitle: "اوت", title: "اوت" },
+  9: { shortTitle: "سپتامبر", title: "سپتامبر" },
+  10: { shortTitle: "اکتبر", title: "اکتبر" },
+  11: { shortTitle: "نوامبر", title: "نوامبر" },
+  12: { shortTitle: "دسامبر", title: "دسامبر" },
+};
+
+// [FA-CUSTOM] Jalali month names in Persian script (for language=fa + Jalali calendar)
+export const JALALI_MONTHS_LIST_FA: typeof JALALI_MONTHS_LIST = {
+  1: { shortTitle: "فرو", title: "فروردین" },
+  2: { shortTitle: "ارد", title: "اردیبهشت" },
+  3: { shortTitle: "خرد", title: "خرداد" },
+  4: { shortTitle: "تیر", title: "تیر" },
+  5: { shortTitle: "مرد", title: "مرداد" },
+  6: { shortTitle: "شهر", title: "شهریور" },
+  7: { shortTitle: "مهر", title: "مهر" },
+  8: { shortTitle: "آبا", title: "آبان" },
+  9: { shortTitle: "آذر", title: "آذر" },
+  10: { shortTitle: "دی", title: "دی" },
+  11: { shortTitle: "بهم", title: "بهمن" },
+  12: { shortTitle: "اسف", title: "اسفند" },
+};
+
+/**
+ * [FA-CUSTOM] Returns the month-name map matching BOTH the active calendar system
+ * and the active UI language:
+ *   jalali + fa → JALALI_MONTHS_LIST_FA ("فروردین")   jalali + en → JALALI_MONTHS_LIST ("Farvardin")
+ *   gregorian + fa → MONTHS_LIST_FA ("ژانویه")        gregorian + en → MONTHS_LIST ("January")
+ * Use this everywhere a month name is rendered so the Calendar/Gantt views match
+ * the rest of the date-display layer (see @plane/utils datetime helpers).
+ */
+export const getActiveMonthsList = (): typeof MONTHS_LIST => {
+  const isJalali = getCalendarSystem() === "jalali";
+  const isFa = getDateLocaleLanguage() === "fa";
+  if (isJalali) return isFa ? JALALI_MONTHS_LIST_FA : JALALI_MONTHS_LIST;
+  return isFa ? MONTHS_LIST_FA : MONTHS_LIST;
 };
 
 export const DAYS_LIST: {

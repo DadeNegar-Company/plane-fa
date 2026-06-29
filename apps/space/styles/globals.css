@@ -4,6 +4,26 @@
 @import "@plane/propel/styles/react-day-picker.css";
 @plugin "@tailwindcss/typography";
 
+/* [FA-CUSTOM] Persian digits via the Yekan Bakh `ss01` (FaNum) OpenType feature,
+ * gated on the UI language (the i18n store keeps <html lang> in sync). Mirrors
+ * apps/web/styles/rtl.css so the Space (public) app matches the main app. Code,
+ * monospace, and Latin-canonical email/url inputs keep Latin digits. */
+html[lang="fa"] {
+  font-feature-settings:
+    "ss01" 1,
+    "calt" 1,
+    "rlig" 1;
+}
+html[lang="fa"] pre,
+html[lang="fa"] code,
+html[lang="fa"] kbd,
+html[lang="fa"] samp,
+html[lang="fa"] .font-mono,
+html[lang="fa"] input[type="email"],
+html[lang="fa"] input[type="url"] {
+  font-feature-settings: normal;
+}
+
 /* stickies and editor colors */
 :root {
   /* text colors */

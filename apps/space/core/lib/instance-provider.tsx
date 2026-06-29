@@ -18,7 +18,8 @@ import PlaneBackgroundPattern from "@/app/assets/auth/background-pattern.svg?url
 // components
 import { LogoSpinner } from "@/components/common/logo-spinner";
 import { InstanceFailureView } from "@/components/instance/instance-failure-view";
-// [FA-CUSTOM] Calendar system sync for Space app
+// [FA-CUSTOM] Calendar system + date-locale sync for Space app
+import { setDateLocale } from "@plane/utils";
 import { setSpaceCalendarSystem } from "@/helpers/date-time.helper";
 // hooks
 import { useInstance } from "@/hooks/store/use-instance";
@@ -31,12 +32,19 @@ export const InstanceProvider = observer(function InstanceProvider({ children }:
   const { resolvedTheme } = useTheme();
   const userProfile = useUserProfile();
   const calendarSystem = userProfile.data?.calendar_system;
+  const language = userProfile.data?.language;
 
   // [FA-CUSTOM] Sync calendar system preference (Gregorian/Jalali) for Space app
   useEffect(() => {
     if (!calendarSystem) return;
     setSpaceCalendarSystem(calendarSystem);
   }, [calendarSystem]);
+
+  // [FA-CUSTOM] Sync date-display language (Persian vs Latin month names) for Space app
+  useEffect(() => {
+    if (!language) return;
+    setDateLocale(language);
+  }, [language]);
 
   const patternBackground = resolvedTheme === "dark" ? PlaneBackgroundPatternDark : PlaneBackgroundPattern;
 

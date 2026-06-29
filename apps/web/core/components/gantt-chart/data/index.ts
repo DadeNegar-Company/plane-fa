@@ -8,7 +8,7 @@
 import type { WeekMonthDataType, ChartDataType, TGanttViews } from "@plane/types";
 import { EStartOfTheWeek } from "@plane/types";
 // [FA-CUSTOM] Jalali calendar support
-import { getCalendarSystem } from "@plane/utils";
+import { getCalendarSystem, getDateLocaleLanguage } from "@plane/utils";
 import { getYear as jalaliGetYear, getMonth as jalaliGetMonth, getDate as jalaliGetDate } from "date-fns-jalali";
 
 // constants
@@ -72,12 +72,66 @@ export const jalaliQuarters: WeekMonthDataType[] = [
   { key: 3, shortTitle: "Q4", title: "Dey - Esf", abbreviation: "Q4" },
 ];
 
-/** [FA-CUSTOM] Get the appropriate months array based on calendar system */
-export const getActiveMonths = (): WeekMonthDataType[] => (getCalendarSystem() === "jalali" ? jalaliMonths : months);
+// [FA-CUSTOM] Persian-script variants (for language=fa). Same shape/keys as above.
+export const monthsFa: WeekMonthDataType[] = [
+  { key: 0, shortTitle: "ژانویه", title: "ژانویه", abbreviation: "ژانویه" },
+  { key: 1, shortTitle: "فوریه", title: "فوریه", abbreviation: "فوریه" },
+  { key: 2, shortTitle: "مارس", title: "مارس", abbreviation: "مارس" },
+  { key: 3, shortTitle: "آوریل", title: "آوریل", abbreviation: "آوریل" },
+  { key: 4, shortTitle: "مه", title: "مه", abbreviation: "مه" },
+  { key: 5, shortTitle: "ژوئن", title: "ژوئن", abbreviation: "ژوئن" },
+  { key: 6, shortTitle: "ژوئیه", title: "ژوئیه", abbreviation: "ژوئیه" },
+  { key: 7, shortTitle: "اوت", title: "اوت", abbreviation: "اوت" },
+  { key: 8, shortTitle: "سپتامبر", title: "سپتامبر", abbreviation: "سپتامبر" },
+  { key: 9, shortTitle: "اکتبر", title: "اکتبر", abbreviation: "اکتبر" },
+  { key: 10, shortTitle: "نوامبر", title: "نوامبر", abbreviation: "نوامبر" },
+  { key: 11, shortTitle: "دسامبر", title: "دسامبر", abbreviation: "دسامبر" },
+];
 
-/** [FA-CUSTOM] Get the appropriate quarters array based on calendar system */
-export const getActiveQuarters = (): WeekMonthDataType[] =>
-  getCalendarSystem() === "jalali" ? jalaliQuarters : quarters;
+export const jalaliMonthsFa: WeekMonthDataType[] = [
+  { key: 0, shortTitle: "فرو", title: "فروردین", abbreviation: "فرو" },
+  { key: 1, shortTitle: "ارد", title: "اردیبهشت", abbreviation: "ارد" },
+  { key: 2, shortTitle: "خرد", title: "خرداد", abbreviation: "خرد" },
+  { key: 3, shortTitle: "تیر", title: "تیر", abbreviation: "تیر" },
+  { key: 4, shortTitle: "مرد", title: "مرداد", abbreviation: "مرد" },
+  { key: 5, shortTitle: "شهر", title: "شهریور", abbreviation: "شهر" },
+  { key: 6, shortTitle: "مهر", title: "مهر", abbreviation: "مهر" },
+  { key: 7, shortTitle: "آبا", title: "آبان", abbreviation: "آبا" },
+  { key: 8, shortTitle: "آذر", title: "آذر", abbreviation: "آذر" },
+  { key: 9, shortTitle: "دی", title: "دی", abbreviation: "دی" },
+  { key: 10, shortTitle: "بهم", title: "بهمن", abbreviation: "بهم" },
+  { key: 11, shortTitle: "اسف", title: "اسفند", abbreviation: "اسف" },
+];
+
+export const quartersFa: WeekMonthDataType[] = [
+  { key: 0, shortTitle: "Q1", title: "ژانویه - مارس", abbreviation: "Q1" },
+  { key: 1, shortTitle: "Q2", title: "آوریل - ژوئن", abbreviation: "Q2" },
+  { key: 2, shortTitle: "Q3", title: "ژوئیه - سپتامبر", abbreviation: "Q3" },
+  { key: 3, shortTitle: "Q4", title: "اکتبر - دسامبر", abbreviation: "Q4" },
+];
+
+export const jalaliQuartersFa: WeekMonthDataType[] = [
+  { key: 0, shortTitle: "Q1", title: "فروردین - خرداد", abbreviation: "Q1" },
+  { key: 1, shortTitle: "Q2", title: "تیر - شهریور", abbreviation: "Q2" },
+  { key: 2, shortTitle: "Q3", title: "مهر - آذر", abbreviation: "Q3" },
+  { key: 3, shortTitle: "Q4", title: "دی - اسفند", abbreviation: "Q4" },
+];
+
+/** [FA-CUSTOM] Months array matching BOTH the active calendar system and UI language */
+export const getActiveMonths = (): WeekMonthDataType[] => {
+  const isJalali = getCalendarSystem() === "jalali";
+  const isFa = getDateLocaleLanguage() === "fa";
+  if (isJalali) return isFa ? jalaliMonthsFa : jalaliMonths;
+  return isFa ? monthsFa : months;
+};
+
+/** [FA-CUSTOM] Quarters array matching BOTH the active calendar system and UI language */
+export const getActiveQuarters = (): WeekMonthDataType[] => {
+  const isJalali = getCalendarSystem() === "jalali";
+  const isFa = getDateLocaleLanguage() === "fa";
+  if (isJalali) return isFa ? jalaliQuartersFa : jalaliQuarters;
+  return isFa ? quartersFa : quarters;
+};
 
 export const charCapitalize = (word: string) => `${word.charAt(0).toUpperCase()}${word.substring(1)}`;
 

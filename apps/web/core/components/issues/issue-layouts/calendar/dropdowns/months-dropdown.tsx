@@ -20,7 +20,7 @@ import {
   addYears as jalaliAddYears,
   setMonth as jalaliSetMonth,
 } from "date-fns-jalali"; // [FA-CUSTOM]
-import { MONTHS_LIST, JALALI_MONTHS_LIST } from "@/constants/calendar"; // [FA-CUSTOM] added JALALI_MONTHS_LIST
+import { getActiveMonthsList } from "@/constants/calendar"; // [FA-CUSTOM] calendar+language-aware month list
 import { useCalendarView } from "@/hooks/store/use-calendar-view";
 import type { ICycleIssuesFilter } from "@/store/issue/cycle";
 import type { IModuleIssuesFilter } from "@/store/issue/module";
@@ -57,7 +57,7 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
 
   // [FA-CUSTOM] Calendar-aware week layout header
   const isJalali = getCalendarSystem() === "jalali";
-  const activeMonthList = isJalali ? JALALI_MONTHS_LIST : MONTHS_LIST;
+  const activeMonthList = getActiveMonthsList(); // [FA-CUSTOM] calendar + language aware
 
   const getWeekLayoutHeader = (): string => {
     const allDaysOfActiveWeek = issueCalendarView.allDaysOfActiveWeek;

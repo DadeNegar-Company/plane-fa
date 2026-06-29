@@ -6,8 +6,7 @@
 
 //
 import type { ChartDataType } from "@plane/types";
-import { getCalendarSystem } from "@plane/utils"; // [FA-CUSTOM]
-import { quarters, jalaliQuarters } from "../data"; // [FA-CUSTOM] added jalaliQuarters
+import { getActiveQuarters } from "../data"; // [FA-CUSTOM] calendar+language-aware quarters
 import { getNumberOfDaysBetweenTwoDates } from "./helpers";
 import type { IMonthBlock } from "./month-view";
 import { getMonthsBetweenTwoDates } from "./month-view";
@@ -124,8 +123,8 @@ export const groupMonthsToQuarters = (monthBlocks: IMonthBlock[]): IQuarterMonth
   const todayQuarterNumber = Math.floor(today.getMonth() / 3);
   const todayYear = today.getFullYear();
 
-  // [FA-CUSTOM] Use calendar-aware quarters
-  const activeQuarters = getCalendarSystem() === "jalali" ? jalaliQuarters : quarters;
+  // [FA-CUSTOM] Use calendar + language aware quarters
+  const activeQuarters = getActiveQuarters();
 
   for (const monthBlock of monthBlocks) {
     const { month, year } = monthBlock;

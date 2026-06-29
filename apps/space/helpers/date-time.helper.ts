@@ -5,23 +5,35 @@
  */
 
 import { format as gregorianFormat, isValid } from "date-fns";
+// [FA-CUSTOM] Gregorian locales — Persian month names when language=fa
+import { enUS as gregorianEnUS } from "date-fns/locale/en-US";
+import { faIR as gregorianFaIR } from "date-fns/locale/fa-IR";
 // [FA-CUSTOM] Jalali calendar support
 import { format as jalaliFormat } from "date-fns-jalali";
-// [FA-CUSTOM] English locale for date-fns-jalali — ensures month names are never in Persian script
 import { enUS as jalaliEnUS } from "date-fns-jalali/locale/en-US";
+import { faIR as jalaliFaIR } from "date-fns-jalali/locale/fa-IR";
 import { isNumber } from "lodash-es";
+// [FA-CUSTOM] Shared date-display language (kept in sync by the i18n store)
+import { getDateLocaleLanguage } from "@plane/utils";
 
-// [FA-CUSTOM] Jalali format wrapper that always uses English locale
-const jalaliFormatEN: typeof gregorianFormat = (date, formatStr, options) =>
-  jalaliFormat(date, formatStr, { locale: jalaliEnUS, ...options });
+// [FA-CUSTOM] Locale-aware wrappers — the month-name SCRIPT follows the UI
+// language (fa → Persian "فروردین"/"ژانویه", else Latin), read at call time.
+const jalaliFormatLocalized: typeof gregorianFormat = (date, formatStr, options) =>
+  jalaliFormat(date, formatStr, { locale: getDateLocaleLanguage() === "fa" ? jalaliFaIR : jalaliEnUS, ...options });
+
+const gregorianFormatLocalized: typeof gregorianFormat = (date, formatStr, options) =>
+  gregorianFormat(date, formatStr, {
+    locale: getDateLocaleLanguage() === "fa" ? gregorianFaIR : gregorianEnUS,
+    ...options,
+  });
 
 // [FA-CUSTOM] Module-level calendar system state for Space app
 let _spaceCalendarSystem: "gregorian" | "jalali" = "gregorian";
-let activeFormat: typeof gregorianFormat = gregorianFormat;
+let activeFormat: typeof gregorianFormat = gregorianFormatLocalized;
 
 export const setSpaceCalendarSystem = (system: "gregorian" | "jalali") => {
   _spaceCalendarSystem = system;
-  activeFormat = system === "jalali" ? jalaliFormatEN : gregorianFormat;
+  activeFormat = system === "jalali" ? jalaliFormatLocalized : gregorianFormatLocalized;
 };
 
 /**

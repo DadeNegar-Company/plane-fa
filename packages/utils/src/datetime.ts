@@ -22,30 +22,47 @@ import {
   getYear as jalaliGetYear,
   getMonth as jalaliGetMonth,
 } from "date-fns-jalali";
-// [FA-CUSTOM] Jalali display locales. The month-name SCRIPT follows the UI
-// *language*, not the calendar system: English language → Latin month names
-// ("Farvardin 1404"); Persian language → Persian month names ("فروردین ۱۴۰۴").
+// [FA-CUSTOM] Display locales for BOTH calendar systems. The month-name SCRIPT
+// and relative-time wording follow the UI *language*, not the calendar system:
+//   - English language → Latin output ("Farvardin 1404" / "January" / "2 hours ago")
+//   - Persian language → Persian output ("فروردین ۱۴۰۴" / "ژانویه" / "۲ ساعت پیش")
 // Digits are localized by the Yekan Bakh `ss01` font feature (scoped to
 // html[lang="fa"] in rtl.css), so we do NOT convert digits here.
+import { enUS as gregorianEnUS } from "date-fns/locale/en-US";
+import { faIR as gregorianFaIR } from "date-fns/locale/fa-IR";
 import { enUS as jalaliEnUS } from "date-fns-jalali/locale/en-US";
 import { faIR as jalaliFaIR } from "date-fns-jalali/locale/fa-IR";
 import { isNumber } from "lodash-es";
 
-// [FA-CUSTOM] Active Jalali locale; switched by setJalaliLocale() from
-// StoreWrapper when the user's language changes. Defaults to English (anonymous
-// pages / before the profile loads).
-let _jalaliLocale: typeof jalaliEnUS = jalaliEnUS;
+// [FA-CUSTOM] Active display language for dates. Defaults to "fa" because this
+// fork is Persian-first (FALLBACK_LANGUAGE = "fa"); the i18n store calls
+// setDateLocale() with the real language as soon as it is known (incl. on the
+// anonymous fallback path), so authenticated English users are corrected on load.
+type TDateLocaleLanguage = "fa" | "en";
+let _dateLocaleLanguage: TDateLocaleLanguage = "fa";
+let _jalaliLocale: typeof jalaliEnUS = jalaliFaIR;
+let _gregorianLocale: typeof gregorianEnUS = gregorianFaIR;
 
 /**
- * [FA-CUSTOM] Select the Jalali month-name script from the active UI language.
- * "fa" → Persian month names; anything else → English (Latin) month names.
- * Independent of the calendar system: en + Jalali still shows "Farvardin".
+ * [FA-CUSTOM] Select the date-display language. "fa" → Persian month names +
+ * Persian relative time for both Jalali and Gregorian calendars; anything else
+ * → Latin. Independent of the calendar system (en + Jalali still shows "Farvardin").
+ * Called from the i18n store whenever the language is set/changed.
  */
-export const setJalaliLocale = (language: string | undefined): void => {
-  _jalaliLocale = language === "fa" ? jalaliFaIR : jalaliEnUS;
+export const setDateLocale = (language: string | undefined): void => {
+  const isFa = language === "fa";
+  _dateLocaleLanguage = isFa ? "fa" : "en";
+  _jalaliLocale = isFa ? jalaliFaIR : jalaliEnUS;
+  _gregorianLocale = isFa ? gregorianFaIR : gregorianEnUS;
 };
 
-// [FA-CUSTOM] Jalali wrappers that read the active locale at call time, so a
+/** [FA-CUSTOM] Back-compat alias for setDateLocale (older call sites). */
+export const setJalaliLocale = setDateLocale;
+
+/** [FA-CUSTOM] Current date-display language ("fa" | "en") — used by month-name constant pickers. */
+export const getDateLocaleLanguage = (): TDateLocaleLanguage => _dateLocaleLanguage;
+
+// [FA-CUSTOM] Locale-aware wrappers that read the active locale at call time, so a
 // later language change is reflected without re-running setCalendarSystem().
 const jalaliFormatLocalized: typeof gregorianFormat = (date, formatStr, options) =>
   jalaliFormat(date, formatStr, { locale: _jalaliLocale, ...options });
@@ -53,11 +70,17 @@ const jalaliFormatLocalized: typeof gregorianFormat = (date, formatStr, options)
 const jalaliFDTNLocalized: typeof gregorianFDTN = (date, options) =>
   jalaliFDTN(date, { locale: _jalaliLocale, ...options });
 
+const gregorianFormatLocalized: typeof gregorianFormat = (date, formatStr, options) =>
+  gregorianFormat(date, formatStr, { locale: _gregorianLocale, ...options });
+
+const gregorianFDTNLocalized: typeof gregorianFDTN = (date, options) =>
+  gregorianFDTN(date, { locale: _gregorianLocale, ...options });
+
 // [FA-CUSTOM] Module-level calendar system state
 type TCalendarSystem = "gregorian" | "jalali";
 let _calendarSystem: TCalendarSystem = "gregorian";
-let activeFormat = gregorianFormat;
-let activeFDTN = gregorianFDTN;
+let activeFormat = gregorianFormatLocalized; // [FA-CUSTOM] language-aware (was gregorianFormat)
+let activeFDTN = gregorianFDTNLocalized; // [FA-CUSTOM] language-aware (was gregorianFDTN)
 let activeGetYear = gregorianGetYear;
 let activeGetMonth = gregorianGetMonth;
 
@@ -74,8 +97,8 @@ export const setCalendarSystem = (system: TCalendarSystem) => {
     activeGetYear = jalaliGetYear;
     activeGetMonth = jalaliGetMonth;
   } else {
-    activeFormat = gregorianFormat;
-    activeFDTN = gregorianFDTN;
+    activeFormat = gregorianFormatLocalized; // [FA-CUSTOM] Persian month names when language=fa
+    activeFDTN = gregorianFDTNLocalized; // [FA-CUSTOM] Persian relative time when language=fa
     activeGetYear = gregorianGetYear;
     activeGetMonth = gregorianGetMonth;
   }

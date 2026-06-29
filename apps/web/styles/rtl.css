@@ -66,14 +66,19 @@ html[lang="fa"] {
 }
 
 /* Inherently technical/LTR runs keep Latin digits even in Persian mode: code,
- * keyboard hints, monospace, and anything explicitly marked LTR (URLs, emails,
- * identifiers). This mirrors the bidi-isolation list above. */
+ * keyboard hints, monospace, and anything explicitly marked LTR (identifiers).
+ * Email and URL inputs are Latin-canonical (an address is not a "number"), so
+ * they keep Latin digits too — these mirror the LTR-forced inputs above. Plain
+ * numeric / tel inputs intentionally keep Persian digits (ss01), matching the
+ * Persian-everywhere rule. This mirrors the bidi-isolation list above. */
 html[lang="fa"] .force-ltr,
 html[lang="fa"] [data-force-ltr="true"],
 html[lang="fa"] pre,
 html[lang="fa"] code,
 html[lang="fa"] kbd,
 html[lang="fa"] samp,
-html[lang="fa"] .font-mono {
+html[lang="fa"] .font-mono,
+html[lang="fa"] input[type="email"],
+html[lang="fa"] input[type="url"] {
   font-feature-settings: normal;
 }

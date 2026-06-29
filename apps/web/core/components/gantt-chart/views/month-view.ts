@@ -10,7 +10,7 @@ import type { ChartDataType } from "@plane/types";
 import { getCalendarSystem } from "@plane/utils"; // [FA-CUSTOM]
 import { getYear as jalaliGetYear, getMonth as jalaliGetMonth } from "date-fns-jalali"; // [FA-CUSTOM]
 // local imports
-import { months, jalaliMonths } from "../data"; // [FA-CUSTOM] added jalaliMonths
+import { getActiveMonths } from "../data"; // [FA-CUSTOM] calendar+language-aware months
 import { getNumberOfDaysBetweenTwoDates, getNumberOfDaysInMonth } from "./helpers";
 import type { IWeekBlock } from "./week-view";
 import { getWeeksBetweenTwoDates } from "./week-view";
@@ -152,8 +152,8 @@ export const getMonthsBetweenTwoDates = (startDate: Date, endDate: Date): IMonth
     monthBlocks.push({
       year: currentYear,
       month: currentMonth,
-      monthData: months[currentMonth],
-      title: `${months[currentMonth].title} ${currentYear}`,
+      monthData: getActiveMonths()[currentMonth],
+      title: `${getActiveMonths()[currentMonth].title} ${currentYear}`,
       days: getNumberOfDaysInMonth(currentMonth, currentYear),
       today: todayMonth === currentMonth && todayYear === currentYear,
     });
@@ -192,8 +192,8 @@ const getJalaliMonthsBetweenTwoDates = (startDate: Date, endDate: Date): IMonthB
     monthBlocks.push({
       year: currentYear, // Gregorian — used by quarter-view for Date construction
       month: currentMonth, // Gregorian — used by quarter-view for Date construction
-      monthData: jalaliMonths[jMonth],
-      title: `${jalaliMonths[jMonth].title} ${jYear}`,
+      monthData: getActiveMonths()[jMonth],
+      title: `${getActiveMonths()[jMonth].title} ${jYear}`,
       days: getNumberOfDaysInMonth(currentMonth, currentYear), // Gregorian days for pixel math
       today: todayMonth === currentMonth && todayYear === currentYear,
     });

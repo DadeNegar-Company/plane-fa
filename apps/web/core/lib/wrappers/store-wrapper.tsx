@@ -13,7 +13,7 @@ import type { TLanguage } from "@plane/i18n";
 import { useTranslation } from "@plane/i18n";
 import { ETextDirection } from "@plane/types"; // [FA-CUSTOM]
 // helpers
-import { applyCustomTheme, clearCustomTheme, setCalendarSystem, setJalaliLocale } from "@plane/utils"; // [FA-CUSTOM] added setCalendarSystem, setJalaliLocale
+import { applyCustomTheme, clearCustomTheme, setCalendarSystem, setDateLocale } from "@plane/utils"; // [FA-CUSTOM] added setCalendarSystem, setDateLocale
 // hooks
 import { useAppTheme } from "@/hooks/store/use-app-theme";
 import { useRouterParams } from "@/hooks/store/use-router-params";
@@ -112,10 +112,10 @@ function StoreWrapper(props: TStoreWrapper) {
 
   useEffect(() => {
     if (!userProfile?.language) return;
-    // [FA-CUSTOM] Keep Jalali month-name script in sync with the language so a
-    // Persian user sees "فروردین" and an English user sees "Farvardin". Set
+    // [FA-CUSTOM] Sync the date-display locale (month-name script for both Jalali
+    // and Gregorian calendars + relative-time wording) with the language. Set
     // before changeLanguage so the re-render cascade reads the new locale.
-    setJalaliLocale(userProfile.language);
+    setDateLocale(userProfile.language);
     changeLanguage(userProfile?.language as TLanguage);
   }, [userProfile?.language, changeLanguage]);
 
