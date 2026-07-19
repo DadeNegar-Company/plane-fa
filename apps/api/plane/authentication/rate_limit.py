@@ -20,7 +20,11 @@ from plane.authentication.adapter.error import (
 class AuthenticationThrottle(AnonRateThrottle):
     # Rate is configurable per-deployment via the AUTHENTICATION_RATE_LIMIT
     # env var (DRF format: "<num>/<period>" where period is second/minute/hour/day).
-    rate = os.environ.get("AUTHENTICATION_RATE_LIMIT", "10/minute")
+    # Fallback is 20/minute (not upstream's 10): this throttle is SHARED across all
+    # anonymous auth endpoints (magic generate/sign-in/sign-up, password reset, email
+    # check), so a 10/min combined budget false-triggers 429s for users behind shared
+    # NAT/egress IPs. 20/min is our floor when the env var is unset/unwired.
+    rate = os.environ.get("AUTHENTICATION_RATE_LIMIT", "20/minute")
     scope = "authentication"
 
     def throttle_failure_view(self, request, *args, **kwargs):
